@@ -1,0 +1,25 @@
+.fixture-logo {
+    height: 2em;
+    width: auto;
+}
+
+.team-name {
+    font-weight: 600;
+    display: block;
+    margin: 0;
+}
+
+.competition-name {
+    font-size: 0.7em;
+    display: block;
+    margin: 0;
+}
+
+.placeholder-ad {
+    width: 100%;
+    height: 300px;
+    background-color: $light-grey;
+    color: $white;
+    text-align: center;
+    padding-top: 120px;
+}

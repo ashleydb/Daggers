@@ -8,6 +8,14 @@ var {Route, Router, IndexRoute, hashHistory} = require('react-router');
 
 //Include our component dependencies
 var Main = require('Main');
+var Home = require('Home');
+var News = require('News');
+var Fixtures = require('Fixtures');
+var Tickets = require('Tickets');
+var Team = require('Team');
+var Fans = require('Fans');
+var Club = require('Club');
+var Commercial = require('Commercial');
 
 //Use jQuery to start foundation
 $(document).foundation();
@@ -18,6 +26,14 @@ require('applicationStyles');
 ReactDOM.render(
   <Router history={hashHistory}>
     <Route path="/" component={Main}>
+      <Route path="news" component={News}/>
+      <Route path="fixtures" component={Fixtures}/>
+      <Route path="tickets" component={Tickets}/>
+      <Route path="team" component={Team}/>
+      <Route path="fans" component={Fans}/>
+      <Route path="club" component={Club}/>
+      <Route path="commercial" component={Commercial}/>
+      <IndexRoute component={Home}/>
     </Route>
   </Router>,
   document.getElementById('app')
