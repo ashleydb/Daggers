@@ -11,57 +11,27 @@ var News = (props) => {
                     <div className="row small-up-2 medium-up-3">
                         <div className="column column-block">
                             <div className="card">
-                                <img src="../images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
+                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
                                 <div className="card-section">
-                                    <h4>D&amp;R 5-0 Man Utd</h4>
+                                    <h5>D&amp;R 5-0 Man Utd</h5>
                                     <p>Daggers ease to another win at Old Trafford.</p>
                                 </div>
                             </div>
                         </div>
                         <div className="column column-block">
                             <div className="card">
-                                <img src="../images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
+                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
                                 <div className="card-section">
-                                    <h4>D&amp;R 5-0 Man Utd</h4>
+                                    <h5>D&amp;R 5-0 Man Utd</h5>
                                     <p>Daggers ease to another win at Old Trafford.</p>
                                 </div>
                             </div>
                         </div>
                         <div className="column column-block">
                             <div className="card">
-                                <img src="../images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
+                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
                                 <div className="card-section">
-                                    <h4>D&amp;R 5-0 Man Utd</h4>
-                                    <p>Daggers ease to another win at Old Trafford.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="row small-up-2 medium-up-3">
-                        <div className="column column-block">
-                            <div className="card">
-                                <img src="../images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
-                                <div className="card-section">
-                                    <h4>D&amp;R 5-0 Man Utd</h4>
-                                    <p>Daggers ease to another win at Old Trafford.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="column column-block">
-                            <div className="card">
-                                <img src="../images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
-                                <div className="card-section">
-                                    <h4>D&amp;R 5-0 Man Utd</h4>
-                                    <p>Daggers ease to another win at Old Trafford.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="column column-block">
-                            <div className="card">
-                                <img src="../images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
-                                <div className="card-section">
-                                    <h4>D&amp;R 5-0 Man Utd</h4>
+                                    <h5>D&amp;R 5-0 Man Utd</h5>
                                     <p>Daggers ease to another win at Old Trafford.</p>
                                 </div>
                             </div>
@@ -71,27 +41,57 @@ var News = (props) => {
                     <div className="row small-up-2 medium-up-3">
                         <div className="column column-block">
                             <div className="card">
-                                <img src="../images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
+                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
                                 <div className="card-section">
-                                    <h4>D&amp;R 5-0 Man Utd</h4>
+                                    <h5>D&amp;R 5-0 Man Utd</h5>
                                     <p>Daggers ease to another win at Old Trafford.</p>
                                 </div>
                             </div>
                         </div>
                         <div className="column column-block">
                             <div className="card">
-                                <img src="../images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
+                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
                                 <div className="card-section">
-                                    <h4>D&amp;R 5-0 Man Utd</h4>
+                                    <h5>D&amp;R 5-0 Man Utd</h5>
                                     <p>Daggers ease to another win at Old Trafford.</p>
                                 </div>
                             </div>
                         </div>
                         <div className="column column-block">
                             <div className="card">
-                                <img src="../images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
+                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
                                 <div className="card-section">
-                                    <h4>D&amp;R 5-0 Man Utd</h4>
+                                    <h5>D&amp;R 5-0 Man Utd</h5>
+                                    <p>Daggers ease to another win at Old Trafford.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row small-up-2 medium-up-3">
+                        <div className="column column-block">
+                            <div className="card">
+                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
+                                <div className="card-section">
+                                    <h5>D&amp;R 5-0 Man Utd</h5>
+                                    <p>Daggers ease to another win at Old Trafford.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="column column-block">
+                            <div className="card">
+                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
+                                <div className="card-section">
+                                    <h5>D&amp;R 5-0 Man Utd</h5>
+                                    <p>Daggers ease to another win at Old Trafford.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="column column-block">
+                            <div className="card">
+                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
+                                <div className="card-section">
+                                    <h5>D&amp;R 5-0 Man Utd</h5>
                                     <p>Daggers ease to another win at Old Trafford.</p>
                                 </div>
                             </div>

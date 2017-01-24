@@ -48,7 +48,7 @@ var Nav = React.createClass({
         <div className="top-bar-left">
           <ul className="menu club-nav">
             <li className="menu-text">
-                <img src="../images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="nav-image"/>
+                <img src="images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="nav-image"/>
             </li>
               
             <li><IndexLink to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Home</IndexLink></li>
