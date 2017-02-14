@@ -24,7 +24,7 @@ var Home = (props) => {
             <div className="row small-up-2 medium-up-3">
                 <div className="column column-block">
                     <div className="card">
-                        <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
+                        <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbnail"/>
                         <div className="card-section">
                             <h4>D&amp;R 5-0 Man Utd</h4>
                             <p>Daggers ease to another win at Old Trafford.</p>
@@ -33,7 +33,7 @@ var Home = (props) => {
                 </div>
                 <div className="column column-block">
                     <div className="card">
-                        <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
+                        <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbnail"/>
                         <div className="card-section">
                             <h4>D&amp;R 5-0 Man Utd</h4>
                             <p>Daggers ease to another win at Old Trafford.</p>
@@ -42,7 +42,7 @@ var Home = (props) => {
                 </div>
                 <div className="column column-block">
                     <div className="card">
-                        <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbbnail"/>
+                        <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbnail"/>
                         <div className="card-section">
                             <h4>D&amp;R 5-0 Man Utd</h4>
                             <p>Daggers ease to another win at Old Trafford.</p>

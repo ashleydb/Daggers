@@ -18,7 +18,7 @@ var Club = require('Club');
 var Commercial = require('Commercial');
 
 //Use jQuery to start foundation
-$(document).foundation();
+//$(document).foundation();
 
 //App css
 require('applicationStyles');
@@ -38,3 +38,7 @@ ReactDOM.render(
   </Router>,
   document.getElementById('app')
 );
+
+$(document).ready(function($) {
+    $(document).foundation();
+});
