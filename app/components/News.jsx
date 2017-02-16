@@ -1,115 +1,56 @@
 var React = require('react');
+var NewsSummary = require('NewsSummary');
 
 //Basic presentational component that would only have a render function
 // rewritten using arror functions from ES6.
-var News = (props) => {
-    return (
-        <div>
-            <div className="row">
-                <div className="columns small-12 large-8">
-
-                    <div className="row small-up-2 medium-up-3">
-                        <div className="column column-block">
-                            <div className="card">
-                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbnail"/>
-                                <div className="card-section">
-                                    <h5>D&amp;R 5-0 Man Utd</h5>
-                                    <p>Daggers ease to another win at Old Trafford.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="column column-block">
-                            <div className="card">
-                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbnail"/>
-                                <div className="card-section">
-                                    <h5>D&amp;R 5-0 Man Utd</h5>
-                                    <p>Daggers ease to another win at Old Trafford.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="column column-block">
-                            <div className="card">
-                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbnail"/>
-                                <div className="card-section">
-                                    <h5>D&amp;R 5-0 Man Utd</h5>
-                                    <p>Daggers ease to another win at Old Trafford.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="row small-up-2 medium-up-3">
-                        <div className="column column-block">
-                            <div className="card">
-                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbnail"/>
-                                <div className="card-section">
-                                    <h5>D&amp;R 5-0 Man Utd</h5>
-                                    <p>Daggers ease to another win at Old Trafford.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="column column-block">
-                            <div className="card">
-                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbnail"/>
-                                <div className="card-section">
-                                    <h5>D&amp;R 5-0 Man Utd</h5>
-                                    <p>Daggers ease to another win at Old Trafford.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="column column-block">
-                            <div className="card">
-                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbnail"/>
-                                <div className="card-section">
-                                    <h5>D&amp;R 5-0 Man Utd</h5>
-                                    <p>Daggers ease to another win at Old Trafford.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="row small-up-2 medium-up-3">
-                        <div className="column column-block">
-                            <div className="card">
-                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbnail"/>
-                                <div className="card-section">
-                                    <h5>D&amp;R 5-0 Man Utd</h5>
-                                    <p>Daggers ease to another win at Old Trafford.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="column column-block">
-                            <div className="card">
-                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbnail"/>
-                                <div className="card-section">
-                                    <h5>D&amp;R 5-0 Man Utd</h5>
-                                    <p>Daggers ease to another win at Old Trafford.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="column column-block">
-                            <div className="card">
-                                <img src="images/news-thumbnail.jpg" alt="Dagenham & Redbridge FC Stand" className="news-thumbnail"/>
-                                <div className="card-section">
-                                    <h5>D&amp;R 5-0 Man Utd</h5>
-                                    <p>Daggers ease to another win at Old Trafford.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+var News = React.createClass({
+    render: function() {
+        if (this.props.children) {
+            return (
+                <div>
+                    {/* will render `NewsStory.jsx` when at /story/:newsId */}
+                    {this.props.children}
                 </div>
-                <div className="columns small-12 large-4">
-                    <div className="placeholder-ad">
-                        <p>Ads go here</p>
-                    </div>
-                    <div className="placeholder-ad">
-                        <p>Ads go here</p>
+            );
+        } else {
+            return (
+                <div>
+                    {/* will render a list of news items when at /news/ */}
+                    <div className="row">
+                        <div className="columns small-12 large-8">
+
+                            <div className="row small-up-2 medium-up-3">
+                                <NewsSummary id="1" style="SMALL"/>
+                                <NewsSummary id="2" style="SMALL"/>
+                                <NewsSummary id="1" style="SMALL"/>
+                            </div>
+
+                            <div className="row small-up-2 medium-up-3">
+                                <NewsSummary id="2" style="SMALL"/>
+                                <NewsSummary id="1" style="SMALL"/>
+                                <NewsSummary id="2" style="SMALL"/>
+                            </div>
+
+                            <div className="row small-up-2 medium-up-3">
+                                <NewsSummary id="1" style="SMALL"/>
+                                <NewsSummary id="2" style="SMALL"/>
+                                <NewsSummary id="1" style="SMALL"/>
+                            </div>
+
+                        </div>
+                        <div className="columns small-12 large-4">
+                            <div className="placeholder-ad">
+                                <p>Ads go here</p>
+                            </div>
+                            <div className="placeholder-ad">
+                                <p>Ads go here</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    );
-}
+            );
+        }
+    }
+});
 
 module.exports = News;

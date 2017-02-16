@@ -10,6 +10,7 @@ var {Route, Router, IndexRoute, hashHistory} = require('react-router');
 var Main = require('Main');
 var Home = require('Home');
 var News = require('News');
+var NewsStory = require('NewsStory');
 var Fixtures = require('Fixtures');
 var Tickets = require('Tickets');
 var Team = require('Team');
@@ -26,7 +27,9 @@ require('applicationStyles');
 ReactDOM.render(
   <Router history={hashHistory}>
     <Route path="/" component={Main}>
-      <Route path="news" component={News}/>
+      <Route path="news" component={News}>
+        <Route path="/story/:newsId" component={NewsStory}/>>
+      </Route>
       <Route path="fixtures" component={Fixtures}/>
       <Route path="tickets" component={Tickets}/>
       <Route path="team" component={Team}/>
