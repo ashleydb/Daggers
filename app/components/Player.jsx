@@ -8,7 +8,7 @@ var Player = React.createClass({
         this.setState({
             id: id,
             name: "Oliver Hawkins",
-            image: "images/player-head.jpg",
+            image: "/images/player-head.jpg",
             position: "Striker",
             sponsors: [
                 {type: "Kit", name: "Paul Gwinn"},

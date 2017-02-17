@@ -1,5 +1,11 @@
 var React = require('react');
 
+// TODO: Break out this table into an API and other components.
+// Need to link to reports, (/news/id?) or ticket sales.
+// Need a league table component that pulls the full table or 5 positions, centered around Daggers where possible.
+// Who is going to update the league table & fixtures and how, e.g. game is postponed, or adding cup matches?
+// Also need an Ad component, which can be adsense or overridden as a nice-to-have.
+
 //Basic presentational component that would only have a render function
 // rewritten using arror functions from ES6.
 var Fixtures = (props) => {
@@ -14,7 +20,7 @@ var Fixtures = (props) => {
                         <tbody>
                             <tr>
                                 <td>7-Jan-17</td>
-                                <td><img src="images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
+                                <td><img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
                                 <td><p className="team-name">Braintree Town</p><p className="competition-name">Vanarama National League</p></td>
                                 <td>Att 1000</td>
                                 <td>H</td>
@@ -24,7 +30,7 @@ var Fixtures = (props) => {
                             </tr>
                             <tr>
                                 <td>14-Jan-17</td>
-                                <td><img src="images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
+                                <td><img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
                                 <td><p className="team-name">North Ferriby Utd</p><p className="competition-name">Vanarama National League</p></td>
                                 <td>Att 1000</td>
                                 <td>A</td>
@@ -34,7 +40,7 @@ var Fixtures = (props) => {
                             </tr>
                             <tr>
                                 <td>7-Jan-17</td>
-                                <td><img src="images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
+                                <td><img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
                                 <td><p className="team-name">Braintree Town</p><p className="competition-name">Vanarama National League</p></td>
                                 <td>Att 1000</td>
                                 <td>H</td>
@@ -44,7 +50,7 @@ var Fixtures = (props) => {
                             </tr>
                             <tr>
                                 <td>14-Jan-17</td>
-                                <td><img src="images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
+                                <td><img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
                                 <td><p className="team-name">North Ferriby Utd</p><p className="competition-name">Vanarama National League</p></td>
                                 <td>Att 1000</td>
                                 <td>A</td>
@@ -54,7 +60,7 @@ var Fixtures = (props) => {
                             </tr>
                             <tr>
                                 <td>7-Jan-17</td>
-                                <td><img src="images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
+                                <td><img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
                                 <td><p className="team-name">Braintree Town</p><p className="competition-name">Vanarama National League</p></td>
                                 <td>Att 1000</td>
                                 <td>H</td>
@@ -64,7 +70,7 @@ var Fixtures = (props) => {
                             </tr>
                             <tr>
                                 <td>14-Jan-17</td>
-                                <td><img src="images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
+                                <td><img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
                                 <td><p className="team-name">North Ferriby Utd</p><p className="competition-name">Vanarama National League</p></td>
                                 <td>Att 1000</td>
                                 <td>A</td>
@@ -74,7 +80,7 @@ var Fixtures = (props) => {
                             </tr>
                             <tr>
                                 <td>7-Jan-17</td>
-                                <td><img src="images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
+                                <td><img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
                                 <td><p className="team-name">Braintree Town</p><p className="competition-name">Vanarama National League</p></td>
                                 <td>Att 1000</td>
                                 <td>H</td>
@@ -84,7 +90,7 @@ var Fixtures = (props) => {
                             </tr>
                             <tr>
                                 <td>14-Jan-17</td>
-                                <td><img src="images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
+                                <td><img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
                                 <td><p className="team-name">North Ferriby Utd</p><p className="competition-name">Vanarama National League</p></td>
                                 <td>Att 1000</td>
                                 <td>A</td>
@@ -94,7 +100,7 @@ var Fixtures = (props) => {
                             </tr>
                             <tr>
                                 <td>21-Jan-17</td>
-                                <td><img src="images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
+                                <td><img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
                                 <td><p className="team-name">Lincoln</p><p className="competition-name">Vanarama National League</p></td>
                                 <td>-</td>
                                 <td>H</td>
@@ -104,7 +110,7 @@ var Fixtures = (props) => {
                             </tr>
                             <tr>
                                 <td>21-Jan-17</td>
-                                <td><img src="images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
+                                <td><img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
                                 <td><p className="team-name">Lincoln</p><p className="competition-name">Vanarama National League</p></td>
                                 <td>-</td>
                                 <td>H</td>
@@ -114,7 +120,7 @@ var Fixtures = (props) => {
                             </tr>
                             <tr>
                                 <td>21-Jan-17</td>
-                                <td><img src="images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
+                                <td><img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
                                 <td><p className="team-name">Lincoln</p><p className="competition-name">Vanarama National League</p></td>
                                 <td>-</td>
                                 <td>H</td>
@@ -124,7 +130,7 @@ var Fixtures = (props) => {
                             </tr>
                             <tr>
                                 <td>21-Jan-17</td>
-                                <td><img src="images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
+                                <td><img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="fixture-logo"/></td>
                                 <td><p className="team-name">Lincoln</p><p className="competition-name">Vanarama National League</p></td>
                                 <td>-</td>
                                 <td>H</td>

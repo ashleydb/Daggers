@@ -1,5 +1,7 @@
 var React = require('react');
 
+// TODO: All content on this page.
+
 //Basic presentational component that would only have a render function
 // rewritten using arror functions from ES6.
 var Club = (props) => {
@@ -10,7 +12,7 @@ var Club = (props) => {
           <p>Business Finder
             Visit Us
             History
-            Customer_Charter
+            Customer Charter
             Stadium
             Club Directory
             Club Records

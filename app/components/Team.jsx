@@ -3,6 +3,13 @@ import {Foundation, ButtonGroup, Link, Row, Column, Thumbnail} from 'react-found
 
 var Dialog = require('Dialog');
 
+// TODO: Break this up into /team/ to select which team, default to main squad,
+// Have Link buttons to which group of people e.g. /team/:teamId, for staff, academy, etc.
+// Have a list of people on that page, per position, which are links to each profile /team/:teamId/:playerId
+// Render the child props to show everything here.
+// Clean up react-foundation usage?
+// Restyle the list of players.
+
 var Team = React.createClass({
 
 //    componentDidMount: function() {
@@ -47,22 +54,22 @@ var Team = React.createClass({
                 <div className="grid-block-example">
                   <Row upOnSmall={1} upOnMedium={2} upOnLarge={4}>
                     <Column >
-                      <Thumbnail onClick={() => this.openDialog(1)} src="images/player-head.jpg" alt="Oliver Hawkins"/>
+                      <Thumbnail onClick={() => this.openDialog(1)} src="/images/player-head.jpg" alt="Oliver Hawkins"/>
                     </Column>
                     <Column >
-                      <Thumbnail onClick={() => this.openDialog(1)} src="images/player-head.jpg" alt="Oliver Hawkins"/>
+                      <Thumbnail onClick={() => this.openDialog(1)} src="/images/player-head.jpg" alt="Oliver Hawkins"/>
                     </Column>
                     <Column >
-                      <Thumbnail onClick={() => this.openDialog(1)} src="images/player-head.jpg" alt="Oliver Hawkins"/>
+                      <Thumbnail onClick={() => this.openDialog(1)} src="/images/player-head.jpg" alt="Oliver Hawkins"/>
                     </Column>
                     <Column >
-                      <Thumbnail onClick={() => this.openDialog(1)} src="images/player-head.jpg" alt="Oliver Hawkins"/>
+                      <Thumbnail onClick={() => this.openDialog(1)} src="/images/player-head.jpg" alt="Oliver Hawkins"/>
                     </Column>
                     <Column >
-                      <Thumbnail onClick={() => this.openDialog(1)} src="images/player-head.jpg" alt="Oliver Hawkins"/>
+                      <Thumbnail onClick={() => this.openDialog(1)} src="/images/player-head.jpg" alt="Oliver Hawkins"/>
                     </Column>
                     <Column >
-                      <Thumbnail onClick={() => this.openDialog(1)} src="images/player-head.jpg" alt="Oliver Hawkins"/>
+                      <Thumbnail onClick={() => this.openDialog(1)} src="/images/player-head.jpg" alt="Oliver Hawkins"/>
                     </Column>
                   </Row>
                 </div>
@@ -80,27 +87,27 @@ var Team = React.createClass({
 
                 <div className="tabs-content" data-tabs-content="example-tabs">
                   <div className="tabs-panel is-active" id="panel1">
-                      <img src="images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail"  onClick={() => this.openDialog(1)}/>
+                      <img src="/images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail"  onClick={() => this.openDialog(1)}/>
                   </div>
                   <div className="tabs-panel" id="panel2">
                       <a onClick={() => this.openDialog(1)}>
-                          <img src="images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail"/>
+                          <img src="/images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail"/>
                       </a>
                       <a onClick={() => this.openDialog(1)}>
-                          <img src="images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail"/>
+                          <img src="/images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail"/>
                       </a>
                   </div>
                   <div className="tabs-panel" id="panel3">
                       <a data-open="playerModal">
-                          <img src="images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail"/>
+                          <img src="/images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail"/>
                       </a>
                   </div>
                   <div className="tabs-panel" id="panel4">
                       <a data-open="playerModal">
-                          <img src="images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail"/>
+                          <img src="/images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail"/>
                       </a>
                       <a data-open="playerModal">
-                          <img src="images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail"/>
+                          <img src="/images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail"/>
                       </a>
                       <a className="button" onClick={() => this.openDialog(1)}>dialog</a>
                   </div>

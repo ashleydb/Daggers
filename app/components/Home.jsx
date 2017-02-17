@@ -1,6 +1,10 @@
 var React = require('react');
 var NewsSummary = require('NewsSummary');
 
+// TODO: Add sponsors.
+// Also need an Ad component, which can be adsense or overridden as a nice-to-have.
+// Also want a Google Analytics component.
+
 //Basic presentational component that would only have a render function
 // rewritten using arror functions from ES6.
 var Home = (props) => {

@@ -1,6 +1,8 @@
 var React = require('react');
 var Timeline = require('react-twitter-widgets').Timeline;
 
+// TODO: All content on this page.
+
 //Basic presentational component that would only have a render function
 // rewritten using arror functions from ES6.
 var Fans = (props) => {
@@ -37,8 +39,8 @@ var Fans = (props) => {
                         <div className="columns small-12">
 
                             <h2>Latest Video</h2>
-                            <div class="responsive-embed widescreen">
-                                <iframe width="560" height="315" src="https://www.youtube.com/embed/LZNwwdMHVwg" frameborder="0" allowfullscreen></iframe>    
+                            <div className="responsive-embed widescreen">
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/LZNwwdMHVwg" frameBorder="0" allowFullScreen></iframe>    
                             </div>
 
                             <p>Youtube Highlights
