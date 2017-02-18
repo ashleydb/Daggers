@@ -7,7 +7,7 @@ var NewsEditForm = React.createClass({
         event.preventDefault();
         
         var story = {};
-        story.id = this.refs.id.value;
+        story.id = Number(this.refs.id.value);
         story.headline = this.refs.headline.value;
         story.summary = this.refs.summary.value;
         story.story = this.refs.story.value;
@@ -38,7 +38,7 @@ var NewsEditForm = React.createClass({
                     <label>Image</label><input type="text" defaultValue={story.image} ref="image"/>
                     <button className="hollow expanded button">Submit</button>
                 </form>
-                <Link to="editnews" className="hollow expanded button">Cancel</Link>
+                <Link to="/editnews" className="hollow expanded button">Cancel</Link>
             </div>
         );
     }

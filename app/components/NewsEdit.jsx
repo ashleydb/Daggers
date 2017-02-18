@@ -4,7 +4,6 @@ var NewsEditForm = require('NewsEditForm');
 var NewsAPI = require('NewsAPI');
 
 // TODO: Need to change the whole app to use Redux to manage the state more effectively.
-// TODO: How do I return to the list of headlines after finishing the form?
 
 var NewsEdit = React.createClass({
     componentWillMount: function() {
@@ -12,17 +11,19 @@ var NewsEdit = React.createClass({
     },
     handleSaveStory: function(story) {
         if (NewsAPI.writeStory(story)) {
-            // TODO: Make this work for real
+            // TODO: Make the state stuff work for real, using Redux
             this.setState({stories: NewsAPI.getStories()});
-            browserHistory.createLocation('editnews');
+            browserHistory.push('/editnews');
         }
     },
     render: function() {
-        
-        // Are we looking at a story right now?
-        if (this.props.params.newsId) {
-            // Get the story data from NewsAPI, based on the ID in the URL params
-            var story = NewsAPI.getStory(this.props.params.newsId);
+        // Are we editing at a story right now?
+        var {newsId} = this.props.params;
+        if (newsId) {
+            // Get the story data from NewsAPI, based on the ID in the URL params, (or start a new one)
+            var story = (newsId == "new") ?
+                NewsAPI.createStoryObject() :
+                NewsAPI.getStory(this.props.params.newsId);
             
             return (
                 <div>
@@ -41,6 +42,10 @@ var NewsEdit = React.createClass({
                                 <Link to={`/editnews/${story.id}`}>{story.headline}</Link>
                             </li>
                         ))}
+                        
+                        <li key="new">
+                            <Link to={`/editnews/new`}>Create New</Link>
+                        </li>
                     </ul>
                 </div>
             );

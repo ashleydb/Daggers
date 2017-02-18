@@ -74,7 +74,7 @@ module.exports = {
         } else {
             // This is a POST to add a new story.
             // TODO: Post to the server, get the real ID back and add that to the story in our local state. Hacking an ID for now.
-            story.id = this.stories.length;
+            story.id = this.stories.length + 1;
             this.stories.push(story);
             return true;
         }
@@ -92,5 +92,17 @@ module.exports = {
             }
         };
         return false;
+    },
+
+    // Return a blank story object
+    // TODO: Story should probably be it's own class with a constructor for this kind of thing.
+    createStoryObject: function() {
+        return {
+                id: 0,
+                headline: "",
+                image: "/images/news-main.jpg",
+                summary: "",
+                story: ""
+            };
     }
 };
