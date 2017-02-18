@@ -1,6 +1,9 @@
 var React = require('react');
 var NewsSummary = require('NewsSummary');
 
+// TODO: Adjust layout at show ads in a sidebar?
+// TODO: Can a story have a YouTube video in it?
+
 //Basic presentational component that would only have a render function
 // rewritten using arror functions from ES6.
 var News = React.createClass({

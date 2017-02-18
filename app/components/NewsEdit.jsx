@@ -3,7 +3,9 @@ var {Link, browserHistory} = require('react-router');
 var NewsEditForm = require('NewsEditForm');
 var NewsAPI = require('NewsAPI');
 
+// TODO: Need to lock behind authentication
 // TODO: Need to change the whole app to use Redux to manage the state more effectively.
+// TODO: Can a story have a YouTube video in it?
 
 var NewsEdit = React.createClass({
     componentWillMount: function() {

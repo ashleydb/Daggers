@@ -9,14 +9,23 @@ module.exports = {
   entry: [
     //Where script!, (or style! or css! etc.) are used, that means use a loader, (e.g. script-loader module,) to pull in these files.
     'script!jquery/dist/jquery.min.js',
-    //'script!foundation-sites/vendor/jquery/dist/jquery.min.js',
     'script!foundation-sites/dist/js/foundation.min.js',
     './app/app.jsx'
   ],
   externals: {
     jquery: 'jQuery'
   },
-  plugins: [
+  plugins: process.env.NODE_ENV === 'production' ? [
+    // add this handful of plugins that optimize the build when we're in production
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
+    //If webpack finds reference to $ or jQuery in our code, load in the jquery module.
+    new webpack.ProvidePlugin({
+        '$': 'jquery',
+        'jQuery': 'jquery'
+    })
+  ] : [
     //If webpack finds reference to $ or jQuery in our code, load in the jquery module.
     new webpack.ProvidePlugin({
         '$': 'jquery',

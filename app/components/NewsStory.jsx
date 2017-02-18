@@ -1,6 +1,8 @@
 var React = require('react');
 var NewsAPI = require('NewsAPI');
 
+// TODO: Need something to say story not found?
+
 var NewsStory = React.createClass({
     componentWillMount: function() {
         NewsAPI.loadStories();

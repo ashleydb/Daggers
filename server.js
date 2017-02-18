@@ -1,7 +1,12 @@
 // Create express web server
 const express = require('express');
 const path = require('path');
+const compression = require('compression');
+
 const app = express();
+
+// Enable gzip compression from the server. Must be first!
+app.use(compression());
 
 // Get a port from an environment variable, (e.g. on Heroku) or fallback to 3000 (e.g. locally)
 const PORT = process.env.PORT || 3000;

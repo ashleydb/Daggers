@@ -2,12 +2,19 @@ var $ = require('jquery');
 
 // TODO: Finish API operations, actually connecting to a DB.
 // TODO: Add dates to the story object. Created and Last Updated?
+// TODO: Add a category?
+// TODO: Can a story have a YouTube video in it?
+// TODO: Add ability to search?
 // TODO: Update State in these functions?
 
 module.exports = {
     // Fetches a batch of stories, (most recent 4 by default.)
     // TODO: Add a count and pagenation. Add caching? Make this part of the state to save from continually calling.
     loadStories: function() {
+        // TODO: Hacked for now until we actually do upload content to the server, since this overrides any edits we're making at the moment by just reloading this hardcoded content and clobbering changes.
+        if (this.stories)
+            return;
+        
         this.stories = [
             {
                 id: 1,
@@ -43,7 +50,7 @@ module.exports = {
     },
     
     // Get the array of stories we have loaded.
-    // TODO: Dangerous, since someone could update this data and not update the server?
+    // TODO: Dangerous, since someone could update this data and not update the server? const?
     getStories: function() {
         return this.stories;
     },

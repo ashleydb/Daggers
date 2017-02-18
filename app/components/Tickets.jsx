@@ -1,7 +1,7 @@
 var React = require('react');
 
 // TODO: Add advertising to the layout.
-// How would this page be updated? Pull all content as rich text from a DB?
+// TODO: How would this page be updated? Pull all content as rich text from a DB?
 
 //Basic presentational component that would only have a render function
 // rewritten using arror functions from ES6.

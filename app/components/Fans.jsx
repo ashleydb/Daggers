@@ -43,15 +43,17 @@ var Fans = (props) => {
                                 <iframe width="560" height="315" src="https://www.youtube.com/embed/LZNwwdMHVwg" frameBorder="0" allowFullScreen></iframe>    
                             </div>
 
-                            <p>Youtube Highlights
-                                Junior Daggers
-                                Support The Daggers Fund (250 Club)
-                                Daggers In The Community
-                                Disabled Supporters Club
-                                First Time Fans
-                                Supporters Club
-                                Daggers Twitter
-                                Daggers Facebook</p>
+                            <ul>
+                                <li>Youtube Highlights</li>
+                                <li>Junior Daggers</li>
+                                <li>Support The Daggers Fund (250 Club)</li>
+                                <li>Daggers In The Community</li>
+                                <li>Disabled Supporters Club</li>
+                                <li>First Time Fans</li>
+                                <li>Supporters Club</li>
+                                <li>Daggers Twitter</li>
+                                <li>Daggers Facebook</li>
+                            </ul>
                             
                         </div>
                     </div>

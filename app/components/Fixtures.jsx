@@ -1,10 +1,12 @@
 var React = require('react');
 
 // TODO: Break out this table into an API and other components.
-// Need to link to reports, (/news/id?) or ticket sales.
-// Need a league table component that pulls the full table or 5 positions, centered around Daggers where possible.
-// Who is going to update the league table & fixtures and how, e.g. game is postponed, or adding cup matches?
-// Also need an Ad component, which can be adsense or overridden as a nice-to-have.
+// TODO: Does a fixture need a link to a Report and a video?
+// TODO: Need to link to reports, (/news/id?) or ticket sales.
+// TODO: Need a league table component that pulls the full table or 5 positions, centered around Daggers where possible.
+// TODO: Who is going to update the league table & fixtures and how, e.g. game is postponed, or adding cup matches?
+// TODO: Also need an Ad component, which can be adsense or overridden as a nice-to-have.
+// TODO: Better mobile rendering? Stacking isn't great. Text is still small too.
 
 //Basic presentational component that would only have a render function
 // rewritten using arror functions from ES6.
@@ -150,11 +152,13 @@ var Fixtures = (props) => {
                     <h3>League Table</h3>
                     <table className="hover stack text-center">
                         <thead>
-                            <th>Pos</th>
-                            <th>Team</th>
-                            <th>Pld</th>
-                            <th>GD</th>
-                            <th>Pts</th>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Team</th>
+                                <th>Pld</th>
+                                <th>GD</th>
+                                <th>Pts</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr>
