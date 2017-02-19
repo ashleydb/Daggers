@@ -14,7 +14,6 @@ var Dialog = React.createClass({
             console.log('Dialog.open');
             //var popup = new Foundation.Reveal($('#popup-modal'));
             //popup.open();
-            //debugger;
             
             this.$dialog = $('#my-dialog');
             //this.$dialog = new Foundation.Reveal($('#my-dialog'));
@@ -55,7 +54,6 @@ var Dialog = React.createClass({
     render : function() {
         var {title, type, id} = this.props;
         var content = "";
-        //debugger;
         switch (type) {
             case 'PLAYER':
                 content = <Player id={id}/>

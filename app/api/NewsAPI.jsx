@@ -7,15 +7,57 @@ var $ = require('jquery');
 // TODO: Add ability to search?
 // TODO: Update State in these functions?
 
+// TODO: should this be part of NewsAPI and should that be a class?
+export const DEFAULT_STORY = {
+                                id: 0,
+                                headline: "",
+                                image: "/images/news-main.jpg",
+                                summary: "",
+                                story: ""
+                            };
+
 module.exports = {
+    setStories: function(stories) {
+        if ($.isArray(stories)) {
+            localStorage.setItem('news', JSON.stringify(stories));
+            return stories;
+        }
+        return undefined;
+    },
+    getStories: function() {
+        var stringNews = localStorage.getItem('news');
+        try {
+            // parse may fail with invalid input, so we can catch that error
+            var stories = JSON.parse(stringNews);
+            // double check this is an array and not malicious data
+            if ($.isArray(stories)) {
+                return stories;
+            }
+        } catch(e) {
+            // parse failed, we'll just return an empty array below
+        }
+        // try failed
+        return [];
+    },
+    
+    // Get the content for a story we have loaded.
+    // TODO: If the ID doesn't match one we have cached, do we try fetching from the server?
+    getStory: function(id) {
+        // TODO: Is this a HACK? Not sure if this function should even exist, or should be working off the state. Currently we have no cache, just pulling from the DB, (localStorage in this case)
+        var stories = this.getStories();
+        
+        for (var i = 0; i < stories.length; ++i) {
+            if (id == stories[i].id) {
+                return stories[i];
+            }
+        };
+        return undefined;
+    },
+    
     // Fetches a batch of stories, (most recent 4 by default.)
     // TODO: Add a count and pagenation. Add caching? Make this part of the state to save from continually calling.
-    loadStories: function() {
-        // TODO: Hacked for now until we actually do upload content to the server, since this overrides any edits we're making at the moment by just reloading this hardcoded content and clobbering changes.
-        if (this.stories)
-            return;
-        
-        this.stories = [
+    loadDefaultStories: function() {        
+        return [
             {
                 id: 1,
                 headline: "Zlatan Signs for the Daggers",
@@ -32,7 +74,8 @@ module.exports = {
             }
         ];
     },
-    
+
+/*
     // Get the number of stories we have loaded.
     // Pass true to get the count in the local cache, or false, (default,) to get the count on the server.
     // TODO: Add a fetch from the server.
@@ -48,13 +91,15 @@ module.exports = {
             return {id: story.id, headline: story.headline};
         });
     },
-    
+*/
+/*    
     // Get the array of stories we have loaded.
     // TODO: Dangerous, since someone could update this data and not update the server? const?
     getStories: function() {
         return this.stories;
     },
-    
+*/ 
+/*
     // Get the content for a story we have loaded.
     // TODO: If the ID doesn't match one we have cached, do we try fetching from the server?
     getStory: function(id) {
@@ -104,12 +149,14 @@ module.exports = {
     // Return a blank story object
     // TODO: Story should probably be it's own class with a constructor for this kind of thing.
     createStoryObject: function() {
-        return {
-                id: 0,
-                headline: "",
-                image: "/images/news-main.jpg",
-                summary: "",
-                story: ""
-            };
+//        return {
+//                id: 0,
+//                headline: "",
+//                image: "/images/news-main.jpg",
+//                summary: "",
+//                story: ""
+//            };
+            return DEFAULT_STORY;
     }
+*/
 };

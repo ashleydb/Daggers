@@ -3,13 +3,14 @@ import { Link } from 'react-router';
 var NewsAPI = require('NewsAPI');
 
 var NewsSummary = React.createClass({
-    componentWillMount: function() {
-        NewsAPI.loadStories();
-    },
+//    componentWillMount: function() {
+//        NewsAPI.loadStories();
+//    },
     render: function() {
-        var story = NewsAPI.getStory(this.props.id);
+        //var story = NewsAPI.getStory(this.props.id);
+        var {story, style} = this.props;
         
-        switch(this.props.style) {
+        switch(style) {
             case 'MAIN':
                 // Main headline news, show in large format
                 return (

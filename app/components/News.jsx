@@ -1,12 +1,15 @@
 var React = require('react');
+var {connect} = require('react-redux');
 var NewsSummary = require('NewsSummary');
 
 // TODO: Adjust layout at show ads in a sidebar?
 // TODO: Can a story have a YouTube video in it?
+// TODO: Correctly load enough stories to pass to summaries
+// TODO: 3 wide on a phone doesn't look good. Breaks down to 2, 1.
 
 //Basic presentational component that would only have a render function
 // rewritten using arror functions from ES6.
-var News = React.createClass({
+export var News = React.createClass({
     render: function() {
         if (this.props.children) {
             return (
@@ -16,6 +19,7 @@ var News = React.createClass({
                 </div>
             );
         } else {
+            var {news} = this.props.news; //TODO: .news shouldn't be needed
             return (
                 <div>
                     {/* will render a list of news items when at /news/ */}
@@ -23,21 +27,21 @@ var News = React.createClass({
                         <div className="columns small-12 large-8">
 
                             <div className="row small-up-2 medium-up-3">
-                                <NewsSummary id="1" style="SMALL"/>
-                                <NewsSummary id="2" style="SMALL"/>
-                                <NewsSummary id="1" style="SMALL"/>
+                                <NewsSummary story={news[0]} style="SMALL"/>
+                                <NewsSummary story={news[1]} style="SMALL"/>
+                                <NewsSummary story={news[0]} style="SMALL"/>
                             </div>
 
                             <div className="row small-up-2 medium-up-3">
-                                <NewsSummary id="2" style="SMALL"/>
-                                <NewsSummary id="1" style="SMALL"/>
-                                <NewsSummary id="2" style="SMALL"/>
+                                <NewsSummary story={news[1]} style="SMALL"/>
+                                <NewsSummary story={news[0]} style="SMALL"/>
+                                <NewsSummary story={news[1]} style="SMALL"/>
                             </div>
 
                             <div className="row small-up-2 medium-up-3">
-                                <NewsSummary id="1" style="SMALL"/>
-                                <NewsSummary id="2" style="SMALL"/>
-                                <NewsSummary id="1" style="SMALL"/>
+                                <NewsSummary story={news[0]} style="SMALL"/>
+                                <NewsSummary story={news[1]} style="SMALL"/>
+                                <NewsSummary story={news[0]} style="SMALL"/>
                             </div>
 
                         </div>
@@ -56,4 +60,11 @@ var News = React.createClass({
     }
 });
 
-module.exports = News;
+//module.exports = News;
+
+export default connect(
+  (state) => {
+    return {
+        news: state.news
+    };
+  })(News);

@@ -4,11 +4,12 @@ var NewsAPI = require('NewsAPI');
 // TODO: Need something to say story not found?
 
 var NewsStory = React.createClass({
-    componentWillMount: function() {
-        NewsAPI.loadStories();
-    },
+//    componentWillMount: function() {
+//        NewsAPI.loadStories();
+//    },
     render: function() {
         // Get the story data from NewsAPI, based on the ID in the URL params
+        // TODO: Should this come some other way...? like from the redux state?
         var story = NewsAPI.getStory(this.props.params.newsId);
         
         return (
