@@ -1,5 +1,5 @@
-var UUID = require('node-uuid');
-var moment = require('moment');
+//var UUID = require('uuid');
+//var moment = require('moment');
 /*
 export var searchTextReducer = (state = '', action) => {
   switch (action.type) {
@@ -58,9 +58,18 @@ export var todosReducer = (state = [], action) => {
 };
 */
 
-import {ADD_STORY, ADD_STORIES, SHOW_STORY, EDIT_STORY} from "actions";
 
-import {DEFAULT_STORY} from "NewsAPI";
+import {ADD_STORY, ADD_STORIES, EDIT_STORY, 
+REQUEST_NEWS_STORIES,
+RECEIVE_NEWS_STORIES,
+REQUEST_NEWS_STORY,
+RECEIVE_NEWS_STORY,
+SUBMIT_STORY, SUBMIT_STORY_SUCCESS, SUBMIT_STORY_ERROR,
+INVALIDATE_NEWS} from "actions";
+
+
+
+import DEFAULT_STORY from "NewsAPI";
 
 const INITIAL_STATE = { news: [],
 						story: DEFAULT_STORY
@@ -68,24 +77,51 @@ const INITIAL_STATE = { news: [],
 
 export var newsReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case ADD_STORY:
+        case SUBMIT_STORY:
             return {
                 ...state,
-                news: [...state.news,
-                    {
-                        ...action.story,
-                        id: UUID(),
-                        created: moment().unix(),
-//                        headline: action.story.headline,
-//                        image: action.story.image,
-//                        summary: action.story.summary,
-//                        story: action.story.story
-                    }
-                ],
+                story: action.story
+            };
+            break;
+            
+        case SUBMIT_STORY_SUCCESS:
+            debugger;
+            var newStory = true;
+            var news = state.news.map((story) => {
+                if (story.id == action.story.id) {
+                    newStory = false;
+                    return action.story;
+                } else {
+                    return story;
+                }
+            });
+            if (newStory) {
+                news = [...news, action.story];
+            }
+            
+            return {
+                ...state,
+                news,
+                status: {
+                  isFetching: false,
+                  didInvalidate: false,
+                  lastUpdated: action.receivedAt
+                },
                 story: DEFAULT_STORY
             };
             break;
             
+        case SUBMIT_STORY_ERROR:
+             return Object.assign({}, state, {
+                  status: {
+                      isFetching: false,
+                      didInvalidate: false,
+                      error: action.error
+                  }
+              });
+            break;
+            
+
         case ADD_STORIES:
             return {
                 ...state,
@@ -93,22 +129,105 @@ export var newsReducer = (state = INITIAL_STATE, action) => {
             };
             break;
             
-        case SHOW_STORY:
-            return {
-                ...
-                action.story
-            };
-            break;
+//        case SHOW_STORY:
+//            return {
+//                ...
+//                action.story
+//            };
+//            break;
             
-        case EDIT_STORY:
-            return {
-                ...
-                action.story
-            };
-            break;
+//        case EDIT_STORY:
+//            return {
+//                ...
+//                action.story
+//            };
+//            break;
             
+//  case SELECT_NEWS_STORY:
+//    return Object.assign({}, state, {
+//          story: {id: action.newsId}
+//      });
+//    break;
+    
+    case INVALIDATE_NEWS:
+      // Object.assign(<new state to copy into>, <existing state to copy from>, <change to make>);
+      return Object.assign({}, state, {
+          status: {
+            didInvalidate: true
+          }
+      });
+    break;
+      
+    case REQUEST_NEWS_STORIES:
+      return Object.assign({}, state, {
+          status: {
+            isFetching: true,
+            didInvalidate: false
+          }
+      });
+      break;
+      
+    case RECEIVE_NEWS_STORIES:
+      return Object.assign({}, state, {
+          status: {
+              isFetching: false,
+              didInvalidate: false,
+              lastUpdated: action.receivedAt
+          },
+          news: action.stories
+      });
+      break;
+      
+//    case REQUEST_NEWS_STORY:
+//      return Object.assign({}, state, {
+//          status: {
+//            isFetching: true,
+//            didInvalidate: false
+//          }
+//      });
+      
+    case RECEIVE_NEWS_STORY:
+      return Object.assign({}, state, {
+//          status: {
+//              isFetching: false,
+//              didInvalidate: false,
+//              lastUpdated: action.receivedAt
+//          },
+          story: action.story
+      });
+      break;
+      
         default:
             return state;
             break;
     }
 };
+
+
+
+function posts(state = {
+  isFetching: false,
+  didInvalidate: false,
+  items: []
+}, action) {
+  switch (action.type) {
+    case INVALIDATE_SUBREDDIT:
+      return Object.assign({}, state, {
+        didInvalidate: true
+      })
+    case REQUEST_POSTS:
+      return Object.assign({}, state, {
+        isFetching: true,
+        didInvalidate: false
+      })
+    case RECEIVE_POSTS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        items: action.posts,
+        lastUpdated: action.receivedAt
+      })
+    default:
+      return state
+  }
+}

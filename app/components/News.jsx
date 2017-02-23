@@ -11,6 +11,8 @@ var NewsSummary = require('NewsSummary');
 // rewritten using arror functions from ES6.
 export var News = React.createClass({
     render: function() {
+        var {news} = this.props.news; //TODO: .news shouldn't be needed
+        
         if (this.props.children) {
             return (
                 <div>
@@ -19,7 +21,7 @@ export var News = React.createClass({
                 </div>
             );
         } else {
-            var {news} = this.props.news; //TODO: .news shouldn't be needed
+            
             return (
                 <div>
                     {/* will render a list of news items when at /news/ */}

@@ -1,7 +1,7 @@
 var React = require('react');
 var {Link} = require('react-router');
-var {connect} = require('react-redux');
-var actions = require('actions');
+//var {connect} = require('react-redux');
+//var actions = require('actions');
 
 // For Rich Text Editor
 import Trumbowyg from 'react-trumbowyg'
@@ -12,7 +12,7 @@ import 'style!css!react-trumbowyg/dist/trumbowyg.min.css';
 // TODO: Set initial state, (or editors onLoad or something) so that the text isn't empty, since we validate story.length > 0, so if you don't change the text and only edit a headline, the story can't be saved.
 // TODO: Disable/remove the regualr story input field.
 
-export var NewsEditForm = React.createClass({
+var NewsEditForm = React.createClass({
     // Callback for rich text editor
     onTextChange: function(editor) {
         //this.setState({ text: editor.target.innerHTML });
@@ -27,10 +27,11 @@ export var NewsEditForm = React.createClass({
         story.id = this.refs.id.value;
         story.headline = this.refs.headline.value;
         story.summary = this.refs.summary.value;
-        //story.story = this.refs.story.value;
-        story.story = this.refs.storyrich.target.innerHTML;
-        //story.story = this.state.text;
         story.image = this.refs.image.value;
+        
+        story.story = this.refs.story.value;                    // Works as we're repurposing in onTextChange
+        //story.story = this.refs.storyrich.target.innerHTML;   // This doesn't work
+        //story.story = this.state.text;                        // This is if we manage the text on the state
         
         if (story.headline.length > 0 &&
             story.summary.length > 0 &&
@@ -42,13 +43,13 @@ export var NewsEditForm = React.createClass({
 //            this.refs.story.value = '';
 //            this.refs.image.value = '';
             
-            //this.props.onSaveStory(story);
-            this.props.dispatch(actions.addStory(story));
+            this.props.onSaveStory(story);
+            //this.props.dispatch(actions.addStory(story));
         }
     },
     render: function() {
         // TODO: Related to the comment in connect() below, this shouldn't need .news on it
-        var {story} = this.props.news;
+        var {story} = this.props;
         return (
             <div>
                 <form onSubmit={this.onFormSubmit}>
@@ -86,8 +87,9 @@ export var NewsEditForm = React.createClass({
     }
 })
 
-//module.exports = NewsEditForm;
+module.exports = NewsEditForm;
 
+/*
 export default connect(
   (state) => {
     return {
@@ -95,3 +97,4 @@ export default connect(
         news: state.news
     };
   })(NewsEditForm);
+*/

@@ -1,4 +1,6 @@
 var $ = require('jquery');
+var UUID = require('uuid');
+var moment = require('moment');
 
 // TODO: Finish API operations, actually connecting to a DB.
 // TODO: Add dates to the story object. Created and Last Updated?
@@ -8,15 +10,18 @@ var $ = require('jquery');
 // TODO: Update State in these functions?
 
 // TODO: should this be part of NewsAPI and should that be a class?
-export const DEFAULT_STORY = {
-                                id: 0,
-                                headline: "",
-                                image: "/images/news-main.jpg",
-                                summary: "",
-                                story: ""
-                            };
+export const DEFAULT_STORY_ID = "new";
+//export const DEFAULT_STORY = {id: DEFAULT_STORY_ID, headline: "", image: "/images/news-main.jpg", summary: "", story: "" };
 
 module.exports = {
+    DEFAULT_STORY: {
+        id: DEFAULT_STORY_ID,
+        headline: "",
+        image: "/images/news-main.jpg",
+        summary: "",
+        story: ""
+    },
+
     setStories: function(stories) {
         if ($.isArray(stories)) {
             localStorage.setItem('news', JSON.stringify(stories));
@@ -24,34 +29,57 @@ module.exports = {
         }
         return undefined;
     },
+//    getStoriesSync: function() {
+//        var stringNews = localStorage.getItem('news');
+//        try {
+//            // parse may fail with invalid input, so we can catch that error
+//            var stories = JSON.parse(stringNews);
+//            // double check this is an array and not malicious data
+//            if ($.isArray(stories)) {
+//                // Cool, we got content. Resolve the promise to return the data
+//                return stories;
+//            }
+//        } catch(e) {
+//            // parse failed, we'll just return an empty array below
+//        }
+//        // try failed
+//        return [];  
+//    },
+    // TODO: This is dumb and just loads in all story data we have.
     getStories: function() {
-        var stringNews = localStorage.getItem('news');
-        try {
-            // parse may fail with invalid input, so we can catch that error
-            var stories = JSON.parse(stringNews);
-            // double check this is an array and not malicious data
-            if ($.isArray(stories)) {
-                return stories;
-            }
-        } catch(e) {
-            // parse failed, we'll just return an empty array below
-        }
-        // try failed
-        return [];
+        return new Promise(
+            // The resolver function is called with the ability to resolve or reject the promise
+            function(resolve, reject) {
+                var stringNews = localStorage.getItem('news');
+                try {
+                    // parse may fail with invalid input, so we can catch that error
+                    var stories = JSON.parse(stringNews);
+                    // double check this is an array and not malicious data
+                    if ($.isArray(stories)) {
+                        // Cool, we got content. Resolve the promise to return the data
+                        resolve(stories);
+                    }
+                } catch(e) {
+                    // parse failed, we'll just return an empty array below
+                }
+                // try failed
+                resolve([]);
+            }        
+        );
     },
     
-    // Get the content for a story we have loaded.
-    // TODO: If the ID doesn't match one we have cached, do we try fetching from the server?
-    getStory: function(id) {
-        // TODO: Is this a HACK? Not sure if this function should even exist, or should be working off the state. Currently we have no cache, just pulling from the DB, (localStorage in this case)
-        var stories = this.getStories();
-        
-        for (var i = 0; i < stories.length; ++i) {
-            if (id == stories[i].id) {
-                return stories[i];
+    // Get the content for a story which may be cached in the stories array.
+    // TODO: If the ID doesn't match one we have cached, do we try fetching from the server? Feels like that should happen on the caller's side so they can update the state.
+    getStory: function(id, stories) {
+        // Look through the list of stories passed in, (would typically be from the state)
+        if (stories) {
+            for (var i = 0; i < stories.length; ++i) {
+                if (id == stories[i].id) {
+                    return stories[i];
+                }
             }
-        };
-        return undefined;
+        }
+        return this.DEFAULT_STORY;
     },
     
     // Fetches a batch of stories, (most recent 4 by default.)
@@ -73,6 +101,64 @@ module.exports = {
                 story: `<p>With a free weekend in the U18 league fixture, Academy Manager Micah Hyde used the opportunity to look at U16 players looking to impress and gain a scholarship.</p><p>And he wasn't disappointed with a spirited performance from the Daggers players inflicting a ruthless 6-0 defeat on to rivals Southend United in an eventful encounter at Parkonians.</p><p>The hosts were three goals up by the interval after Blue Gallagher had bundled in before strikes by Dylan Florence and Anointed Chukwu increased their advantage. Luke Hurst’s 50th minute effort made it 4-0, and a spectacular volley from Jack Lee gave the Daggers their fifth, before Anointed Chukwu grabbed his brace to round off an impressive day for the east London side.</p><p>It was a thoroughly entertaining game made so by a bright and positive young Daggers, who shone in confidence and ambition from kick-off, testing the Seasiders’ defence with their mazy runs and incisive passing, creating an abundance of opportunities in the process.</p><p>The Daggers were not made to wait long for their breakthrough however, as Blue Gallagher profited from Jack Lee’s strength to bundle in following a corner, giving the hosts a lead that was doubled by Dylan Florence, who finessed in at the near post having been found in space by Deniz Alici.</p><p>Despite the Daggers keeping the majority of the first-half much in their control, an excellent goal-line clearance from Blue Gallagher denied Southend a route back into the game, and it wasn’t long until the home side established a three-goal lead through Anointed Chukwu, who tapped into an empty goal after an initial effort had been parried by the away stopper.</p><p>The second half saw the east London outfit reproduce more of their excellent form in the first, getting off to the brightest possible start just five minutes in as Luke Hurst squeezed through the gloves of the Seasiders number one from Mekhi Hyde’s pull-back.</p><p>The same combination very nearly gave the hosts an instant fifth - this time it was Hyde with the effort after latching onto Hurst’s cross, but the visiting keeper was equal to the shot, before being forced into a taxing save to keep out a powerfully-struck drive.</p><p>Hyde, who was at the heart of most of the Daggers’ creative moves, was once again involved in their next opening, as the midfielder combined with Anointed Chukwu and Sam Salis on the left-hand side of the box, but the former was just inches away from connecting with the final ball.</p><p>The forward also rode several heavy challenges as he ran coolly at goal, but his shot from a tight-angle flashed across the face of goal to safety, before Luke Hirst ran clear and forced another good save from a busy Seasiders keeper with a powerful rising shot. Chukwu once again tested the resolve of the Seasiders stopper with a placed finish from a Vijay Seenath through-ball, but saw his effort diverted as the Daggers sought to contribute further to the scoreboard.</p><p>That they did through the brilliance of centre-back Jack Lee, who netted the Daggers fifth with a sensational volley that flew into the roof of the Southend United goal from 25- yards, one of many highlights in an impeccable display of confidence and quality by the Daggers.</p><p>With five minutes remaining, there was still time for one more, and with the way the hosts were playing, it was no surprise that they managed to get their sixth, once again from the tireless figure of Anointed Chukwu, who fired in at the far post to round off an excellent day for a dominant Daggers.</p><p>After the encounter, the Academy Head coach Micah Hyde gave his thoughts on the tie:</p><p>"It was a perfect opportunity to look at these younger players today, we have been diligently working away for the last couple months identifying future Daggers talent as we no longer have a younger age group. We have utilised our contacts in watching boys released from cat 1,2 & 3, while also making sure we closely monitor the grassroots talent. So we have already played a number of games with lots of players U16 age group, against varied opposition. I liked the hunger and desire in this group, and the quality on and the ball which is difficult given the conditions they were playing in," explained Hyde.</p><p>"The creativity and the endeavour they showed was very pleasing to see, so it bodes well for these young players, as we continue our process of selection and elimination, for the next Academy players," continued the Coach.</p><p>Line-up: Dagenham & Redbridge: 1. Louie Chapman, 2. David Agboola, 3. Deniz Alici, 4. Elliot Bonds, 5. Jack Lee, 6. Henry Fisher, 7. Christoper Thorpe, 8. Jay Matete, 9. Dylan Florence, 10. Blue Gallagher, 11. James Turvey, 12. Mekhi Hyde, 14. Anointed Chukwu, 15. Luke Hirst, 16. Vijay Seenath, 17. Emmanuel Ogunrinde, 18. Oskar Garbarczyk, 19. Sam Salis, Liam Tuitt</p><p>Goalscorers: Dagenham & Redbridge: Blue Gallagher 8’, Dylan Florence, Anointed Chukwu 33’ + 87’, Luke Hirst 50’, Jack Lee 85’</p>`
             }
         ];
+    },
+    
+    
+    addStory: function(story) {
+        return new Promise(
+            // The resolver function is called with the ability to resolve or reject the promise
+            function(resolve, reject) {
+                try {
+                    // HACK: We would store on the server too, much better than this
+                    var news = [];
+                    var stringNews = localStorage.getItem('news');
+                    try {
+                        // parse may fail with invalid input, so we can catch that error
+                        var stories = JSON.parse(stringNews);
+                        // double check this is an array and not malicious data
+                        if ($.isArray(stories)) {
+                            // Cool, we got content
+                            news = stories;
+                        }
+                    } catch(e) {
+                        // parse failed, we'll just use an empty array for news
+                    }
+                    
+                    // HACK: This should get done on the server and returned back.
+                    if (story.id == DEFAULT_STORY_ID) {
+                        // This is a new story
+                        story.id = UUID();
+                        story.createdAt = moment().unix();
+                        // HACK: And we would store on the server too, much better than this
+                        news.push(story);
+                    } else {
+                        // Editing an existing story
+                        story.updatedAt = moment().unix();
+                        // HACK: And we would store on the server too, much better than this
+                        news = news.map((existingStory) => {
+                            if (existingStory.id == story.id) {
+                                // We edited this story
+                                return story;
+                            } else {
+                                // Leave this story as-is
+                                return existingStory;
+                            }
+                        });
+                    }
+                    
+                    // HACK: Final hack to store the news again
+                    localStorage.setItem('news', JSON.stringify(news));
+                    
+                    resolve(story);
+                } catch(e) {
+                    // parse failed, we'll just return an empty object below
+                }
+                // try failed
+                resolve({});
+            }        
+        );
+        
+        
     },
 
 /*

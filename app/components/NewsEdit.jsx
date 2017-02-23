@@ -2,6 +2,7 @@ var React = require('react');
 var {Link, browserHistory} = require('react-router');
 var {connect} = require('react-redux');
 var NewsEditForm = require('NewsEditForm');
+//var NewsStory = require('NewsStory');
 var actions = require('actions');
 var NewsAPI = require('NewsAPI');
 
@@ -13,38 +14,61 @@ export var NewsEdit = React.createClass({
 //    componentWillMount: function() {
 //        NewsAPI.loadStories();
 //    },
-//    handleSaveStory: function(story) {
-//        if (NewsAPI.writeStory(story)) {
-//            // TODO: Make the state stuff work for real, using Redux
-//            this.setState({stories: NewsAPI.getStories()});
-//            browserHistory.push('/editnews');
-//        }
-//    },
+    handleSaveStory: function(story) {
+//        // TODO: Should this logic really live here?
+//        if (story.id == 0)
+//            this.props.dispatch(actions.editStory(story));
+//        else
+//            this.props.dispatch(actions.addStory(story));
+        this.props.dispatch(actions.submitStory(story));
+        
+        /*
+        if (NewsAPI.writeStory(story)) {
+            // TODO: Make the state stuff work for real, using Redux
+            this.setState({stories: NewsAPI.getStories()});
+            browserHistory.push('/editnews');
+        }
+        */
+
+        // TODO: Not great, since write could fail and then we've gone away from the form's contents
+        browserHistory.push('/editnews');
+    },
     render: function() {
         // Are we editing at a story right now, or about to?
         var {newsId} = this.props.params;
-        var {news, story} = this.props.news; // TODO: .news shouldn't be needed
+        var {news, status} = this.props.news; // TODO: .news shouldn't be needed
+        var story = NewsAPI.getStory(newsId, news);
         
-        if (story) {
+        if (status.isFetching) {
             return (
                 <div>
-                    {/*<NewsEditForm story={story} onSaveStory={this.handleSaveStory}/>*/}
-                    <NewsEditForm/>
+                    <div className="callout">
+                      <h5>Loading</h5>
+                      <p>Please wait while we get the news...</p>
+                    </div>
                 </div>
             );
-        } else if (newsId) {
-            // Get the story data from NewsAPI, based on the ID in the URL params, (or start a new one)
-            var story = (newsId == "new") ?
-                NewsAPI.createStoryObject() :
-                NewsAPI.getStory(newsId);
-            
-            this.props.dispatch(actions.editStory(story));
-        } else {
+        } else if (newsId == "new" || (story.id && story.id == newsId)) {
+            return (
+                <div>
+                    <NewsEditForm story={story} onSaveStory={this.handleSaveStory}/>
+                    {/*<NewsEditForm/>*/}
+                </div>
+            );
+        } else if (news && news.length > 0) {
             // Show a list of stories to edit
             //var headlines = NewsAPI.getHeadlines();
             
+            var errorMessage = status.error === undefined ? null : (
+                <div className="callout alert">
+                  <h5>Error</h5>
+                  <p>{status.error}</p>
+                </div>
+            );
+            
             return (
                 <div>
+                    {errorMessage}
                     <ul>
                         {news.map(story => (
                             <li key={story.id}>
@@ -58,8 +82,16 @@ export var NewsEdit = React.createClass({
                     </ul>
                 </div>
             );
+        } else {
+            return (
+                <div>
+                    <div className="callout alert">
+                      <h5>Error</h5>
+                      <p>No news found.</p>
+                    </div>
+                </div>
+            );
         }
-
     }
 });
 

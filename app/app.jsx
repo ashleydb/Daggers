@@ -9,13 +9,11 @@ var {Route, Router, IndexRoute, browserHistory} = require('react-router');
 
 //Include our component dependencies
 var Main = require('Main');
-//var Home = require('Home'); // This is the React version of the Home component. Would only want this for testing.
-//import {Home} from 'Home';  // This is the React version of the Home component. Would only want this for testing.
+//var Home = require('Home'); // This is the React version of the Home component. Would only want this for testing. require() is a webpack convention.
+//import {Home} from 'Home';  // This is the React version of the Home component. Would only want this for testing. import is an ES6 cnovention.
 import Home from 'Home';      // This is the Redux version of the Home component
-//var News = require('News');
 import News from 'News';
-var NewsStory = require('NewsStory');
-//var NewsEdit = require('NewsEdit');
+import NewsStory from 'NewsStory';
 import NewsEdit from 'NewsEdit';
 var Fixtures = require('Fixtures');
 var Tickets = require('Tickets');
@@ -24,27 +22,12 @@ var Fans = require('Fans');
 var Club = require('Club');
 var Commercial = require('Commercial');
 
-
 var NewsAPI = require('NewsAPI');
 
 var actions = require('actions');
 var store = require('configureStore').configure();
 
-store.subscribe(() => {
-    var state = store.getState();
-    console.log('New state', state);
-    NewsAPI.setStories(state.news.news); //TODO: .news shouldn't be needed
-});
-
-// Load in news data, then add it to our state
-var initialNews = NewsAPI.getStories();
-if (initialNews.length == 0)
-    initialNews = NewsAPI.loadDefaultStories();
-store.dispatch(actions.addStories(initialNews));
-
-
-//Use jQuery to start foundation
-//$(document).foundation();
+store.dispatch(actions.fetchNewsStoriesIfNeeded());
 
 //App css
 require('applicationStyles');
@@ -74,6 +57,7 @@ ReactDOM.render(
   document.getElementById('app')
 );
 
+//Use jQuery to start foundation
 $(document).ready(function($) {
     $(document).foundation();
 });

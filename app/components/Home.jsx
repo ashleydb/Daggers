@@ -12,23 +12,46 @@ var NewsSummary = require('NewsSummary');
 
 export var Home = React.createClass({
     render: function() {
-        var {news} = this.props.news; // TODO: .news shouldn't be needed
-        return (
-
-            <div>
-
-                <div className="row">
-                    <NewsSummary story={news[0]} style="MAIN"/>
+        var {news, status} = this.props.news; // TODO: .news shouldn't be needed
+        
+        if (status.isFetching) {
+            return (
+                <div>
+                    <div className="callout">
+                      <h5>Loading</h5>
+                      <p>Please wait while we get the news...</p>
+                    </div>
                 </div>
-
-                <div className="row small-up-2 medium-up-3">
-                    <NewsSummary story={news[1]} style="SMALL"/>
-                    <NewsSummary story={news[0]} style="SMALL"/>
-                    <NewsSummary story={news[1]} style="SMALL"/>
+            );
+        } else if (news.length < 2) {
+            // TODO: Limit of 2 stories needed before we render anything. Change that.
+            return (
+                <div>
+                    <div className="callout error">
+                      <h5>Error</h5>
+                      <p>No news found.</p>
+                    </div>
                 </div>
+            );
+        } else {
+            // TODO: Make this smarter to show the latest news posts, dealing with the right amount of stories
+            return (
 
-            </div>
-        );
+                <div>
+
+                    <div className="row">
+                        <NewsSummary story={news[0]} style="MAIN"/>
+                    </div>
+
+                    <div className="row small-up-2 medium-up-3">
+                        <NewsSummary story={news[1]} style="SMALL"/>
+                        <NewsSummary story={news[0]} style="SMALL"/>
+                        <NewsSummary story={news[1]} style="SMALL"/>
+                    </div>
+
+                </div>
+            );
+        }
     }
 });
 
