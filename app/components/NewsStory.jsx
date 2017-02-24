@@ -1,7 +1,7 @@
 var React = require('react');
 var {connect} = require('react-redux');
 var actions = require('actions');
-var NewsAPI = require('NewsAPI');
+import * as NewsAPI from 'NewsAPI';
 
 // TODO: Need something to say story not found?
 

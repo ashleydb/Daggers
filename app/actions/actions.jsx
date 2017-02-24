@@ -41,7 +41,7 @@ export var showStory = (story) => {
 }
 */
 
-var NewsAPI = require('NewsAPI');
+import * as NewsAPI from 'NewsAPI';
 
 export const INVALIDATE_NEWS = 'INVALIDATE_NEWS'
 
@@ -68,13 +68,8 @@ function requestNewsStories() {
     }
 }
 
-// (5) We got the news posts back. If it was empty, preload some default data.
+// (5) We got the news posts back.
 function receiveNewsStories(stories) {
-    // HACK: We got no news back, so load in some default news stories.
-    if (stories.length == 0) {
-        stories = NewsAPI.loadDefaultStories();
-    }
-
     return {
         type: RECEIVE_NEWS_STORIES,
         stories,

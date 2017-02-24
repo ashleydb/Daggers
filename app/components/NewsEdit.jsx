@@ -4,7 +4,7 @@ var {connect} = require('react-redux');
 var NewsEditForm = require('NewsEditForm');
 //var NewsStory = require('NewsStory');
 var actions = require('actions');
-var NewsAPI = require('NewsAPI');
+import * as NewsAPI from 'NewsAPI';
 
 // TODO: Need to lock behind authentication
 // TODO: Need to change the whole app to use Redux to manage the state more effectively.

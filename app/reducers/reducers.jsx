@@ -69,10 +69,10 @@ INVALIDATE_NEWS} from "actions";
 
 
 
-import DEFAULT_STORY from "NewsAPI";
+import * as NewsAPI from 'NewsAPI';
 
 const INITIAL_STATE = { news: [],
-						story: DEFAULT_STORY
+						story: NewsAPI.DEFAULT_STORY
 };
 
 export var newsReducer = (state = INITIAL_STATE, action) => {
@@ -85,7 +85,6 @@ export var newsReducer = (state = INITIAL_STATE, action) => {
             break;
             
         case SUBMIT_STORY_SUCCESS:
-            debugger;
             var newStory = true;
             var news = state.news.map((story) => {
                 if (story.id == action.story.id) {
@@ -107,7 +106,7 @@ export var newsReducer = (state = INITIAL_STATE, action) => {
                   didInvalidate: false,
                   lastUpdated: action.receivedAt
                 },
-                story: DEFAULT_STORY
+                story: NewsAPI.DEFAULT_STORY
             };
             break;
             
@@ -202,32 +201,3 @@ export var newsReducer = (state = INITIAL_STATE, action) => {
             break;
     }
 };
-
-
-
-function posts(state = {
-  isFetching: false,
-  didInvalidate: false,
-  items: []
-}, action) {
-  switch (action.type) {
-    case INVALIDATE_SUBREDDIT:
-      return Object.assign({}, state, {
-        didInvalidate: true
-      })
-    case REQUEST_POSTS:
-      return Object.assign({}, state, {
-        isFetching: true,
-        didInvalidate: false
-      })
-    case RECEIVE_POSTS:
-      return Object.assign({}, state, {
-        isFetching: false,
-        didInvalidate: false,
-        items: action.posts,
-        lastUpdated: action.receivedAt
-      })
-    default:
-      return state
-  }
-}

@@ -22,7 +22,7 @@ var Fans = require('Fans');
 var Club = require('Club');
 var Commercial = require('Commercial');
 
-var NewsAPI = require('NewsAPI');
+import * as NewsAPI from 'NewsAPI';
 
 var actions = require('actions');
 var store = require('configureStore').configure();

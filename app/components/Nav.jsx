@@ -19,9 +19,11 @@ var Nav = React.createClass({
 
                 <div className="top-bar" id="nav-menu">
                     <div className="top-bar-left">
-                        <ul className="vertical medium-horizontal dropdown menu club-nav" data-dropdown-menu>
+                        <ul className="vertical medium-horizontal menu club-nav">
                             <li className="menu-text">
-                                <img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="nav-image"/>
+                                <IndexLink to="/">
+                                    <img src="/images/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="nav-image"/>
+                                </IndexLink>
                             </li>
 
                             <li><IndexLink to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Home</IndexLink></li>

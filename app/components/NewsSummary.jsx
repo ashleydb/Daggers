@@ -1,6 +1,6 @@
 var React = require('react');
 import { Link } from 'react-router';
-var NewsAPI = require('NewsAPI');
+//import * as NewsAPI from 'NewsAPI';
 
 var NewsSummary = React.createClass({
 //    componentWillMount: function() {

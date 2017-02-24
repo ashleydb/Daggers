@@ -1,6 +1,7 @@
 var React = require('react');
 var {connect} = require('react-redux');
 var NewsSummary = require('NewsSummary');
+import * as NewsAPI from 'NewsAPI';
 
 // TODO: Add sponsors.
 // TODO: Add Ad component, which can be adsense or overridden as a nice-to-have.
@@ -23,30 +24,56 @@ export var Home = React.createClass({
                     </div>
                 </div>
             );
-        } else if (news.length < 2) {
-            // TODO: Limit of 2 stories needed before we render anything. Change that.
+        } else if (!news || news.length < 1) {
             return (
                 <div>
-                    <div className="callout error">
+                    <div className="callout alert">
                       <h5>Error</h5>
                       <p>No news found.</p>
                     </div>
                 </div>
             );
         } else {
-            // TODO: Make this smarter to show the latest news posts, dealing with the right amount of stories
+            // Pop the last element off the array to get the latest story. If we don't have any more, show a placeholder, (shouldn't happen in production with enough news in the DB.)
+            var tempNews = news.slice(0);
             return (
 
                 <div>
-
+                    {/* will render a list of news items when at /news/ */}
                     <div className="row">
-                        <NewsSummary story={news[0]} style="MAIN"/>
-                    </div>
+                        <div className="columns small-12 large-8">
+                            
+                            <div className="row">
+                                <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="MAIN"/>
+                            </div>
 
-                    <div className="row small-up-2 medium-up-3">
-                        <NewsSummary story={news[1]} style="SMALL"/>
-                        <NewsSummary story={news[0]} style="SMALL"/>
-                        <NewsSummary story={news[1]} style="SMALL"/>
+                            <div className="row small-up-1 medium-up-3">
+                                <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                                <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                                <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                            </div>
+
+                        </div>
+                        <div className="columns small-12 large-4">
+                            
+                            <div className="row">
+                                <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                            </div>
+                            
+                            <div className="placeholder-ad">
+                                <p>Ads go here</p>
+                            </div>
+                            
+                            <div className="row">
+                                <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="row">
+                        <div className="placeholder-ad">
+                            <p>Sponsors go here</p>
+                        </div>
                     </div>
 
                 </div>
