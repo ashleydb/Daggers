@@ -4,6 +4,19 @@
 
 var webpack = require('webpack');
 var path = require('path');
+var envFile = require('node-env-file');
+
+// Will be 'production' on heroku, but missing locallaly so we'll set to 'development'
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+try {
+  // Load the relevant environment vars from the config folder
+  envFile(path.join(__dirname, 'config/' + process.env.NODE_ENV + '.env'));
+} catch (e) {
+  // Will error in production, since there is no production.env
+  // Use the CLI to do the following:
+  //  heroku config:set <KEY>=<VALUE>
+}
 
 module.exports = {
   entry: [
@@ -15,21 +28,21 @@ module.exports = {
   externals: {
     jquery: 'jQuery'
   },
-  plugins: process.env.NODE_ENV === 'production' ? [
-    // add this handful of plugins that optimize the build when we're in production
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
+  plugins: [
     //If webpack finds reference to $ or jQuery in our code, load in the jquery module.
     new webpack.ProvidePlugin({
         '$': 'jquery',
         'jQuery': 'jquery'
-    })
-  ] : [
-    //If webpack finds reference to $ or jQuery in our code, load in the jquery module.
-    new webpack.ProvidePlugin({
-        '$': 'jquery',
-        'jQuery': 'jquery'
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      }
     })
   ],
   output: {
@@ -40,10 +53,12 @@ module.exports = {
     root: __dirname,
     modulesDirectories: [
       'node_modules',
-      './app/components',
-      './app/api'
+      './app/components/',
+      './app/api/'
     ],
     alias: {
+      //The resolve.alias settings means we can just require <name> rather than './component/<name>'
+      app: 'app', // This one lets you import anything as 'app/<folder>/<file>'
       applicationStyles: 'app/styles/app.scss',
       actions: 'app/actions/actions.jsx',
       reducers: 'app/reducers/reducers.jsx',
@@ -87,5 +102,5 @@ module.exports = {
   },
   //'eval-source-map' lets us debug the code as written, rather than in bundle.js.
   // Only applies during development, since it is a devtool setting.
-  devtool: 'eval-source-map'
+  devtool: process.env.NODE_ENV === 'production' ? undefined : 'cheap-module-eval-source-map'
 }

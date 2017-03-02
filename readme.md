@@ -42,3 +42,8 @@ Other stuff to do:
 * Putting in advertising
 * Finalizing layouts
 * Code cleanup and TODO's
+
+Cleanup dependencies?
+* uuid
+* moment
+* react-foundation

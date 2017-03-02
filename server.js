@@ -31,12 +31,12 @@ app.use(fileUpload());
 // TODO: This only allows one image at a time. Need to handle multiple? Not hard to do. https://github.com/richardgirges/express-fileupload
 app.post('/api/v1/image', function(req, res) {
     if (!req.files) {
-        console.log('No files were uploaded.');
+        console.log('WARN: No files were uploaded.');
         return res.status(400).send('No files were uploaded.');
     }
 
     if (req.files.imageFile.mimetype !== 'image/jpeg' && req.files.imageFile.mimetype !== 'image/png') {
-        console.log('File uploaded was not a supported image type. Please use jpg or png: ', req.files.imageFile.mimetype);
+        console.log('WARN: File uploaded was not a supported image type. Please use jpg or png: ', req.files.imageFile.mimetype);
         return res.status(400).send('File uploaded was not a supported image type. Please use jpg or png.');
     }
 
@@ -47,15 +47,15 @@ app.post('/api/v1/image', function(req, res) {
     // TODO: This will overwrite any existing file with the same name. Add a date or something to the filename to make it unique?
     let filePath = '/images/uploads/'+imageFile.name;
     let fullFilePath = __dirname + '/public' + filePath;
-    console.log('Moving to: ', fullFilePath);
+    //console.log('DEBUG: Moving to: ', fullFilePath);
     imageFile.mv(fullFilePath, function(err) {
         if (err) {
-            console.log('Could not move file: ', filePath);
+            console.log('ERR: Could not move file: ', filePath);
             return res.status(500).send(err);
         }
 
         // Everything went well, so send back the file path
-        console.log('File uploaded!');
+        //console.log('DEBUG: File uploaded!');
         res.status(201).send({message:'File uploaded!', path: filePath});
     });
 });
