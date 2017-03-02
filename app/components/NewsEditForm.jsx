@@ -7,10 +7,12 @@ var {Link} = require('react-router');
 import Trumbowyg from 'react-trumbowyg'
 import 'style!css!react-trumbowyg/dist/trumbowyg.min.css';
 
-// TODO: Rich text edit field for story body.
-// TODO: Image uploading and picking.
+// For uploading images
+import ImageUploader from 'ImageUploader';
+
+// TODO: Image picking.
 // TODO: Set initial state, (or editors onLoad or something) so that the text isn't empty, since we validate story.length > 0, so if you don't change the text and only edit a headline, the story can't be saved.
-// TODO: Disable/remove the regualr story input field.
+// TODO: Hide the regular story input field?
 
 var NewsEditForm = React.createClass({
     // Callback for rich text editor
@@ -47,11 +49,18 @@ var NewsEditForm = React.createClass({
             //this.props.dispatch(actions.addStory(story));
         }
     },
+    onNewImage(imgPath) {
+        this.refs.image.value = imgPath;
+    },
     render: function() {
+        // TODO: Need to add an image picker, not just an uploader. May want to rearrange the form elements too.
+        
         // TODO: Related to the comment in connect() below, this shouldn't need .news on it
         var {story} = this.props;
         return (
             <div>
+                <ImageUploader onImageUploaded={this.onNewImage} ref="imageUploader"/>
+                
                 <form onSubmit={this.onFormSubmit}>
                     <input type="hidden" defaultValue={story.id} ref="id"/>
                     <label>Headline</label><input type="text" defaultValue={story.headline} ref="headline"/>
