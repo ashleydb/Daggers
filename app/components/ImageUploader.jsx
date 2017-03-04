@@ -20,9 +20,10 @@ var ImageUploader = React.createClass({
             const uploadedImagePath = response.data.path;
             onImageUploaded(uploadedImagePath);
         })
-            .catch(function (error) {
+        .catch(function (error) {
+            //debugger;
             // TODO: Show error message on UI
-            console.log(error);
+            console.log(error.response.data);
         });
     },
     render() {

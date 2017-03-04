@@ -9,12 +9,16 @@ import 'style!css!react-trumbowyg/dist/trumbowyg.min.css';
 
 // For uploading images
 import ImageUploader from 'ImageUploader';
+import ImageLister from 'ImageLister';
 
 // TODO: Image picking.
 // TODO: Set initial state, (or editors onLoad or something) so that the text isn't empty, since we validate story.length > 0, so if you don't change the text and only edit a headline, the story can't be saved.
 // TODO: Hide the regular story input field?
 
 var NewsEditForm = React.createClass({
+    getInitialState() {
+        return {image: null};
+    },
     // Callback for rich text editor
     onTextChange: function(editor) {
         //this.setState({ text: editor.target.innerHTML });
@@ -51,15 +55,24 @@ var NewsEditForm = React.createClass({
     },
     onNewImage(imgPath) {
         this.refs.image.value = imgPath;
+        this.setState({image: imgPath});
+    },
+    onPickImage(imgPath) {
+        this.refs.image.value = imgPath;
+        this.setState({image: imgPath});
     },
     render: function() {
         // TODO: Need to add an image picker, not just an uploader. May want to rearrange the form elements too.
         
         // TODO: Related to the comment in connect() below, this shouldn't need .news on it
         var {story} = this.props;
+        debugger;
+        var image = this.state.image || story.image;
         return (
             <div>
                 <ImageUploader onImageUploaded={this.onNewImage} ref="imageUploader"/>
+                <ImageLister onPickImage={this.onPickImage}/>
+                <img src={image}/>
                 
                 <form onSubmit={this.onFormSubmit}>
                     <input type="hidden" defaultValue={story.id} ref="id"/>

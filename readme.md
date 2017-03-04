@@ -21,6 +21,8 @@ Needed:
  * If we get everything from EFL, will it be updated by Daggers in future? If not, just omit it now?
 
 To Prove:
+* Uploading images in Production env. (Can't do it directly with Heroku, would need to go to S3 or similar.)
+* Listing images already on the server, (does it work in prod?)
 * Connecting to a DB
  * https://webapplog.com/express-js-4-node-js-and-mongodb-rest-api-tutorial/
  * https://github.com/azat-co/rest-api-express/blob/master/express.js
