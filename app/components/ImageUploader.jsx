@@ -29,8 +29,8 @@ var ImageUploader = React.createClass({
     render() {
         return (
             <form ref='uploadImageForm' id='uploadImageForm' method="post" encType="multipart/form-data" onSubmit={this.onFormSubmit}>
-                <label>Image</label><input type="file" name="imageFile" ref="imageFile" className="hollow expanded button" />
-                <button className="hollow expanded button">Upload Image</button>
+                <label>Upload Image</label><input type="file" name="imageFile" ref="imageFile" className="expanded button" />
+                <button className="expanded button">Upload Image</button>
             </form>
         );
     }

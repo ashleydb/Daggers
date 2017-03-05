@@ -7,8 +7,13 @@ var Axios = require('axios');
 //  Take note of NO leading and included trailing '/'
 // onPickImage() will receive the path to the image if a user clicks one of the list entries.
 var ImageLister = React.createClass({
+    // TOOD: Check these standard images are up to date links
+    standardImages: ['/images/news-main.jpg',
+                        '/images/news-thumbnail.jpg',
+                        '/images/player-head.jpg',
+                        '/images/clublogo.png'],
     getInitialState() {
-        return {files: []};
+        return {files: this.standardImages};
     },
     componentWillMount() {
         this.refreshImages();
@@ -30,7 +35,8 @@ var ImageLister = React.createClass({
         })
         .then(function (response) {
             console.log("DEBUG: Image List:", response.data.files);
-            that.setState({files: response.data.files});
+            that.setState({files: [...that.standardImages,
+                                   ...response.data.files]});
         })
         .catch(function (error) {
             console.log("ERR: Problem getting images:", error);
@@ -60,9 +66,11 @@ var ImageLister = React.createClass({
             return null;
         };
         return (
-            <div>
-                <button className="hollow expanded button" onClick={this.refreshImages}>Refresh Image List</button>
-                {renderImageList()}
+            <div id="imageList">
+                <label>Choose Image</label><button className="expanded button" onClick={this.refreshImages}>Refresh Image List</button>
+                <div className="callout">
+                    {renderImageList()}
+                </div>
             </div>
         );
     }

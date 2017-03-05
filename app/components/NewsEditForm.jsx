@@ -66,19 +66,23 @@ var NewsEditForm = React.createClass({
         
         // TODO: Related to the comment in connect() below, this shouldn't need .news on it
         var {story} = this.props;
-        debugger;
         var image = this.state.image || story.image;
         return (
             <div>
-                <ImageUploader onImageUploaded={this.onNewImage} ref="imageUploader"/>
-                <ImageLister onPickImage={this.onPickImage}/>
-                <img src={image}/>
+                <div className="row">
+                    <div className="columns small-6">
+                        <ImageLister onPickImage={this.onPickImage}/>
+                    </div>
+                    <div className="columns small-6">
+                        <ImageUploader onImageUploaded={this.onNewImage} ref="imageUploader"/>
+                        <img src={image} alt="Image Preview" className="news-image-preview"/>
+                    </div>
+                </div>
                 
                 <form onSubmit={this.onFormSubmit}>
                     <input type="hidden" defaultValue={story.id} ref="id"/>
                     <label>Headline</label><input type="text" defaultValue={story.headline} ref="headline"/>
                     <label>Summary</label><input type="text" defaultValue={story.summary} ref="summary"/>
-                    <label>Image</label><input type="text" defaultValue={story.image} ref="image"/>
                     
                     {/* Note I've removed ['insertImage'] from the buttons for now */}
                     <label>Story</label>
@@ -99,11 +103,14 @@ var NewsEditForm = React.createClass({
                         ref="storyrich"
                     />
                     
-                    <label>Story HTML</label><input type="text" defaultValue={story.story} ref="story" readOnly/>
+                    <button className="expanded button success">Submit</button>
+                    <Link to="/editnews" className="expanded button alert">Cancel</Link>
                     
-                    <button className="hollow expanded button">Submit</button>
+                    <div id="editNewsDebug" className="hide">
+                        <label>Image</label><input type="text" defaultValue={story.image} ref="image" readOnly/>
+                        <label>Story HTML</label><input type="text" defaultValue={story.story} ref="story" readOnly/>
+                    </div>
                 </form>
-                <Link to="/editnews" className="hollow expanded button">Cancel</Link>
             </div>
         );
     }
