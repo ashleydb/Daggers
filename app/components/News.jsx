@@ -49,6 +49,9 @@ export var News = React.createClass({
             //  var storiesLeft = newsCount - sliceEnd;
             //  var sliceEnd = (storiesLeft < 9) ? sliceEnd - (9 - storiesLeft);
             //  This all assumes I have all content locally... but I think I would need to page requests, which means needing to do async loads.
+            // 
+            //  TODO: So, should I add traditional pagination, (as aobve,) links to load stories for a given day/week/month/year/season or just a "Load More" button?
+            //   How about a combination? Typical "Load More" button, with separate set of links to jump to a season, which can just show a list of story headlines, like in the news edit form.
             var tempNews = news.slice(0);
             
             return (

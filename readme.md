@@ -21,20 +21,19 @@ Needed:
  * If we get everything from EFL, will it be updated by Daggers in future? If not, just omit it now?
 
 To Prove:
-* Uploading images in Production env. (Can't do it directly with Heroku, would need to go to S3 or similar.)
-* Listing images already on the server, (does it work in prod?)
-* Connecting to a DB
- * https://webapplog.com/express-js-4-node-js-and-mongodb-rest-api-tutorial/
- * https://github.com/azat-co/rest-api-express/blob/master/express.js
- * https://www.digitalocean.com/community/tutorials/how-to-deploy-a-node-js-and-mongodb-application-with-rancher-on-ubuntu-16-04
- * https://www.digitalocean.com/community/tutorials/how-to-connect-node-js-to-a-mongodb-database-on-a-vps
-* Hosting in a production ready setup. AWS, Heroku, something else?
- * https://www.digitalocean.com/community/tutorials/how-to-deploy-a-node-js-and-mongodb-application-with-rancher-on-ubuntu-16-04
+* Paging content
+ * Setup some placeholder stories on Firebase
+* Authentication & Authorization for editing content (website frontend side and API backend side)
+ * http://thejackalofjavascript.com/architecting-a-restful-node-js-app/
+  * https://github.com/arvindr21/myRESTApp/tree/master/server
+ * http://stackoverflow.com/questions/15496915/how-to-implement-a-secure-rest-api-with-node-js
+* Build more API routes
+* Connecting to a DB - Replace Firebase with GCP Datastore
+* Hosting in a production ready setup - GCP AppEngine
   * https://www.npmjs.com/package/letsencrypt
   * https://git.daplie.com/Daplie/greenlock-express
-  * https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04
-* Paging content
-* Authentication & Authorization for editing content (website frontend side and API backend side)
+* Uploading images in Production env. (Can't do it directly with Heroku, would need to go to GCP CloudStorage or similar.)
+* Listing images already on the server, (does it work in prod? Likely need to change to use GCP CloudStorage)
 * Getting table and fixture data...
  * PA? Scrape? Done once centrally or per team? Automating this as a recurring job?
 * Lazy load images?

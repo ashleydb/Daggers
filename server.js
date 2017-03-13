@@ -2,8 +2,13 @@
 const express = require('express');
 const path = require('path');
 const compression = require('compression');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+// configure app to use bodyParser() which will let us get the data from a POST
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Enable gzip compression from the server. Must be first!
 app.use(compression());
@@ -13,6 +18,57 @@ const PORT = process.env.PORT || 3000;
 
 // Server path to /public folder
 var publicPath = __dirname + '/public';
+
+
+// TODO: MOVE MY OWN CODE, CONFIG, DEPENDENCIES TO ANOTHER FOLDER, (e.g. /server/..., not /app/...)
+// DATABASE: Google DataStore
+//var datastore = require('@google-cloud/datastore')();
+//var gstore = require('gstore-node');
+//gstore.connect(datastore);
+// DATABASE: Firebase
+//import firebase, {firebaseRef} from 'app/cloud/firebase';
+//var myFirebase = require('./app/cloud/firebase');
+//   myFirebase.writeToFirebase, getFirebaseRef, firebaseRef
+
+
+// TODO: Setup authentication and authorization around our API
+// http://thejackalofjavascript.com/architecting-a-restful-node-js-app/
+//   https://github.com/arvindr21/myRESTApp/tree/master/server
+// http://stackoverflow.com/questions/15496915/how-to-implement-a-secure-rest-api-with-node-js
+
+
+// Note: Below code is based on https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
+
+// Send raw json as the request body for POST and PUT. Set the header to Content-Type:application/json, then add the json in the body: example {"headline": "Some News!"}
+
+// ROUTES FOR OUR API -------------------------------
+var router = express.Router();
+
+// middleware to use for all requests
+//router.use(function(req, res, next) {
+//    // do logging
+//    console.log('Something is happening.');
+//    // make sure we go to the next routes and don't stop here
+//    next();
+//});
+
+// test route to make sure everything is working (accessed at GET http://localhost:3000/api)
+router.get('/', function(req, res) {
+    res.json({ message: 'Specify a version to use the API' });   
+});
+router.get('/v1', function(req, res) {
+    res.json({ message: 'Specify an object endpoint to use the API!' });   
+});
+
+// More routes for our API
+var newsRoute = require('./app/routes/News');
+
+
+// REGISTER OUR ROUTES -------------------------------
+// All of our API routes will be prefixed with /api
+// Just add more routers to the array to handle other API endpoints
+app.use('/api', [router, newsRoute]);
+
 
 
 
@@ -88,12 +144,12 @@ app.get('/api/v1/image', function (request, response){
         //console.log('DEBUG: Get Images SUCCESS', files);
         // Need to add a leading / for each filename
         files.forEach(function(file, index, filesArray) {
-          filesArray[index] = '/' + filesArray[index];
+            filesArray[index] = '/' + filesArray[index];
         });
         // Return the results
         response.status(200).send({files});
     })
-    .catch(function (error) {
+        .catch(function (error) {
         console.log('ERR: Get Images:', error);
         response.status(500).send(error);
     });
