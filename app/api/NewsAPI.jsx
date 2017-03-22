@@ -1,6 +1,7 @@
 var $ = require('jquery');
-var UUID = require('uuid');
-var moment = require('moment');
+//var UUID = require('uuid');
+//var moment = require('moment');
+var Axios = require('axios');
 
 // TODO: Finish API operations, actually connecting to a DB.
 // TODO: Add dates to the story object. Created and Last Updated?
@@ -18,10 +19,11 @@ export const DEFAULT_STORY = {
         headline: "Placeholder",
         image: "/images/news-thumbnail.jpg",
         summary: "Placeholder",
-        story: "Placeholder"
+        story: "Placeholder",
+        createdAt: 0
     };
 
-    
+    /*
     // Fetches a batch of stories, (most recent 4 by default.)
     // TODO: Add a count and pagenation. Add caching? Make this part of the state to save from continually calling.
     function loadDefaultStories() {        
@@ -42,15 +44,28 @@ export const DEFAULT_STORY = {
             }
         ];
     };
+    */
     
-    
+/*
     export function setStories(stories) {
         if ($.isArray(stories)) {
-            localStorage.setItem('news', JSON.stringify(stories));
-            return stories;
+            //TODO: This is not going to work, since stories is an array of stories, not a single story
+            // Could loop over the stories array and make multiple requests, (call addStory(),) or could add support for multiple stories in my news API on the server.
+            Axios.post('/api/v1/news', stories)
+                .then(function (response) {
+                console.log(response);
+                return response.data;
+            })
+            .catch(function (error) {
+                //debugger;
+                // TODO: Show error message on UI
+                console.log(error.response.data);
+            });
         }
         return undefined;
     };
+*/
+
 //    getStoriesSync: function() {
 //        var stringNews = localStorage.getItem('news');
 //        try {
@@ -67,34 +82,43 @@ export const DEFAULT_STORY = {
 //        // try failed
 //        return [];  
 //    },
-    // TODO: This is dumb and just loads in all story data we have.
-    export function getStories() {
+
+    // TODO: This is dumb and just loads in all story data we have. Page it? (Placeholders here aren't used)
+    export function getStories(page = 0, count = 3) {
         return new Promise(
             // The resolver function is called with the ability to resolve or reject the promise
             function(resolve, reject) {
-                var stringNews = localStorage.getItem('news');
-                var hack = true;
-                try {
-                    // parse may fail with invalid input, so we can catch that error
-                    var stories = JSON.parse(stringNews);
-                    // double check this is an array and not malicious data
-                    if ($.isArray(stories) && stories.length > 0) {
-                        // Cool, we got content. Resolve the promise to return the data
-                        hack = false;
-                        resolve(stories);
+                // Call our server to fetch some news
+                Axios.get('/api/v1/news', {
+                    params: {
+                        page,
+                        count
                     }
-                } catch(e) {
-                    // parse failed, we'll just return an empty array below
-                }
-                // try failed, return empty array
-                //resolve([]);
-                
-                if (hack) {
-                    // HACK: Is this a hack? Just using default data while we don't have a DB
-                    var stories = loadDefaultStories();
-                    setStories(stories);
-                    resolve(stories);
-                }
+                })
+                .then(function (response) {
+                    try {
+                        // parse may fail with invalid input, so we can catch that error
+                        //var stories = JSON.parse(response.data); // TODO: not parsing, so don't need the extra catch?
+                        var stories = response.data;
+                        // double check this is an array and not malicious data
+                        if ($.isArray(stories) && stories.length > 0) {
+                            // Cool, we got content. Resolve the promise to return the data
+                            resolve(stories);
+                        } else {
+                            console.log("WARN: getStories() was empty");
+                            resolve([]);
+                        }
+                    } catch(e) {
+                        console.log("ERR: Problem parsing news:", e);
+                        //resolve([]);
+                        reject(e);
+                    }
+                })
+                .catch(function (error) {
+                    console.log("ERR: Problem fetching news:", error);
+                    //resolve([]);
+                    reject(e);
+                });
             }
         );
     };
@@ -110,6 +134,7 @@ export const DEFAULT_STORY = {
                 }
             }
         }
+        console.log("ERR: Story not found:", id);
         return this.DEFAULT_STORY;
     };
     
@@ -119,29 +144,31 @@ export const DEFAULT_STORY = {
             // The resolver function is called with the ability to resolve or reject the promise
             function(resolve, reject) {
                 try {
-                    // HACK: We would store on the server too, much better than this
-                    var news = [];
-                    var stringNews = localStorage.getItem('news');
-                    try {
-                        // parse may fail with invalid input, so we can catch that error
-                        var stories = JSON.parse(stringNews);
-                        // double check this is an array and not malicious data
-                        if ($.isArray(stories)) {
-                            // Cool, we got content
-                            news = stories;
-                        }
-                    } catch(e) {
-                        // parse failed, we'll just use an empty array for news
-                    }
-                    
-                    // HACK: This should get done on the server and returned back.
                     if (story.id == DEFAULT_STORY_ID) {
+                        /*
                         // This is a new story
                         story.id = UUID();
                         story.createdAt = moment().unix();
                         // HACK: And we would store on the server too, much better than this
                         news.push(story);
+                        */
+                        
+                        // This is a POST
+                        Axios.post('/api/v1/news', story)
+                            .then(function (response) {
+                            console.log(response);
+                            story.id = response.data.id;
+                            resolve(story);
+                        })
+                        .catch(function (error) {
+                            //debugger;
+                            // TODO: Show error message on UI
+                            console.log(error.response.data);
+                            //resolve({});
+                            reject(error.response.data);
+                        });
                     } else {
+                        /*
                         // Editing an existing story
                         story.updatedAt = moment().unix();
                         // HACK: And we would store on the server too, much better than this
@@ -154,17 +181,28 @@ export const DEFAULT_STORY = {
                                 return existingStory;
                             }
                         });
+                        */
+                        
+                        // This is a PUT
+                        Axios.put(`/api/v1/news/${story.id}`, story)
+                            .then(function (response) {
+                            console.log(response);
+                            resolve(story);
+                        })
+                        .catch(function (error) {
+                            //debugger;
+                            // TODO: Show error message on UI
+                            console.log(error.response.data);
+                            //resolve({});
+                            reject(error.response.data);
+                        });
                     }
-                    
-                    // HACK: Final hack to store the news again
-                    localStorage.setItem('news', JSON.stringify(news));
-                    
-                    resolve(story);
                 } catch(e) {
-                    // parse failed, we'll just return an empty object below
+                    // try failed
+                    //resolve({});
+                    console.log("ERR: addStory() failed:", e);
+                    reject(e);
                 }
-                // try failed
-                resolve({});
             }        
         );  
     };

@@ -43,18 +43,39 @@ class News {
         this.image = '/images/news-thumbnail.jpg';
         this.summary = 'Placeholder';
         this.story = 'Placeholder';
+        
+        // These are added when calling POST or PUT respectively
+        //this.createdAt = 0;
+        //this.updatedAt = 0;
+        
+        // These are optional components of a story
+        //this.youtube = null;
 
         // Make sure we bind 'this' in save for the promise
         //this.save = this.save.bind( this );
     }
 
+    // TODO: Do I really need this helper?
     toObj() {
-        return {
+        var obj = {
             "headline": this.headline,
             "image": this.image,
             "summary": this.summary,
             "story": this.story
         };
+        
+        if (this.updatedAt) {
+            obj.updatedAt = this.updatedAt;
+        }
+        // TODO: Remove this, since we should always have createdAt
+        if (this.createdAt) {
+            obj.createdAt = this.createdAt;
+        }
+        if (this.youtube) {
+            obj.youtube = this.youtube;
+        }
+        
+        return obj;
     }
 
     // Save this news data to our DB
@@ -95,9 +116,12 @@ class News {
                 var summary = news[id].summary;
                 var story = news[id].story;
                 var image = news[id].image;
+                var createdAt = news[id].createdAt;
+                var updatedAt = news[id].updatedAt;
+                var youtube = news[id].youtube;
                 
                 parsedNews.push({
-                    id, headline, summary, story, image
+                    id, headline, summary, story, image, createdAt, updatedAt, youtube
                 });
             });
 

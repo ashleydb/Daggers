@@ -35,6 +35,9 @@ var NewsEditForm = React.createClass({
         story.summary = this.refs.summary.value;
         story.image = this.refs.image.value;
         
+        if (this.refs.youtube.value != '')
+            story.youtube = this.refs.youtube.value;
+        
         story.story = this.refs.story.value;                    // Works as we're repurposing in onTextChange
         //story.story = this.refs.storyrich.target.innerHTML;   // This doesn't work
         //story.story = this.state.text;                        // This is if we manage the text on the state
@@ -48,6 +51,7 @@ var NewsEditForm = React.createClass({
 //            this.refs.summary.value = '';
 //            this.refs.story.value = '';
 //            this.refs.image.value = '';
+//            this.refs.youtube.value = '';
             
             this.props.onSaveStory(story);
             //this.props.dispatch(actions.addStory(story));
@@ -102,6 +106,8 @@ var NewsEditForm = React.createClass({
                         onChange={this.onTextChange}
                         ref="storyrich"
                     />
+                    
+                    <label>YouTube</label><input type="text" defaultValue={story.youtube} placeholder="e.g. https://youtu.be/Y9OCIIKwI94" ref="youtube"/>
                     
                     <button className="expanded button success">Submit</button>
                     <Link to="/editnews" className="expanded button alert">Cancel</Link>

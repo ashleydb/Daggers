@@ -43,6 +43,14 @@ export var NewsStory = React.createClass({
                 </div>
             );
         } else {
+            var youtube = null;
+            if (story.youtube) {
+                // Example link: https://youtu.be/Y9OCIIKwI94
+                // Get the ID at the end to insert below
+                var urlComponents = story.youtube.split("/");
+                var videoId = urlComponents[urlComponents.length - 1];
+                youtube = (<iframe width={560} height={315} src={`https://www.youtube.com/embed/${videoId}?ecver=1`} frameBorder={0} allowFullScreen></iframe>);
+            }
             return (
                 <div>
                     <div className="column">
@@ -52,6 +60,7 @@ export var NewsStory = React.createClass({
                             </div>
                             <img src={story.image} alt={story.summary} className="news-main-image"/>
                             <div className="card-section" dangerouslySetInnerHTML={{__html: story.story}}></div>
+                            {youtube}
                         </div>
                     </div>
                 </div>

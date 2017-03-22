@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
 
 // TODO: Currently these aren't just models, but APIs which obfuscate the DB being used
 // MODELS: Our data format
@@ -23,6 +24,11 @@ router.route('/v1/news')
             news.summary = req.body.summary;
         if (req.body.story)
             news.story = req.body.story;
+        if (req.body.youtube)
+            news.youtube = req.body.youtube;
+    
+        // Add a time stamp for this post
+        news.createdAt = moment().unix();
     
         // save the news and check for errors
         news.save(function(err, id) {
@@ -72,6 +78,10 @@ router.route('/v1/news/:news_id')
             updatedNews.image = req.body.image ? req.body.image : news.image;
             updatedNews.summary = req.body.summary ? req.body.summary : news.summary;
             updatedNews.story = req.body.story ? req.body.story : news.story;
+            updatedNews.youtube = req.body.youtube ? req.body.youtube : news.youtube;
+            
+            // Add a time stamp for this update
+            updatedNews.updatedAt = moment().unix();
 
             // save the news and check for errors
             updatedNews.save(function(err, id) {
