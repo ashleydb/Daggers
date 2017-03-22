@@ -42,12 +42,12 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        // FIREBASE SETTINGS - TODO: CURRENLTY UNUSED
-        API_KEY: JSON.stringify(process.env.API_KEY),
-        AUTH_DOMAIN: JSON.stringify(process.env.AUTH_DOMAIN),
-        DATABASE_URL: JSON.stringify(process.env.DATABASE_URL),
-        STORAGE_BUCKET: JSON.stringify(process.env.STORAGE_BUCKET),
-        MESSAGING_SENDER_ID: JSON.stringify(process.env.MESSAGING_SENDER_ID)
+        FIREBASE_SERVICE_PROJECT_ID: JSON.stringify(process.env.FIREBASE_SERVICE_PROJECT_ID),
+        FIREBASE_SERVICE_PRIVATE_KEY_ID: JSON.stringify(process.env.FIREBASE_SERVICE_PRIVATE_KEY_ID),
+        FIREBASE_SERVICE_PRIVATE_KEY: JSON.stringify(process.env.FIREBASE_SERVICE_PRIVATE_KEY),
+        FIREBASE_SERVICE_CLIENT_EMAIL: JSON.stringify(process.env.FIREBASE_SERVICE_CLIENT_EMAIL),
+        FIREBASE_SERVICE_CLIENT_ID: JSON.stringify(process.env.FIREBASE_SERVICE_CLIENT_ID),
+        FIREBASE_SERVICE_CLIENT_X509_CERT_URL: JSON.stringify(process.env.FIREBASE_SERVICE_CLIENT_X509_CERT_URL)
       }
     })
   ],
