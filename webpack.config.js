@@ -9,14 +9,8 @@ var envFile = require('node-env-file');
 // Will be 'production' on heroku, but missing locallaly so we'll set to 'development'
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-try {
-  // Load the relevant environment vars from the config folder
-  envFile(path.join(__dirname, 'config/' + process.env.NODE_ENV + '.env'));
-} catch (e) {
-  // Will error in production, since there is no production.env
-  // Use the CLI to do the following:
-  //  heroku config:set <KEY>=<VALUE>
-}
+// Load the relevant environment vars from the config folder, (if the file exists)
+envFile(path.join(__dirname, 'config/' + process.env.NODE_ENV + '.env'), {raise: false});
 
 module.exports = {
   entry: [

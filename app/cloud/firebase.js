@@ -1,47 +1,12 @@
 // Connecting to a Firebase application to use the Database service
-
-/*
-// CLIENT IMPLEMENTATION
-
-import firebase from 'firebase';
-
-try {
-  // Initialize Firebase, but only do this once
-  var config = {
-      apiKey: process.env.API_KEY,
-      authDomain: process.env.AUTH_DOMAIN,
-      databaseURL: process.env.DATABASE_URL,
-      storageBucket: process.env.STORAGE_BUCKET,
-      messagingSenderId: process.env.MESSAGING_SENDER_ID
-  };
-  firebase.initializeApp(config);
-} catch (e) {
-    console.log("ERR: Problem Initializing Firebase ", e);
-}
-
-// Getting a reference to the root of the db
-export var firebaseRef = firebase.database().ref();
-// Also exporting the firebase object, so only this file needs to be imported,
-// not also the firebase dependency at the top of this file
-export default firebase;
-
-// Pass in the ref, e.g. firebaseRef, the name of the child object under that ref, e.g. 'news', and the data to write there. Returns a promise that will get the ID back of the new object.
-export writeToFirebase(ref, childName, data) {
-    // Send the data to our server (firebase)
-    var dataRef = ref.child(childName).push(data);
-
-    // Need to update our state so that the content is re-rendered.
-    // This uses an API based on promises to write, gets back an ID for that
-    // new object on the server, then chains actions to update state and render.
-    return dataRef.then(() => { return dataRef.key; });
-};
-*/
-
-// SERVER IMPLEMENTATION
-
 var firebase = require("firebase-admin");
 
-//var serviceAccount = require("../config/daggers-demo-firebase-adminsdk-42gbx-ec62d2dd4e.json");
+// Load Environment Variables, (copied from webpack)
+var path = require('path');
+var envFile = require('node-env-file');
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+envFile(path.join(__dirname, '../config/' + process.env.NODE_ENV + '.env'), {raise: false});
+
 var serviceAccount = {
   "type": "service_account",
   "project_id": process.env.FIREBASE_SERVICE_PROJECT_ID,
@@ -54,8 +19,6 @@ var serviceAccount = {
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
   "client_x509_cert_url": process.env.FIREBASE_SERVICE_CLIENT_X509_CERT_URL
 }
-console.log(process.env.NODE_ENV);
-console.log(serviceAccount);
 
 // The app only has access as defined in the Security Rules
 firebase.initializeApp({
