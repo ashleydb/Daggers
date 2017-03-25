@@ -17,7 +17,7 @@ export const DEFAULT_STORY_ID = "new";
 export const DEFAULT_STORY = {
         id: DEFAULT_STORY_ID,
         headline: "Placeholder",
-        image: "/images/news-thumbnail.jpg",
+        image: "/images/News-Generic2_169.jpg",
         summary: "Placeholder",
         story: "Placeholder",
         createdAt: 0

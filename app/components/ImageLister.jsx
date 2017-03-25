@@ -8,10 +8,27 @@ var Axios = require('axios');
 // onPickImage() will receive the path to the image if a user clicks one of the list entries.
 var ImageLister = React.createClass({
     // TOOD: Check these standard images are up to date links
-    standardImages: ['/images/news-main.jpg',
-                        '/images/news-thumbnail.jpg',
-                        '/images/player-head.jpg',
-                        '/images/clublogo.png'],
+    standardImages: ['/images/AcademyMatchReport_86.jpg',
+                     '/images/AcademyMatchReport_169.jpg',
+                     '/images/AwayGuide16-17_86.jpg',
+                     '/images/AwayGuide16-17_169.jpg',
+                     '/images/AwayTravelGuide16-17_86.jpg',
+                     '/images/AwayTravelGuide16-17_169.jpg',
+                     '/images/clublogo.png',
+                     '/images/Daggersplayer_86.jpg',
+                     '/images/HospitalitySpecial_86.jpg',
+                     '/images/HospitalitySpecial_169.jpg',
+                     '/images/MatchHighlights_86.jpg',
+                     '/images/MatchHighlights_169.jpg',
+                     '/images/MatchReport_86.jpg',
+                     '/images/MatchReport_169.jpg',
+                     '/images/News-Generic_86.jpg',
+                     '/images/News-Generic_169.jpg',
+                     '/images/News-Generic2_86.jpg',
+                     '/images/News-Generic2_169.jpg',
+                     '/images/Officials_86.jpg',
+                     '/images/Officials_169.jpg',
+                     '/images/stadium-tbs.jpg'],
     getInitialState() {
         return {files: this.standardImages};
     },
