@@ -1,0 +1,575 @@
+[
+    {
+        "date": "12-JUL-2016",
+        "result": "3 - 2",
+        "w_l_d": "L",
+        "home_away": "A",
+        "logo": "badge-ware.jpeg",
+        "competition": "Friendlies",
+        "team": "Ware",
+        "attendance": ""
+    },
+    {
+        "date": "13-JUL-2016",
+        "result": "1 - 3",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-thurrock.jpg",
+        "competition": "Friendlies",
+        "team": "Thurrock",
+        "attendance": ""
+    },
+    {
+        "date": "16-JUL-2016",
+        "result": "0 - 4",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-romford.png",
+        "competition": "Friendlies",
+        "team": "Romford",
+        "attendance": ""
+    },
+    {
+        "date": "19-JUL-2016",
+        "result": "0 - 5",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-waltham-abbey.jpg",
+        "competition": "Friendlies",
+        "team": "Waltham Abbey",
+        "attendance": ""
+    },
+    {
+        "date": "21-JUL-2016",
+        "result": "0 - 5",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-dunstable.png",
+        "competition": "Friendlies",
+        "team": "Dunstable Town",
+        "attendance": ""
+    },
+    {
+        "date": "23-JUL-2016",
+        "result": "1 - 6",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-bishops-stortford.png",
+        "competition": "Friendlies",
+        "team": "Bishop's Stortford",
+        "attendance": ""
+    },
+    {
+        "date": "26-JUL-2016",
+        "result": "1 - 2",
+        "w_l_d": "L",
+        "home_away": "H",
+        "logo": "badge-leyton-orient.png",
+        "competition": "Friendlies",
+        "team": "Leyton Orient",
+        "attendance": "938"
+    },
+    {
+        "date": "30-JUL-2016",
+        "result": "0 - 1",
+        "w_l_d": "L",
+        "home_away": "H",
+        "logo": "badge-afc-wimbledon.jpg",
+        "competition": "Friendlies",
+        "team": "AFC Wimbledon",
+        "attendance": "508"
+    },
+    {
+        "date": "01-AUG-2016",
+        "result": "1 - 4",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-hendon.png",
+        "competition": "Friendlies",
+        "team": "Hendon",
+        "attendance": ""
+    },
+    {
+        "date": "06-AUG-2016",
+        "result": "3 - 0",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-southport.png",
+        "competition": "Vanarama National League",
+        "team": "Southport",
+        "attendance": "1,296"
+    },
+    {
+        "date": "09-AUG-2016",
+        "result": "3 - 0",
+        "w_l_d": "L",
+        "home_away": "A",
+        "logo": "badge-chester.png",
+        "competition": "Vanarama National League",
+        "team": "Chester FC",
+        "attendance": "1,841"
+    },
+    {
+        "date": "13-AUG-2016",
+        "result": "0 - 2",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-guiseley.png",
+        "competition": "Vanarama National League",
+        "team": "Guiseley",
+        "attendance": "680"
+    },
+    {
+        "date": "16-AUG-2016",
+        "result": "1 - 0",
+        "w_l_d": "W",
+        "home_away": "H",
+        "logo": "badge-lincoln.png",
+        "competition": "Vanarama National League",
+        "team": "Lincoln City",
+        "attendance": "1,399"
+    },
+    {
+        "date": "20-AUG-2016",
+        "result": "1 - 3",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-woking.png",
+        "competition": "Vanarama National League",
+        "team": "Woking",
+        "attendance": "1,153"
+    },
+    {
+        "date": "27-AUG-2016",
+        "result": "3 - 0",
+        "w_l_d": "W",
+        "home_away": "H",
+        "logo": "badge-wrexham.png",
+        "competition": "Vanarama National League",
+        "team": "Wrexham",
+        "attendance": "1,256"
+    },
+    {
+        "date": "29-AUG-2016",
+        "result": "1 - 0",
+        "w_l_d": "L",
+        "home_away": "A",
+        "logo": "badge-sutton.jpg",
+        "competition": "Vanarama National League",
+        "team": "Sutton",
+        "attendance": "1,951"
+    },
+    {
+        "date": "03-SEP-2016",
+        "result": "0 - 2",
+        "w_l_d": "L",
+        "home_away": "H",
+        "logo": "badge-boreham-wood.png",
+        "competition": "Vanarama National League",
+        "team": "Boreham",
+        "attendance": "1,312"
+    },
+    {
+        "date": "10-SEP-2016",
+        "result": "2 - 5",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-solihull-moors.png",
+        "competition": "Vanarama National League",
+        "team": "Solihull Moors",
+        "attendance": "716"
+    },
+    {
+        "date": "13-SEP-2016",
+        "result": "2 - 0",
+        "w_l_d": "W",
+        "home_away": "H",
+        "logo": "badge-dover.jpg",
+        "competition": "Vanarama National League",
+        "team": "Dover",
+        "attendance": "1,269"
+    },
+    {
+        "date": "17-SEP-2016",
+        "result": "2 - 0",
+        "w_l_d": "W",
+        "home_away": "H",
+        "logo": "badge-north-ferriby.png",
+        "competition": "Vanarama National League",
+        "team": "North Ferriby Utd",
+        "attendance": "1,119"
+    },
+    {
+        "date": "24-SEP-2016",
+        "result": "1 - 3",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-bromley.jpg",
+        "competition": "Vanarama National League",
+        "team": "Bromley",
+        "attendance": ""
+    },
+    {
+        "date": "1-OCT-2016",
+        "result": "0 - 0",
+        "w_l_d": "D",
+        "home_away": "H",
+        "logo": "badge-tranmere.png",
+        "competition": "Vanarama National League",
+        "team": "Tranmere",
+        "attendance": "1,554"
+    },
+    {
+        "date": "04-OCT-2016",
+        "result": "1 - 0",
+        "w_l_d": "L",
+        "home_away": "A",
+        "logo": "badge-torquay.png",
+        "competition": "Vanarama National League",
+        "team": "Torquay",
+        "attendance": "1,638"
+    },
+    {
+        "date": "08-OCT-2016",
+        "result": "0 - 1",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-eastleigh.jpg",
+        "competition": "Vanarama National League",
+        "team": "Eastleigh",
+        "attendance": "2,209"
+    },
+    {
+        "date": "15-OCT-2016",
+        "result": "3 - 1",
+        "w_l_d": "W",
+        "home_away": "H",
+        "competition": "The Emirates FA Cup Qualifying",
+        "team": "Wealdstone",
+        "attendance": ""
+    },
+    {
+        "date": "22-OCT-2016",
+        "result": "1 - 1",
+        "w_l_d": "D",
+        "home_away": "H",
+        "logo": "badge-macclesfield.png",
+        "competition": "Vanarama National League",
+        "team": "Macclesfield",
+        "attendance": "1,214"
+    },
+    {
+        "date": "25-OCT-2016",
+        "result": "1 - 0",
+        "w_l_d": "W",
+        "home_away": "H",
+        "logo": "badge-aldershot.png",
+        "competition": "Vanarama National League",
+        "team": "Aldershot",
+        "attendance": "1,371"
+    },
+    {
+        "date": "29-OCT-2016",
+        "result": "1 - 1",
+        "w_l_d": "D",
+        "home_away": "A",
+        "logo": "badge-forest-green.png",
+        "competition": "Vanarama National League",
+        "team": "Forest Green",
+        "attendance": "2,268"
+    },
+    {
+        "date": "05-NOV-2016",
+        "result": "0 - 0",
+        "w_l_d": "D",
+        "home_away": "H",
+        "logo": "badge-halifax.png",
+        "competition": "The Emirates FA Cup",
+        "team": "FC Halifax Town",
+        "attendance": "1,387"
+    },
+    {
+        "date": "12-NOV-2016",
+        "result": "0 - 5",
+        "w_l_d": "L",
+        "home_away": "H",
+        "logo": "badge-gateshead.png",
+        "competition": "Vanarama National League",
+        "team": "Gateshead",
+        "attendance": "1,354"
+    },
+    {
+        "date": "15-NOV-2016",
+        "result": "2 - 1",
+        "w_l_d": "L",
+        "home_away": "A",
+        "logo": "badge-halifax.png",
+        "competition": "The Emirates FA Cup",
+        "team": "FC Halifax Town",
+        "attendance": "1,465"
+    },
+    {
+        "date": "19-NOV-2016",
+        "result": "0 - 2",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-york.png",
+        "competition": "Vanarama National League",
+        "team": "York",
+        "attendance": "2,410"
+    },
+    {
+        "date": "22-NOV-2016",
+        "result": "0 - 1",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-maidestone.jpg",
+        "competition": "Vanarama National League",
+        "team": "Maidstone",
+        "attendance": "1,970"
+    },
+    {
+        "date": "26-NOV-2016",
+        "result": "1 - 4",
+        "w_l_d": "L",
+        "home_away": "H",
+        "logo": "badge-barrow.png",
+        "competition": "Vanarama National League",
+        "team": "Barrow",
+        "attendance": "1,228"
+    },
+    {
+        "date": "29-NOV-2016",
+        "result": "0 - 1",
+        "w_l_d": "L",
+        "home_away": "H",
+        "logo": "badge-torquay.png",
+        "competition": "Vanarama National League",
+        "team": "Torquay",
+        "attendance": "1,072"
+    },
+    {
+        "date": "03-DEC-2016",
+        "result": "1 - 2",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-dover.jpg",
+        "competition": "Vanarama National League",
+        "team": "Dover",
+        "attendance": "1,234"
+    },
+    {
+        "date": "10-DEC-2016",
+        "result": "1 - 2",
+        "w_l_d": "L",
+        "home_away": "H",
+        "competition": "The FA Trophy",
+        "team": "Worthing",
+        "attendance": ""
+    },
+    {
+        "date": "17-DEC-2016",
+        "result": "4 - 4",
+        "w_l_d": "D",
+        "home_away": "H",
+        "logo": "badge-solihull-moors.png",
+        "competition": "Vanarama National League",
+        "team": "Solihull Moors",
+        "attendance": "1,112"
+    },
+    {
+        "date": "26-DEC-2016",
+        "result": "3 - 2",
+        "w_l_d": "L",
+        "home_away": "A",
+        "logo": "badge-braintree.png",
+        "competition": "Vanarama National League",
+        "team": "Braintree Town",
+        "attendance": "1,353"
+    },
+    {
+        "date": "02-JAN-2016",
+        "result": "3 - 0",
+        "w_l_d": "W",
+        "home_away": "H",
+        "logo": "badge-braintree.png",
+        "competition": "Vanarama National League",
+        "team": "Braintree Town",
+        "attendance": "1,261"
+    },
+    {
+        "date": "07-JAN-2017",
+        "result": "0 - 4",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-north-ferriby.png",
+        "competition": "Vanarama National League",
+        "team": "North Ferriby Utd",
+        "attendance": "453"
+    },
+    {
+        "date": "28-JAN-2017",
+        "result": "0 - 2",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-tranmere.png",
+        "competition": "Vanarama National League",
+        "team": "Tranmere",
+        "attendance": "5,293"
+    },
+    {
+        "date": "04-FEB-2017",
+        "result": "3 - 2",
+        "w_l_d": "W",
+        "home_away": "H",
+        "logo": "badge-chester.png",
+        "competition": "Vanarama National League",
+        "team": "Chester FC",
+        "attendance": "1,250"
+    },
+    {
+        "date": "11-FEB-2017",
+        "result": "1 - 4",
+        "w_l_d": "W",
+        "home_away": "A",
+        "logo": "badge-southport.png",
+        "competition": "Vanarama National League",
+        "team": "Southport",
+        "attendance": "845"
+    },
+    {
+        "date": "18-FEB-2017",
+        "result": "1 - 2",
+        "w_l_d": "L",
+        "home_away": "H",
+        "logo": "badge-guiseley.png",
+        "competition": "Vanarama National League",
+        "team": "Guiseley",
+        "attendance": "2,055"
+    },
+    {
+        "date": "21-FEB-2017",
+        "result": "2 - 1",
+        "w_l_d": "W",
+        "home_away": "H",
+        "logo": "badge-bromley.jpg",
+        "competition": "Vanarama National League",
+        "team": "Bromley",
+        "attendance": "1,202"
+    },
+    {
+        "date": "28-FEB-2017",
+        "result": "0 - 2",
+        "w_l_d": "L",
+        "home_away": "H",
+        "logo": "badge-maidestone.jpg",
+        "competition": "Vanarama National League",
+        "team": "Maidstone",
+        "attendance": "1,456"
+    },
+    {
+        "date": "04-MAR-2017",
+        "result": "1 - 0",
+        "w_l_d": "L",
+        "home_away": "A",
+        "logo": "badge-gateshead.png",
+        "competition": "Vanarama National League",
+        "team": "Gateshead",
+        "attendance": "1,030"
+    },
+    {
+        "date": "11-MAR-2017",
+        "result": "2 - 1",
+        "w_l_d": "W",
+        "home_away": "H",
+        "logo": "badge-forest-green.png",
+        "competition": "Vanarama National League",
+        "team": "Forest Green",
+        "attendance": "1,459"
+    },
+    {
+        "date": "18-MAR-2017",
+        "result": "2 - 1",
+        "w_l_d": "L",
+        "home_away": "A",
+        "logo": "badge-barrow.png",
+        "competition": "Vanarama National League",
+        "team": "Barrow",
+        "attendance": "1,102"
+    },
+    {
+        "date": "21-MAR-2017",
+        "result": "3 - 1",
+        "w_l_d": "L",
+        "home_away": "A",
+        "logo": "badge-aldershot.png",
+        "competition": "Vanarama National League",
+        "team": "Aldershot",
+        "attendance": "2,113"
+    },
+    {
+        "date": "25-MAR-2017",
+        "result": "KO 15:00",
+        "home_away": "H",
+        "logo": "badge-york.png",
+        "competition": "Vanarama National League",
+        "team": "York",
+        "preview": "#"
+    },
+    {
+        "date": "01-APR-2017",
+        "result": "KO 15:00",
+        "home_away": "H",
+        "logo": "badge-eastleigh.jpg",
+        "competition": "Vanarama National League",
+        "team": "Eastleigh"
+    },
+    {
+        "date": "03-APR-2017",
+        "result": "KO 19:45",
+        "home_away": "A",
+        "logo": "badge-lincoln.png",
+        "competition": "Vanarama National League",
+        "team": "Lincoln City"
+    },
+    {
+        "date": "08-APR-2017",
+        "result": "KO 15:00",
+        "home_away": "A",
+        "logo": "badge-macclesfield.png",
+        "competition": "Vanarama National League",
+        "team": "Macclesfield"
+    },
+    {
+        "date": "14-APR-2017",
+        "result": "KO 15:00",
+        "home_away": "A",
+        "logo": "badge-boreham-wood.png",
+        "competition": "Vanarama National League",
+        "team": "Boreham"
+    },
+    {
+        "date": "17-APR-2017",
+        "result": "KO 15:00",
+        "home_away": "A",
+        "logo": "badge-sutton.jpg",
+        "competition": "Vanarama National League",
+        "team": "Sutton Utd"
+    },
+    {
+        "date": "22-APR-2017",
+        "result": "KO 15:00",
+        "home_away": "A",
+        "logo": "badge-wrexham.png",
+        "competition": "Vanarama National League",
+        "team": "Wrexham"
+    },
+    {
+        "date": "29-APR-2017",
+        "result": "KO 12:15",
+        "home_away": "H",
+        "logo": "badge-woking.png",
+        "competition": "Vanarama National League",
+        "team": "Woking"
+    }
+]

@@ -62,12 +62,13 @@ router.get('/v1', function(req, res) {
 
 // More routes for our API
 var newsRoute = require('./app/routes/News');
+var fixturesRoute = require('./app/routes/Fixtures');
 
 
 // REGISTER OUR ROUTES -------------------------------
 // All of our API routes will be prefixed with /api
 // Just add more routers to the array to handle other API endpoints
-app.use('/api', [router, newsRoute]);
+app.use('/api', [router, newsRoute, fixturesRoute]);
 
 
 
@@ -121,8 +122,8 @@ function listImages(directory = '/') {
         // The resolver function is called with the ability to resolve or reject the promise
         function(resolve, reject) {
             glob(`${directory}*.+(jpg|jpeg|png)`, options, function (er, files) {
-                //console.log('DEBUG: listImages glob (param error=', er);
-                //console.log('DEBUG: listImages glob (param files=', files);
+                console.log('DEBUG: listImages glob (param error=', er);
+                console.log('DEBUG: listImages glob (param files=', files);
                 if (er) {
                     // er is an error object or null
                     reject(er);
@@ -141,7 +142,7 @@ app.get('/api/v1/image', function (request, response){
         directory = request.query.dir;
     //console.log('DEBUG: Get Images for ', directory);
     listImages(directory).then((files) => {
-        //console.log('DEBUG: Get Images SUCCESS', files);
+        console.log('DEBUG: Get Images SUCCESS', files);
         // Need to add a leading / for each filename
         files.forEach(function(file, index, filesArray) {
             filesArray[index] = '/' + filesArray[index];

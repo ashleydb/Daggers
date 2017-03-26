@@ -1,7 +1,7 @@
 var React = require('react');
 var {Link} = require('react-router');
 //var {connect} = require('react-redux');
-//var actions = require('actions');
+//import {actions} from 'actions';
 
 // For Rich Text Editor
 import Trumbowyg from 'react-trumbowyg'
@@ -54,7 +54,7 @@ var NewsEditForm = React.createClass({
 //            this.refs.youtube.value = '';
             
             this.props.onSaveStory(story);
-            //this.props.dispatch(actions.addStory(story));
+            //this.props.dispatch(actions.news.addStory(story));
         }
     },
     onNewImage(imgPath) {

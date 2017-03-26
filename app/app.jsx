@@ -15,7 +15,7 @@ import Home from 'Home';      // This is the Redux version of the Home component
 import News from 'News';
 import NewsStory from 'NewsStory';
 import NewsEdit from 'NewsEdit';
-var Fixtures = require('Fixtures');
+import Fixtures from 'Fixtures';
 var Tickets = require('Tickets');
 var Team = require('Team');
 var Fans = require('Fans');
@@ -24,10 +24,11 @@ var Commercial = require('Commercial');
 
 import * as NewsAPI from 'NewsAPI';
 
-var actions = require('actions');
+import {actions} from 'actions';
 var store = require('configureStore').configure();
 
-store.dispatch(actions.fetchNewsStoriesIfNeeded());
+// TODO: Move this to the Home or News components?
+store.dispatch(actions.news.fetchNewsStoriesIfNeeded());
 
 //App css
 require('applicationStyles');

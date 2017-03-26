@@ -1,11 +1,20 @@
 var redux = require('redux');
 var thunk = require('redux-thunk').default;
-var {newsReducer} = require('reducers');
+var {NewsReducer, FixturesReducer} = require('reducers');
 
 const INITIAL_STATE = {
     news: {
         news: null,
         story: null,
+        status: {
+            isFetching: false,
+            didInvalidate: false,
+            lastUpdated: null
+        }
+    },
+    fixtures: {
+        fixtures: null,
+        fixture: null,
         status: {
             isFetching: false,
             didInvalidate: false,
@@ -17,8 +26,9 @@ const INITIAL_STATE = {
 export var configure = (initialState = INITIAL_STATE) => {
     var reducer = redux.combineReducers({
         // <state property>: <designated reducer>
-        news: newsReducer
+        news: NewsReducer,
         //story: newsReducer  // TODO: Break news and story up?
+        fixtures: FixturesReducer
     });
     
     var store = redux.createStore(reducer, initialState, redux.compose(

@@ -3,7 +3,7 @@ var {Link, browserHistory} = require('react-router');
 var {connect} = require('react-redux');
 var NewsEditForm = require('NewsEditForm');
 //var NewsStory = require('NewsStory');
-var actions = require('actions');
+import {actions} from 'actions';
 import * as NewsAPI from 'NewsAPI';
 
 // TODO: Need to lock behind authentication
@@ -17,10 +17,10 @@ export var NewsEdit = React.createClass({
     handleSaveStory: function(story) {
 //        // TODO: Should this logic really live here?
 //        if (story.id == 0)
-//            this.props.dispatch(actions.editStory(story));
+//            this.props.dispatch(actions.news.editStory(story));
 //        else
-//            this.props.dispatch(actions.addStory(story));
-        this.props.dispatch(actions.submitStory(story));
+//            this.props.dispatch(actions.news.addStory(story));
+        this.props.dispatch(actions.news.submitStory(story));
         
         /*
         if (NewsAPI.writeStory(story)) {

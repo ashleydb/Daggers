@@ -1,6 +1,6 @@
 var React = require('react');
 var {connect} = require('react-redux');
-var actions = require('actions');
+//import {actions} from 'actions';
 import * as NewsAPI from 'NewsAPI';
 
 // TODO: Need something to say story not found?
@@ -9,13 +9,12 @@ export var NewsStory = React.createClass({
     componentWillMount: function() {
         //NewsAPI.loadStories();
         
-        //this.props.dispatch(actions.fetchNewsStoryIfNeeded(this.props.params.newsId));
+        //this.props.dispatch(actions.news.fetchNewsStoryIfNeeded(this.props.params.newsId));
     },
     // TODO: Add componentWillUnmount to null out the story again?
     render: function() {
         // Get the story data from NewsAPI, based on the ID in the URL params
         // TODO: Should this come some other way...? like from the redux state? Same method as NewsEdit/NewsEditForm?
-        
         
         var {news, status} = this.props.news; // TODO: .news shouldn't be needed
         var {newsId} = this.props.params;

@@ -12,7 +12,7 @@ import * as NewsAPI from 'NewsAPI';
 // rewritten using arror functions from ES6.
 export var News = React.createClass({
     render: function() {
-        var {news} = this.props.news; //TODO: .news shouldn't be needed
+        var {news, status} = this.props.news; //TODO: .news shouldn't be needed
         
         if (this.props.children) {
             return (
