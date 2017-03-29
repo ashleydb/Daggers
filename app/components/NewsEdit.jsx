@@ -26,12 +26,12 @@ export var NewsEdit = React.createClass({
         if (NewsAPI.writeStory(story)) {
             // TODO: Make the state stuff work for real, using Redux
             this.setState({stories: NewsAPI.getStories()});
-            browserHistory.push('/editnews');
+            browserHistory.push('/admin/news');
         }
         */
 
         // TODO: Not great, since write could fail and then we've gone away from the form's contents
-        browserHistory.push('/editnews');
+        browserHistory.push('/admin/news');
     },
     render: function() {
         // Are we editing at a story right now, or about to?
@@ -42,6 +42,7 @@ export var NewsEdit = React.createClass({
         if (status.isFetching) {
             return (
                 <div>
+                    <Link to="/admin" className="expanded button alert"><i className="fi-home"></i> Admin Tools Menu</Link>
                     <div className="callout">
                       <h5>Loading</h5>
                       <p>Please wait while we get the news...</p>
@@ -84,16 +85,17 @@ export var NewsEdit = React.createClass({
             */
             return (
                 <div>
+                    <Link to="/admin" className="expanded button alert"><i className="fi-home"></i> Admin Tools Menu</Link>
                     {errorMessage}
                     <ul>
                         {news.map(story => (
                             <li key={story.id}>
-                                <Link to={`/editnews/${story.id}`}>{story.headline}</Link>
+                                <Link to={`/admin/news/${story.id}`}>{story.headline}</Link>
                             </li>
                         ))}
                         
                         <li key="new">
-                            <Link to={`/editnews/new`}>Create New</Link>
+                            <Link to={`/admin/news/new`}><i className="fi-plus"></i> Create New</Link>
                         </li>
                     </ul>
                 </div>
@@ -101,6 +103,7 @@ export var NewsEdit = React.createClass({
         } else {
             return (
                 <div>
+                    <Link to="/admin" className="expanded button alert"><i className="fi-home"></i> Admin Tools Menu</Link>
                     <div className="callout alert">
                       <h5>Error</h5>
                       <p>No news found.</p>

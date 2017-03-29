@@ -16,6 +16,8 @@ import News from 'News';
 import NewsStory from 'NewsStory';
 import NewsEdit from 'NewsEdit';
 import Fixtures from 'Fixtures';
+import FixturesEdit from 'FixturesEdit';
+import Admin from 'Admin';
 var Tickets = require('Tickets');
 var Team = require('Team');
 var Fans = require('Fans');
@@ -40,7 +42,7 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/" component={Main}>
         <Route path="news" component={News}>
-          <Route path="/story/:newsId" component={NewsStory}/>
+          <Route path=":newsId" component={NewsStory}/>
         </Route>
         <Route path="fixtures" component={Fixtures}/>
         <Route path="tickets" component={Tickets}/>
@@ -48,8 +50,15 @@ ReactDOM.render(
         <Route path="fans" component={Fans}/>
         <Route path="club" component={Club}/>
         <Route path="commercial" component={Commercial}/>
-        <Route path="editnews" component={NewsEdit}>
-            <Route path="/editnews/:newsId" component={NewsEdit}/>
+          
+        <Route path="admin">
+            <IndexRoute component={Admin}/>
+            <Route path="news" component={NewsEdit}>
+                <Route path=":newsId" component={NewsEdit}/>
+            </Route>
+            <Route path="fixtures" component={FixturesEdit}>
+                <Route path=":fixtureId" component={FixturesEdit}/>
+            </Route>
         </Route>
         <IndexRoute component={Home}/>
       </Route>

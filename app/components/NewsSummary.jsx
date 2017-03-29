@@ -17,9 +17,9 @@ var NewsSummary = React.createClass({
                     <div className="column">
                         <div className="card card-block">
                             <div className="card-divider">
-                                <Link to={`/story/${story.id}`}><h4>{story.headline}</h4></Link>
+                                <Link to={`/news/${story.id}`}><h4>{story.headline}</h4></Link>
                             </div>
-                            <Link to={`/story/${story.id}`}>
+                            <Link to={`/news/${story.id}`}>
                                 <img src={story.image} alt={story.summary} className="news-main-image"/>
                             </Link>
                             <div className="card-section">
@@ -34,11 +34,11 @@ var NewsSummary = React.createClass({
                 return (
                     <div className="column column-block">
                         <div className="card">
-                            <Link to={`/story/${story.id}`}>
+                            <Link to={`/news/${story.id}`}>
                                 <img src={story.image} alt={story.summary} className="news-thumbnail"/>
                             </Link>
                             <div className="card-section">
-                                <Link to={`/story/${story.id}`}><h4>{story.headline}</h4></Link>
+                                <Link to={`/news/${story.id}`}><h4>{story.headline}</h4></Link>
                                 <p>{story.summary}</p>
                             </div>
                         </div>

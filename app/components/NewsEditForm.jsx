@@ -110,7 +110,7 @@ var NewsEditForm = React.createClass({
                     <label>YouTube</label><input type="text" defaultValue={story.youtube} placeholder="e.g. https://youtu.be/Y9OCIIKwI94" ref="youtube"/>
                     
                     <button className="expanded button success">Submit</button>
-                    <Link to="/editnews" className="expanded button alert">Cancel</Link>
+                    <Link to="/admin/news" className="expanded button alert">Cancel</Link>
                     
                     <div id="editNewsDebug" className="hide">
                         <label>Image</label><input type="text" defaultValue={story.image} ref="image" readOnly/>
