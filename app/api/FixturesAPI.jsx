@@ -3,6 +3,9 @@
 var $ = require('jquery');
 var Axios = require('axios');
 
+// For sorting arrays efficiently
+var Sorter = require('app/Sorter');
+
 export const DEFAULT_FIXTURE_ID = 0;
 
 export const DEFAULT_FIXTURE = {
@@ -28,7 +31,12 @@ export function getFixtures(season = null) {
                 var fixtures = response.data;
                 // double check this is an array and not malicious data
                 if ($.isArray(fixtures) && fixtures.length > 0) {
-                    // Cool, we got content. Resolve the promise to return the data
+                    // Cool, we got content.
+                    
+                    // Sort by date, (note we included Sorter above.)
+                    fixtures.sortBy(function(o){ return new Date( o.date ) });
+                    
+                    // Resolve the promise to return the data
                     resolve(fixtures);
                 } else {
                     console.log("WARN: getFixtures() was empty");

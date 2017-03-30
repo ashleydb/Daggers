@@ -6,8 +6,7 @@
         "home_away": "A",
         "logo": "badge-ware.jpeg",
         "competition": "Friendlies",
-        "team": "Ware",
-        "attendance": ""
+        "team": "Ware"
     },
     {
         "date": "13-JUL-2016",
@@ -16,8 +15,7 @@
         "home_away": "A",
         "logo": "badge-thurrock.jpg",
         "competition": "Friendlies",
-        "team": "Thurrock",
-        "attendance": ""
+        "team": "Thurrock"
     },
     {
         "date": "16-JUL-2016",
@@ -26,8 +24,7 @@
         "home_away": "A",
         "logo": "badge-romford.png",
         "competition": "Friendlies",
-        "team": "Romford",
-        "attendance": ""
+        "team": "Romford"
     },
     {
         "date": "19-JUL-2016",
@@ -36,8 +33,7 @@
         "home_away": "A",
         "logo": "badge-waltham-abbey.jpg",
         "competition": "Friendlies",
-        "team": "Waltham Abbey",
-        "attendance": ""
+        "team": "Waltham Abbey"
     },
     {
         "date": "21-JUL-2016",
@@ -46,8 +42,7 @@
         "home_away": "A",
         "logo": "badge-dunstable.png",
         "competition": "Friendlies",
-        "team": "Dunstable Town",
-        "attendance": ""
+        "team": "Dunstable Town"
     },
     {
         "date": "23-JUL-2016",
@@ -56,8 +51,7 @@
         "home_away": "A",
         "logo": "badge-bishops-stortford.png",
         "competition": "Friendlies",
-        "team": "Bishop's Stortford",
-        "attendance": ""
+        "team": "Bishop's Stortford"
     },
     {
         "date": "26-JUL-2016",
@@ -86,8 +80,7 @@
         "home_away": "A",
         "logo": "badge-hendon.png",
         "competition": "Friendlies",
-        "team": "Hendon",
-        "attendance": ""
+        "team": "Hendon"
     },
     {
         "date": "06-AUG-2016",
@@ -206,8 +199,7 @@
         "home_away": "A",
         "logo": "badge-bromley.jpg",
         "competition": "Vanarama National League",
-        "team": "Bromley",
-        "attendance": ""
+        "team": "Bromley"
     },
     {
         "date": "1-OCT-2016",
@@ -245,8 +237,7 @@
         "w_l_d": "W",
         "home_away": "H",
         "competition": "The Emirates FA Cup Qualifying",
-        "team": "Wealdstone",
-        "attendance": ""
+        "team": "Wealdstone"
     },
     {
         "date": "22-OCT-2016",
@@ -364,8 +355,7 @@
         "w_l_d": "L",
         "home_away": "H",
         "competition": "The FA Trophy",
-        "team": "Worthing",
-        "attendance": ""
+        "team": "Worthing"
     },
     {
         "date": "17-DEC-2016",
@@ -388,7 +378,7 @@
         "attendance": "1,353"
     },
     {
-        "date": "02-JAN-2016",
+        "date": "02-JAN-2017",
         "result": "3 - 0",
         "w_l_d": "W",
         "home_away": "H",
@@ -514,7 +504,7 @@
         "logo": "badge-york.png",
         "competition": "Vanarama National League",
         "team": "York",
-        "preview": "#"
+        "report": "#"
     },
     {
         "date": "01-APR-2017",

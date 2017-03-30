@@ -3,44 +3,65 @@
 var myFirebase = require('../cloud/firebase');
 
 // DEBUG: Loading in some static json data to use for fixtures
-var DEBUG_FIXTURE_DATA = require( "./fixtures.json" );
-
+//var DEBUG_FIXTURE_DATA = require( "./fixtures.json" );
 
 // Represents a Fixture and can get a List
 // Class API is modeled after the Google Cloud Datastore API.
 class Fixtures {
-    constructor(_id = null, _date = null, _home_away = null,
-                _team = null, _logo = null, _competition = null,
-                _w_l_d = null, _attendance = null) {
-        var id = _id || 0; //Same as DEFAULT_FIXTURE_ID
-        var date = _date || '01-JAN-2100';
-        var home_away = _home_away || 'H';
-        var logo = _logo || null;
-        var team = _team || '';
-        var w_l_d = _w_l_d || null;
-        var competition = _competition || 'Vanarama National League';
-        var attendance = _attendance || '';
+    constructor(_id = undefined, _date = undefined, _home_away = undefined,
+                _team = undefined, _logo = undefined, _competition = undefined,
+                _w_l_d = undefined, _attendance = undefined, _report = undefined, _result = undefined) {
+        this.id = _id || 0; //Same as DEFAULT_FIXTURE_ID
+        this.date = _date || '01-JAN-2100';
+        this.home_away = _home_away || 'H';
+        this.competition = _competition || 'Vanarama National League';
+        this.logo = _logo || undefined;
+        this.team = _team || undefined;
+        this.w_l_d = _w_l_d || undefined;
+        this.attendance = _attendance || undefined;
+        this.report = _report || undefined;
+        this.result = _result || undefined;
     }
 
-    // TODO: Do I really need this helper?
+    // TODO: Do I really need this helper? Seems so, since I don't want to send the id field, (that is a separate parameter to Firebase,) and also need to make sure there is a value on each variable, (otherwise Firebase barfs.)
     toObj() {
-        var obj = {
-            //"id": this.id,
-            "date": this.date,
-            "home_away": this.home_away,
-            "team": this.team,
-            "logo": this.logo,
-            "w_l_d": this.w_l_d,
-            "competition": this.competition,
-            "attendance": this.attendance
-        };
+        var obj = {}
+        
+        if (this.date && this.date != '')
+            obj.date = this.date;
+        
+        if (this.home_away && this.home_away != '')
+            obj.home_away = this.home_away;
+        
+        if (this.competition && this.competition != '')
+            obj.competition = this.competition;
+        
+        if (this.logo && this.logo != '')
+            obj.logo = this.logo;
+        
+        if (this.w_l_d && this.w_l_d != '')
+            obj.w_l_d = this.w_l_d;
+        
+        if (this.attendance && this.attendance != '')
+            obj.attendance = this.attendance;
+        
+        if (this.team && this.team != '')
+            obj.team = this.team;
+        
+        if (this.report && this.report != '')
+            obj.report = this.report;
+        
+        if (this.result && this.result != '')
+            obj.result = this.result;
+        
+        console.log("DEBUG: Fixtures.toObj(): ", obj)
         return obj;
     }
 
     // Save this fixture data to our DB
     // callback: Should be callback(error, id)
     save(callback) {
-        console.log('DEBUG: Fixture.save() this=', this);
+        //console.log('DEBUG: Fixture.save() this=', this);
         
         myFirebase.writeToFirebase(myFirebase.firebaseRef,
                                    'fixtures',
@@ -77,19 +98,21 @@ class Fixtures {
                 var w_l_d = fixtures[id].w_l_d;
                 var competition = fixtures[id].competition;
                 var attendance = fixtures[id].attendance;
+                var report = fixtures[id].report;
+                var result = fixtures[id].result;
                 
                 parsedFixtures.push({
-                    id, date, home_away, logo, team, w_l_d, competition, attendance
+                    id, date, home_away, logo, team, w_l_d, competition, attendance, report, result
                 });
             });
 
-            // DEBUG / TODO: Remove this and actually have the date in Firebase
-            console.log("DEBUG: Fixtures.find(): fixtures=", fixtures)
-            if (parsedFixtures.length == 0) {
-                // No fixture data in Firebase, so return some default data
-                callback(null, DEBUG_FIXTURE_DATA);
-                return;
-            }
+//            // DEBUG / TODO: Remove this and actually have the date in Firebase
+//            console.log("DEBUG: Fixtures.find(): fixtures=", fixtures)
+//            if (parsedFixtures.length == 0) {
+//                // No fixture data in Firebase, so return some default data
+//                callback(null, DEBUG_FIXTURE_DATA);
+//                return;
+//            }
             
             callback(null, parsedFixtures);
         }, (e) => {

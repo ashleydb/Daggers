@@ -84,7 +84,7 @@ var ImageLister = React.createClass({
         };
         return (
             <div id="imageList">
-                <label>Choose Image</label><button className="expanded button" onClick={this.refreshImages}>Refresh Image List</button>
+                <label>Choose Image</label><button className="expanded button" onClick={this.refreshImages}><i className="fi-refresh"></i> Refresh Image List</button>
                 <div className="callout">
                     {renderImageList()}
                 </div>

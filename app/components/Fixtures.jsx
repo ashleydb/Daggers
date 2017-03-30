@@ -3,10 +3,9 @@ var {connect} = require('react-redux');
 import {actions} from 'actions';
 import * as FixturesAPI from 'FixturesAPI';
 
-// TODO: Break out this table into an API and other components.
+// TODO: Break out this table into smaller components, (like a table entry)?
 // TODO: Does a fixture need a link to a Report AND a video?
-// TODO: Need to link to reports, (/news/id?) or ticket sales.
-// TODO: Need a league table component that pulls the full table or 5 positions, centered around Daggers where possible.
+// TODO: Need a league table component that pulls the full table or 5 positions, centered around Daggers where possible. Or just link to the league website for now.
 // TODO: Who is going to update the league table & fixtures and how, e.g. game is postponed, or adding cup matches?
 // TODO: Also need an Ad component, which can be adsense or overridden as a nice-to-have.
 // TODO: Better mobile rendering? Stacking isn't great. Text is still small too.
@@ -42,8 +41,8 @@ export var Fixtures = React.createClass({
                 var logo = fixture.logo ?   `/images/uploads/teams/${fixture.logo}` :
                                             '/images/clublogo.png';
                 // TODO: This should change from w_l_d to report
-                var link = fixture.w_l_d   ? <a href="#">Report</a> :
-                           fixture.preview ? <a href={fixture.preview}>Preview</a> :
+                var link = fixture.w_l_d   ? <a href={fixture.report || '#'}>Report</a> :
+                           fixture.report  ? <a href={fixture.report}>Preview</a> :
                                              <a href="http://www.daggerstickets.co.uk">Tickets</a>;
                 return (
                     <tr key={fixture.id}>

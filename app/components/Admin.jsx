@@ -8,8 +8,8 @@ export class Admin extends React.Component {
         return (
             <div>
                 <ul>
-                    <li><Link to={'/admin/news'}>News</Link></li>
-                    <li><Link to={'/admin/fixtures'}>Fixtures</Link></li>
+                    <Link to={'/admin/news'} className="expanded button"><i className="fi-page-multiple"></i> News</Link>
+                    <Link to={'/admin/fixtures'} className="expanded button"><i className="fi-flag"></i> Fixtures</Link>
                 </ul>
             </div>
         );

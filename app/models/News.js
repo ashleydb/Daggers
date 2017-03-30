@@ -55,7 +55,7 @@ class News {
         //this.save = this.save.bind( this );
     }
 
-    // TODO: Do I really need this helper?
+    // TODO: Do I really need this helper? Seems so, since I don't want to send the id field.
     toObj() {
         var obj = {
             "headline": this.headline,
@@ -81,7 +81,7 @@ class News {
     // Save this news data to our DB
     // callback: Should be callback(error, id)
     save(callback) {
-        console.log('DEBUG: News.save() this=', this);
+        //console.log('DEBUG: News.save() this=', this);
         
         myFirebase.writeToFirebase(myFirebase.firebaseRef,
                                    'news',

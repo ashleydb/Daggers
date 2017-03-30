@@ -13,7 +13,7 @@ router.route('/v1/fixtures')
     .post(function(req, res) {
         // create a new instance of the Fixtures model
         var fixture = new Fixtures();
-        
+    
         // fill in the fixture elements from the request
         if (req.body.date)
             fixture.date = req.body.date;
@@ -29,6 +29,10 @@ router.route('/v1/fixtures')
             fixture.team = req.body.team;
         if (req.body.attendance)
             fixture.attendance = req.body.attendance;
+        if (req.body.result)
+            fixture.result = req.body.result;
+        if (req.body.report)
+            fixture.report = req.body.report;
     
         // save the fixture and check for errors
         fixture.save(function(err, id) {
@@ -74,13 +78,15 @@ router.route('/v1/fixtures/:fixture_id')
             // Fill in the elements from the request
             var updatedFixture = new Fixtures();
             updatedFixture.id = fixture.id;
-            updatedFixture.date = req.body.date ? req.body.date : fixture.date;
-            updatedFixture.w_l_d = req.body.w_l_d ? req.body.w_l_d : fixture.w_l_d;
-            updatedFixture.home_away = req.body.home_away ? req.body.home_away : fixture.home_away;
-            updatedFixture.logo = req.body.logo ? req.body.logo : fixture.logo;
-            updatedFixture.competition = req.body.competition ? req.body.competition : fixture.competition;
-            updatedFixture.team = req.body.team ? req.body.team : fixture.team;
-            updatedFixture.attendance = req.body.attendance ? req.body.attendance : fixture.attendance;
+            updatedFixture.date = req.body.date || fixture.date;
+            updatedFixture.w_l_d = req.body.w_l_d || fixture.w_l_d;
+            updatedFixture.home_away = req.body.home_away || fixture.home_away;
+            updatedFixture.logo = req.body.logo || fixture.logo;
+            updatedFixture.competition = req.body.competition || fixture.competition;
+            updatedFixture.team = req.body.team || fixture.team;
+            updatedFixture.attendance = req.body.attendance || fixture.attendance;
+            updatedFixture.report = req.body.report || fixture.report;
+            updatedFixture.result = req.body.result || fixture.result;
 
             // save the news and check for errors
             updatedFixture.save(function(err, id) {

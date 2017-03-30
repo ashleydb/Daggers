@@ -17,7 +17,7 @@ export var News = React.createClass({
         if (this.props.children) {
             return (
                 <div>
-                    {/* will render `NewsStory.jsx` when at /story/:newsId */}
+                    {/* will render `NewsStory.jsx` when at /news/:newsId */}
                     {this.props.children}
                 </div>
             );

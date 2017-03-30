@@ -21,7 +21,6 @@ var ImageUploader = React.createClass({
             onImageUploaded(uploadedImagePath);
         })
         .catch(function (error) {
-            //debugger;
             // TODO: Show error message on UI
             console.log(error.response.data);
         });
@@ -30,7 +29,7 @@ var ImageUploader = React.createClass({
         return (
             <form ref='uploadImageForm' id='uploadImageForm' method="post" encType="multipart/form-data" onSubmit={this.onFormSubmit}>
                 <label>Upload Image</label><input type="file" name="imageFile" ref="imageFile" className="expanded button" />
-                <button className="expanded button">Upload Image</button>
+                <button className="expanded button"><i className="fi-upload-cloud"></i> Upload Image</button>
             </form>
         );
     }
