@@ -8,7 +8,11 @@ console.log("INFO: Fixtures to upload: ", fixtureData.length);
 
 for (i = 0; i < fixtureData.length; ++i) {
     //console.log("DEBUG: Fixture: ", fixtureData[i]);
-    Axios.post('http://localhost:3000/api/v1/fixtures', fixtureData[i])
+    
+    const axiosInstance = Axios.create({
+        headers: {'x-access-token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTIwNTk3MDg3MDIsInVzZXJuYW1lIjoidGVzdC11c2VyIn0.DrrdpFkoTG7YN3t-U5TRUsLBKH2im9ZCR00af2WQ0ks'}
+    });
+    axiosInstance.post('http://localhost:3000/api/v1/fixtures', fixtureData[i])
     .then(function (response) {
         console.log("OK: Fixture saved ", response.data.id);
     })

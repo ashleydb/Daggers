@@ -6,6 +6,7 @@ import {actions} from 'actions';
 import * as FixturesAPI from 'FixturesAPI';
 
 // TODO: Need to lock behind authentication
+// TODO: Need to split these into Seasons in some way. Probably a dedicated field
 
 export var FixturesEdit = React.createClass({
     componentWillMount: function() {

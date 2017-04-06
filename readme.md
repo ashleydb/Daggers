@@ -27,6 +27,9 @@ To Prove:
  * http://thejackalofjavascript.com/architecting-a-restful-node-js-app/
   * https://github.com/arvindr21/myRESTApp/tree/master/server
  * http://stackoverflow.com/questions/15496915/how-to-implement-a-secure-rest-api-with-node-js
+ * Need to add login screen for admins.
+ * Need to store the token on the client end, e.g. localStorage or a cookie.
+ * Need to finish up the Auth.js model.
 * Build more API routes
 * Connecting to a DB - Replace Firebase with GCP Datastore
 * Hosting in a production ready setup - GCP AppEngine

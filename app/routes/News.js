@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var moment = require('moment');
+var authenticate = require('../middleware/validateRequest');
 
 // TODO: Currently these aren't just models, but APIs which obfuscate the DB being used
 // MODELS: Our data format
@@ -11,7 +12,8 @@ var News = require('../models/News');
 router.route('/v1/news')
 
     // create a news story (accessed at POST http://localhost:8080/api/v1/news)
-    .post(function(req, res) {
+    // User must be authenticated as an admin.
+    .post(authenticate.isAdmin, function(req, res) {
         // create a new instance of the News model
         var news = new News();
     
@@ -40,6 +42,7 @@ router.route('/v1/news')
     })
 
     // get all the news (accessed at GET http://localhost:8080/api/v1/news)
+    // No authentication required.
     .get(function(req, res) {
         News.find(function(err, news) {
             if (err)
@@ -55,6 +58,7 @@ router.route('/v1/news')
 router.route('/v1/news/:news_id')
 
     // get the news story with that id (accessed at GET http://localhost:8080/api/v1/news/:news_id)
+    // No authentication required.
     .get(function(req, res) {
         News.findById(req.params.news_id, function(err, news) {
             if (err)
@@ -64,7 +68,8 @@ router.route('/v1/news/:news_id')
     })
 
     // update the news with this id (accessed at PUT http://localhost:8080/api/v1/news/:news_id)
-    .put(function(req, res) {
+    // User must be authenticated as an admin.
+    .put(authenticate.isAdmin, function(req, res) {
         // use our news model to find the story we want
         News.findById(req.params.news_id, function(err, news) {
             if (err)
@@ -94,7 +99,8 @@ router.route('/v1/news/:news_id')
     })
  
     // delete the news with this id (accessed at DELETE http://localhost:8080/api/v1/news/:news_id)
-    .delete(function(req, res) {
+    // User must be authenticated as an admin.
+    .delete(authenticate.isAdmin, function(req, res) {
         News.remove({
             _id: req.params.news_id
         }, function(err, news) {

@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var authenticate = require('../middleware/validateRequest');
 
 // TODO: Currently these aren't just models, but APIs which obfuscate the DB being used
 // MODELS: Our data format
@@ -10,7 +11,8 @@ var Fixtures = require('../models/Fixtures');
 router.route('/v1/fixtures')
 
     // create a fixture (accessed at POST http://localhost:8080/api/v1/fixtures)
-    .post(function(req, res) {
+    // User must be authenticated as an admin.
+    .post(authenticate.isAdmin, function(req, res) {
         // create a new instance of the Fixtures model
         var fixture = new Fixtures();
     
@@ -44,6 +46,7 @@ router.route('/v1/fixtures')
     })
 
     // get all the fixtures (accessed at GET http://localhost:8080/api/v1/fixtures)
+    // No authentication required.
     .get(function(req, res) {
         Fixtures.find(function(err, fixtures) {
             if (err)
@@ -59,6 +62,7 @@ router.route('/v1/fixtures')
 router.route('/v1/fixtures/:fixture_id')
 
     // get the fixture with that id (accessed at GET http://localhost:8080/api/v1/fixtures/:fixture_id)
+    // No authentication required.
     .get(function(req, res) {
         Fixtures.findById(req.params.fixture_id, function(err, fixture) {
             if (err)
@@ -68,7 +72,8 @@ router.route('/v1/fixtures/:fixture_id')
     })
 
     // update the fixture with this id (accessed at PUT http://localhost:8080/api/v1/fixtures/:fixture_id)
-    .put(function(req, res) {
+    // User must be authenticated as an admin.
+    .put(authenticate.isAdmin, function(req, res) {
         // use our fixture model to find the game we want
         Fixtures.findById(req.params.fixture_id, function(err, fixture) {
             if (err)
@@ -99,7 +104,8 @@ router.route('/v1/fixtures/:fixture_id')
     })
  
     // delete the fixture with this id (accessed at DELETE http://localhost:8080/api/v1/fixtures/:fixture_id)
-    .delete(function(req, res) {
+    // User must be authenticated as an admin.
+    .delete(authenticate.isAdmin, function(req, res) {
         Fixtures.remove({
             _id: req.params.fixture_id
         }, function(err, fixture) {

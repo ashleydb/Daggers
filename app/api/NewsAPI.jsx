@@ -144,6 +144,10 @@ export const DEFAULT_STORY = {
             // The resolver function is called with the ability to resolve or reject the promise
             function(resolve, reject) {
                 try {
+                    const axiosInstance = Axios.create({
+                        headers: {'x-access-token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTIwNTk3MDg3MDIsInVzZXJuYW1lIjoidGVzdC11c2VyIn0.DrrdpFkoTG7YN3t-U5TRUsLBKH2im9ZCR00af2WQ0ks'}
+                    });
+                        
                     if (story.id == DEFAULT_STORY_ID) {
                         /*
                         // This is a new story
@@ -154,8 +158,8 @@ export const DEFAULT_STORY = {
                         */
                         
                         // This is a POST
-                        Axios.post('/api/v1/news', story)
-                            .then(function (response) {
+                        axiosInstance.post('/api/v1/news', story)
+                        .then(function (response) {
                             console.log(response);
                             story.id = response.data.id;
                             resolve(story);
@@ -184,8 +188,8 @@ export const DEFAULT_STORY = {
                         */
                         
                         // This is a PUT
-                        Axios.put(`/api/v1/news/${story.id}`, story)
-                            .then(function (response) {
+                        axiosInstance.put(`/api/v1/news/${story.id}`, story)
+                        .then(function (response) {
                             console.log(response);
                             resolve(story);
                         })

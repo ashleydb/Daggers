@@ -1,10 +1,14 @@
 // Create express web server
 const express = require('express');
 const path = require('path');
+//const logger = require('morgan');
 const compression = require('compression');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 
 const app = express();
+
+//app.use(logger('dev'));
 
 // configure app to use bodyParser() which will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,6 +22,24 @@ const PORT = process.env.PORT || 3000;
 
 // Server path to /public folder
 var publicPath = __dirname + '/public';
+
+// For image uploading
+app.use(fileUpload());
+
+
+// Enable Cross Origin Resource Sharing
+app.all('/*', function(req, res, next) {
+  // CORS headers
+  res.header("Access-Control-Allow-Origin", "*"); // restrict it to the required domain
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  // Set custom headers for CORS
+  res.header('Access-Control-Allow-Headers', 'Content-type,Accept,X-Access-Token,X-Key');
+  if (req.method == 'OPTIONS') {
+    res.status(200).end();
+  } else {
+    next();
+  }
+});
 
 
 // TODO: MOVE MY OWN CODE, CONFIG, DEPENDENCIES TO ANOTHER FOLDER, (e.g. /server/..., not /app/...)
@@ -41,7 +63,7 @@ var publicPath = __dirname + '/public';
 
 // Send raw json as the request body for POST and PUT. Set the header to Content-Type:application/json, then add the json in the body: example {"headline": "Some News!"}
 
-// ROUTES FOR OUR API -------------------------------
+// DEFINE ROUTES -------------------------------
 var router = express.Router();
 
 // middleware to use for all requests
@@ -52,6 +74,9 @@ var router = express.Router();
 //    next();
 //});
 
+// middleware to use for all requests, to validate users are authorized
+//router.use([require('./app/middleware/validateRequest')]);
+
 // test route to make sure everything is working (accessed at GET http://localhost:3000/api)
 router.get('/', function(req, res) {
     res.json({ message: 'Specify a version to use the API' });   
@@ -60,103 +85,26 @@ router.get('/v1', function(req, res) {
     res.json({ message: 'Specify an object endpoint to use the API!' });   
 });
 
-// More routes for our API
+// More routes, mostly for our API
 var newsRoute = require('./app/routes/News');
 var fixturesRoute = require('./app/routes/Fixtures');
+var imagesRoute = require('./app/routes/Images');
+var authRoute = require('./app/routes/Auth');
 
 
 // REGISTER OUR ROUTES -------------------------------
 // All of our API routes will be prefixed with /api
 // Just add more routers to the array to handle other API endpoints
-app.use('/api', [router, newsRoute, fixturesRoute]);
+app.use('/api', [router, newsRoute, fixturesRoute, imagesRoute]);
+// Other routes from the root go here
+app.use('/', [authRoute]);
 
 
-
-
-// --- IMAGE UPLOADING ---
-
-const fileUpload = require('express-fileupload');
-app.use(fileUpload());
-
-// TODO: Need to secure this so only authorized people can upload images.
-// TODO: This only allows one image at a time. Need to handle multiple? Not hard to do. https://github.com/richardgirges/express-fileupload
-app.post('/api/v1/image', function(req, res) {
-    if (!req.files) {
-        console.log('WARN: No files were uploaded.');
-        return res.status(400).send('No files were uploaded.');
-    }
-
-    if (req.files.imageFile.mimetype !== 'image/jpeg' && req.files.imageFile.mimetype !== 'image/png') {
-        console.log('WARN: File uploaded was not a supported image type. Please use jpg or png: ', req.files.imageFile.mimetype);
-        return res.status(400).send('File uploaded was not a supported image type. Please use jpg or png.');
-    }
-
-    // The name of the input field (i.e. "imageFile") is used to retrieve the uploaded file
-    let imageFile = req.files.imageFile;
-
-    // Use the mv() method to place the file somewhere on your server
-    // TODO: This will overwrite any existing file with the same name. Add a date or something to the filename to make it unique?
-    let filePath = '/images/uploads/'+imageFile.name;
-    let fullFilePath = publicPath + filePath;
-    //console.log('DEBUG: Moving to: ', fullFilePath);
-    imageFile.mv(fullFilePath, function(err) {
-        if (err) {
-            console.log('ERR: Could not move file: ', filePath);
-            return res.status(500).send(err);
-        }
-
-        // Everything went well, so send back the file path
-        //console.log('DEBUG: File uploaded!');
-        res.status(201).send({message:'File uploaded!', path: filePath});
-    });
-});
-
-// --- LIST IMAGES ---
-
-var glob = require("glob");
-var options = {nodir: true, cwd: 'public', nocase: true};
-
-function listImages(directory = '/') {
-    //console.log('DEBUG: listImages for ', directory);
-    return new Promise(
-        // The resolver function is called with the ability to resolve or reject the promise
-        function(resolve, reject) {
-            glob(`${directory}*.+(jpg|jpeg|png)`, options, function (er, files) {
-                console.log('DEBUG: listImages glob (param error=', er);
-                console.log('DEBUG: listImages glob (param files=', files);
-                if (er) {
-                    // er is an error object or null
-                    reject(er);
-                } else {
-                    // files is an array of filenames, or null
-                    resolve(files);
-                }
-            });
-        }
-    );
-};
-
-app.get('/api/v1/image', function (request, response){
-    var directory = 'images/uploads/';
-    if (request.query && request.query.dir)
-        directory = request.query.dir;
-    //console.log('DEBUG: Get Images for ', directory);
-    listImages(directory).then((files) => {
-        console.log('DEBUG: Get Images SUCCESS', files);
-        // Need to add a leading / for each filename
-        files.forEach(function(file, index, filesArray) {
-            filesArray[index] = '/' + filesArray[index];
-        });
-        // Return the results
-        response.status(200).send({files});
-    })
-        .catch(function (error) {
-        console.log('ERR: Get Images:', error);
-        response.status(500).send(error);
-    });
-});
-
-
+// Auth Middleware - This will check if the token is valid
+// Only the requests that start with /api/* will be checked for the token.
+// Any URL's that do not follow the below pattern should be avoided unless you 
+// are sure that authentication is not needed
+//app.all('/api/*', [require('./app/middleware/validateRequest')]);
 
 
 // serve static assets normally
