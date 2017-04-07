@@ -9,6 +9,11 @@ var authenticate = require('../middleware/validateRequest');
 // TODO: POST: This only allows one image at a time. Need to handle multiple? Not hard to do. https://github.com/richardgirges/express-fileupload
 // TODO: Add DELETE image?
 
+// TODO: I just copied this from server.js since I broke these routes out, then edited a bit
+// Server path to /public folder
+var publicPath = __dirname + '/../../public';
+//console.log('DEBUG: Images.js publicPath=', publicPath);
+
 
 // --- LIST IMAGES ---
 

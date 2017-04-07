@@ -15,14 +15,12 @@ const INITIAL_STATE_LOGIN = {
 export var LoginReducer = (state = INITIAL_STATE_LOGIN, action) => {
     switch (action.type) {
         case actions.login.SUBMIT_LOGIN:
-            debugger;
             return {
                 ...state
             };
             break;
 
         case actions.login.SUBMIT_LOGIN_SUCCESS:
-            debugger;
             return {
                 ...state,
                 ...action.auth,
@@ -35,7 +33,6 @@ export var LoginReducer = (state = INITIAL_STATE_LOGIN, action) => {
             break;
 
         case actions.login.SUBMIT_LOGIN_ERROR:
-            debugger;
             return Object.assign({}, state, {
                 status: {
                     isFetching: false,

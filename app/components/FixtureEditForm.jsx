@@ -72,7 +72,7 @@ var FixtureEditForm = React.createClass({
                         <ImageLister onPickImage={this.onPickImage}/>
                     </div>
                     <div className="columns small-6">
-                        <ImageUploader onImageUploaded={this.onNewImage} ref="imageUploader"/>
+                        <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} ref="imageUploader"/>
                         <img src={logo} alt="Team Badge Preview" className="news-image-preview"/>
                     </div>
                 </div>

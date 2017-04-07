@@ -20,7 +20,7 @@ export var NewsEdit = React.createClass({
 //            this.props.dispatch(actions.news.editStory(story));
 //        else
 //            this.props.dispatch(actions.news.addStory(story));
-        this.props.dispatch(actions.news.submitStory(story));
+        this.props.dispatch(actions.news.submitStory(story, this.props.token));
         
         /*
         if (NewsAPI.writeStory(story)) {
@@ -52,7 +52,7 @@ export var NewsEdit = React.createClass({
         } else if (newsId == "new" || (story.id && story.id == newsId)) {
             return (
                 <div>
-                    <NewsEditForm story={story} onSaveStory={this.handleSaveStory}/>
+                    <NewsEditForm story={story} onSaveStory={this.handleSaveStory} token={this.props.token}/>
                     {/*<NewsEditForm/>*/}
                 </div>
             );
@@ -119,7 +119,8 @@ export var NewsEdit = React.createClass({
 export default connect(
   (state) => {
     return {
-        news: state.news
+        news: state.news,
+        token: state.login.token
         //story: state.story //TODO: Fix this, if we split up the news reducer
     };
   })(NewsEdit);

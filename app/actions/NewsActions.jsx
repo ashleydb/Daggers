@@ -148,9 +148,9 @@ export var submitStoryError = (story, error) => {
 
 export const SUBMIT_STORY   = 'SUBMIT_STORY';
 
-export var submitStory = (story) => {
+export var submitStory = (story, token) => {
     return (dispatch, getState) => {
-        NewsAPI.addStory(story).then((newStory) => {
+        NewsAPI.addStory(story, token).then((newStory) => {
             if (newStory === {})
                 dispatch(submitStoryError(story, "Story not saved."));
             else

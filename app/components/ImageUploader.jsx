@@ -15,7 +15,7 @@ var ImageUploader = React.createClass({
         formData.append('imageFile', this.refs.imageFile.files[0]);
 
         const axiosInstance = Axios.create({
-            headers: {'x-access-token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTIwNTk3MDg3MDIsInVzZXJuYW1lIjoidGVzdC11c2VyIn0.DrrdpFkoTG7YN3t-U5TRUsLBKH2im9ZCR00af2WQ0ks'}
+            headers: {'x-access-token': this.props.token}
         });
         axiosInstance.post('/api/v1/image', formData)
             .then(function (response) {

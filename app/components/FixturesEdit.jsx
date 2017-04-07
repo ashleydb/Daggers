@@ -38,7 +38,7 @@ export var FixturesEdit = React.createClass({
             // Editing a fixture, so show the form
             return (
                 <div>
-                    <FixtureEditForm fixture={fixture} onSaveFixture={this.handleSaveFixture}/>
+                    <FixtureEditForm fixture={fixture} onSaveFixture={this.handleSaveFixture} token={this.props.token}/>
                 </div>
             );
         } else if (fixtures && fixtures.length > 0) {

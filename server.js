@@ -22,6 +22,7 @@ const PORT = process.env.PORT || 3000;
 
 // Server path to /public folder
 var publicPath = __dirname + '/public';
+//console.log('DEBUG: server.js publicPath=', publicPath);
 
 // For image uploading
 app.use(fileUpload());

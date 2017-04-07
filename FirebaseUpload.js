@@ -4,13 +4,16 @@
 var Axios = require('axios');
 var fixtureData = require( "./app/models/fixtures.json" );
 
+// Need to replace this before running the script
+const ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTIwNTk3MDg3MDIsInVzZXJuYW1lIjoidGVzdC11c2VyIn0.DrrdpFkoTG7YN3t-U5TRUsLBKH2im9ZCR00af2WQ0ks';
+
 console.log("INFO: Fixtures to upload: ", fixtureData.length);
 
 for (i = 0; i < fixtureData.length; ++i) {
     //console.log("DEBUG: Fixture: ", fixtureData[i]);
     
     const axiosInstance = Axios.create({
-        headers: {'x-access-token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTIwNTk3MDg3MDIsInVzZXJuYW1lIjoidGVzdC11c2VyIn0.DrrdpFkoTG7YN3t-U5TRUsLBKH2im9ZCR00af2WQ0ks'}
+        headers: {'x-access-token': ACCESS_TOKEN}
     });
     axiosInstance.post('http://localhost:3000/api/v1/fixtures', fixtureData[i])
     .then(function (response) {
