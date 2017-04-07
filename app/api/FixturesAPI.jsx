@@ -66,13 +66,13 @@ export function getFixture(id, fixtures) {
     return this.DEFAULT_FIXTURE;
 };
 
-export function addFixture(fixture) {
+export function addFixture(fixture, token) {
     return new Promise(
         // The resolver function is called with the ability to resolve or reject the promise
         function(resolve, reject) {
             try {
                 const axiosInstance = Axios.create({
-                    headers: {'x-access-token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTIwNTk3MDg3MDIsInVzZXJuYW1lIjoidGVzdC11c2VyIn0.DrrdpFkoTG7YN3t-U5TRUsLBKH2im9ZCR00af2WQ0ks'}
+                    headers: {'x-access-token': token}
                 });
                 
                 if (fixture.id == DEFAULT_FIXTURE_ID) {

@@ -147,9 +147,9 @@ export var submitFixtureError = (fixture, error) => {
 
 export const SUBMIT_FIXTURE   = 'SUBMIT_FIXTURE';
 
-export var submitFixture = (fixture) => {
+export var submitFixture = (fixture, token) => {
     return (dispatch, getState) => {
-        FixturesAPI.addFixture(fixture).then((newFixture) => {
+        FixturesAPI.addFixture(fixture, token).then((newFixture) => {
             if (newFixture === {})
                 dispatch(submitFixtureError(fixture, "Fixture not saved."));
             else

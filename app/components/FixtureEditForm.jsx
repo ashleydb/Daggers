@@ -13,7 +13,7 @@ var FixtureEditForm = React.createClass({
         return {
             logo: null,
             home_away: this.props.fixture.home_away,
-            w_l_d: this.props.fixture.w_l_d_X
+            w_l_d: this.props.fixture.w_l_d
         };
     },
     onFormSubmit: function(event) {

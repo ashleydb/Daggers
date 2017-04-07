@@ -13,7 +13,7 @@ export var FixturesEdit = React.createClass({
         this.props.dispatch(actions.fixtures.fetchFixturesIfNeeded());
     },
     handleSaveFixture: function(fixture) {
-        this.props.dispatch(actions.fixtures.submitFixture(fixture));
+        this.props.dispatch(actions.fixtures.submitFixture(fixture, this.props.token));
 
         // TODO: Not great, since write could fail and then we've gone away from the form's contents
         browserHistory.push('/admin/fixtures');
@@ -91,6 +91,7 @@ export var FixturesEdit = React.createClass({
 export default connect(
   (state) => {
     return {
-        fixtures: state.fixtures
+        fixtures: state.fixtures,
+        token: state.login.token
     };
   })(FixturesEdit);

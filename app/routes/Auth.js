@@ -9,7 +9,7 @@ var Auth = require('../models/Auth');
 // ----------------------------------------------------
 router.route('/auth')
 
-    // login to an account (accessed at POST http://localhost:8080/api/v1/auth)
+    // login to an account (accessed at POST http://localhost:8080/auth)
     .post(Auth.login);
 
 module.exports = router;
