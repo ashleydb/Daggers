@@ -28,6 +28,11 @@ module.exports = {
         '$': 'jquery',
         'jQuery': 'jquery'
     }),
+    new webpack.DefinePlugin({
+      // A common mistake is not stringifying the "production" string, to save doing the lookup in prod
+      //'process.env.NODE_ENV': JSON.stringify('production')
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         warnings: false
