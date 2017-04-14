@@ -1,0 +1,287 @@
+<html>
+    <head>
+        <title> XML/JSON - Tests </title>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="filenames.js"></script>
+        <script type="text/javascript">
+
+            // Convert XML string to JSON string
+            function xml2json(xml, tab) {
+                var X = {
+                    toObj: function(xml) {
+                        var o = {};
+                        if (xml.nodeType==1) {   // element node ..
+                            if (xml.attributes.length)   // element with attributes  ..
+                                for (var i=0; i<xml.attributes.length; i++)
+                                    o["@"+xml.attributes[i].nodeName] = (xml.attributes[i].nodeValue||"").toString();
+                            if (xml.firstChild) { // element has child nodes ..
+                                var textChild=0, cdataChild=0, hasElementChild=false;
+                                for (var n=xml.firstChild; n; n=n.nextSibling) {
+                                    if (n.nodeType==1) hasElementChild = true;
+                                    else if (n.nodeType==3 && n.nodeValue.match(/[^ \f\n\r\t\v]/)) textChild++; // non-whitespace text
+                                    else if (n.nodeType==4) cdataChild++; // cdata section node
+                                }
+                                if (hasElementChild) {
+                                    if (textChild < 2 && cdataChild < 2) { // structured element with evtl. a single text or/and cdata node ..
+                                        X.removeWhite(xml);
+                                        for (var n=xml.firstChild; n; n=n.nextSibling) {
+                                            if (n.nodeType == 3)  // text node
+                                                o["#text"] = X.escape(n.nodeValue);
+                                            else if (n.nodeType == 4)  // cdata node
+                                                o["#cdata"] = X.escape(n.nodeValue);
+                                            else if (o[n.nodeName]) {  // multiple occurence of element ..
+                                                if (o[n.nodeName] instanceof Array)
+                                                    o[n.nodeName][o[n.nodeName].length] = X.toObj(n);
+                                                else
+                                                    o[n.nodeName] = [o[n.nodeName], X.toObj(n)];
+                                            }
+                                            else  // first occurence of element..
+                                                o[n.nodeName] = X.toObj(n);
+                                        }
+                                    }
+                                    else { // mixed content
+                                        if (!xml.attributes.length)
+                                            o = X.escape(X.innerXml(xml));
+                                        else
+                                            o["#text"] = X.escape(X.innerXml(xml));
+                                    }
+                                }
+                                else if (textChild) { // pure text
+                                    if (!xml.attributes.length)
+                                        o = X.escape(X.innerXml(xml));
+                                    else
+                                        o["#text"] = X.escape(X.innerXml(xml));
+                                }
+                                else if (cdataChild) { // cdata
+                                    if (cdataChild > 1)
+                                        o = X.escape(X.innerXml(xml));
+                                    else
+                                        for (var n=xml.firstChild; n; n=n.nextSibling)
+                                            o["#cdata"] = X.escape(n.nodeValue);
+                                }
+                            }
+                            if (!xml.attributes.length && !xml.firstChild) o = null;
+                        }
+                        else if (xml.nodeType==9) { // document.node
+                            o = X.toObj(xml.documentElement);
+                        }
+                        else
+                            alert("unhandled node type: " + xml.nodeType);
+                        return o;
+                    },
+                    toJson: function(o, name, ind) {
+                        var json = name ? ("\""+name+"\"") : "";
+                        if (o instanceof Array) {
+                            for (var i=0,n=o.length; i<n; i++)
+                                o[i] = X.toJson(o[i], "", ind+"\t");
+                            json += (name?":[":"[") + (o.length > 1 ? ("\n"+ind+"\t"+o.join(",\n"+ind+"\t")+"\n"+ind) : o.join("")) + "]";
+                        }
+                        else if (o == null)
+                            json += (name&&":") + "null";
+                        else if (typeof(o) == "object") {
+                            var arr = [];
+                            for (var m in o)
+                                arr[arr.length] = X.toJson(o[m], m, ind+"\t");
+                            json += (name?":{":"{") + (arr.length > 1 ? ("\n"+ind+"\t"+arr.join(",\n"+ind+"\t")+"\n"+ind) : arr.join("")) + "}";
+                        }
+                        else if (typeof(o) == "string")
+                            json += (name&&":") + "\"" + o.toString() + "\"";
+                        else
+                            json += (name&&":") + o.toString();
+                        return json;
+                    },
+                    innerXml: function(node) {
+                        var s = ""
+                        if ("innerHTML" in node)
+                            s = node.innerHTML;
+                        else {
+                            var asXml = function(n) {
+                                var s = "";
+                                if (n.nodeType == 1) {
+                                    s += "<" + n.nodeName;
+                                    for (var i=0; i<n.attributes.length;i++)
+                                        s += " " + n.attributes[i].nodeName + "=\"" + (n.attributes[i].nodeValue||"").toString() + "\"";
+                                    if (n.firstChild) {
+                                        s += ">";
+                                        for (var c=n.firstChild; c; c=c.nextSibling)
+                                            s += asXml(c);
+                                        s += "</"+n.nodeName+">";
+                                    }
+                                    else
+                                        s += "/>";
+                                }
+                                else if (n.nodeType == 3)
+                                    s += n.nodeValue;
+                                else if (n.nodeType == 4)
+                                    s += "<![CDATA[" + n.nodeValue + "]]>";
+                                return s;
+                            };
+                            for (var c=node.firstChild; c; c=c.nextSibling)
+                                s += asXml(c);
+                        }
+                        return s;
+                    },
+                    escape: function(txt) {
+                        return txt.replace(/[\\]/g, "\\\\")
+                            .replace(/[\"]/g, '\\"')
+                            .replace(/[\n]/g, '\\n')
+                            .replace(/[\r]/g, '\\r');
+                    },
+                    removeWhite: function(e) {
+                        e.normalize();
+                        for (var n = e.firstChild; n; ) {
+                            if (n.nodeType == 3) {  // text node
+                                if (!n.nodeValue.match(/[^ \f\n\r\t\v]/)) { // pure whitespace text node
+                                    var nxt = n.nextSibling;
+                                    e.removeChild(n);
+                                    n = nxt;
+                                }
+                                else
+                                    n = n.nextSibling;
+                            }
+                            else if (n.nodeType == 1) {  // element node
+                                X.removeWhite(n);
+                                n = n.nextSibling;
+                            }
+                            else                      // any other node
+                                n = n.nextSibling;
+                        }
+                        return e;
+                    }
+                };
+                if (xml.nodeType == 9) // document node
+                    xml = xml.documentElement;
+                var json = X.toJson(X.toObj(X.removeWhite(xml)), xml.nodeName, "\t");
+                return "{\n" + tab + (tab ? json.replace(/\t/g, tab) : json.replace(/\t|\n/g, "")) + "\n}";
+            }
+
+            // Helper to show the results to the screen
+            function show(s) {
+                document.getElementById("out").innerHTML += (s+"\n").replace(/&/g, "&amp;")
+                    .replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g, "<br/>") + "<hr/>";
+            }
+
+            $(document).ready(function(){
+                
+                // Will gather all of the json here, (but will be filled asyncronously)
+                var jsonOutput = [];
+                
+                // Filter duplicate values out of the array
+                Array.prototype.unique = function() {
+                    var self = this;
+                    return self.filter(function(v, i) {
+                        return (self.indexOf(v) == i)
+                    });
+                };
+                window.filenames = window.filenames.unique();
+                
+                // Loop over window.filenames[] and save the results
+                for (i = 0; i < window.filenames.length; ++i) {
+                    var xmlFileName = "news/" + window.filenames[i];
+                    
+                    // Load our XML file
+                    $.ajax({
+                        url: xmlFileName,
+                        dataType: 'xml',
+                        success: function(xmlData) {
+                            // Got the XML as a string, now convert to JSON
+
+                            //console.log("DEBUG: xmlData=", xmlData);
+                            var jsonString = xml2json(xmlData, "  ");
+                            //console.log("DEBUG: jsonString=", jsonString);
+                            var jsonObj = JSON.parse(jsonString);
+                            //console.log("DEBUG: jsonObj=", jsonObj);
+                            //show(xmlData + "\n\n" + jsonString);
+
+                            // Break this up to get the image filename: "/cms_images//mascotpack86292-3513570_478x359.jpg"
+                            var imageName = null;
+                            if (jsonObj.News.lead_image) {
+                                var strChunks = jsonObj.News.lead_image.split('/');
+                                imageName = strChunks[strChunks.length - 1];
+                            } else {
+                                console.log("Story has no image: " + this.url);
+                            }
+
+                            // Need to convert "2017-03-02 16:30:00 PM" to "2017 Mar 02 16:30:00"
+                            var dateComponents = jsonObj.News.publish_date.split(' ');
+                            var yMD = dateComponents[0].split('-');
+                            var month;
+                            switch (yMD[1]) {
+                                case '01':
+                                    month = 'Jan';
+                                    break;
+                                case '02':
+                                    month = 'Feb';
+                                    break;
+                                case '03':
+                                    month = 'Mar';
+                                    break;
+                                case '04':
+                                    month = 'Apr';
+                                    break;
+                                case '05':
+                                    month = 'May';
+                                    break;
+                                case '06':
+                                    month = 'Jun';
+                                    break;
+                                case '07':
+                                    month = 'Jul';
+                                    break;
+                                case '08':
+                                    month = 'Aug';
+                                    break;
+                                case '09':
+                                    month = 'Sep';
+                                    break;
+                                case '10':
+                                    month = 'Oct';
+                                    break;
+                                case '11':
+                                    month = 'Nov';
+                                    break;
+                                case '12':
+                                    month = 'Dec';
+                                    break;
+                            }
+                            var dateString = yMD[0] + ' ' + month + ' ' + yMD[2] + ' ' + dateComponents[1];
+
+                            // Then convert to milliseconds since epoch
+                            var createdDate = Date.parse(dateString); 
+
+                            // TODO: Convert symbols like &pound;
+
+                            // Now reformat to fit our new site
+                            var newsObj = {
+                                "headline": jsonObj.News.headline,
+                                "image": imageName,
+                                "summary": jsonObj.News.short_description,
+                                "story": jsonObj.News.description["#cdata"],
+                                "createdAt": createdDate
+
+                                // Source data doesn't have these elements
+                                //"updatedAt": jsonObj.News.,
+                                //"youtube": jsonObj.News.news_video_url,
+                            }
+
+                            // Output the results to the screen
+                            show( JSON.stringify(newsObj) );
+                            //console.log("DEBUG: newsObj=", newsObj);
+
+                            // TODO: Send to server here
+                            jsonOutput.push(newsObj);
+                        },
+                        error: function(xhr) {
+                            console.log("Error getting XML file: " + this.url);
+                        }
+                    });
+                }
+            });
+
+        </script>
+    </head>
+
+    <body>
+        <pre id="out"></pre>
+    </body>
+</html>
