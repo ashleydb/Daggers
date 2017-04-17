@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react';
 var {connect} = require('react-redux');
 import {actions} from 'actions';
 import * as FixturesAPI from 'FixturesAPI';
@@ -10,11 +10,11 @@ import * as FixturesAPI from 'FixturesAPI';
 // TODO: Also need an Ad component, which can be adsense or overridden as a nice-to-have.
 // TODO: Better mobile rendering? Stacking isn't great. Text is still small too.
 
-export var Fixtures = React.createClass({
-    componentWillMount: function() {
+export class Fixtures extends React.Component {
+    componentWillMount() {
         this.props.dispatch(actions.fixtures.fetchFixturesIfNeeded());
-    },
-    render: function() {
+    }
+    render() {
         var {fixtures, status} = this.props.fixtures;
         
         if (status.isFetching) {
@@ -132,9 +132,7 @@ export var Fixtures = React.createClass({
             );
         }
     }
-});
-
-//module.exports = Fixtures;
+};
 
 export default connect(
   (state) => {

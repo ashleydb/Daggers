@@ -1,15 +1,8 @@
-var React = require('react');
-var {Link, IndexLink} = require('react-router');
+import React from 'react';
+import {Link, IndexLink} from 'react-router';
 
-//Component with some logic, since we handle searches in the Nav bar.
-//Uses foundation for styling the elements.
-var Nav = React.createClass({
-
-    //    componentDidMount: function() {
-    //        $(document).foundation();
-    //    },
-
-    render: function() {
+export default class Nav extends React.Component {
+    render() {
         return (
             <div>
                 <div className="title-bar" data-responsive-toggle="nav-menu" data-hide-for="medium">
@@ -40,6 +33,4 @@ var Nav = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = Nav;
+};

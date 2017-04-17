@@ -1,8 +1,8 @@
-var React = require('react');
-var Nav = require('Nav');
+import React from 'react';
+import Nav from 'Nav';
 
 //Basic presentational component that would only have a render function
-// rewritten using arror functions from ES6.
+// rewritten using arrow functions from ES6.
 var Main = (props) => {
   return (
     <div>

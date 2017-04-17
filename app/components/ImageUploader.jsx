@@ -2,8 +2,7 @@ import React from 'react';
 var Axios = require('axios');
 
 // TODO: Change URL based on environment var
-var ImageUploader = React.createClass({
-
+export default class ImageUploader extends React.Component {
     onFormSubmit(event) {
         //Don't refresh the whole page when the form button is clicked
         event.preventDefault();
@@ -27,7 +26,7 @@ var ImageUploader = React.createClass({
             // TODO: Show error message on UI
             console.log(error.response.data);
         });
-    },
+    }
     render() {
         return (
             <form ref='uploadImageForm' id='uploadImageForm' method="post" encType="multipart/form-data" onSubmit={this.onFormSubmit}>
@@ -36,6 +35,4 @@ var ImageUploader = React.createClass({
             </form>
         );
     }
-});
-
-module.exports = ImageUploader;
+};

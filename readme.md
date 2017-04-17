@@ -30,7 +30,7 @@ To Prove:
  * Store the token on the client end, e.g. localStorage or a cookie?
  * Check if the token is expired, or will soon, on the client so the user doesn't lose their work?
  * Need to finish up the Auth.js model, either with a DB with hashed passwords or using an env var or something.
-* Fix react warnings about createClass and PropTypes.
+* Fix react warnings about PropTypes, (if possible. Seems to be from a dependency.)
 * Build more API routes
 * Connecting to a DB - Replace Firebase with GCP Datastore
 * Hosting in a production ready setup - GCP AppEngine

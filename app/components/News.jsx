@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 var {connect} = require('react-redux');
-var NewsSummary = require('NewsSummary');
+import NewsSummary from 'NewsSummary';
 import * as NewsAPI from 'NewsAPI';
 
 // TODO: Adjust layout at show ads in a sidebar?
@@ -8,10 +8,8 @@ import * as NewsAPI from 'NewsAPI';
 // TODO: Correctly load enough stories to pass to summaries
 // TODO: 3 wide on a phone doesn't look good. Breaks down to 2, 1.
 
-//Basic presentational component that would only have a render function
-// rewritten using arror functions from ES6.
-export var News = React.createClass({
-    render: function() {
+export class News extends React.Component {
+    render() {
         var {news, status} = this.props.news; //TODO: .news shouldn't be needed
         
         if (this.props.children) {
@@ -112,9 +110,7 @@ export var News = React.createClass({
             );
         }
     }
-});
-
-//module.exports = News;
+};
 
 export default connect(
   (state) => {

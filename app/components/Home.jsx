@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 var {connect} = require('react-redux');
-var NewsSummary = require('NewsSummary');
+import NewsSummary from 'NewsSummary';
 import * as NewsAPI from 'NewsAPI';
 
 // TODO: Add sponsors.
@@ -11,8 +11,8 @@ import * as NewsAPI from 'NewsAPI';
 // TODO: Correctly load enough stories to pass to summaries
 // TODO: 3 summaries on a row on a phone doesn't look good. Breaks down to 2, 1.
 
-export var Home = React.createClass({
-    render: function() {
+export class Home extends React.Component {
+    render() {
         var {news, status} = this.props.news; // TODO: .news shouldn't be needed
         
         if (status.isFetching) {
@@ -80,9 +80,7 @@ export var Home = React.createClass({
             );
         }
     }
-});
-
-//module.exports = Home;
+};
 
 export default connect(
   (state) => {

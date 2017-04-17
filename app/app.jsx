@@ -1,28 +1,26 @@
 //Include our npm dependencies
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 var {Provider} = require('react-redux');
 
 //Creates multiple variables at once in ES6 destructuring syntax
 // Same as var Route = require('react-router').Route; repeated for each item in the list.
-var {Route, Router, IndexRoute, browserHistory} = require('react-router');
+import { Route, Router, IndexRoute, browserHistory } from 'react-router';
 
 //Include our component dependencies
-var Main = require('Main');
-//var Home = require('Home'); // This is the React version of the Home component. Would only want this for testing. require() is a webpack convention.
-//import {Home} from 'Home';  // This is the React version of the Home component. Would only want this for testing. import is an ES6 cnovention.
-import Home from 'Home';      // This is the Redux version of the Home component
+import Main from 'Main';
+import Home from 'Home';
 import News from 'News';
 import NewsStory from 'NewsStory';
 import NewsEdit from 'NewsEdit';
 import Fixtures from 'Fixtures';
 import FixturesEdit from 'FixturesEdit';
 import Admin from 'Admin';
-var Tickets = require('Tickets');
-var Team = require('Team');
-var Fans = require('Fans');
-var Club = require('Club');
-var Commercial = require('Commercial');
+import Tickets from 'Tickets';
+import Team from 'Team';
+import Fans from 'Fans';
+import Club from 'Club';
+import Commercial from 'Commercial';
 
 import * as NewsAPI from 'NewsAPI';
 

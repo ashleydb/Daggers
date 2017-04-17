@@ -1,10 +1,8 @@
-var React = require('react');
-var {Link} = require('react-router');
-//var {connect} = require('react-redux');
-//import {actions} from 'actions';
+import React from 'react';
+import {Link} from 'react-router';
 
-var LoginForm = React.createClass({
-    onFormSubmit: function(event) {
+export default class LoginForm extends React.Component {
+    onFormSubmit(event) {
         //Don't refresh the whole page when the form button is clicked
         event.preventDefault();
         
@@ -15,10 +13,9 @@ var LoginForm = React.createClass({
             password.length > 0 && password != '') {
             
             this.props.onSubmitLogin(username, password);
-            //this.props.dispatch(actions.news.submitLogin(username, password));
         }
-    },
-    render: function() {
+    }
+    render() {
         return (
             <div>
                 <form onSubmit={this.onFormSubmit}>
@@ -29,15 +26,4 @@ var LoginForm = React.createClass({
             </div>
         );
     }
-})
-
-module.exports = LoginForm;
-
-/*
-export default connect(
-  (state) => {
-    return {
-        login: state.login
-    };
-  })(LoginForm);
-*/
+}

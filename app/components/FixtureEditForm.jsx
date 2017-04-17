@@ -1,5 +1,5 @@
-var React = require('react');
-var {Link} = require('react-router');
+import React from 'react';
+import {Link} from 'react-router';
 
 // For uploading images
 import ImageUploader from 'ImageUploader';
@@ -8,15 +8,15 @@ import ImageLister from 'ImageLister';
 // TODO: Need to pick which Daggers team this is for?
 // TODO: Need to pick which season this is for?
 
-var FixtureEditForm = React.createClass({
+export default class FixtureEditForm extends React.Component {
     getInitialState() {
         return {
             logo: null,
             home_away: this.props.fixture.home_away,
             w_l_d: this.props.fixture.w_l_d
         };
-    },
-    onFormSubmit: function(event) {
+    }
+    onFormSubmit(event) {
         //Don't refresh the whole page when the form button is clicked
         event.preventDefault();
         
@@ -42,26 +42,26 @@ var FixtureEditForm = React.createClass({
         
         // Note: Not doing much validation. Assuming all elements are optional.
         this.props.onSaveFixture(fixture);
-    },
+    }
     onNewImage(imgPath) {
         this.refs.logo.value = imgPath;
         this.setState({logo: imgPath});
-    },
+    }
     onPickImage(imgPath) {
         this.refs.logo.value = imgPath;
         this.setState({logo: imgPath});
-    },
+    }
     handleHomeAwayOptionChange(changeEvent) {
         this.setState({
             home_away: changeEvent.target.value
         });
-    },
+    }
     handleWLDOptionChange(changeEvent) {
         this.setState({
             w_l_d: changeEvent.target.value
         });
-    },
-    render: function() {
+    }
+    render() {
         var {fixture} = this.props;
         var logo = this.state.logo || fixture.logo;
         var report = fixture.report ? `http://www.daggers.co.uk/news/${fixture.report}` : null;
@@ -110,6 +110,4 @@ var FixtureEditForm = React.createClass({
             </div>
         );
     }
-})
-
-module.exports = FixtureEditForm;
+}

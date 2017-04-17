@@ -1,18 +1,19 @@
-var React = require('react');
-var {Link} = require('react-router');
+import React from 'react';
+import {Link} from 'react-router';
+
 var {connect} = require('react-redux');
-var LoginForm = require('LoginForm');
+import LoginForm from 'LoginForm';
 import {actions} from 'actions';
 
 // TODO: Pull the Authentication code out into a Higher Order Component to wrap around all admin components
 // TODO: Put the token into session or local storage
 // TODO: Pass the access token around to the various API's. See what I did in FixturesEdit.
 
-export var Admin = React.createClass({
-    handleSubmitLogin: function(username, password) {
+export class Admin extends React.Component {
+    handleSubmitLogin(username, password) {
         this.props.dispatch(actions.login.submitLogin(username, password));
-    },
-    render: function() {
+    }
+    render() {
         // Are we authenticated right now, or about to?
         var {token, expires, user, status} = this.props.login;
         
@@ -54,9 +55,7 @@ export var Admin = React.createClass({
             );
         }
     }
-});
-
-//export default Admin;
+};
 
 export default connect(
   (state) => {

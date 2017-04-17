@@ -1,72 +1,53 @@
-var React = require('react');
-var {Link, browserHistory} = require('react-router');
-var {connect} = require('react-redux');
-var NewsEditForm = require('NewsEditForm');
-//var NewsStory = require('NewsStory');
-import {actions} from 'actions';
+import React from 'react';
+import {Link, browserHistory} from 'react-router';
+var { connect } = require('react-redux');
+import NewsEditForm from 'NewsEditForm';
+import { actions } from 'actions';
 import * as NewsAPI from 'NewsAPI';
 
 // TODO: Need to lock behind authentication
 // TODO: Need to change the whole app to use Redux to manage the state more effectively.
 // TODO: Can a story have a YouTube video in it?
 
-export var NewsEdit = React.createClass({
-//    componentWillMount: function() {
-//        NewsAPI.loadStories();
-//    },
-    handleSaveStory: function(story) {
-//        // TODO: Should this logic really live here?
-//        if (story.id == 0)
-//            this.props.dispatch(actions.news.editStory(story));
-//        else
-//            this.props.dispatch(actions.news.addStory(story));
+export class NewsEdit extends React.Component {
+    handleSaveStory(story) {
         this.props.dispatch(actions.news.submitStory(story, this.props.token));
-        
-        /*
-        if (NewsAPI.writeStory(story)) {
-            // TODO: Make the state stuff work for real, using Redux
-            this.setState({stories: NewsAPI.getStories()});
-            browserHistory.push('/admin/news');
-        }
-        */
 
         // TODO: Not great, since write could fail and then we've gone away from the form's contents
         browserHistory.push('/admin/news');
-    },
-    render: function() {
+    }
+    render() {
         // Are we editing at a story right now, or about to?
-        var {newsId} = this.props.params;
-        var {news, status} = this.props.news; // TODO: .news shouldn't be needed
+        var { newsId } = this.props.params;
+        var { news, status } = this.props.news; // TODO: .news shouldn't be needed
         var story = NewsAPI.getStory(newsId, news);
-        
+
         if (status.isFetching) {
             return (
                 <div>
                     <Link to="/admin" className="expanded button alert"><i className="fi-home"></i> Admin Tools Menu</Link>
                     <div className="callout">
-                      <h5>Loading</h5>
-                      <p>Please wait while we get the news...</p>
+                        <h5>Loading</h5>
+                        <p>Please wait while we get the news...</p>
                     </div>
                 </div>
             );
         } else if (newsId == "new" || (story.id && story.id == newsId)) {
             return (
                 <div>
-                    <NewsEditForm story={story} onSaveStory={this.handleSaveStory} token={this.props.token}/>
-                    {/*<NewsEditForm/>*/}
+                    <NewsEditForm story={story} onSaveStory={this.handleSaveStory} token={this.props.token} />
                 </div>
             );
         } else if (news && news.length > 0) {
             // Show a list of stories to edit
-            //var headlines = NewsAPI.getHeadlines();
-            
+
             var errorMessage = status.error === undefined ? null : (
                 <div className="callout alert">
-                  <h5>Error</h5>
-                  <p>{status.error}</p>
+                    <h5>Error</h5>
+                    <p>{status.error}</p>
                 </div>
             );
-            
+
             // TODO: Improve rendering here. Show as a table with titles/dates and buttons to view/edit/delete
             //  Create New can be at the top.
             //  Add pagination, (see below,) links to load stories for a given day/week/month/year/season or just a "Load More" button?
@@ -93,7 +74,7 @@ export var NewsEdit = React.createClass({
                                 <Link to={`/admin/news/${story.id}`}>{story.headline}</Link>
                             </li>
                         ))}
-                        
+
                         <li key="new">
                             <Link to={`/admin/news/new`}><i className="fi-plus"></i> Create New</Link>
                         </li>
@@ -105,22 +86,19 @@ export var NewsEdit = React.createClass({
                 <div>
                     <Link to="/admin" className="expanded button alert"><i className="fi-home"></i> Admin Tools Menu</Link>
                     <div className="callout alert">
-                      <h5>Error</h5>
-                      <p>No news found.</p>
+                        <h5>Error</h5>
+                        <p>No news found.</p>
                     </div>
                 </div>
             );
         }
     }
-});
-
-//module.exports = NewsEdit;
+};
 
 export default connect(
-  (state) => {
-    return {
-        news: state.news,
-        token: state.login.token
-        //story: state.story //TODO: Fix this, if we split up the news reducer
-    };
-  })(NewsEdit);
+    (state) => {
+        return {
+            news: state.news,
+            token: state.login.token
+        };
+    })(NewsEdit);

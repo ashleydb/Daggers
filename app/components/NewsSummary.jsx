@@ -1,16 +1,17 @@
-var React = require('react');
+import React from 'react';
 import { Link } from 'react-router';
-//import * as NewsAPI from 'NewsAPI';
+import * as NewsAPI from 'NewsAPI';
 
-var NewsSummary = React.createClass({
-//    componentWillMount: function() {
-//        NewsAPI.loadStories();
-//    },
-    render: function() {
-        //var story = NewsAPI.getStory(this.props.id);
-        var {story, style} = this.props;
-        
-        switch(style) {
+export default class NewsSummary extends React.Component {
+    render() {
+        var { story, style } = this.props;
+
+        var image = story.image;
+        if (!image) {
+            image = NewsAPI.DEFAULT_STORY.image;
+        }
+
+        switch (style) {
             case 'MAIN':
                 // Main headline news, show in large format
                 return (
@@ -20,7 +21,7 @@ var NewsSummary = React.createClass({
                                 <Link to={`/news/${story.id}`}><h4>{story.headline}</h4></Link>
                             </div>
                             <Link to={`/news/${story.id}`}>
-                                <img src={story.image} alt={story.summary} className="news-main-image"/>
+                                <img src={image} alt={story.summary} className="news-main-image" />
                             </Link>
                             <div className="card-section">
                                 <p>{story.summary}</p>
@@ -35,7 +36,7 @@ var NewsSummary = React.createClass({
                     <div className="column column-block">
                         <div className="card">
                             <Link to={`/news/${story.id}`}>
-                                <img src={story.image} alt={story.summary} className="news-thumbnail"/>
+                                <img src={image} alt={story.summary} className="news-thumbnail" />
                             </Link>
                             <div className="card-section">
                                 <Link to={`/news/${story.id}`}><h4>{story.headline}</h4></Link>
@@ -47,6 +48,4 @@ var NewsSummary = React.createClass({
                 break;
         };
     }
-});
-
-module.exports = NewsSummary;
+};

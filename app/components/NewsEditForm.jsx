@@ -1,7 +1,5 @@
-var React = require('react');
-var {Link} = require('react-router');
-//var {connect} = require('react-redux');
-//import {actions} from 'actions';
+import React from 'react';
+import {Link} from 'react-router';
 
 // For Rich Text Editor
 import Trumbowyg from 'react-trumbowyg'
@@ -15,16 +13,15 @@ import ImageLister from 'ImageLister';
 // TODO: Set initial state, (or editors onLoad or something) so that the text isn't empty, since we validate story.length > 0, so if you don't change the text and only edit a headline, the story can't be saved.
 // TODO: Hide the regular story input field?
 
-var NewsEditForm = React.createClass({
+export default class NewsEditForm extends React.Component {
     getInitialState() {
         return {image: null};
-    },
+    }
     // Callback for rich text editor
-    onTextChange: function(editor) {
-        //this.setState({ text: editor.target.innerHTML });
+    onTextChange(editor) {
         this.refs.story.value = editor.target.innerHTML;
-    },
-    onFormSubmit: function(event) {
+    }
+    onFormSubmit(event) {
         //Don't refresh the whole page when the form button is clicked
         event.preventDefault();
         
@@ -46,29 +43,18 @@ var NewsEditForm = React.createClass({
             story.summary.length > 0 &&
             story.story.length > 0 &&
             story.image.length > 0) {
-            
-//            this.refs.headline.value = '';
-//            this.refs.summary.value = '';
-//            this.refs.story.value = '';
-//            this.refs.image.value = '';
-//            this.refs.youtube.value = '';
-            
             this.props.onSaveStory(story);
-            //this.props.dispatch(actions.news.addStory(story));
         }
-    },
+    }
     onNewImage(imgPath) {
         this.refs.image.value = imgPath;
         this.setState({image: imgPath});
-    },
+    }
     onPickImage(imgPath) {
         this.refs.image.value = imgPath;
         this.setState({image: imgPath});
-    },
-    render: function() {
-        // TODO: Need to add an image picker, not just an uploader. May want to rearrange the form elements too.
-        
-        // TODO: Related to the comment in connect() below, this shouldn't need .news on it
+    }
+    render() {
         var {story} = this.props;
         var image = this.state.image || story.image;
         return (
@@ -88,7 +74,6 @@ var NewsEditForm = React.createClass({
                     <label>Headline</label><input type="text" defaultValue={story.headline} ref="headline"/>
                     <label>Summary</label><input type="text" defaultValue={story.summary} ref="summary"/>
                     
-                    {/* Note I've removed ['insertImage'] from the buttons for now */}
                     <label>Story</label>
                     <Trumbowyg id='react-trumbowyg'
                         buttons={
@@ -96,6 +81,7 @@ var NewsEditForm = React.createClass({
                                 ['formatting'],
                                 'btnGrp-semantic',
                                 ['link'],
+                                ['insertImage'],
                                 'btnGrp-justify',
                                 'btnGrp-lists',
                                 ['fullscreen']
@@ -120,16 +106,4 @@ var NewsEditForm = React.createClass({
             </div>
         );
     }
-})
-
-module.exports = NewsEditForm;
-
-/*
-export default connect(
-  (state) => {
-    return {
-      //story: state.story // TODO: Should only need story, but that is currently in news.story, so adding news back into the state here
-        news: state.news
-    };
-  })(NewsEditForm);
-*/
+}

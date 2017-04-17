@@ -2,7 +2,9 @@
     <head>
         <title> XML/JSON - Tests </title>
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script src="filenames.js"></script>
+        <script src="filenames.js">
+            // TODO: These filenames would ideally be scanned from some directory... or find a way to generate filenames.js? Include year & month sub directories? Want to POST below in some structure, e.g. news{2017:{12:{abc:{headline:"", ...}}, 11: {...}, ...}, 2016:...}
+        </script>
         <script type="text/javascript">
 
             // Convert XML string to JSON string
@@ -157,11 +159,50 @@
 
             // Helper to show the results to the screen
             function show(s) {
-                document.getElementById("out").innerHTML += (s+"\n").replace(/&/g, "&amp;")
-                    .replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g, "<br/>") + "<hr/>";
+                document.getElementById("out").innerHTML += (s+",\n").replace(/£/g, "&pound;").replace(/&/g, "&amp;")
+                    .replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g, "<br/>");
             }
+            
+            // Send the story to our server to store in the DB. Returns the story with an ID.
+            function postStory(story) {
+                // TODO: Must set this token first, from a login command
+                var token = '';
+                
+                return new Promise(
+                    // The resolver function is called with the ability to resolve or reject the promise
+                    function(resolve, reject) {
+                        try {
+                            if (token === '') {
+                                reject("WARN: Token not set, story not posted to server.");
+                            } else {
+                                $.ajax({
+                                    url: '/api/v1/news',
+                                    method: 'POST',
+                                    headers: {'x-access-token': token},
+                                    data: story,
+                                    dataType: 'json',
+                                    success: function(res) {
+                                        console.log("Story saved: ", response);
+                                        this.data.id = response.data.id;
+                                        // Return the story with an ID
+                                        resolve(this.data);
+                                    },
+                                    error: function(xhr) {
+                                        console.log("Error posting story: " + this.story.headline);
+                                        reject(xhr.statusCode + " " + xhr.statusText);
+                                    }
+                                });
+                            }
+                        } catch(e) {
+                            // try failed
+                            reject(e);
+                        }
+                    }        
+                );  
+            };
 
-            $(document).ready(function(){
+            // Parse each XML file from filenames.js, convert to JSON, show on screen and upload to server
+            function startConverting() {
                 
                 // Will gather all of the json here, (but will be filled asyncronously)
                 var jsonOutput = [];
@@ -185,15 +226,11 @@
                         dataType: 'xml',
                         success: function(xmlData) {
                             // Got the XML as a string, now convert to JSON
-
-                            //console.log("DEBUG: xmlData=", xmlData);
                             var jsonString = xml2json(xmlData, "  ");
-                            //console.log("DEBUG: jsonString=", jsonString);
                             var jsonObj = JSON.parse(jsonString);
-                            //console.log("DEBUG: jsonObj=", jsonObj);
-                            //show(xmlData + "\n\n" + jsonString);
 
                             // Break this up to get the image filename: "/cms_images//mascotpack86292-3513570_478x359.jpg"
+                            // TODO: Change the image filename?
                             var imageName = null;
                             if (jsonObj.News.lead_image) {
                                 var strChunks = jsonObj.News.lead_image.split('/');
@@ -247,9 +284,7 @@
                             var dateString = yMD[0] + ' ' + month + ' ' + yMD[2] + ' ' + dateComponents[1];
 
                             // Then convert to milliseconds since epoch
-                            var createdDate = Date.parse(dateString); 
-
-                            // TODO: Convert symbols like &pound;
+                            var createdDate = Date.parse(dateString);
 
                             // Now reformat to fit our new site
                             var newsObj = {
@@ -264,24 +299,81 @@
                                 //"youtube": jsonObj.News.news_video_url,
                             }
 
-                            // Output the results to the screen
-                            show( JSON.stringify(newsObj) );
-                            //console.log("DEBUG: newsObj=", newsObj);
-
-                            // TODO: Send to server here
-                            jsonOutput.push(newsObj);
+                            // Send to server here. Will get back a story with an ID.
+                            postStory(newsObj)
+                            .then((story) => {
+                                // Success. Stories with IDs.
+                                
+                                // Output the results to the screen
+                                show( JSON.stringify(story) );
+                                // Collecting all JSON data in an array too, if we want it
+                                jsonOutput.push(story);
+                            }).catch((error) => {
+                                // Errors. Stories with no IDs.
+                                console.log("ERR: postStory() failed:", error);
+                                
+                                // Output the results to the screen
+                                show( JSON.stringify(newsObj) );
+                                // Collecting all JSON data in an array too, if we want it
+                                jsonOutput.push(newsObj);
+                            });
                         },
                         error: function(xhr) {
                             console.log("Error getting XML file: " + this.url);
                         }
                     });
                 }
-            });
+            };
+            
+            // Copies a string to the clipboard. Must be called from within an 
+            // event handler such as click. May return false if it failed, but
+            // this is not always possible. Browser support for Chrome 43+, 
+            // Firefox 42+, Safari 10+, Edge and IE 10+.
+            // IE: The clipboard feature may be disabled by an administrator. By
+            // default a prompt is shown the first time the clipboard is 
+            // used (per session).
+            function copyToClipboard(text) {
+                if (window.clipboardData && window.clipboardData.setData) {
+                    // IE specific code path to prevent textarea being shown while dialog is visible.
+                    return clipboardData.setData("Text", text); 
+
+                } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+                    var textarea = document.createElement("textarea");
+                    textarea.textContent = text;
+                    textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try {
+                        return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+                    } catch (ex) {
+                        console.warn("Copy to clipboard failed.", ex);
+                        return false;
+                    } finally {
+                        document.body.removeChild(textarea);
+                    }
+                }
+            }
+            
+            // Will copy the json as an array of objects
+            function copyJsonToClipboard() {
+                console.log('Start: copyJsonToClipboard');
+                var jsonRaw = document.getElementById('out').textContent;
+                // Strip off the last ','
+                var json = jsonRaw.substr(0, jsonRaw.length-1);
+                copyToClipboard('[' + json + ']');
+                console.log('Done: copyJsonToClipboard');
+            }
 
         </script>
     </head>
 
     <body>
+        <p>
+            <b>Note:</b> Did you set "token" in postStory()?<br />
+            If not then the data will not be stored on the server and output here will not contain IDs.
+        </p>
+        <button onclick="javascript:startConverting();">Start Converting XML to JSON</button>
+        <button onclick="javascript:copyJsonToClipboard();">Copy JSON as Array to Clipboard</button>
         <pre id="out"></pre>
     </body>
 </html>

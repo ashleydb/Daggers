@@ -1,24 +1,24 @@
-var React = require('react');
-var {Link, browserHistory} = require('react-router');
+import React from 'react';
+import {Link, browserHistory} from 'react-router';
 var {connect} = require('react-redux');
-var FixtureEditForm = require('FixtureEditForm');
+import FixtureEditForm from 'FixtureEditForm';
 import {actions} from 'actions';
 import * as FixturesAPI from 'FixturesAPI';
 
 // TODO: Need to lock behind authentication
 // TODO: Need to split these into Seasons in some way. Probably a dedicated field
 
-export var FixturesEdit = React.createClass({
-    componentWillMount: function() {
+export class FixturesEdit extends React.Component {
+    componentWillMount() {
         this.props.dispatch(actions.fixtures.fetchFixturesIfNeeded());
-    },
-    handleSaveFixture: function(fixture) {
+    }
+    handleSaveFixture(fixture) {
         this.props.dispatch(actions.fixtures.submitFixture(fixture, this.props.token));
 
         // TODO: Not great, since write could fail and then we've gone away from the form's contents
         browserHistory.push('/admin/fixtures');
-    },
-    render: function() {
+    }
+    render() {
         var {fixtureId} = this.props.params;
         var {fixtures, status} = this.props.fixtures;
         var fixture = FixturesAPI.getFixture(fixtureId, fixtures);
@@ -86,7 +86,7 @@ export var FixturesEdit = React.createClass({
             );
         }
     }
-});
+};
 
 export default connect(
   (state) => {
