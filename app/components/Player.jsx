@@ -1,6 +1,13 @@
 import React from 'react';
 
 export default class Player extends React.Component {
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+        // BINDING: Keep 'this' scoped to this object in any handlers
+        this.loadPlayer = this.loadPlayer.bind(this);
+    }
     componentWillMount() {
         this.loadPlayer(this.props.id);
     }

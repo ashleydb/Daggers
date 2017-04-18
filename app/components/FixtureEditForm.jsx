@@ -9,12 +9,22 @@ import ImageLister from 'ImageLister';
 // TODO: Need to pick which season this is for?
 
 export default class FixtureEditForm extends React.Component {
-    getInitialState() {
-        return {
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+        // Now set the state here, based on the props
+        this.state = {
             logo: null,
-            home_away: this.props.fixture.home_away,
-            w_l_d: this.props.fixture.w_l_d
+            home_away: this.props.fixture.home_away || 'X',
+            w_l_d: this.props.fixture.w_l_d || 'X'
         };
+        // BINDING: Keep 'this' scoped to this object in any handlers
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.onNewImage = this.onNewImage.bind(this);
+        this.onPickImage = this.onPickImage.bind(this);
+        this.handleHomeAwayOptionChange = this.handleHomeAwayOptionChange.bind(this);
+        this.handleWLDOptionChange = this.handleWLDOptionChange.bind(this);
     }
     onFormSubmit(event) {
         //Don't refresh the whole page when the form button is clicked
@@ -29,12 +39,10 @@ export default class FixtureEditForm extends React.Component {
         var fixture = {};
         fixture.id = this.refs.id.value;
         fixture.date = this.refs.date.value;
-        if (home_away != '' && home_away != 'X')
-            fixture.home_away = home_away;
+        fixture.home_away = home_away;
         fixture.logo = this.refs.logo.value;
         fixture.team = this.refs.team.value;
-        if (w_l_d != '' && w_l_d != 'X')
-            fixture.w_l_d = w_l_d;
+        fixture.w_l_d = w_l_d;
         fixture.competition = this.refs.competition.value;
         fixture.attendance = this.refs.attendance.value;
         fixture.report = this.refs.report.value;
@@ -85,7 +93,7 @@ export default class FixtureEditForm extends React.Component {
                         <legend>Home/Away</legend>
                         <input type="radio" name="home_away" value="H" id="home_away_H" checked={this.state.home_away === 'H'} onChange={this.handleHomeAwayOptionChange} required /><label htmlFor="home_away_H">Home</label>
                         <input type="radio" name="home_away" value="A" id="home_away_A" checked={this.state.home_away === 'A'} onChange={this.handleHomeAwayOptionChange} /><label htmlFor="home_away_A">Away</label>
-                        <input type="radio" name="home_away" value="X" id="home_away_X" checked={this.state.home_away === undefined} onChange={this.handleHomeAwayOptionChange} /><label htmlFor="home_away_X">Unknown</label>
+                        <input type="radio" name="home_away" value="X" id="home_away_X" checked={this.state.home_away === 'X'} onChange={this.handleHomeAwayOptionChange} /><label htmlFor="home_away_X">Unknown</label>
                     </fieldset>
                     
                     <label>Team</label><input type="text" defaultValue={fixture.team} placeholder="e.g. Chester FC" ref="team"/>
@@ -96,7 +104,7 @@ export default class FixtureEditForm extends React.Component {
                         <input type="radio" name="w_l_d" value="W" id="w_l_d_W" checked={this.state.w_l_d == 'W'} onChange={this.handleWLDOptionChange} required /><label htmlFor="w_l_d_W">Win</label>
                         <input type="radio" name="w_l_d" value="L" id="w_l_d_L" checked={this.state.w_l_d == 'L'} onChange={this.handleWLDOptionChange} /><label htmlFor="w_l_d_L">Lose</label>
                         <input type="radio" name="w_l_d" value="D" id="w_l_d_D" checked={this.state.w_l_d == 'D'} onChange={this.handleWLDOptionChange} /><label htmlFor="w_l_d_D">Draw</label>
-                        <input type="radio" name="w_l_d" value="X" id="w_l_d_X" checked={this.state.w_l_d == undefined} onChange={this.handleWLDOptionChange} /><label htmlFor="w_l_d_X">Not Yet Played</label>
+                        <input type="radio" name="w_l_d" value="X" id="w_l_d_X" checked={this.state.w_l_d == 'X'} onChange={this.handleWLDOptionChange} /><label htmlFor="w_l_d_X">Not Yet Played</label>
                     </fieldset>
                     
                     <label>Result</label><input type="text" defaultValue={fixture.result} placeholder="e.g. 1 - 0" ref="result"/>

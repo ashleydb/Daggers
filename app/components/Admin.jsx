@@ -1,29 +1,36 @@
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
-var {connect} = require('react-redux');
+var { connect } = require('react-redux');
 import LoginForm from 'LoginForm';
-import {actions} from 'actions';
+import { actions } from 'actions';
 
 // TODO: Pull the Authentication code out into a Higher Order Component to wrap around all admin components
 // TODO: Put the token into session or local storage
 // TODO: Pass the access token around to the various API's. See what I did in FixturesEdit.
 
 export class Admin extends React.Component {
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+        // BINDING: Keep 'this' scoped to this object in any handlers
+        this.handleSubmitLogin = this.handleSubmitLogin.bind(this);
+    }
     handleSubmitLogin(username, password) {
         this.props.dispatch(actions.login.submitLogin(username, password));
     }
     render() {
         // Are we authenticated right now, or about to?
-        var {token, expires, user, status} = this.props.login;
-        
+        var { token, expires, user, status } = this.props.login;
+
         if (status.isFetching) {
             // Logging in. Show a loading message.
             return (
                 <div>
                     <div className="callout">
-                      <h5>Authenticating</h5>
-                      <p>Please wait while we log you in...</p>
+                        <h5>Authenticating</h5>
+                        <p>Please wait while we log you in...</p>
                     </div>
                 </div>
             );
@@ -39,18 +46,18 @@ export class Admin extends React.Component {
             );
         } else {
             // Not logged in, amybe a problem. Show an error message if needed and the login form.
-            
+
             var errorMessage = status.error === undefined ? null : (
                 <div className="callout alert">
-                  <h5>Error</h5>
-                  <p>{status.error.message}</p>
+                    <h5>Error</h5>
+                    <p>{status.error.message}</p>
                 </div>
             );
-            
+
             return (
                 <div>
                     {errorMessage}
-                    <LoginForm onSubmitLogin={this.handleSubmitLogin}/>
+                    <LoginForm onSubmitLogin={this.handleSubmitLogin} />
                 </div>
             );
         }
@@ -58,8 +65,8 @@ export class Admin extends React.Component {
 };
 
 export default connect(
-  (state) => {
-    return {
-        login: state.login
-    };
-  })(Admin);
+    (state) => {
+        return {
+            login: state.login
+        };
+    })(Admin);

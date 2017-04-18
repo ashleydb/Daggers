@@ -11,6 +11,11 @@ import * as FixturesAPI from 'FixturesAPI';
 // TODO: Better mobile rendering? Stacking isn't great. Text is still small too.
 
 export class Fixtures extends React.Component {
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+    }
     componentWillMount() {
         this.props.dispatch(actions.fixtures.fetchFixturesIfNeeded());
     }
@@ -40,19 +45,27 @@ export class Fixtures extends React.Component {
             var fixtureRows = fixtures.map((fixture) => {
                 var logo = fixture.logo ?   `/images/uploads/teams/${fixture.logo}` :
                                             '/images/clublogo.png';
-                // TODO: This should change from w_l_d to report
-                var link = fixture.w_l_d   ? <a href={fixture.report || '#'}>Report</a> :
-                           fixture.report  ? <a href={fixture.report}>Preview</a> :
-                                             <a href="http://www.daggerstickets.co.uk">Tickets</a>;
+                // TODO: Need to fill in report links for all fixtures
+                var w_l_d = fixture.w_l_d === 'X' ? '' : fixture.w_l_d;
+                var link = '';
+                if (w_l_d && fixture.report)
+                    link = <a href={fixture.report}>Report</a>;
+                else if (fixture.report)
+                    link = <a href={fixture.report}>Preview</a>;
+                else
+                    link = <a href="http://www.daggerstickets.co.uk">Tickets</a>;
+                
+                var home_away = fixture.home_away === 'X' ? '' : fixture.home_away;
+
                 return (
                     <tr key={fixture.id}>
                         <td>{fixture.date}</td>
                         <td><img src={logo} alt={fixture.team} className="fixture-logo"/></td>
                         <td><p className="team-name">{fixture.team}</p><p className="competition-name">{fixture.competition}</p></td>
                         <td>Att {fixture.attendance}</td>
-                        <td>{fixture.home_away}</td>
+                        <td>{home_away}</td>
                         <td>{fixture.result}</td>
-                        <td>{fixture.w_l_d}</td>
+                        <td>{w_l_d}</td>
                         <td>{link}</td>
                     </tr>
                 );

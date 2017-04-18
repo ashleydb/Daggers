@@ -10,6 +10,13 @@ import * as NewsAPI from 'NewsAPI';
 // TODO: Can a story have a YouTube video in it?
 
 export class NewsEdit extends React.Component {
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+        // BINDING: Keep 'this' scoped to this object in any handlers
+        this.handleSaveStory = this.handleSaveStory.bind(this);
+    }
     handleSaveStory(story) {
         this.props.dispatch(actions.news.submitStory(story, this.props.token));
 

@@ -9,6 +9,13 @@ import * as FixturesAPI from 'FixturesAPI';
 // TODO: Need to split these into Seasons in some way. Probably a dedicated field
 
 export class FixturesEdit extends React.Component {
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+        // BINDING: Keep 'this' scoped to this object in any handlers
+        this.handleSaveFixture = this.handleSaveFixture.bind(this);
+    }
     componentWillMount() {
         this.props.dispatch(actions.fixtures.fetchFixturesIfNeeded());
     }

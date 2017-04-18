@@ -3,6 +3,11 @@ var { connect } = require('react-redux');
 import * as NewsAPI from 'NewsAPI';
 
 export class NewsStory extends React.Component {
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+    }
     render() {
         // Get the story data from NewsAPI, based on the ID in the URL params
         // TODO: Should this come some other way...? like from the redux state? Same method as NewsEdit/NewsEditForm?

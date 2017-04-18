@@ -14,8 +14,19 @@ import ImageLister from 'ImageLister';
 // TODO: Hide the regular story input field?
 
 export default class NewsEditForm extends React.Component {
-    getInitialState() {
-        return {image: null};
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+        // Now set the state here, based on the props
+        this.state = {
+            image: null
+        };
+        // BINDING: Keep 'this' scoped to this object in any handlers
+        this.onTextChange = this.onTextChange.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.onNewImage = this.onNewImage.bind(this);
+        this.onPickImage = this.onPickImage.bind(this);
     }
     // Callback for rich text editor
     onTextChange(editor) {

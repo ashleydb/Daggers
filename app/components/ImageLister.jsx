@@ -30,8 +30,17 @@ const standardImages = ['/images/AcademyMatchReport_86.jpg',
 //  Take note of NO leading and included trailing '/'
 // onPickImage() will receive the path to the image if a user clicks one of the list entries.
 export default class ImageLister extends React.Component {
-    getInitialState() {
-        return {files: standardImages};
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+        // Now set the state here, based on the props
+        this.state = {
+            files: standardImages
+        };
+        // BINDING: Keep 'this' scoped to this object in any handlers
+        this.refreshImages = this.refreshImages.bind(this);
+        this.handleClickImage = this.handleClickImage.bind(this);
     }
     componentWillMount() {
         this.refreshImages();

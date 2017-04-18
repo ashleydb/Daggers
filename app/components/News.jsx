@@ -9,6 +9,11 @@ import * as NewsAPI from 'NewsAPI';
 // TODO: 3 wide on a phone doesn't look good. Breaks down to 2, 1.
 
 export class News extends React.Component {
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+    }
     render() {
         var {news, status} = this.props.news; //TODO: .news shouldn't be needed
         

@@ -3,6 +3,11 @@ import { Link } from 'react-router';
 import * as NewsAPI from 'NewsAPI';
 
 export default class NewsSummary extends React.Component {
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+    }
     render() {
         var { story, style } = this.props;
 

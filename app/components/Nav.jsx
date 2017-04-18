@@ -2,6 +2,11 @@ import React from 'react';
 import {Link, IndexLink} from 'react-router';
 
 export default class Nav extends React.Component {
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+    }
     render() {
         return (
             <div>

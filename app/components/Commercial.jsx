@@ -3,6 +3,11 @@ import React from 'react';
 // TODO: All content on this page.
 
 export default class Commercial extends React.Component {
+  // Need to override the constructor to set the initial state and do data binding
+  constructor(props) {
+    // Call the parent constructor with the props object we automatically get
+    super(props);
+  }
   render() {
     return (
       <div>

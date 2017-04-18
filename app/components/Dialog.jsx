@@ -4,6 +4,15 @@ var Foundation = require('foundation-sites');
 import Player from 'Player';
 
 export default class Dialog extends React.Component {
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+        // BINDING: Keep 'this' scoped to this object in any handlers
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
+    }
+
     componentDidMount() {
         this.loadedFoundation = false;
     }

@@ -2,6 +2,13 @@ import React from 'react';
 import {Link} from 'react-router';
 
 export default class LoginForm extends React.Component {
+    // Need to override the constructor to set the initial state and do data binding
+    constructor(props) {
+        // Call the parent constructor with the props object we automatically get
+        super(props);
+        // BINDING: Keep 'this' scoped to this object in any handlers
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+    }
     onFormSubmit(event) {
         //Don't refresh the whole page when the form button is clicked
         event.preventDefault();
