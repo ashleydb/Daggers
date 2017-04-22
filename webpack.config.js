@@ -46,7 +46,10 @@ module.exports = {
         FIREBASE_SERVICE_PRIVATE_KEY: JSON.stringify(process.env.FIREBASE_SERVICE_PRIVATE_KEY),
         FIREBASE_SERVICE_CLIENT_EMAIL: JSON.stringify(process.env.FIREBASE_SERVICE_CLIENT_EMAIL),
         FIREBASE_SERVICE_CLIENT_ID: JSON.stringify(process.env.FIREBASE_SERVICE_CLIENT_ID),
-        FIREBASE_SERVICE_CLIENT_X509_CERT_URL: JSON.stringify(process.env.FIREBASE_SERVICE_CLIENT_X509_CERT_URL)
+        FIREBASE_SERVICE_CLIENT_X509_CERT_URL: JSON.stringify(process.env.FIREBASE_SERVICE_CLIENT_X509_CERT_URL),
+        AUTH_SECRET: JSON.stringify(process.env.AUTH_SECRET),
+        AUTH_USERNAME: JSON.stringify(process.env.AUTH_USERNAME),
+        AUTH_PASSWORD: JSON.stringify(process.env.AUTH_PASSWORD)
       }
     })
   ],

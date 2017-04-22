@@ -32,7 +32,7 @@ function validateAuthentication(checkAdmin, req, res, next) {
 console.log("DEBUG: token=", token)
     if (token) {
         try {
-            var decoded = jwt.decode(token, require('../config/secret.js')());
+            var decoded = jwt.decode(token, process.env.AUTH_SECRET);
             if (decoded.exp <= Date.now()) {
                 res.status(400);
                 res.json({
