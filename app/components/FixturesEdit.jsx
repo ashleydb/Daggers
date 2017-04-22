@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, browserHistory} from 'react-router';
 var {connect} = require('react-redux');
+import adminComponent from 'AdminMessage';
 import FixtureEditForm from 'FixtureEditForm';
 import {actions} from 'actions';
 import * as FixturesAPI from 'FixturesAPI';
@@ -20,7 +21,7 @@ export class FixturesEdit extends React.Component {
         this.props.dispatch(actions.fixtures.fetchFixturesIfNeeded());
     }
     handleSaveFixture(fixture) {
-        this.props.dispatch(actions.fixtures.submitFixture(fixture, this.props.token));
+        this.props.dispatch(actions.fixtures.submitFixture(fixture, this.props.login.token));
 
         // TODO: Not great, since write could fail and then we've gone away from the form's contents
         browserHistory.push('/admin/fixtures');
@@ -34,7 +35,6 @@ export class FixturesEdit extends React.Component {
             // Still loading data, so show a message
             return (
                 <div>
-                    <Link to="/admin" className="expanded button alert"><i className="fi-home"></i> Admin Tools Menu</Link>
                     <div className="callout">
                       <h5>Loading</h5>
                       <p>Please wait while we get the fixtures...</p>
@@ -45,7 +45,7 @@ export class FixturesEdit extends React.Component {
             // Editing a fixture, so show the form
             return (
                 <div>
-                    <FixtureEditForm fixture={fixture} onSaveFixture={this.handleSaveFixture} token={this.props.token}/>
+                    <FixtureEditForm fixture={fixture} onSaveFixture={this.handleSaveFixture} token={this.props.login.token}/>
                 </div>
             );
         } else if (fixtures && fixtures.length > 0) {
@@ -59,7 +59,6 @@ export class FixturesEdit extends React.Component {
             
             return (
                 <div>
-                    <Link to="/admin" className="expanded button alert"><i className="fi-home"></i> Admin Tools Menu</Link>
                     {errorMessage}
                     
                     <table className="hover text-center">
@@ -84,7 +83,6 @@ export class FixturesEdit extends React.Component {
             // Nothing is loading but we have no data, so show an error
             return (
                 <div>
-                    <Link to="/admin" className="expanded button alert"><i className="fi-home"></i> Admin Tools Menu</Link>
                     <div className="callout alert">
                       <h5>Error</h5>
                       <p>No fixtures found.</p>
@@ -99,6 +97,6 @@ export default connect(
   (state) => {
     return {
         fixtures: state.fixtures,
-        token: state.login.token
+        login: state.login
     };
-  })(FixturesEdit);
+  })(adminComponent(FixturesEdit));

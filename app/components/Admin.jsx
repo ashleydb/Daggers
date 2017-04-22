@@ -36,8 +36,14 @@ export class Admin extends React.Component {
             );
         } else if (token && expires > Date.now() && user.role == 'admin' && status.error === undefined) {
             // We have a valid token and the user is authorized. Show the Admin menu.
+            // TODO: Could compare this to Date.now() to figure out how long this will last rather than showing the deadline
+            var expiresDate = new Date(expires);
             return (
                 <div>
+                    <div className="callout success clearfix">
+                        <h5 className="float-left">{user.name} <small>{`(Login Expires: ${expiresDate.toUTCString()})`}</small></h5>
+                        <p className="alert label float-right">Admin Area</p>
+                    </div>
                     <ul>
                         <Link to={'/admin/news'} className="expanded button"><i className="fi-page-multiple"></i> News</Link>
                         <Link to={'/admin/fixtures'} className="expanded button"><i className="fi-flag"></i> Fixtures</Link>
@@ -45,7 +51,7 @@ export class Admin extends React.Component {
                 </div>
             );
         } else {
-            // Not logged in, amybe a problem. Show an error message if needed and the login form.
+            // Not logged in, maybe a problem. Show an error message if needed and the login form.
 
             var errorMessage = status.error === undefined ? null : (
                 <div className="callout alert">

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, browserHistory} from 'react-router';
 var { connect } = require('react-redux');
+import adminComponent from 'AdminMessage';
 import NewsEditForm from 'NewsEditForm';
 import { actions } from 'actions';
 import * as NewsAPI from 'NewsAPI';
@@ -18,7 +19,7 @@ export class NewsEdit extends React.Component {
         this.handleSaveStory = this.handleSaveStory.bind(this);
     }
     handleSaveStory(story) {
-        this.props.dispatch(actions.news.submitStory(story, this.props.token));
+        this.props.dispatch(actions.news.submitStory(story, this.props.login.token));
 
         // TODO: Not great, since write could fail and then we've gone away from the form's contents
         browserHistory.push('/admin/news');
@@ -32,7 +33,6 @@ export class NewsEdit extends React.Component {
         if (status.isFetching) {
             return (
                 <div>
-                    <Link to="/admin" className="expanded button alert"><i className="fi-home"></i> Admin Tools Menu</Link>
                     <div className="callout">
                         <h5>Loading</h5>
                         <p>Please wait while we get the news...</p>
@@ -42,7 +42,7 @@ export class NewsEdit extends React.Component {
         } else if (newsId == "new" || (story.id && story.id == newsId)) {
             return (
                 <div>
-                    <NewsEditForm story={story} onSaveStory={this.handleSaveStory} token={this.props.token} />
+                    <NewsEditForm story={story} onSaveStory={this.handleSaveStory} token={this.props.login.token} />
                 </div>
             );
         } else if (news && news.length > 0) {
@@ -73,7 +73,6 @@ export class NewsEdit extends React.Component {
             */
             return (
                 <div>
-                    <Link to="/admin" className="expanded button alert"><i className="fi-home"></i> Admin Tools Menu</Link>
                     {errorMessage}
                     <ul>
                         {news.map(story => (
@@ -91,7 +90,6 @@ export class NewsEdit extends React.Component {
         } else {
             return (
                 <div>
-                    <Link to="/admin" className="expanded button alert"><i className="fi-home"></i> Admin Tools Menu</Link>
                     <div className="callout alert">
                         <h5>Error</h5>
                         <p>No news found.</p>
@@ -106,6 +104,6 @@ export default connect(
     (state) => {
         return {
             news: state.news,
-            token: state.login.token
+            login: state.login
         };
-    })(NewsEdit);
+    })(adminComponent(NewsEdit));
