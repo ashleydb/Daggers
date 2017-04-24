@@ -1,7 +1,6 @@
 import {actions} from 'actions';
-import * as LoginAPI from 'LoginAPI';
 
-const INITIAL_STATE_LOGIN = {
+export const INITIAL_STATE_LOGIN = {
     token: null,
     expires: null,
     user: null, // {name, role, username}

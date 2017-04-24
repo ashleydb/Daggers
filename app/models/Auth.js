@@ -40,6 +40,7 @@ var Auth = {
 
     validate: function(username, password) {
         // TODO: Only spoofing the DB response for simplicity. Using env vars for a single user.
+        // TODO: Not super secure, since the password is plain text as an env var.
         if (username != process.env.AUTH_USERNAME || password != process.env.AUTH_PASSWORD)
             return null;
         

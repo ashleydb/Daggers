@@ -1,9 +1,8 @@
 import {actions} from 'actions';
-import * as NewsAPI from 'NewsAPI';
 
-const INITIAL_STATE_NEWS = {
-    news: [],
-    story: NewsAPI.DEFAULT_STORY,
+export var INITIAL_STATE_NEWS = {
+    news: null,     // Array of news story objects
+    story: null,    // News story object, e.g. NewsAPI.DEFAULT_STORY
     status: {
         isFetching: false,
         didInvalidate: false,
@@ -42,7 +41,7 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
                     didInvalidate: false,
                     lastUpdated: action.receivedAt
                 },
-                story: NewsAPI.DEFAULT_STORY
+                story: null
             };
             break;
 

@@ -84,10 +84,8 @@ export function addStory(story, token) {
                             resolve(story);
                         })
                         .catch(function (error) {
-                            //debugger;
                             // TODO: Show error message on UI
                             console.log(error.response.data);
-                            //resolve({});
                             reject(error.response.data);
                         });
                 } else {

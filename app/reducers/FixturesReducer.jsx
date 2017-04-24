@@ -1,9 +1,8 @@
 import {actions} from 'actions';
-import * as FixturesAPI from 'FixturesAPI';
 
-const INITIAL_STATE_FIXTURES = {
-    fixtures: [],
-    fixture: FixturesAPI.DEFAULT_FIXTURE,
+export const INITIAL_STATE_FIXTURES = {
+    fixtures: null, // Array of fixture objects
+    fixture: null,  // Fixture object, e.g. FixturesAPI.DEFAULT_FIXTURE
     status: {
         isFetching: false,
         didInvalidate: false,
@@ -42,7 +41,7 @@ export var FixturesReducer = (state = INITIAL_STATE_FIXTURES, action) => {
                     didInvalidate: false,
                     lastUpdated: action.receivedAt
                 },
-                fixture: FixturesAPI.DEFAULT_FIXTURE
+                fixture: null
             };
             break;
 

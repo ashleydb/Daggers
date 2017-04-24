@@ -1,45 +1,22 @@
 var redux = require('redux');
 var thunk = require('redux-thunk').default;
-var {NewsReducer, FixturesReducer, LoginReducer} = require('reducers');
+import * as Reducers from 'reducers';
 
 const INITIAL_STATE = {
-    news: {
-        news: null,
-        story: null,
-        status: {
-            isFetching: false,
-            didInvalidate: false,
-            lastUpdated: null
-        }
-    },
-    fixtures: {
-        fixtures: null,
-        fixture: null,
-        status: {
-            isFetching: false,
-            didInvalidate: false,
-            lastUpdated: null
-        }
-    },
-    login: {
-        token: null,
-        expires: null,
-        user: null, // {name, role, username}
-        status: {
-            isFetching: false,
-            didInvalidate: false,
-            lastUpdated: null
-        }
-    }
+    news: Reducers.INITIAL_STATE_NEWS,
+    fixtures: Reducers.INITIAL_STATE_FIXTURES,
+    login: Reducers.INITIAL_STATE_LOGIN,
+    pages: Reducers.INITIAL_STATE_PAGES
 };
 
 export var configure = (initialState = INITIAL_STATE) => {
     var reducer = redux.combineReducers({
         // <state property>: <designated reducer>
-        news: NewsReducer,
+        news: Reducers.NewsReducer,
         //story: newsReducer  // TODO: Break news and story up?
-        fixtures: FixturesReducer,
-        login: LoginReducer
+        fixtures: Reducers.FixturesReducer,
+        login: Reducers.LoginReducer,
+        pages: Reducers.PagesReducer
     });
     
     var store = redux.createStore(reducer, initialState, redux.compose(

@@ -89,6 +89,7 @@ router.get('/v1', function(req, res) {
 // More routes, mostly for our API
 var newsRoute = require('./app/routes/News');
 var fixturesRoute = require('./app/routes/Fixtures');
+var pagesRoute = require('./app/routes/Pages');
 var imagesRoute = require('./app/routes/Images');
 var authRoute = require('./app/routes/Auth');
 
@@ -96,7 +97,7 @@ var authRoute = require('./app/routes/Auth');
 // REGISTER OUR ROUTES -------------------------------
 // All of our API routes will be prefixed with /api
 // Just add more routers to the array to handle other API endpoints
-app.use('/api', [router, newsRoute, fixturesRoute, imagesRoute]);
+app.use('/api', [router, newsRoute, fixturesRoute, pagesRoute, imagesRoute]);
 // Other routes from the root go here
 app.use('/', [authRoute]);
 
