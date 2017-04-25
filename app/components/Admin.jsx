@@ -47,6 +47,7 @@ export class Admin extends React.Component {
                     <ul>
                         <Link to={'/admin/news'} className="expanded button"><i className="fi-page-multiple"></i> News</Link>
                         <Link to={'/admin/fixtures'} className="expanded button"><i className="fi-flag"></i> Fixtures</Link>
+                        <Link to={'/admin/pages'} className="expanded button"><i className="fi-page-multiple"></i> Pages</Link>
                     </ul>
                 </div>
             );

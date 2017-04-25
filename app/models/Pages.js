@@ -22,8 +22,8 @@ class Pages {
     // TODO: Do I really need this helper? Seems so, since I don't want to send the id field.
     toObj() {
         var obj = {
-            "name": this.headline,
-            "content": this.image
+            "name": this.name,
+            "content": this.content
         };
         
         if (this.updatedAt) {
@@ -71,10 +71,10 @@ class Pages {
             // Would be easy with the spread operator...
             Object.keys(pages).forEach((id) => {
                 
-                var name = news[id].name;
-                var content = news[id].content;
-                var createdAt = news[id].createdAt;
-                var updatedAt = news[id].updatedAt;
+                var name = pages[id].name;
+                var content = pages[id].content;
+                var createdAt = pages[id].createdAt;
+                var updatedAt = pages[id].updatedAt;
                 
                 parsedPages.push({
                     id, name, content, createdAt, updatedAt
