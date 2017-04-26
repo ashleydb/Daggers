@@ -42,9 +42,10 @@ class Pages {
     save(callback) {
         //console.log('DEBUG: Pages.save() this=', this);
         
+        // Note: We are using this.name (e.g. tickets) instead of null for a new id from Firebase
         myFirebase.writeToFirebase(myFirebase.firebaseRef,
                                    'pages',
-                                   this.id === 'new' ? null : this.id,
+                                   this.name, // TODO: Make this canonical?
                                    this.toObj())
             .then((id) => {
             //Success

@@ -68,6 +68,7 @@ export function addPage(page, token) {
                     axiosInstance.post('/api/v1/pages', page)
                         .then(function (response) {
                             console.log(response);
+                            // TODO: Not really necessary since we're just using the name
                             page.id = response.data.id;
                             resolve(page);
                         })
