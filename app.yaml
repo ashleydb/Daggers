@@ -1,5 +1,19 @@
 # Google Cloud Platform config file
+#
+# TODO: Need to assign values to each of the env vars, (securely, not on GitHub,) before the app will run.
+#
 # [START runtime]
 runtime: nodejs
 env: flex
+env_variables:
+  NODE_ENV: 'production'
+  FIREBASE_SERVICE_PROJECT_ID: ''
+  FIREBASE_SERVICE_PRIVATE_KEY_ID: ''
+  FIREBASE_SERVICE_PRIVATE_KEY: ''
+  FIREBASE_SERVICE_CLIENT_EMAIL: ''
+  FIREBASE_SERVICE_CLIENT_ID: ''
+  FIREBASE_SERVICE_CLIENT_X509_CERT_URL: ''
+  AUTH_SECRET: ''
+  AUTH_USERNAME: ''
+  AUTH_PASSWORD: ''
 # [END runtime]
