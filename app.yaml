@@ -1,0 +1,5 @@
+# Google Cloud Platform config file
+# [START runtime]
+runtime: nodejs
+env: flex
+# [END runtime]
