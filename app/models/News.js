@@ -1,42 +1,13 @@
 // Model for News Articles
 
-/*
-// Using Google DataStore
-var gstore = require('gstore-node');
-var Schema = gstore.Schema;
-
-var newsSchema = new Schema({
-    id: {type: 'number'},
-    headline: {type: 'string'},
-    image: {type: 'string'},
-    summary: {type: 'string'},
-    story: {type: 'string'}
-});
-
-// create the model for news and expose it to our app
-module.exports = gstore.model('News', newsSchema);
-*/
-
 // Using Firebase
-//import firebase, {firebaseRef} from '../cloud/firebase'
-
 var myFirebase = require('../cloud/firebase');
-//   myFirebase.writeToFirebase, getFirebaseRef, firebaseRef
+
+// How far back does our news go in the DB? This was the first year we have news for.
+const NEWS_FIRST_YEAR = 2012;
 
 // Represents a News story.
-// Class API is modeled after the Google Cloud Datastore API.
 class News {
-//    constructor(_id, _headline, _image, _summary, _story) {
-//        var id = _id || 'new'; //Same as DEFAULT_STORY_ID
-//        var headline = _headline || 'Placeholder';
-//        var image = _image || '/images/news-thumbnail.jpg';
-//        var summary = _summary || 'Placeholder';
-//        var story = _story || 'Placeholder';
-//
-//        // Make sure we bind 'this' in save for the promise
-//        //this.save = this.save.bind( this );
-//    }
-    
     constructor() {
         this.id = 'new'; //Same as DEFAULT_STORY_ID
         this.headline = 'Placeholder';
@@ -55,21 +26,18 @@ class News {
         //this.save = this.save.bind( this );
     }
 
-    // TODO: Do I really need this helper? Seems so, since I don't want to send the id field.
+    // Seem to need this helper, since I don't want to send the id field to Firebase
     toObj() {
         var obj = {
             "headline": this.headline,
             "image": this.image,
             "summary": this.summary,
-            "story": this.story
+            "story": this.story,
+            "createdAt": this.createdAt
         };
         
         if (this.updatedAt) {
             obj.updatedAt = this.updatedAt;
-        }
-        // TODO: Remove this, since we should always have createdAt
-        if (this.createdAt) {
-            obj.createdAt = this.createdAt;
         }
         if (this.youtube) {
             obj.youtube = this.youtube;
@@ -82,15 +50,20 @@ class News {
     // callback: Should be callback(error, id)
     save(callback) {
         //console.log('DEBUG: News.save() this=', this);
+        var d = new Date(this.createdAt);
+        let year = d.getFullYear();
+        let month = d.getMonth();
+
+        var childName = `news/${year}/${month}`;
         
         myFirebase.writeToFirebase(myFirebase.firebaseRef,
-                                   'news',
+                                   childName,
                                    this.id === 'new' ? null : this.id,
                                    this.toObj())
-            .then((id) => {
+        .then((id) => {
             //Success
             this.id = id;
-            callback(null, id);
+            callback(null, id, year, month);
         }, (e) => {
             // Error
             callback(e);
@@ -98,34 +71,79 @@ class News {
     }
 
     // Get all news data from our DB
+    // options: contains optional year and month, (pull from 'news/year/month',) plus listIDs=true if you only want the ids, not all content
     // callback: Should be callback(error, news)
-    static find(callback) {
+    static find(options, callback) {
+        var err = this.validateOptions(options, false, false, false);
+        if (err) {
+            // Error
+            callback(err);
+            return;
+        }
+
+        var childName = 'news';
+        if (options && options.year) {
+            if (options.month)
+                childName = `news/${year}/${month}`;
+            else
+                childName = `news/${year}`;
+        }
         myFirebase.readFromFirebase(myFirebase.firebaseRef,
-                                   'news')
+                                   childName)
         .then((news) => {
             //Success
 
-            // This will be the output array we want
-            var parsedNews = [];
+            var returnData = {}
 
-            // id will be the id values we need, which is the object (array index) name in the firebase object.
-            // Would be easy with the spread operator...
-            Object.keys(news).forEach((id) => {
-                
-                var headline = news[id].headline;
-                var summary = news[id].summary;
-                var story = news[id].story;
-                var image = news[id].image;
-                var createdAt = news[id].createdAt;
-                var updatedAt = news[id].updatedAt;
-                var youtube = news[id].youtube;
-                
-                parsedNews.push({
-                    id, headline, summary, story, image, createdAt, updatedAt, youtube
-                });
-            });
+            if (options && options.year) {
+                if (options.month) {
+                    // Specific Month. news will be all stories for one month, e.g.  {id: story, id: story, ...}
 
-            callback(null, parsedNews);
+                    // Output should be just an object with story_ids e.g. {2017: 12: [id, id]}
+                    // Or output should be an object with all story content e.g. {2017: 12: [{story}, {story}]}
+                    var monthData = options.listIDs ? Object.keys(news) : this.parseFirebaseNews(news);
+                    // Looks like arrays, but is just syntax for dynamically named properties on objects
+                    if (!returnData[options.year])
+                        returnData[options.year] = {};
+                    returnData[options.year][options.month] = monthData;
+                } else {
+                    // Full Year. news will be all stories for all months for a year, e.g.  {12: {id: story, ...}, 11: ..., ...}
+
+                    // As above, but looping through all possible months
+                    var yearId = options.year;
+                    var monthId = 12;
+                    while (monthId) {
+                        if (news[monthId]) {
+                            var monthData = options.listIDs ? Object.keys(news[monthId]) : this.parseFirebaseNews(news[monthId]);
+                            if (!returnData[yearId])
+                                returnData[yearId] = {};
+                            returnData[yearId][monthId] = monthData;
+                        }
+                        --monthId;
+                    }
+                }
+            } else {
+                // All News. news will be all years, months and stories, e.g.  {2017: 12: {id: story, ...}, 11: ..., 2016:...}
+
+                // As above, but looping through all possible years from this year back to NEWS_FIRST_YEAR
+                var d = new Date();
+                var yearId = d.getFullYear();
+                while (yearId > NEWS_FIRST_YEAR) {
+                    var monthId = 12;
+                    while (monthId) {
+                        if (news[yearId] && news[yearId][monthId]) {
+                            var monthData = options.listIDs ? Object.keys(news[yearId][monthId]) : this.parseFirebaseNews(news[yearId][monthId]);
+                            if (!returnData[yearId])
+                                returnData[yearId] = {};
+                            returnData[yearId][monthId] = monthData;
+                        }
+                        --monthId;
+                    }
+                    --yearId;
+                }
+            }
+
+            callback(null, returnData);
         }, (e) => {
             // Error
             callback(e);
@@ -133,14 +151,21 @@ class News {
     }
 
     // Get a single news story from our DB
-    // newsId: id of the news story to find
+    // options: contains year, month and id of the news story to find
     // callback: Should be callback(error, news)
-    static findById(newsId, callback) {
+    static findById(options, callback) {
+        var err = this.validateOptions(options, true, true, true);
+        if (err) {
+            // Error
+            callback(err);
+            return;
+        }
+
         myFirebase.readFromFirebase(myFirebase.firebaseRef,
-                                   `news/${newsId}`)
+                                   `news/${options.year}/${options.month}/${options.id}`)
         .then((news) => {
             //Success
-            news.id = newsId;
+            news.id = options.id;
             callback(null, news);
         }, (e) => {
             // Error
@@ -149,19 +174,102 @@ class News {
     }
 
     // Delete a single news story from our DB
-    // params: contains an _id of the news story to find
+    // options: contains year, month and id of the news story to find
     // callback: Should be callback(error, news)
-    static remove(params, callback) {
+    static remove(options, callback) {
+        var err = this.validateOptions(options, true, true, true);
+        if (err) {
+            // Error
+            callback(err);
+            return;
+        }
+
+        // TODO: Take a year and month, (news/year/month/id)
         myFirebase.removefromFirebase(myFirebase.firebaseRef,
-                                   `news/${params._id}`)
+                                   `news/${options.year}/${options.month}/${options.id}`)
         .then((id) => {
             //Success
-            var news = {id: params._id};
-            callback(null, news);
+            callback(null, options.id, options.year, options.month);
         }, (e) => {
             // Error
             callback(e);
         });
+    }
+
+    // news is a Firebase object that represents an array. Returns a javascript array of objects with ids.
+    static parseFirebaseNews(news) {
+        // This will be the output array we want
+        var parsedNews = [];
+
+        // id will be the id values we need, which is the object (array index) name in the firebase object.
+        // Would be easy with the spread operator...
+        Object.keys(news).forEach((id) => {
+            
+            var headline = news[id].headline;
+            var summary = news[id].summary;
+            var story = news[id].story;
+            var image = news[id].image;
+            var createdAt = news[id].createdAt;
+            var updatedAt = news[id].updatedAt;
+            var youtube = news[id].youtube;
+            
+            parsedNews.push({
+                id, headline, summary, story, image, createdAt, updatedAt, youtube
+            });
+        });
+
+        return parsedNews;
+    }
+
+    // Checks if options are valid. Returns null for success or an error object.
+    static validateOptions(options, requiresYear, requiresMonth, requiresId) {
+        var errorMessage = null;
+        // Make sure we actually have an options object
+        if (options) {
+            // Was a year passed in?
+            if (options.year) {
+                // Check the range of the year is valid
+                var d = new Date();
+                var year = d.getFullYear();
+                if (options.year > year || options.year < NEWS_FIRST_YEAR) {
+                    errorMessage = 'Error: year was out of range';
+                }
+            } else if (requiresYear) {
+                // Error, year was required
+                errorMessage = 'Error: year was required';
+            }
+
+            // Was a month passed in?
+            if (options.month) {
+                // Check the range of the month is valid
+                if (options.month > 0 || options.month < 13) {
+                    errorMessage = 'Error: month was out of range';
+                }
+                // Always need a year with a month
+                if (!options.year) {
+                    errorMessage = 'Error: month was specified without a year';
+                }
+            } else if (requiresMonth) {
+                // Error, month was required
+                errorMessage = 'Error: month was required';
+            }
+
+            // Was an ID needed and present?
+            if (requiresId && !options.id) {
+                errorMessage = 'Error: id was required';
+            }
+        } else {
+            errorMessage = 'Error: options was null';
+        }
+
+        if (errorMessage) {
+            return {
+                "status": 400,
+                "message": "Invalid parameters. " + errorMessage
+            };
+        } else {
+            return null;
+        }
     }
 }
 

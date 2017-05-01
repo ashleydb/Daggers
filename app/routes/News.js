@@ -3,8 +3,8 @@ var router = express.Router();
 var moment = require('moment');
 var authenticate = require('../middleware/validateRequest');
 
-// TODO: Currently these aren't just models, but APIs which obfuscate the DB being used
 // MODELS: Our data format
+// TODO: Currently these aren't just models, but APIs which obfuscate the DB being used
 var News = require('../models/News');
 
 // Routes that end in /news
@@ -33,18 +33,70 @@ router.route('/v1/news')
         news.createdAt = moment().unix();
     
         // save the news and check for errors
-        news.save(function(err, id) {
+        news.save(function(err, id, year, month) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'News created!', id });
+            res.json({ message: 'News created!', id, year, month });
         });
     })
 
-    // get all the news (accessed at GET http://localhost:8080/api/v1/news)
+    // get all the news (accessed at GET http://localhost:8080/api/v1/news) or a list of years/months/ids
+    //  Can send listIDs = [true|false] as a body parameter.
     // No authentication required.
     .get(function(req, res) {
-        News.find(function(err, news) {
+        // By default, return all news we have.
+        // Optional params to only get a list of the years/months/ids that we have content for so the client can "page"
+        var options = {
+            year: null,
+            month: null,
+            listIDs: req.body.listIDs
+        }
+        News.find(options, function(err, news) {
+            if (err)
+                res.send(err);
+
+            res.json(news);
+        });
+    });
+
+// Routes that end in /news/:year
+// ----------------------------------------------------
+router.route('/v1/news/:year')
+    // get all the news (accessed at GET http://localhost:8080/api/v1/news/:year) or a list of months/ids
+    //  Can send listIDs = [true|false] as a body parameter.
+    // No authentication required.
+    .get(function(req, res) {
+        // By default, return all news we have for this year
+        // Optional params to only get a list of the months/ids that we have content for so the client can "page"
+        var options = {
+            year: null,
+            month: null,
+            listIDs: req.body.listIDs
+        }
+        News.find(options, function(err, news) {
+            if (err)
+                res.send(err);
+
+            res.json(news);
+        });
+    });
+
+// Routes that end in /news/:year/:month
+// ----------------------------------------------------
+router.route('/v1/news/:year/:month')
+    // get all the news (accessed at GET http://localhost:8080/api/v1/news/:year/:month) or a list of ids
+    //  Can send listIDs = [true|false] as a body parameter.
+    // No authentication required.
+    .get(function(req, res) {
+        // By default, return all news we have for this year/month
+        // Optional params to only get a list of the ids that we have content for so the client can "page"
+        var options = {
+            year: null,
+            month: null,
+            listIDs: req.body.listIDs
+        }
+        News.find(options, function(err, news) {
             if (err)
                 res.send(err);
 
@@ -53,25 +105,34 @@ router.route('/v1/news')
     });
 
 
-// Routes that end in /news/:news_id
+// Routes that end in /news/:year/:month/:news_id
 // ----------------------------------------------------
-router.route('/v1/news/:news_id')
-
-    // get the news story with that id (accessed at GET http://localhost:8080/api/v1/news/:news_id)
+router.route('/v1/news/:year/:month/:news_id')
+    // get the news story with that id (accessed at GET http://localhost:8080/api/v1/news/:year/:month/:news_id)
     // No authentication required.
     .get(function(req, res) {
-        News.findById(req.params.news_id, function(err, news) {
+        var options = {
+            year: req.params.year,
+            month: req.params.month,
+            id: req.params.news_id
+        };
+        News.findById(options, function(err, news) {
             if (err)
                 res.send(err);
             res.json(news);
         });
     })
 
-    // update the news with this id (accessed at PUT http://localhost:8080/api/v1/news/:news_id)
+    // update the news with this id (accessed at PUT http://localhost:8080/api/v1/news/:year/:month/:news_id)
     // User must be authenticated as an admin.
     .put(authenticate.isAdmin, function(req, res) {
         // use our news model to find the story we want
-        News.findById(req.params.news_id, function(err, news) {
+        var options = {
+            year: req.params.year,
+            month: req.params.month,
+            id: req.params.news_id
+        };
+        News.findById(options, function(err, news) {
             if (err)
                 res.send(err);
             
@@ -84,30 +145,34 @@ router.route('/v1/news/:news_id')
             updatedNews.summary = req.body.summary ? req.body.summary : news.summary;
             updatedNews.story = req.body.story ? req.body.story : news.story;
             updatedNews.youtube = req.body.youtube ? req.body.youtube : news.youtube;
+            updatedNews.createdAt = req.body.createdAt ? req.body.createdAt : news.createdAt;
             
             // Add a time stamp for this update
             updatedNews.updatedAt = moment().unix();
 
             // save the news and check for errors
-            updatedNews.save(function(err, id) {
+            updatedNews.save(function(err, id, year, month) {
                 if (err)
                     res.send(err);
 
-                res.json({ message: 'News updated!', id });
+                res.json({ message: 'News updated!', id, year, month });
             });
         })
     })
  
-    // delete the news with this id (accessed at DELETE http://localhost:8080/api/v1/news/:news_id)
+    // delete the news with this id (accessed at DELETE http://localhost:8080/api/v1/news/:year/:month/:news_id)
     // User must be authenticated as an admin.
     .delete(authenticate.isAdmin, function(req, res) {
-        News.remove({
-            _id: req.params.news_id
-        }, function(err, news) {
+        var options = {
+            year: req.params.year,
+            month: req.params.month,
+            id: req.params.news_id
+        };
+        News.remove(options, function(err, id, year, month) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Successfully deleted', id: news.id });
+            res.json({ message: 'Successfully deleted', id, year, month });
         });
     });
 

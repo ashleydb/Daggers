@@ -19,21 +19,63 @@ export const DEFAULT_STORY = {
     //youtube: "https://youtu.be/Y9OCIIKwI94"
 };
 
+// How far back does our news go in the DB? This was the first year we have news for.
+const NEWS_FIRST_YEAR = 2012;
+
 // TODO: This is dumb and just fetches all story data we have. Page it? (Placeholders here aren't used)
+// TODO: Actually, need to change all of this to involve api/v1/news/:year/:month/:id where necessary, for "paging"
+//   NOTE: I have done this, but returning a flat array, with no notion of year/month preserved... can't then save a bookmark to a year/month?
 // TODO: Doesn't store the data within the API at all, just returns whatever we download to the caller. Should manage state?
-export function getStories(page = 0, count = 3) {
+export function getStories(_year = null, _month = null) {
     return new Promise(
         // The resolver function is called with the ability to resolve or reject the promise
         function (resolve, reject) {
+            var apiPath = '/api/v1/news'; // {2017: 12: {id: story, ...}, 11: ..., 2016:...}
+            if (_year) {
+                if (_month)
+                    apiPath = `/api/v1/news/${_year}/${_month}`; // {2017: 12: {id: story, ...}}
+                else
+                    apiPath = `/api/v1/news/${_year}`; // {2017: 12: {id: story, ...}, 11: ...}
+            }
             // Call our server to fetch some news
-            Axios.get('/api/v1/news', {
+            Axios.get(apiPath, {
                 params: {
-                    page,
-                    count
+                    listIDs: false
                 }
             })
                 .then(function (response) {
-                    var stories = response.data;
+                    var fullNews = response.data;
+                    debugger;
+                    // If we requested a specific year, use that. Else use the current year.
+                    var year = _year;
+                    if (!_year) {
+                        var d = new Date();
+                        year = d.getFullYear();
+                    }
+                    // If we requested a specific month, use that. Else go through the full year.
+                    var month = _month || 12;
+
+                    // Note that stories is an array, (0-11 for months,) while yearStories is an object
+                    //  but we are using dynamic property names (1-12) so it looks like array syntax.
+                    var stories = [];
+                    while (year >= NEWS_FIRST_YEAR) {
+                        var yearStories = fullNews[year];
+                        if (yearStories) {
+                            while (month > 0) {
+                                if (yearStories[month])
+                                    stories = [...stories, ...yearStories[month]];
+                                // If we requested a specific month, we can break early
+                                if (_month)
+                                    break;
+                                --month;
+                            }
+                        }
+                        // If we requested a specific year, we can break early
+                        if (_year)
+                            break;
+                        month = 12;
+                        --year;
+                    }
                     // double check this is an array and not malicious data
                     if ($.isArray(stories) && stories.length > 0) {
                         // Cool, we got content. Resolve the promise to return the data

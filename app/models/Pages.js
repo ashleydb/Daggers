@@ -45,7 +45,7 @@ class Pages {
         // Note: We are using this.name (e.g. tickets) instead of null for a new id from Firebase
         myFirebase.writeToFirebase(myFirebase.firebaseRef,
                                    'pages',
-                                   this.name, // TODO: Make this canonical?
+                                   this.name, // TODO: Make this canonical? Note it ends up as an update() call to firebase when this value isn't null
                                    this.toObj())
             .then((id) => {
             //Success
