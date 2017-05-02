@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var moment = require('moment');
+//var moment = require('moment');
 var authenticate = require('../middleware/validateRequest');
 
 // TODO: Currently these aren't just models, but APIs which obfuscate the DB being used
@@ -32,12 +32,12 @@ router.route('/v1/pages')
         }
     
         // Add a time stamp for this post
-        page.createdAt = moment().unix();
+        page.createdAt = Date.now();
     
         // save the page and check for errors
         page.save(function(err, id) {
             if (err) {
-                res.send(err);
+                res.status(err.status).send(err);
             } else {
                 res.json({ message: 'Page created!', id });
             }
@@ -49,7 +49,7 @@ router.route('/v1/pages')
     .get(function(req, res) {
         Pages.find(function(err, pages) {
             if (err) {
-                res.send(err);
+                res.status(err.status).send(err);
             } else {
                 res.json(pages);
             }
@@ -66,7 +66,7 @@ router.route('/v1/pages/:page_id')
     .get(function(req, res) {
         Pages.findById(req.params.page_id, function(err, page) {
             if (err) {
-                res.send(err);
+                res.status(err.status).send(err);
             } else {
                 res.json(page);
             }
@@ -78,8 +78,10 @@ router.route('/v1/pages/:page_id')
     .put(authenticate.isAdmin, function(req, res) {
         // use our Pages model to find the page we want
         Pages.findById(req.params.page_id, function(err, page) {
-            if (err)
-                res.send(err);
+            if (err) {
+                res.status(err.status).send(err);
+                return;
+            }
             
             // TODO: We currently get back a raw data object, not an object of class Pages, (I removed it while debugging,) so I'm making a new Pages object here. No big deal.
             // Fill in the elements from the request
@@ -89,12 +91,12 @@ router.route('/v1/pages/:page_id')
             updatedPage.content = req.body.content ? req.body.content : page.content;
             
             // Add a time stamp for this update
-            updatedPage.updatedAt = moment().unix();
+            updatedPage.updatedAt = Date.now();
 
             // save the page and check for errors
             updatedPage.save(function(err, id) {
                 if (err) {
-                    res.send(err);
+                    res.status(err.status).send(err);
                 } else {
                     res.json({ message: 'Page updated!', id });
                 }
@@ -109,7 +111,7 @@ router.route('/v1/pages/:page_id')
             _id: req.params.page_id
         }, function(err, page) {
             if (err) {
-                res.send(err);
+                res.status(err.status).send(err);
             } else {
                 res.json({ message: 'Successfully deleted', id: page.id });
             }

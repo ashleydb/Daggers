@@ -22,6 +22,7 @@ export class NewsEdit extends React.Component {
         this.props.dispatch(actions.news.submitStory(story, this.props.login.token));
 
         // TODO: Not great, since write could fail and then we've gone away from the form's contents
+        //  TODO: Show a loading screen, then an error message or do this push
         browserHistory.push('/admin/news');
     }
     render() {

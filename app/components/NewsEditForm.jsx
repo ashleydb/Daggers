@@ -46,6 +46,10 @@ export default class NewsEditForm extends React.Component {
         if (this.refs.youtube.value != '')
             story.youtube = this.refs.youtube.value;
         
+        // If we are editing an existing story, preserve the original creation date
+        if (this.refs.createdAt.value != '')
+            story.createdAt = Number(this.refs.createdAt.value);
+        
         story.story = this.refs.story.value;                    // Works as we're repurposing in onTextChange
         //story.story = this.refs.storyrich.target.innerHTML;   // This doesn't work
         //story.story = this.state.text;                        // This is if we manage the text on the state
@@ -82,6 +86,7 @@ export default class NewsEditForm extends React.Component {
                 
                 <form onSubmit={this.onFormSubmit}>
                     <input type="hidden" defaultValue={story.id} ref="id"/>
+                    <input type="hidden" defaultValue={story.createdAt} ref="createdAt"/>
                     <label>Headline</label><input type="text" defaultValue={story.headline} ref="headline"/>
                     <label>Summary</label><input type="text" defaultValue={story.summary} ref="summary"/>
                     

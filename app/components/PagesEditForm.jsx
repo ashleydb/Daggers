@@ -39,6 +39,10 @@ export default class PagesEditForm extends React.Component {
         page.id = this.refs.id.value;
         page.name = this.refs.name.value;
         page.content = this.refs.content.value;
+
+        // If we are editing an existing story, preserve the original creation date
+        if (this.refs.createdAt.value != '')
+            page.createdAt = Number(this.refs.createdAt.value);
         
         // TODO: How are we going to handle images? Ignore the picker? Have the picker add text to the content field?
         //story.image = this.refs.image.value;
@@ -77,6 +81,7 @@ export default class PagesEditForm extends React.Component {
                 
                 <form onSubmit={this.onFormSubmit}>
                     <input type="hidden" defaultValue={page.id} ref="id"/>
+                    <input type="hidden" defaultValue={page.createdAt} ref="createdAt"/>
                     <label>Name</label><input type="text" defaultValue={page.name} ref="name"/>
                     
                     <label>Content</label>

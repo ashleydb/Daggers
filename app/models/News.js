@@ -50,9 +50,9 @@ class News {
     // callback: Should be callback(error, id)
     save(callback) {
         //console.log('DEBUG: News.save() this=', this);
-        var d = new Date(this.createdAt);
+        var d = new Date(Number(this.createdAt));
         let year = d.getFullYear();
-        let month = d.getMonth();
+        let month = d.getMonth() + 1;
 
         var childName = `news/${year}/${month}`;
         
@@ -165,8 +165,19 @@ class News {
                                    `news/${options.year}/${options.month}/${options.id}`)
         .then((news) => {
             //Success
-            news.id = options.id;
-            callback(null, news);
+            // TODO: May get back an empty object... Need to replicate this logic elsewhere!!
+            if (!news.headline) {
+                callback({
+                    status: 400,
+                    message: "Error: Object not found in DB.",
+                    year: options.year,
+                    month: options.month,
+                    id: options.id
+                });
+            } else {
+                news.id = options.id;
+                callback(null, news);
+            }
         }, (e) => {
             // Error
             callback(e);
@@ -242,7 +253,7 @@ class News {
             // Was a month passed in?
             if (options.month) {
                 // Check the range of the month is valid
-                if (options.month > 0 || options.month < 13) {
+                if (options.month < 1 || options.month > 12) {
                     errorMessage = 'Error: month was out of range';
                 }
                 // Always need a year with a month

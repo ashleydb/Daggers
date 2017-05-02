@@ -14,7 +14,7 @@ export const DEFAULT_STORY = {
     image: "/images/News-Generic2_169.jpg",
     summary: "Placeholder",
     story: "Placeholder",
-    createdAt: 0
+    createdAt: 0 // milliseconds since epoch, (Date.now()) Calculate year and month from this for Firebase path.
     //updatedAt: 123
     //youtube: "https://youtu.be/Y9OCIIKwI94"
 };
@@ -45,7 +45,6 @@ export function getStories(_year = null, _month = null) {
             })
                 .then(function (response) {
                     var fullNews = response.data;
-                    debugger;
                     // If we requested a specific year, use that. Else use the current year.
                     var year = _year;
                     if (!_year) {
@@ -132,7 +131,10 @@ export function addStory(story, token) {
                         });
                 } else {
                     // This is a PUT
-                    axiosInstance.put(`/api/v1/news/${story.id}`, story)
+                    var d = new Date(Number(story.createdAt));
+                    var year = d.getFullYear();
+                    var month = d.getMonth() + 1; // getMonth is 0-11, but we setup Firebase as 1-12
+                    axiosInstance.put(`/api/v1/news/${year}/${month}/${story.id}`, story)
                         .then(function (response) {
                             console.log(response);
                             resolve(story);

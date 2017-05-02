@@ -38,8 +38,10 @@ router.route('/v1/fixtures')
     
         // save the fixture and check for errors
         fixture.save(function(err, id) {
-            if (err)
-                res.send(err);
+            if (err) {
+                res.status(err.status).send(err);
+                return;
+            }
 
             res.json({ message: 'Fixture created!', id });
         });
@@ -49,8 +51,10 @@ router.route('/v1/fixtures')
     // No authentication required.
     .get(function(req, res) {
         Fixtures.find(function(err, fixtures) {
-            if (err)
-                res.send(err);
+            if (err) {
+                res.status(err.status).send(err);
+                return;
+            }
 
             res.json(fixtures);
         });
@@ -65,8 +69,10 @@ router.route('/v1/fixtures/:fixture_id')
     // No authentication required.
     .get(function(req, res) {
         Fixtures.findById(req.params.fixture_id, function(err, fixture) {
-            if (err)
-                res.send(err);
+            if (err) {
+                res.status(err.status).send(err);
+                return;
+            }
             res.json(fixture);
         });
     })
@@ -76,8 +82,10 @@ router.route('/v1/fixtures/:fixture_id')
     .put(authenticate.isAdmin, function(req, res) {
         // use our fixture model to find the game we want
         Fixtures.findById(req.params.fixture_id, function(err, fixture) {
-            if (err)
-                res.send(err);
+            if (err) {
+                res.status(err.status).send(err);
+                return;
+            }
             
             // TODO: We currently get back a raw data object, not an object of class fixture, (I removed it while debugging,) so I'm making a new fixture object here. No big deal.
             // Fill in the elements from the request
@@ -95,8 +103,10 @@ router.route('/v1/fixtures/:fixture_id')
 
             // save the news and check for errors
             updatedFixture.save(function(err, id) {
-                if (err)
-                    res.send(err);
+                if (err) {
+                    res.status(err.status).send(err);
+                    return;
+                }
 
                 res.json({ message: 'Fixture updated!', id });
             });
@@ -109,8 +119,10 @@ router.route('/v1/fixtures/:fixture_id')
         Fixtures.remove({
             _id: req.params.fixture_id
         }, function(err, fixture) {
-            if (err)
-                res.send(err);
+            if (err) {
+                res.status(err.status).send(err);
+                return;
+            }
 
             res.json({ message: 'Successfully deleted fixture', id: fixture.id });
         });

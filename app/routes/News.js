@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var moment = require('moment');
+//var moment = require('moment');
 var authenticate = require('../middleware/validateRequest');
 
 // MODELS: Our data format
@@ -30,12 +30,14 @@ router.route('/v1/news')
             news.youtube = req.body.youtube;
     
         // Add a time stamp for this post
-        news.createdAt = moment().unix();
+        news.createdAt = Date.now();
     
         // save the news and check for errors
         news.save(function(err, id, year, month) {
-            if (err)
-                res.send(err);
+            if (err) {
+                res.status(err.status).send(err);
+                return;
+            }
 
             res.json({ message: 'News created!', id, year, month });
         });
@@ -50,11 +52,13 @@ router.route('/v1/news')
         var options = {
             year: null,
             month: null,
-            listIDs: req.body.listIDs
+            listIDs: req.body.listIDs === "true" ? true : false
         }
         News.find(options, function(err, news) {
-            if (err)
-                res.send(err);
+            if (err) {
+                res.status(err.status).send(err);
+                return;
+            }
 
             res.json(news);
         });
@@ -70,13 +74,15 @@ router.route('/v1/news/:year')
         // By default, return all news we have for this year
         // Optional params to only get a list of the months/ids that we have content for so the client can "page"
         var options = {
-            year: null,
+            year: Number(req.params.year),
             month: null,
-            listIDs: req.body.listIDs
+            listIDs: req.body.listIDs === "true" ? true : false
         }
         News.find(options, function(err, news) {
-            if (err)
-                res.send(err);
+            if (err) {
+                res.status(err.status).send(err);
+                return;
+            }
 
             res.json(news);
         });
@@ -92,13 +98,15 @@ router.route('/v1/news/:year/:month')
         // By default, return all news we have for this year/month
         // Optional params to only get a list of the ids that we have content for so the client can "page"
         var options = {
-            year: null,
-            month: null,
-            listIDs: req.body.listIDs
+            year: Number(req.params.year),
+            month: Number(req.params.month),
+            listIDs: req.body.listIDs === "true" ? true : false
         }
         News.find(options, function(err, news) {
-            if (err)
-                res.send(err);
+            if (err) {
+                res.status(err.status).send(err);
+                return;
+            }
 
             res.json(news);
         });
@@ -112,13 +120,15 @@ router.route('/v1/news/:year/:month/:news_id')
     // No authentication required.
     .get(function(req, res) {
         var options = {
-            year: req.params.year,
-            month: req.params.month,
+            year: Number(req.params.year),
+            month: Number(req.params.month),
             id: req.params.news_id
         };
         News.findById(options, function(err, news) {
-            if (err)
-                res.send(err);
+            if (err) {
+                res.status(err.status).send(err);
+                return;
+            }
             res.json(news);
         });
     })
@@ -128,13 +138,15 @@ router.route('/v1/news/:year/:month/:news_id')
     .put(authenticate.isAdmin, function(req, res) {
         // use our news model to find the story we want
         var options = {
-            year: req.params.year,
-            month: req.params.month,
+            year: Number(req.params.year),
+            month: Number(req.params.month),
             id: req.params.news_id
         };
         News.findById(options, function(err, news) {
-            if (err)
-                res.send(err);
+            if (err) {
+                res.status(err.status).send(err);
+                return;
+            }
             
             // TODO: We currently get back a raw data object, not an object of class news, (I removed it while debugging,) so I'm making a new news object here. No big deal.
             // Fill in the elements from the request
@@ -148,12 +160,14 @@ router.route('/v1/news/:year/:month/:news_id')
             updatedNews.createdAt = req.body.createdAt ? req.body.createdAt : news.createdAt;
             
             // Add a time stamp for this update
-            updatedNews.updatedAt = moment().unix();
+            updatedNews.updatedAt = Date.now();
 
             // save the news and check for errors
             updatedNews.save(function(err, id, year, month) {
-                if (err)
-                    res.send(err);
+                if (err) {
+                    res.status(err.status).send(err);
+                    return;
+                }
 
                 res.json({ message: 'News updated!', id, year, month });
             });
@@ -164,13 +178,15 @@ router.route('/v1/news/:year/:month/:news_id')
     // User must be authenticated as an admin.
     .delete(authenticate.isAdmin, function(req, res) {
         var options = {
-            year: req.params.year,
-            month: req.params.month,
+            year: Number(req.params.year),
+            month: Number(req.params.month),
             id: req.params.news_id
         };
         News.remove(options, function(err, id, year, month) {
-            if (err)
-                res.send(err);
+            if (err) {
+                res.status(err.status).send(err);
+                return;
+            }
 
             res.json({ message: 'Successfully deleted', id, year, month });
         });
