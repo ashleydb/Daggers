@@ -9,9 +9,6 @@ import 'style!css!react-trumbowyg/dist/trumbowyg.min.css';
 import ImageUploader from 'ImageUploader';
 import ImageLister from 'ImageLister';
 
-// TODO: Image picking.
-// TODO: Set initial state, (or editors onLoad or something) so that the text isn't empty, since we validate story.length > 0, so if you don't change the text and only edit a headline, the story can't be saved.
-
 export default class PagesEditForm extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
     constructor(props) {
@@ -44,21 +41,16 @@ export default class PagesEditForm extends React.Component {
         if (this.refs.createdAt.value != '')
             page.createdAt = Number(this.refs.createdAt.value);
         
-        // TODO: How are we going to handle images? Ignore the picker? Have the picker add text to the content field?
-        //story.image = this.refs.image.value;
-        
         if (page.name.length > 0 &&
             page.content.length > 0) {
             this.props.onSavePage(page);
         }
     }
     onNewImage(imgPath) {
-        // TODO: Add to the content field?
         this.refs.image.value = imgPath;
         this.setState({image: imgPath});
     }
     onPickImage(imgPath) {
-        // TODO: Add to the content field?
         this.refs.image.value = imgPath;
         this.setState({image: imgPath});
     }
@@ -66,17 +58,25 @@ export default class PagesEditForm extends React.Component {
         var {page} = this.props;
         var image = this.state.image;// || story.image;
 
-        // TODO: className="news-image-preview" below. Replace this? Remove it?
+        // TODO: className="news-image-preview" below. Replace/Rename this?
         return (
             <div>
                 <div className="row">
                     <div className="columns small-6">
-                        <ImageLister onPickImage={this.onPickImage}/>
+                        <ImageLister onPickImage={this.onPickImage} selectedImage={image}/>
                     </div>
                     <div className="columns small-6">
                         <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} ref="imageUploader"/>
                         <img src={image} alt="Image Preview" className="news-image-preview"/>
                     </div>
+                </div>
+
+                <div className="callout secondary">
+                    <h5>How to add images to a page</h5>
+                    <p>Use the tools above to upload, browse and preview images. When you find the one you want, note the full name, (e.g. "/images/stadium-tbs.jpg")</p>
+                    <p>In the text editor below, click the Insert Image button: <i className="fi-photo"></i></p>
+                    <p>You will be prompted for a URL, (enter the full image name, e.g. ) and a Description, (enter a comment, e.g. "Daggers TBS Stand".)</p>
+                    <p>You can then drag the images around within the text box to move them the page. You can delete the image in the same way as text.</p>
                 </div>
                 
                 <form onSubmit={this.onFormSubmit}>

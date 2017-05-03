@@ -165,7 +165,8 @@ class News {
                                    `news/${options.year}/${options.month}/${options.id}`)
         .then((news) => {
             //Success
-            // TODO: May get back an empty object... Need to replicate this logic elsewhere!!
+
+            // May get back an empty object...
             if (!news.headline) {
                 callback({
                     status: 400,
@@ -195,7 +196,6 @@ class News {
             return;
         }
 
-        // TODO: Take a year and month, (news/year/month/id)
         myFirebase.removefromFirebase(myFirebase.firebaseRef,
                                    `news/${options.year}/${options.month}/${options.id}`)
         .then((id) => {

@@ -9,6 +9,14 @@
     overflow-y: scroll;
 }
 
+// Highlight the selected image in the list
+#imageList .unselectedImageName {
+    font-weight: normal;
+}
+#imageList .selectedImageName {
+    font-weight: bold;
+}
+
 // Force the scrollbar to appear in the image list, since OSX hides it
 #imageList::-webkit-scrollbar {
     -webkit-appearance: none;

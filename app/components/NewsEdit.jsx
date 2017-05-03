@@ -6,10 +6,6 @@ import NewsEditForm from 'NewsEditForm';
 import { actions } from 'actions';
 import * as NewsAPI from 'NewsAPI';
 
-// TODO: Need to lock behind authentication
-// TODO: Need to change the whole app to use Redux to manage the state more effectively.
-// TODO: Can a story have a YouTube video in it?
-
 export class NewsEdit extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
     constructor(props) {
@@ -28,7 +24,7 @@ export class NewsEdit extends React.Component {
     render() {
         // Are we editing at a story right now, or about to?
         var { newsId } = this.props.params;
-        var { news, status } = this.props.news; // TODO: .news shouldn't be needed
+        var { news, status } = this.props.news;
         var story = NewsAPI.getStory(newsId, news);
 
         if (status.isFetching) {
@@ -56,9 +52,22 @@ export class NewsEdit extends React.Component {
                 </div>
             );
 
-            // TODO: Improve rendering here. Show as a table with titles/dates and buttons to view/edit/delete
-            //  Create New can be at the top.
-            //  Add pagination, (see below,) links to load stories for a given day/week/month/year/season or just a "Load More" button?
+            // Show as a table with titles/dates and buttons to view/edit/delete
+            // TODO: Make the delete button work, or add one to the edit form.
+            var contentRows = news.map((story) => {
+                var d = new Date(story.createdAt);
+                return (
+                    <tr key={story.id}>
+                        <td>{d.toDateString()}</td>
+                        <td><Link to={`/admin/news/${story.id}`}>{story.headline}</Link></td>
+                        <td><Link to={`/news/${story.id}`} className="button"><i className="fi-eye"></i> View</Link></td>
+                        <td><Link to={`/admin/news/${story.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
+                        <td><button className="button disabled"><i className="fi-x"></i> Delete</button></td>
+                    </tr>
+                );
+            });
+
+            // TODO: Add pagination, (see below,) links to load stories for a given day/week/month/year/season or just a "Load More" button?
             /*
             <ul className="pagination text-center" role="navigation" aria-label="Pagination">
               <li className="pagination-previous disabled">Previous</li>
@@ -75,17 +84,12 @@ export class NewsEdit extends React.Component {
             return (
                 <div>
                     {errorMessage}
-                    <ul>
-                        {news.map(story => (
-                            <li key={story.id}>
-                                <Link to={`/admin/news/${story.id}`}>{story.headline}</Link>
-                            </li>
-                        ))}
-
-                        <li key="new">
-                            <Link to={`/admin/news/new`}><i className="fi-plus"></i> Create New</Link>
-                        </li>
-                    </ul>
+                    <Link to={`/admin/news/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
+                    <table className="hover">
+                        <tbody>
+                            {contentRows}
+                        </tbody>
+                    </table>
                 </div>
             );
         } else {

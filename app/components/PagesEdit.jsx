@@ -54,36 +54,29 @@ export class PagesEdit extends React.Component {
                 </div>
             );
 
-            // TODO: Improve rendering here. Show as a table with titles/dates and buttons to view/edit/delete
-            //  Create New can be at the top.
-            //  Add pagination, (see below,) links to load pages for a given day/week/month/year/season or just a "Load More" button?
-            /*
-            <ul className="pagination text-center" role="navigation" aria-label="Pagination">
-              <li className="pagination-previous disabled">Previous</li>
-              <li className="current"><span className="show-for-sr">You're on page</span> 1</li>
-              <li><a href="#" aria-label="Page 2">2</a></li>
-              <li><a href="#" aria-label="Page 3">3</a></li>
-              <li><a href="#" aria-label="Page 4">4</a></li>
-              <li className="ellipsis"></li>
-              <li><a href="#" aria-label="Page 12">12</a></li>
-              <li><a href="#" aria-label="Page 13">13</a></li>
-              <li className="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
-            </ul>
-            */
+            // Show as a table with titles/dates and buttons to view/edit/delete
+            // TODO: View button doesn't work for Tickets since the route (currently) isn't /pages/Tickets, just /Tickets.
+            // TODO: Make the delete button work, or add one to the edit form.
+            var contentRows = pages.map((page) => {
+                return (
+                    <tr key={page.id}>
+                        <td><Link to={`/admin/pages/${page.id}`}>{page.name}</Link></td>
+                        <td><Link to={`/pages/${page.id}`} className="button"><i className="fi-eye"></i> View</Link></td>
+                        <td><Link to={`/admin/pages/${page.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
+                        <td><button className="button disabled"><i className="fi-x"></i> Delete</button></td>
+                    </tr>
+                );
+            });
+
             return (
                 <div>
                     {errorMessage}
-                    <ul>
-                        {pages.map(page => (
-                            <li key={page.id}>
-                                <Link to={`/admin/pages/${page.id}`}>{page.name}</Link>
-                            </li>
-                        ))}
-
-                        <li key="new">
-                            <Link to={`/admin/pages/new`}><i className="fi-plus"></i> Create New</Link>
-                        </li>
-                    </ul>
+                    <Link to={`/admin/pages/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
+                    <table className="hover">
+                        <tbody>
+                            {contentRows}
+                        </tbody>
+                    </table>
                 </div>
             );
         } else {

@@ -9,10 +9,6 @@ import 'style!css!react-trumbowyg/dist/trumbowyg.min.css';
 import ImageUploader from 'ImageUploader';
 import ImageLister from 'ImageLister';
 
-// TODO: Image picking.
-// TODO: Set initial state, (or editors onLoad or something) so that the text isn't empty, since we validate story.length > 0, so if you don't change the text and only edit a headline, the story can't be saved.
-// TODO: Hide the regular story input field?
-
 export default class NewsEditForm extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
     constructor(props) {
@@ -76,7 +72,7 @@ export default class NewsEditForm extends React.Component {
             <div>
                 <div className="row">
                     <div className="columns small-6">
-                        <ImageLister onPickImage={this.onPickImage}/>
+                        <ImageLister onPickImage={this.onPickImage} selectedImage={image}/>
                     </div>
                     <div className="columns small-6">
                         <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} ref="imageUploader"/>

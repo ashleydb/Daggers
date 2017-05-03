@@ -1,5 +1,8 @@
 import {actions} from 'actions';
 
+// For sorting arrays efficiently
+var Sorter = require('app/Sorter.js');
+
 export var INITIAL_STATE_NEWS = {
     news: null,     // Array of news story objects
     story: null,    // News story object, e.g. NewsAPI.DEFAULT_STORY
@@ -30,7 +33,7 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
                 }
             });
             if (newStory) {
-                news = [...news, action.story];
+                news = [action.story, ...news];
             }
 
             return {
@@ -55,14 +58,6 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
             });
             break;
 
-
-        case actions.news.ADD_STORIES:
-            return {
-                ...state,
-                news: [...state.news, ...action.stories]
-            };
-            break;
-
         case actions.news.INVALIDATE_NEWS:
             // Object.assign(<new state to copy into>, <existing state to copy from>, <change to make>);
             return Object.assign({}, state, {
@@ -82,13 +77,23 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
             break;
 
         case actions.news.RECEIVE_NEWS_STORIES:
+            // TODO: Trying to think ahead here by adding news to the state, rather than just fully replacing it.
+            //  Could cause duplicates, paging back and forth or downloading all news when I had already had content in the state?
+            var allNews = action.stories;
+            //if (state.news)
+            //    allNews = [...action.stories, ...state.news];
+
+            // Sort stories by date, (note we included Sorter above.)
+            // TODO: How do I reverse this so newest is first? This is oldest first.
+            allNews.sortBy(function(o){ return new Date( o.date ) });
+
             return Object.assign({}, state, {
                 status: {
                     isFetching: false,
                     didInvalidate: false,
                     lastUpdated: action.receivedAt
                 },
-                news: action.stories
+                news: allNews
             });
             break;
 

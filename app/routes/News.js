@@ -52,7 +52,7 @@ router.route('/v1/news')
         var options = {
             year: null,
             month: null,
-            listIDs: req.body.listIDs === "true" ? true : false
+            listIDs: req.body.listIDs === "true" ? true : false // TODO: Does this come in as a string or a bool?
         }
         News.find(options, function(err, news) {
             if (err) {
@@ -76,7 +76,7 @@ router.route('/v1/news/:year')
         var options = {
             year: Number(req.params.year),
             month: null,
-            listIDs: req.body.listIDs === "true" ? true : false
+            listIDs: req.body.listIDs === "true" ? true : false // TODO: Does this come in as a string or a bool?
         }
         News.find(options, function(err, news) {
             if (err) {
@@ -100,7 +100,7 @@ router.route('/v1/news/:year/:month')
         var options = {
             year: Number(req.params.year),
             month: Number(req.params.month),
-            listIDs: req.body.listIDs === "true" ? true : false
+            listIDs: req.body.listIDs === "true" ? true : false // TODO: Does this come in as a string or a bool?
         }
         News.find(options, function(err, news) {
             if (err) {

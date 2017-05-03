@@ -25,10 +25,11 @@ const standardImages = ['/images/AcademyMatchReport_86.jpg',
                     '/images/stadium-tbs.jpg'];
 
 // About: Renders a list of links to images on a server within a given directory
-// Usage: <ImageLister directory="images/uploads/" onPickImage={this.onPickImage}/>
+// Usage: <ImageLister directory="images/uploads/" onPickImage={this.onPickImage} selectedImage="path/to/image.jpg"/>
 // Note that directory is optional. Server will default to "images/uploads/".
 //  Take note of NO leading and included trailing '/'
 // onPickImage() will receive the path to the image if a user clicks one of the list entries.
+//  Store this path and pass back in as selectedImage to highlight that selection.
 export default class ImageLister extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
     constructor(props) {
@@ -79,13 +80,19 @@ export default class ImageLister extends React.Component {
     render() {
         var renderImageList = () => {
             var {files} = this.state;
+            var {selectedImage} = this.props;
+
             if (files) {
                 // So we can access handlers on 'this' within the map function
                 let that = this;
                 return (
                     <ul>
                         {files.map(function(file, index){
-                            return <li key={index}><a href="#" onClick={(e) => {that.handleClickImage(e, file);}}>{file}</a></li>;
+                            var styleName = 'unselectedImageName';
+                            if (selectedImage == file) {
+                                styleName = 'selectedImageName';
+                            }
+                            return <li key={index}><a href="#" onClick={(e) => {that.handleClickImage(e, file);}} className={styleName}>{file}</a></li>;
                         })}
                     </ul>
                 );

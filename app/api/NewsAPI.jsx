@@ -1,8 +1,7 @@
 var $ = require('jquery');
 var Axios = require('axios');
 
-// TODO: Finish API operations, actually connecting to a DB.
-// TODO: Add a category?
+// TODO: Add a category? e.g. Match Report, Club News, Player News
 // TODO: Add ability to search?
 
 // TODO: Minor. Should this be part of NewsAPI and should that be a class?
@@ -22,10 +21,10 @@ export const DEFAULT_STORY = {
 // How far back does our news go in the DB? This was the first year we have news for.
 const NEWS_FIRST_YEAR = 2012;
 
-// TODO: This is dumb and just fetches all story data we have. Page it? (Placeholders here aren't used)
-// TODO: Actually, need to change all of this to involve api/v1/news/:year/:month/:id where necessary, for "paging"
-//   NOTE: I have done this, but returning a flat array, with no notion of year/month preserved... can't then save a bookmark to a year/month?
-// TODO: Doesn't store the data within the API at all, just returns whatever we download to the caller. Should manage state?
+// Fetches all news stories from the DB. Optionally set a year or year and month to limit the results returned.
+// Doesn't store the data within the API at all, just returns whatever we download to the caller who needs to manage the state.
+//   NOTE: Returns a flat array, with no notion of year/month preserved...
+// TODO: Should the caller store as a 2d array? Should they sort the array as new results come in?
 export function getStories(_year = null, _month = null) {
     return new Promise(
         // The resolver function is called with the ability to resolve or reject the promise
@@ -93,7 +92,8 @@ export function getStories(_year = null, _month = null) {
 };
 
 // Get the content for a story which may be cached in the stories array.
-// TODO: If the ID doesn't match one we have cached, do we try fetching from the server? Feels like that should happen on the caller's side so they can update the state.
+// If the ID doesn't match one we have cached, the caller may want to fetch more data from the DB and update state.
+// Returns a DEFAULT_STORY if nothing is found.
 export function getStory(id, stories) {
     // Look through the list of stories passed in, (would typically be from the state)
     if (stories) {
@@ -107,6 +107,7 @@ export function getStory(id, stories) {
     return this.DEFAULT_STORY;
 };
 
+// Creates or updates a story in our DB
 export function addStory(story, token) {
     return new Promise(
         // The resolver function is called with the ability to resolve or reject the promise
