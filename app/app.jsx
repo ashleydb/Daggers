@@ -23,13 +23,7 @@ import Fans from 'Fans';
 import Club from 'Club';
 import Commercial from 'Commercial';
 
-import * as NewsAPI from 'NewsAPI';
-
-import {actions} from 'actions';
 var store = require('configureStore').configure();
-
-// TODO: Move this to the Home or News components?
-store.dispatch(actions.news.fetchNewsStoriesIfNeeded());
 
 //App css
 require('applicationStyles');

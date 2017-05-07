@@ -6,6 +6,7 @@ var authenticate = require('../middleware/validateRequest');
 // MODELS: Our data format
 // TODO: Currently these aren't just models, but APIs which obfuscate the DB being used
 var News = require('../models/News');
+const FETCH_LATEST = 'latest';
 
 // Routes that end in /news
 // ----------------------------------------------------
@@ -29,13 +30,16 @@ router.route('/v1/news')
         if (req.body.youtube)
             news.youtube = req.body.youtube;
     
-        // Add a time stamp for this post
-        news.createdAt = Date.now();
+        // Add a time stamp for this post, (most calls to POST won't include this)
+        if (req.body.createdAt)
+            news.createdAt = req.body.createdAt;
+        else
+            news.createdAt = Date.now();
     
         // save the news and check for errors
         news.save(function(err, id, year, month) {
             if (err) {
-                res.status(err.status).send(err);
+                res.status(err.status || 400).send(err);
                 return;
             }
 
@@ -44,7 +48,7 @@ router.route('/v1/news')
     })
 
     // get all the news (accessed at GET http://localhost:8080/api/v1/news) or a list of years/months/ids
-    //  Can send listIDs = [true|false] as a body parameter.
+    // (Optional) listIDs must be true/false as a query parameter to only get IDs back
     // No authentication required.
     .get(function(req, res) {
         // By default, return all news we have.
@@ -52,11 +56,11 @@ router.route('/v1/news')
         var options = {
             year: null,
             month: null,
-            listIDs: req.body.listIDs === "true" ? true : false // TODO: Does this come in as a string or a bool?
+            listIDs: req.query.listIDs === "true" ? true : false
         }
         News.find(options, function(err, news) {
             if (err) {
-                res.status(err.status).send(err);
+                res.status(err.status || 400).send(err);
                 return;
             }
 
@@ -68,19 +72,20 @@ router.route('/v1/news')
 // ----------------------------------------------------
 router.route('/v1/news/:year')
     // get all the news (accessed at GET http://localhost:8080/api/v1/news/:year) or a list of months/ids
-    //  Can send listIDs = [true|false] as a body parameter.
+    // year must be a number, e.g. 2017, or "latest" for the most recent year
+    // (Optional) listIDs must be true/false as a query parameter to only get IDs back
     // No authentication required.
     .get(function(req, res) {
         // By default, return all news we have for this year
         // Optional params to only get a list of the months/ids that we have content for so the client can "page"
         var options = {
-            year: Number(req.params.year),
+            year: (req.params.year == FETCH_LATEST) ? FETCH_LATEST : Number(req.params.year),
             month: null,
-            listIDs: req.body.listIDs === "true" ? true : false // TODO: Does this come in as a string or a bool?
+            listIDs: req.query.listIDs === "true" ? true : false
         }
         News.find(options, function(err, news) {
             if (err) {
-                res.status(err.status).send(err);
+                res.status(err.status || 400).send(err);
                 return;
             }
 
@@ -92,19 +97,21 @@ router.route('/v1/news/:year')
 // ----------------------------------------------------
 router.route('/v1/news/:year/:month')
     // get all the news (accessed at GET http://localhost:8080/api/v1/news/:year/:month) or a list of ids
-    //  Can send listIDs = [true|false] as a body parameter.
+    // year must be a number, e.g. 2017, or "latest" for the most recent year
+    // month must be a number, 1-12, or "latest" for the most recent month
+    // (Optional) listIDs must be true/false as a query parameter to only get IDs back
     // No authentication required.
     .get(function(req, res) {
         // By default, return all news we have for this year/month
         // Optional params to only get a list of the ids that we have content for so the client can "page"
         var options = {
-            year: Number(req.params.year),
-            month: Number(req.params.month),
-            listIDs: req.body.listIDs === "true" ? true : false // TODO: Does this come in as a string or a bool?
+            year: (req.params.year == FETCH_LATEST) ? FETCH_LATEST : Number(req.params.year),
+            month: (req.params.month == FETCH_LATEST) ? FETCH_LATEST : Number(req.params.month),
+            listIDs: req.query.listIDs === "true" ? true : false
         }
         News.find(options, function(err, news) {
             if (err) {
-                res.status(err.status).send(err);
+                res.status(err.status || 400).send(err);
                 return;
             }
 
@@ -117,6 +124,9 @@ router.route('/v1/news/:year/:month')
 // ----------------------------------------------------
 router.route('/v1/news/:year/:month/:news_id')
     // get the news story with that id (accessed at GET http://localhost:8080/api/v1/news/:year/:month/:news_id)
+    // year must be a number, e.g. 2017
+    // month must be a number, 1-12
+    // id must be an article id, e.g. "-KfjGxf03zvpWrCw9cun"
     // No authentication required.
     .get(function(req, res) {
         var options = {
@@ -126,7 +136,7 @@ router.route('/v1/news/:year/:month/:news_id')
         };
         News.findById(options, function(err, news) {
             if (err) {
-                res.status(err.status).send(err);
+                res.status(err.status || 400).send(err);
                 return;
             }
             res.json(news);
@@ -134,6 +144,9 @@ router.route('/v1/news/:year/:month/:news_id')
     })
 
     // update the news with this id (accessed at PUT http://localhost:8080/api/v1/news/:year/:month/:news_id)
+    // year must be a number, e.g. 2017
+    // month must be a number, 1-12
+    // id must be an article id, e.g. "-KfjGxf03zvpWrCw9cun"
     // User must be authenticated as an admin.
     .put(authenticate.isAdmin, function(req, res) {
         // use our news model to find the story we want
@@ -144,7 +157,7 @@ router.route('/v1/news/:year/:month/:news_id')
         };
         News.findById(options, function(err, news) {
             if (err) {
-                res.status(err.status).send(err);
+                res.status(err.status || 400).send(err);
                 return;
             }
             
@@ -159,13 +172,13 @@ router.route('/v1/news/:year/:month/:news_id')
             updatedNews.youtube = req.body.youtube ? req.body.youtube : news.youtube;
             updatedNews.createdAt = req.body.createdAt ? req.body.createdAt : news.createdAt;
             
-            // Add a time stamp for this update
-            updatedNews.updatedAt = Date.now();
+            // Add a time stamp for this update, (most calls to PUT won't include this)
+            updatedNews.updatedAt = req.body.updatedAt ? req.body.updatedAt : Date.now();
 
             // save the news and check for errors
             updatedNews.save(function(err, id, year, month) {
                 if (err) {
-                    res.status(err.status).send(err);
+                    res.status(err.status || 400).send(err);
                     return;
                 }
 
@@ -175,6 +188,9 @@ router.route('/v1/news/:year/:month/:news_id')
     })
  
     // delete the news with this id (accessed at DELETE http://localhost:8080/api/v1/news/:year/:month/:news_id)
+    // year must be a number, e.g. 2017
+    // month must be a number, 1-12
+    // id must be an article id, e.g. "-KfjGxf03zvpWrCw9cun"
     // User must be authenticated as an admin.
     .delete(authenticate.isAdmin, function(req, res) {
         var options = {
@@ -184,7 +200,7 @@ router.route('/v1/news/:year/:month/:news_id')
         };
         News.remove(options, function(err, id, year, month) {
             if (err) {
-                res.status(err.status).send(err);
+                res.status(err.status || 400).send(err);
                 return;
             }
 

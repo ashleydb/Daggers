@@ -1,11 +1,10 @@
 import React from 'react';
 var {connect} = require('react-redux');
+import {actions} from 'actions';
 import NewsSummary from 'NewsSummary';
 import * as NewsAPI from 'NewsAPI';
 
-// TODO: Adjust layout at show ads in a sidebar?
-// TODO: Can a story have a YouTube video in it?
-// TODO: Correctly load enough stories to pass to summaries
+// TODO: Replace placeholder ads with an AdSense React component. One probably exists out there already.
 // TODO: 3 wide on a phone doesn't look good. Breaks down to 2, 1.
 
 export class News extends React.Component {
@@ -14,13 +13,61 @@ export class News extends React.Component {
         // Call the parent constructor with the props object we automatically get
         super(props);
     }
+    componentWillMount() {
+        // Get the most recent year's news
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST));
+    }
+    handleFetchNews() {
+        var year = Number(this.refs.year.value);
+        var month = Number(this.refs.month.value);
+        // 0 is ALL in our picker, so null it out
+        if (month == 0)
+            month = null;
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month));
+    }
     render() {
-        var {news, status} = this.props.news; //TODO: .news shouldn't be needed
-        
-        if (this.props.children) {
+        var {news, status} = this.props.news;
+
+        function datePicker() {
+            // TODO: years and months just list all values, even if we don't have data, (e.g. could select a future month)
+            // TODO: Mark the selected year and month, based on state/props
+            var years = NewsAPI.getYearList();
+            var yearOptions = years.map((year) => {
+                return (
+                    <option key={year} value={year}>{year}</option>
+                );
+            });
+
+            var months = NewsAPI.getMonthList();
+            months = ['All', ...months];
+            var monthOptions = months.map((month, index) => {
+                return (
+                    <option key={index} value={index}>{month}</option>
+                );
+            });
+
+            // TODO: Improve layout to be a single row
             return (
                 <div>
-                    {/* will render `NewsStory.jsx` when at /news/:newsId */}
+                    <label>Year
+                    <select ref="year">
+                        {yearOptions}
+                    </select>
+                    </label>
+
+                    <label>Month
+                    <select ref="month">
+                        {monthOptions}
+                    </select>
+                    </label>
+                </div>
+            );
+        }
+        
+        if (this.props.children) {
+            // This will render `NewsStory.jsx` when at /news/:newsId
+            return (
+                <div>
                     {this.props.children}
                 </div>
             );
@@ -36,6 +83,9 @@ export class News extends React.Component {
         } else if (!news || news.length < 1) {
             return (
                 <div>
+                    {datePicker()}
+                    <button className="button" onClick={this.handleFetchNews.bind(this)}>Go</button>
+
                     <div className="callout alert">
                       <h5>Error</h5>
                       <p>No news found.</p>
@@ -53,12 +103,15 @@ export class News extends React.Component {
             //  var sliceEnd = (storiesLeft < 9) ? sliceEnd - (9 - storiesLeft);
             //  This all assumes I have all content locally... but I think I would need to page requests, which means needing to do async loads.
             // 
-            //  TODO: So, should I add traditional pagination, (as aobve,) links to load stories for a given day/week/month/year/season or just a "Load More" button?
+            //  TODO: So, should I add traditional pagination, (as above,) links to load stories for a given day/week/month/year/season or just a "Load More" button?
             //   How about a combination? Typical "Load More" button, with separate set of links to jump to a season, which can just show a list of story headlines, like in the news edit form.
             var tempNews = news.slice(0);
             
             return (
                 <div>
+                    {datePicker()}
+                    <button className="button" onClick={this.handleFetchNews.bind(this)}>Go</button>
+
                     {/* will render a list of news items when at /news/ */}
                     <div className="row small-up-1 medium-up-3 large-up-4">
                         <div className="column">

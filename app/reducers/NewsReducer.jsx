@@ -10,6 +10,8 @@ export var INITIAL_STATE_NEWS = {
         isFetching: false,
         didInvalidate: false,
         lastUpdated: null
+        //year: undefined,  // Would be null for ALL, or a number like 2017
+        //month: undefined  // Would be null for ALL in the year, or a number 1-12
     }
 };
 
@@ -62,7 +64,9 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
             // Object.assign(<new state to copy into>, <existing state to copy from>, <change to make>);
             return Object.assign({}, state, {
                 status: {
-                    didInvalidate: true
+                    didInvalidate: true,
+                    year: undefined,
+                    month: undefined
                 }
             });
             break;
@@ -71,7 +75,9 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
             return Object.assign({}, state, {
                 status: {
                     isFetching: true,
-                    didInvalidate: false
+                    didInvalidate: false,
+                    year: action.year,
+                    month: action.month
                 }
             });
             break;
@@ -83,15 +89,16 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
             //if (state.news)
             //    allNews = [...action.stories, ...state.news];
 
-            // Sort stories by date, (note we included Sorter above.)
-            // TODO: How do I reverse this so newest is first? This is oldest first.
-            allNews.sortBy(function(o){ return new Date( o.date ) });
+            // Sort stories by date, newest first, (note we included Sorter above.)
+            allNews.sortBy(function(o){ return new Date( -o.date ) });
 
             return Object.assign({}, state, {
                 status: {
                     isFetching: false,
                     didInvalidate: false,
-                    lastUpdated: action.receivedAt
+                    lastUpdated: action.receivedAt,
+                    year: action.year,
+                    month: action.month
                 },
                 news: allNews
             });

@@ -1,5 +1,6 @@
 import React from 'react';
 var {connect} = require('react-redux');
+import {actions} from 'actions';
 import NewsSummary from 'NewsSummary';
 import * as NewsAPI from 'NewsAPI';
 
@@ -16,6 +17,10 @@ export class Home extends React.Component {
     constructor(props) {
         // Call the parent constructor with the props object we automatically get
         super(props);
+    }
+    componentWillMount() {
+        // Get the most recent month's stories
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST, actions.news.FETCH_LATEST));
     }
     render() {
         var {news, status} = this.props.news; // TODO: .news shouldn't be needed

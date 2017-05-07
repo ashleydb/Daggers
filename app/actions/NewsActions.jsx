@@ -19,44 +19,59 @@ export function invalidateNews() {
 }
 
 // (4) We are getting the list of news posts
-function requestNewsStories() {
+function requestNewsStories(year, month) {
     return {
-        type: REQUEST_NEWS_STORIES
+        type: REQUEST_NEWS_STORIES,
+        year,
+        month
     }
 }
 
 // (5) We got the news posts back.
-function receiveNewsStories(stories) {
+function receiveNewsStories(stories, year, month) {
     return {
         type: RECEIVE_NEWS_STORIES,
         stories,
-        receivedAt: Date.now()
+        receivedAt: Date.now(),
+        year,
+        month
     };
 }
 
 // (3) Triggers the download of news stories
-function fetchNewsStories() {
+function fetchNewsStories(year, month) {
     return dispatch => {
-        dispatch(requestNewsStories())
-        return NewsAPI.getStories()
-            .then(response => dispatch(receiveNewsStories(response)))
+        dispatch(requestNewsStories(year, month))
+        return NewsAPI.getStories(year, month)
+            .then(response => dispatch(receiveNewsStories(response, year, month)))
     };
 }
 
 // (2) Checks if it would be necessary to download news, or if the cache is valid
-function shouldFetchNewsStories(state) {
+function shouldFetchNewsStories(year, month, state) {
     const {news, status} = state.news;
     if (!news) {
         return true;
     } else if (status.isFetching) {
         return false;
+    } else if (year != status.year || month != status.month) {
+        // TODO: Not the most intelligent test. We may already have the data and I'm not caching well elsewhere
+        return true;
     } else {
         return status.didInvalidate;
     }
 }
 
-// (1) Starts the chain of events to load in the news posts, if they are not already valid in the cache
-export function fetchNewsStoriesIfNeeded() {
+export const FETCH_LATEST = NewsAPI.FETCH_LATEST;
+export const FETCH_ALL = NewsAPI.FETCH_ALL;
+
+// (1) Starts the chain of events to load in the news posts, if they are not already valid in the cache.
+// (Optional) year: e.g. 2017, to only get news stories from that year.
+//  Pass FETCH_ALL for all news for all years.
+//  Pass FETCH_LATEST for all news from most recent year that has news, (usually this year, possibly last year.)
+// (Optional) month: e.g. 1 to 12, for a specific month. Must also specify a year.
+//  Pass FETCH_LATEST for all news from most recent month in the specified year that has news.
+export function fetchNewsStoriesIfNeeded(year = FETCH_ALL, month = FETCH_ALL) {
     // Note that the function also receives getState()
     // which lets you choose what to dispatch next.
 
@@ -64,9 +79,9 @@ export function fetchNewsStoriesIfNeeded() {
     // a cached value is already available.
 
     return (dispatch, getState) => {
-        if (shouldFetchNewsStories(getState())) {
+        if (shouldFetchNewsStories(year, month, getState())) {
             // Dispatch a thunk from thunk!
-            return dispatch(fetchNewsStories())
+            return dispatch(fetchNewsStories(year, month))
         } else {
             // Let the calling code know there's nothing to wait for.
             return Promise.resolve()

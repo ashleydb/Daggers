@@ -1,6 +1,9 @@
 // Connecting to a Firebase application to use the Database service
 var firebase = require("firebase-admin");
 
+// For making Firebase REST calls
+var Axios = require('axios');
+
 // Load Environment Variables, (copied from webpack)
 var path = require('path');
 var envFile = require('node-env-file');
@@ -124,3 +127,31 @@ module.exports.removefromFirebase = function(ref = null, childName) {
         return null;
     });
 };
+
+// Make REST calls to Firebase.
+// See this doc for more info: https://firebase.google.com/docs/database/rest/retrieve-data
+//  apiParams is the REST call to make to Firebase. Examples:
+//   "news.json?shallow=true" - get IDs of years with data, e.g. 2017, 2016...
+//   "news/2017.json?shallow=true" - get IDs of months with data for year 2017, e.g. 1, 2, 4, 12...
+//   "news.json?orderBy=%22$key%22&limitToLast=1" - get the content for the most recent year
+//   "&print=pretty" - add this for nice formatting to read for debugging
+//   Note that "shallow=true"" can't be used with other filters, like orderBy.
+module.exports.firebaseRest = function(apiParams) {
+    return new Promise(
+        // The resolver function is called with the ability to resolve or reject the promise
+        function (resolve, reject) {
+            var apiPath = 'https://daggers-demo.firebaseio.com/' + apiParams;
+
+            // Call our server to fetch some news
+            Axios.get(apiPath)
+                .then(function (response) {
+                    // Just pass the results straight back
+                    resolve(response.data);
+                })
+                .catch(function (error) {
+                    console.log("ERR: Problem calling Firebase REST:", error);
+                    reject(error);
+                });
+        }
+    );
+}

@@ -18,14 +18,35 @@ export const DEFAULT_STORY = {
     //youtube: "https://youtu.be/Y9OCIIKwI94"
 };
 
+// For specifying which news stories to download, if not a specific year or year/month
+export const FETCH_LATEST = 'latest';
+export const FETCH_ALL = null;
+
 // How far back does our news go in the DB? This was the first year we have news for.
 const NEWS_FIRST_YEAR = 2012;
+
+// TODO: This assumes we have data for all of these years. Doesn't check with our DB even once.
+export function getYearList() {
+    var years = [];
+    var d = new Date();
+    var year = d.getFullYear();
+    while (year >= NEWS_FIRST_YEAR) {
+        years.push(year);
+        --year;
+    }
+    return years;
+}
+// TODO: This assumes we have data for all of these months. Doesn't check with our DB even once for a given year.
+export function getMonthList() {
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return months;
+}
 
 // Fetches all news stories from the DB. Optionally set a year or year and month to limit the results returned.
 // Doesn't store the data within the API at all, just returns whatever we download to the caller who needs to manage the state.
 //   NOTE: Returns a flat array, with no notion of year/month preserved...
 // TODO: Should the caller store as a 2d array? Should they sort the array as new results come in?
-export function getStories(_year = null, _month = null) {
+export function getStories(_year = FETCH_ALL, _month = FETCH_ALL) {
     return new Promise(
         // The resolver function is called with the ability to resolve or reject the promise
         function (resolve, reject) {
@@ -46,12 +67,15 @@ export function getStories(_year = null, _month = null) {
                     var fullNews = response.data;
                     // If we requested a specific year, use that. Else use the current year.
                     var year = _year;
-                    if (!_year) {
+                    if (!_year || _year == FETCH_LATEST) {
                         var d = new Date();
                         year = d.getFullYear();
                     }
                     // If we requested a specific month, use that. Else go through the full year.
-                    var month = _month || 12;
+                    var month = _month;
+                    if (!_month || _month == FETCH_LATEST) {
+                        month = 12;
+                    }
 
                     // Note that stories is an array, (0-11 for months,) while yearStories is an object
                     //  but we are using dynamic property names (1-12) so it looks like array syntax.
@@ -62,14 +86,14 @@ export function getStories(_year = null, _month = null) {
                             while (month > 0) {
                                 if (yearStories[month])
                                     stories = [...stories, ...yearStories[month]];
-                                // If we requested a specific month, we can break early
-                                if (_month)
+                                // If we requested a specific month, we can break early.
+                                if ((_month && _month != FETCH_LATEST) || (_month == FETCH_LATEST && stories.length))
                                     break;
                                 --month;
                             }
                         }
                         // If we requested a specific year, we can break early
-                        if (_year)
+                        if ((_year && _year != FETCH_LATEST) || (_year == FETCH_LATEST && stories.length))
                             break;
                         month = 12;
                         --year;
@@ -85,7 +109,7 @@ export function getStories(_year = null, _month = null) {
                 })
                 .catch(function (error) {
                     console.log("ERR: Problem fetching news:", error);
-                    reject(e);
+                    reject(error);
                 });
         }
     );
