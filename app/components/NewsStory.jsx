@@ -20,6 +20,7 @@ export class NewsStory extends React.Component {
         if (!image) {
             image = NewsAPI.DEFAULT_STORY.image;
         }
+        image = 'https://storage.cloud.google.com/daggers-demo-eu' + image;
 
         // Extra checking in case there was a story already loaded, but not the one we wanted
         if (status.isFetching) {

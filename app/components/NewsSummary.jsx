@@ -15,6 +15,7 @@ export default class NewsSummary extends React.Component {
         if (!image) {
             image = NewsAPI.DEFAULT_STORY.image;
         }
+        image = 'https://storage.cloud.google.com/daggers-demo-eu' + image;
 
         switch (style) {
             case 'MAIN':

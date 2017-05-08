@@ -10,7 +10,7 @@ export const DEFAULT_STORY_ID = "new";
 export const DEFAULT_STORY = {
     id: DEFAULT_STORY_ID,
     headline: "Placeholder",
-    image: "/images/News-Generic2_169.jpg",
+    image: "/basics/News-Generic2_169.jpg",
     summary: "Placeholder",
     story: "Placeholder",
     createdAt: 0 // milliseconds since epoch, (Date.now()) Calculate year and month from this for Firebase path.
