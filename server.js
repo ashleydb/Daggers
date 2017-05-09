@@ -22,7 +22,6 @@ const PORT = process.env.PORT || 3000;
 
 // Server path to /public folder
 var publicPath = __dirname + '/public';
-//console.log('DEBUG: server.js publicPath=', publicPath);
 
 // For image uploading
 app.use(fileUpload());
@@ -42,24 +41,6 @@ app.all('/*', function(req, res, next) {
   }
 });
 
-
-// TODO: MOVE MY OWN CODE, CONFIG, DEPENDENCIES TO ANOTHER FOLDER, (e.g. /server/..., not /app/...)
-// DATABASE: Google DataStore
-//var datastore = require('@google-cloud/datastore')();
-//var gstore = require('gstore-node');
-//gstore.connect(datastore);
-// DATABASE: Firebase
-//import firebase, {firebaseRef} from 'app/cloud/firebase';
-//var myFirebase = require('./app/cloud/firebase');
-//   myFirebase.writeToFirebase, getFirebaseRef, firebaseRef
-
-
-// TODO: Setup authentication and authorization around our API
-// http://thejackalofjavascript.com/architecting-a-restful-node-js-app/
-//   https://github.com/arvindr21/myRESTApp/tree/master/server
-// http://stackoverflow.com/questions/15496915/how-to-implement-a-secure-rest-api-with-node-js
-
-
 // Note: Below code is based on https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
 
 // Send raw json as the request body for POST and PUT. Set the header to Content-Type:application/json, then add the json in the body: example {"headline": "Some News!"}
@@ -76,7 +57,7 @@ var router = express.Router();
 //});
 
 // middleware to use for all requests, to validate users are authorized
-//router.use([require('./app/middleware/validateRequest')]);
+//router.use([require('./app/server/middleware/validateRequest')]);
 
 // test route to make sure everything is working (accessed at GET http://localhost:3000/api)
 router.get('/', function(req, res) {
@@ -87,11 +68,11 @@ router.get('/v1', function(req, res) {
 });
 
 // More routes, mostly for our API
-var newsRoute = require('./app/routes/News');
-var fixturesRoute = require('./app/routes/Fixtures');
-var pagesRoute = require('./app/routes/Pages');
-var imagesRoute = require('./app/routes/Images');
-var authRoute = require('./app/routes/Auth');
+var newsRoute = require('./app/server/routes/News');
+var fixturesRoute = require('./app/server/routes/Fixtures');
+var pagesRoute = require('./app/server/routes/Pages');
+var imagesRoute = require('./app/server/routes/Images');
+var authRoute = require('./app/server/routes/Auth');
 
 
 // REGISTER OUR ROUTES -------------------------------
@@ -106,7 +87,7 @@ app.use('/', [authRoute]);
 // Only the requests that start with /api/* will be checked for the token.
 // Any URL's that do not follow the below pattern should be avoided unless you 
 // are sure that authentication is not needed
-//app.all('/api/*', [require('./app/middleware/validateRequest')]);
+//app.all('/api/*', [require('./app/server/middleware/validateRequest')]);
 
 
 // serve static assets normally
