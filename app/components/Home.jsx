@@ -45,6 +45,7 @@ export class Home extends React.Component {
             );
         } else {
             // Pop the last element off the array to get the latest story. If we don't have any more, show a placeholder, (shouldn't happen in production with enough news in the DB.)
+            // TODO: The array is actually newest first now, so using pop() is wrong...
             var tempNews = news.slice(0);
             return (
 

@@ -94,6 +94,8 @@ export class News extends React.Component {
             );
         } else {
             // Pop the last element off the array to get the latest story. If we don't have any more, show a placeholder, (shouldn't happen in production with enough news in the DB.)
+            // TODO: The array is actually newest first now, so using pop() is wrong...
+
             // TODO: Pagination needs to happen here.
             //  Get news.length / 9 (# summaries shown on this page) to get the number of pages.
             //  To get the current page's content, (remember we are popping from the end to show news, so need the last elements to remain on the array,) need to slice(0, -((pagenum-1)*9) ) to remove the last few elements from page 2 onwards. Think about the last page though, where there may be <9 items. Could be fine, or may want to include some previous entries to round up to 9...

@@ -166,12 +166,16 @@
             // Send the story to our server to store in the DB. Returns the story with an ID.
             function postStory(story) {
                 // TODO: Must set this token first, from a login command
-                var token = '';
+                //var token = '';
+                var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTQ5OTUyNTg2MjAsInVzZXJuYW1lIjoiYWRtaW4ifQ.7ZiNLCz4bC2ejQzWUXxLWicqlbP7L2Q43t7c43oCgw4";
                 
                 return new Promise(
                     // The resolver function is called with the ability to resolve or reject the promise
                     function(resolve, reject) {
                         try {
+                            if (story.story.length == 0 || story.story.length > 100000)
+                                console.log("DEBUG: Story headline and Length=", story.story.length, story.headline);
+
                             if (token === '') {
                                 reject("WARN: Token not set, story not posted to server.");
                             } else {
@@ -182,10 +186,14 @@
                                     data: story,
                                     dataType: 'json',
                                     success: function(res) {
-                                        console.log("Story saved: ", response);
-                                        this.data.id = response.data.id;
+                                        console.log("Story saved: ", res);
+
+                                        // TODO: 'this' doesn't exist
+                                        //this.data.id = res.data.id;
                                         // Return the story with an ID
-                                        resolve(this.data);
+                                        //resolve(this.data);
+
+                                        resolve(res.data);
                                     },
                                     error: function(xhr) {
                                         console.log("Error posting story: " + this.story.headline);
@@ -229,12 +237,35 @@
                             var jsonString = xml2json(xmlData, "  ");
                             var jsonObj = JSON.parse(jsonString);
 
-                            // Break this up to get the image filename: "/cms_images//mascotpack86292-3513570_478x359.jpg"
-                            // TODO: Change the image filename?
+                            // Check what kind of image path we have and clean it up
+                            //  '/cms_images//mascotpack86292-3513570_478x359.jpg'
+                            //  '/cms_images/news/jptteamofround86292-1124993_478x359.jpg'
+                            //  '/cms_images/other/4292-179661_478x359.jpg'
+                            //  '/cms_images/team/64292-3192_478x359.png'
+                            //  '/cms_images/gallery/hopsital1486292-2146605_478x359.jpg'
+                            //  '/cms_images/common/dagenham-redbridge-806x605292-46079_478x359.jpg'
+                            //  '/cms_images/events/suporteam4x3292-883545_478x359.jpg'
+                            //  '/cms_images/other/calendar292-1167369_478x359.jpg'
+                            //  '/cms_images/player/goldberg86292-1153654_478x359.jpg'
+                            //  '/cms_images/hospitlityspecialty-86292-3318061_478x359.jpg'
                             var imageName = null;
                             if (jsonObj.News.lead_image) {
-                                var strChunks = jsonObj.News.lead_image.split('/');
-                                imageName = strChunks[strChunks.length - 1];
+                                var oldImage = jsonObj.News.lead_image;
+                                var index = oldImage.indexOf('/cms_images//');
+                                if (index == -1) {
+                                    // Not found. Check if it is not in a folder, (no other '/' characters in the string, e.g. '/cms_images/hospitlityspecialty-86292-3318061_478x359.jpg')
+                                    var pos = oldImage.indexOf('/', 12);
+                                    if (pos == -1) {
+                                        // Not found. Add '/news'.
+                                        imageName = oldImage.replace('/cms_images', '/news');
+                                    } else {
+                                        // Remove '/cms_images', (e.g. '/cms_images/news/jptteamofround86292-1124993_478x359.jpg')
+                                        imageName = oldImage.slice(11);
+                                    }
+                                } else {
+                                    // Found, so remove '/cms_images/' and add '/news', (e.g. '/cms_images//mascotpack86292-3513570_478x359.jpg')
+                                    imageName = oldImage.replace('/cms_images/', '/news');
+                                }
                             } else {
                                 console.log("Story has no image: " + this.url);
                             }

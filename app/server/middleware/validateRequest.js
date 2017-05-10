@@ -29,7 +29,8 @@ function validateAuthentication(checkAdmin, req, res, next) {
     var token = (req.body && req.body.access_token) ||
                 (req.query && req.query.access_token) ||
                 req.headers['x-access-token'];
-console.log("DEBUG: token=", token)
+    //console.log("DEBUG: token=", token)
+    
     if (token) {
         try {
             var decoded = jwt.decode(token, process.env.AUTH_SECRET);

@@ -22,6 +22,10 @@ export class NewsStory extends React.Component {
         }
         image = 'https://storage.cloud.google.com/daggers-demo-eu' + image;
 
+        var dateMS = story.updatedAt || story.createdAt;
+        var d = new Date(Number(dateMS));
+        var dateStr = d.toDateString();
+
         // Extra checking in case there was a story already loaded, but not the one we wanted
         if (status.isFetching) {
             return (
@@ -58,6 +62,9 @@ export class NewsStory extends React.Component {
                                 <h4>{story.headline}</h4>
                             </div>
                             <img src={image} alt={story.summary} className="news-main-image" />
+                            <div className="card-section">
+                                <p className="news-date">{dateStr}</p>
+                            </div>
                             <div className="card-section" dangerouslySetInnerHTML={{ __html: story.story }}></div>
                             {youtube}
                         </div>

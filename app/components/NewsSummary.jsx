@@ -17,6 +17,10 @@ export default class NewsSummary extends React.Component {
         }
         image = 'https://storage.cloud.google.com/daggers-demo-eu' + image;
 
+        var dateMS = story.updatedAt || story.createdAt;
+        var d = new Date(Number(dateMS));
+        var dateStr = d.toDateString();
+
         switch (style) {
             case 'MAIN':
                 // Main headline news, show in large format
@@ -30,6 +34,7 @@ export default class NewsSummary extends React.Component {
                                 <img src={image} alt={story.summary} className="news-main-image" />
                             </Link>
                             <div className="card-section">
+                                <p className="news-summary-date">{dateStr}</p>
                                 <p>{story.summary}</p>
                             </div>
                         </div>
@@ -46,6 +51,7 @@ export default class NewsSummary extends React.Component {
                             </Link>
                             <div className="card-section">
                                 <Link to={`/news/${story.id}`}><h4>{story.headline}</h4></Link>
+                                <p className="news-summary-date">{dateStr}</p>
                                 <p>{story.summary}</p>
                             </div>
                         </div>

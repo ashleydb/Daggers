@@ -90,7 +90,7 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
             //    allNews = [...action.stories, ...state.news];
 
             // Sort stories by date, newest first, (note we included Sorter above.)
-            allNews.sortBy(function(o){ return new Date( -o.date ) });
+            allNews.sortBy(function(o){ return new Date( -o.createdAt ) });
 
             return Object.assign({}, state, {
                 status: {
