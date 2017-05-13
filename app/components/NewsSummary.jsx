@@ -11,6 +11,9 @@ export default class NewsSummary extends React.Component {
     render() {
         var { story, style } = this.props;
 
+        if (!story)
+            return (<div className="column column-block"></div>);
+
         var image = story.image;
         if (!image) {
             image = NewsAPI.DEFAULT_STORY.image;

@@ -6,6 +6,7 @@ var Sorter = require('app/Sorter.js');
 export var INITIAL_STATE_NEWS = {
     news: null,     // Array of news story objects
     story: null,    // News story object, e.g. NewsAPI.DEFAULT_STORY
+    pageOfNews: 0,  // When paging through lists of news stories, which page are we on?
     status: {
         isFetching: false,
         didInvalidate: false,
@@ -100,7 +101,8 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
                     year: action.year,
                     month: action.month
                 },
-                news: allNews
+                news: allNews,
+                pageOfNews: 0
             });
             break;
 
@@ -108,6 +110,13 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
             return Object.assign({}, state, {
                 story: action.story
             });
+            break;
+
+        case actions.news.CHANGE_PAGE:
+            return {
+                ...state,
+                pageOfNews: action.pageNum
+            };
             break;
 
         default:

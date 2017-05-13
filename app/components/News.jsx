@@ -12,6 +12,9 @@ export class News extends React.Component {
     constructor(props) {
         // Call the parent constructor with the props object we automatically get
         super(props);
+        // Binding
+        this.setPage = this.setPage.bind(this);
+        this.handleFetchNews = this.handleFetchNews.bind(this);
     }
     componentWillMount() {
         // Get the most recent year's news
@@ -25,41 +28,64 @@ export class News extends React.Component {
             month = null;
         this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month));
     }
+    setPage(pageNum) {
+        // Change which page of news stories we are showing
+        this.props.dispatch(actions.news.pageNews(pageNum));
+    }
     render() {
-        var {news, status} = this.props.news;
+        var {news, status, pageOfNews} = this.props.news;
 
-        function datePicker() {
+        function datePicker(_that, _year, _month) {
             // TODO: years and months just list all values, even if we don't have data, (e.g. could select a future month)
             // TODO: Mark the selected year and month, based on state/props
             var years = NewsAPI.getYearList();
             var yearOptions = years.map((year) => {
-                return (
-                    <option key={year} value={year}>{year}</option>
-                );
+                if (year == _year) {
+                    return (
+                        <option key={year} value={year} selected>{year}</option>
+                    );
+                } else {
+                    return (
+                        <option key={year} value={year}>{year}</option>
+                    );
+                }
             });
 
             var months = NewsAPI.getMonthList();
             months = ['All', ...months];
             var monthOptions = months.map((month, index) => {
-                return (
-                    <option key={index} value={index}>{month}</option>
-                );
+                if (index == _month) {
+                    return (
+                        <option key={index} value={index} selected>{month}</option>
+                    );
+                } else {
+                    return (
+                        <option key={index} value={index}>{month}</option>
+                    );
+                }
             });
 
             // TODO: Improve layout to be a single row
             return (
-                <div>
-                    <label>Year
-                    <select ref="year">
-                        {yearOptions}
-                    </select>
-                    </label>
-
-                    <label>Month
-                    <select ref="month">
-                        {monthOptions}
-                    </select>
-                    </label>
+                <div className="row">
+                    <div className="column small-5">
+                        <label>Year
+                            <select ref="year">
+                                {yearOptions}
+                            </select>
+                        </label>
+                    </div>
+                    <div className="column small-5">
+                        <label>Month
+                            <select ref="month">
+                                {monthOptions}
+                            </select>
+                        </label>
+                    </div>
+                    <div className="column small-2">
+                        <br/>
+                        <button className="button" onClick={_that.handleFetchNews}>Go</button>
+                    </div>
                 </div>
             );
         }
@@ -83,8 +109,7 @@ export class News extends React.Component {
         } else if (!news || news.length < 1) {
             return (
                 <div>
-                    {datePicker()}
-                    <button className="button" onClick={this.handleFetchNews.bind(this)}>Go</button>
+                    {datePicker(this, status.year, status.month)}
 
                     <div className="callout alert">
                       <h5>Error</h5>
@@ -93,37 +118,62 @@ export class News extends React.Component {
                 </div>
             );
         } else {
-            // Pop the last element off the array to get the latest story. If we don't have any more, show a placeholder, (shouldn't happen in production with enough news in the DB.)
-            // TODO: The array is actually newest first now, so using pop() is wrong...
+            // Shift the first element off the array to get the latest story.
+            //  If we don't have any more, show a placeholder.
 
-            // TODO: Pagination needs to happen here.
-            //  Get news.length / 9 (# summaries shown on this page) to get the number of pages.
-            //  To get the current page's content, (remember we are popping from the end to show news, so need the last elements to remain on the array,) need to slice(0, -((pagenum-1)*9) ) to remove the last few elements from page 2 onwards. Think about the last page though, where there may be <9 items. Could be fine, or may want to include some previous entries to round up to 9...
-            //  var newsCount = news.length;
-            //  var sliceEnd = -((pagenum-1)*9);
-            //  var storiesLeft = newsCount - sliceEnd;
-            //  var sliceEnd = (storiesLeft < 9) ? sliceEnd - (9 - storiesLeft);
-            //  This all assumes I have all content locally... but I think I would need to page requests, which means needing to do async loads.
-            // 
-            //  TODO: So, should I add traditional pagination, (as above,) links to load stories for a given day/week/month/year/season or just a "Load More" button?
-            //   How about a combination? Typical "Load More" button, with separate set of links to jump to a season, which can just show a list of story headlines, like in the news edit form.
-            var tempNews = news.slice(0);
+            // Pagination calculated here
+            var numStoriesPerPage = 9;
+            var numPages = Math.ceil(news.length / numStoriesPerPage);
+            var pageNum = pageOfNews;
+ 
+            // Pull the portion of news to show from our full list of news stories
+            var sliceStart = pageNum * numStoriesPerPage;
+            var sliceEnd = sliceStart + numStoriesPerPage;
+            var tempNews = news.slice(sliceStart, sliceEnd);
+
+            function pagination(that, _numPages, _pageNum) {
+                var currentPage = (<li className="current"><span className="show-for-sr">You're on page</span> {_pageNum+1}</li>);
+
+                var prevLink = null;
+                if (_pageNum == 0) {
+                    prevLink = (<li className="pagination-previous disabled">Newer</li>);
+                } else {
+                    prevLink = (<li className="pagination-previous"><a onClick={(e) => {that.setPage(_pageNum-1)}} aria-label="Newer news">Newer</a></li>);
+                }
+
+                var nextLink = null;
+                if (_pageNum + 1 == _numPages) {
+                    nextLink = (<li className="pagination-next disabled">Older</li>);
+                } else {
+                    nextLink = (<li className="pagination-next"><a onClick={(e) => {that.setPage(_pageNum+1)}} aria-label="Older news">Older</a></li>);
+                }
+
+                return (
+                    <ul className="pagination text-center" role="navigation" aria-label="Pagination">
+                        {prevLink}
+                        {currentPage}
+                        {nextLink}
+                    </ul>
+                );
+            }
+
+            var paginationLinks = pagination(this, numPages, pageNum);
             
             return (
                 <div>
-                    {datePicker()}
-                    <button className="button" onClick={this.handleFetchNews.bind(this)}>Go</button>
+                    {datePicker(this, status.year, status.month)}
+                    {paginationLinks}
 
                     {/* will render a list of news items when at /news/ */}
                     <div className="row small-up-1 medium-up-3 large-up-4">
                         <div className="column">
-                            <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                            <NewsSummary story={tempNews.shift()} style="SMALL"/>
                         </div>
                         <div className="column">
-                            <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                            <NewsSummary story={tempNews.shift()} style="SMALL"/>
                         </div>
                         <div className="column">
-                            <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                            <NewsSummary story={tempNews.shift()} style="SMALL"/>
                         </div>
                         <div className="column medium-centered large-uncentered">
                             <div className="placeholder-ad">
@@ -134,13 +184,13 @@ export class News extends React.Component {
 
                     <div className="row small-up-1 medium-up-3 large-up-4">
                         <div className="column">
-                            <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                            <NewsSummary story={tempNews.shift()} style="SMALL"/>
                         </div>
                         <div className="column">
-                            <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                            <NewsSummary story={tempNews.shift()} style="SMALL"/>
                         </div>
                         <div className="column">
-                            <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                            <NewsSummary story={tempNews.shift()} style="SMALL"/>
                         </div>
                         <div className="column medium-centered large-uncentered">
                             <div className="placeholder-ad">
@@ -151,19 +201,23 @@ export class News extends React.Component {
 
                     <div className="row small-up-1 medium-up-3 large-up-4">
                         <div className="column">
-                            <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                            <NewsSummary story={tempNews.shift()} style="SMALL"/>
                         </div>
                         <div className="column">
-                            <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                            <NewsSummary story={tempNews.shift()} style="SMALL"/>
                         </div>
                         <div className="column">
-                            <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                            <NewsSummary story={tempNews.shift()} style="SMALL"/>
                         </div>
                         <div className="column medium-centered large-uncentered">
                             <div className="placeholder-ad">
                                 <p>Ads go here</p>
                             </div>
                         </div>
+                    </div>
+
+                    <div>
+                        {paginationLinks}
                     </div>
 
                 </div>

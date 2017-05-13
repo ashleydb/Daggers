@@ -174,3 +174,14 @@ export var submitStory = (story, token) => {
         });
     };
 }
+
+// --- VIEWING HEADLINES ---
+
+export const CHANGE_PAGE   = 'CHANGE_PAGE';
+
+export var pageNews = (pageNum) => {
+    return {
+        type: CHANGE_PAGE,
+        pageNum
+    };
+}

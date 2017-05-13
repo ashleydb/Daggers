@@ -23,7 +23,7 @@ export class Home extends React.Component {
         this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST, actions.news.FETCH_LATEST));
     }
     render() {
-        var {news, status} = this.props.news; // TODO: .news shouldn't be needed
+        var {news, status} = this.props.news;
         
         if (status.isFetching) {
             return (
@@ -44,9 +44,9 @@ export class Home extends React.Component {
                 </div>
             );
         } else {
-            // Pop the last element off the array to get the latest story. If we don't have any more, show a placeholder, (shouldn't happen in production with enough news in the DB.)
-            // TODO: The array is actually newest first now, so using pop() is wrong...
-            var tempNews = news.slice(0);
+            // Shift the first element off the array to get the latest story.
+            //  If we don't have any more, show a placeholder.
+            var tempNews = news.slice(0, 6);
             return (
 
                 <div>
@@ -55,20 +55,20 @@ export class Home extends React.Component {
                         <div className="columns small-12 large-8">
                             
                             <div className="row">
-                                <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="MAIN"/>
+                                <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="MAIN"/>
                             </div>
 
                             <div className="row small-up-1 medium-up-3">
-                                <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
-                                <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
-                                <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                                <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                                <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                                <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
                             </div>
 
                         </div>
                         <div className="columns small-12 large-4">
                             
                             <div className="row">
-                                <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                                <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
                             </div>
                             
                             <div className="placeholder-ad">
@@ -76,7 +76,7 @@ export class Home extends React.Component {
                             </div>
                             
                             <div className="row">
-                                <NewsSummary story={tempNews.pop() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                                <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
                             </div>
                         </div>
                     </div>
