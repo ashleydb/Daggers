@@ -36,8 +36,7 @@ export class News extends React.Component {
         var {news, status, pageOfNews} = this.props.news;
 
         function datePicker(_that, _year, _month) {
-            // TODO: years and months just list all values, even if we don't have data, (e.g. could select a future month)
-            // TODO: Mark the selected year and month, based on state/props
+            // TODO: years and months options just list all values, even if we don't have data, (e.g. could select a future month)
             var years = NewsAPI.getYearList();
             var yearOptions = years.map((year) => {
                 if (year == _year) {

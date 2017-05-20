@@ -43,8 +43,8 @@ export class Fixtures extends React.Component {
         } else {
             // Get a list of fixtures output as table rows
             var fixtureRows = fixtures.map((fixture) => {
-                var logo = fixture.logo ?   `https://storage.googleapis.com/daggers-demo-eu/teams/${fixture.logo}` :    // `/images/uploads/teams/${fixture.logo}` :
-                                            'https://storage.googleapis.com/daggers-demo-eu/basics/clublogo.png';       // '/images/clublogo.png';
+                var logo = fixture.logo ?   `https://daggers-demo-eu.storage.googleapis.com${fixture.logo}` :    // `/images/uploads/teams/${fixture.logo}` :
+                                            'https://daggers-demo-eu.storage.googleapis.com/basics/clublogo.png';       // '/images/clublogo.png';
                 // TODO: Need to fill in report links for all fixtures
                 var w_l_d = fixture.w_l_d === 'X' ? '' : fixture.w_l_d;
                 var link = '';
@@ -78,6 +78,7 @@ export class Fixtures extends React.Component {
                         <div className="columns small-12 large-8">
 
                             <h3>Fixtures &amp; Results</h3>
+                            <h4>Check the League Table via the <a href="https://thenationalleague.org.uk/tables.php?division_id=7">National League</a></h4>
                             <table className="hover stack text-center">
                                 <tbody>
                                     {fixtureRows}
@@ -89,56 +90,6 @@ export class Fixtures extends React.Component {
                             <div className="placeholder-ad">
                                 <p>Ads go here</p>
                             </div>
-
-                            <h3>League Table</h3>
-                            <table className="hover stack text-center">
-                                <thead>
-                                    <tr>
-                                        <th>Pos</th>
-                                        <th>Team</th>
-                                        <th>Pld</th>
-                                        <th>GD</th>
-                                        <th>Pts</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Forest G.</td>
-                                        <td>29</td>
-                                        <td>+24</td>
-                                        <td>54</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Tranmere</td>
-                                        <td>27</td>
-                                        <td>+16</td>
-                                        <td>53</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Dag & Red</td>
-                                        <td>28</td>
-                                        <td>+16</td>
-                                        <td>52</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Dover</td>
-                                        <td>29</td>
-                                        <td>+13</td>
-                                        <td>49</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Barrow</td>
-                                        <td>27</td>
-                                        <td>+15</td>
-                                        <td>46</td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>

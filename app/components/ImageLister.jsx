@@ -2,32 +2,35 @@ import React from 'react';
 var Axios = require('axios');
 
 // TODO: Check these standard images are up to date links
-const standardImages = ['/images/AcademyMatchReport_86.jpg',
-                    '/images/AcademyMatchReport_169.jpg',
-                    '/images/AwayGuide16-17_86.jpg',
-                    '/images/AwayGuide16-17_169.jpg',
-                    '/images/AwayTravelGuide16-17_86.jpg',
-                    '/images/AwayTravelGuide16-17_169.jpg',
-                    '/images/clublogo.png',
-                    '/images/Daggersplayer_86.jpg',
-                    '/images/HospitalitySpecial_86.jpg',
-                    '/images/HospitalitySpecial_169.jpg',
-                    '/images/MatchHighlights_86.jpg',
-                    '/images/MatchHighlights_169.jpg',
-                    '/images/MatchReport_86.jpg',
-                    '/images/MatchReport_169.jpg',
-                    '/images/News-Generic_86.jpg',
-                    '/images/News-Generic_169.jpg',
-                    '/images/News-Generic2_86.jpg',
-                    '/images/News-Generic2_169.jpg',
-                    '/images/Officials_86.jpg',
-                    '/images/Officials_169.jpg',
-                    '/images/stadium-tbs.jpg'];
+const standardImages = {
+    basics: [
+        '/basics/AcademyMatchReport_86.jpg',
+        '/basics/AcademyMatchReport_169.jpg',
+        '/basics/AwayGuide16-17_86.jpg',
+        '/basics/AwayGuide16-17_169.jpg',
+        '/basics/AwayTravelGuide16-17_86.jpg',
+        '/basics/AwayTravelGuide16-17_169.jpg',
+        '/basics/clublogo.png',
+        '/basics/Daggersplayer_86.jpg',
+        '/basics/HospitalitySpecial_86.jpg',
+        '/basics/HospitalitySpecial_169.jpg',
+        '/basics/MatchHighlights_86.jpg',
+        '/basics/MatchHighlights_169.jpg',
+        '/basics/MatchReport_86.jpg',
+        '/basics/MatchReport_169.jpg',
+        '/basics/News-Generic_86.jpg',
+        '/basics/News-Generic_169.jpg',
+        '/basics/News-Generic2_86.jpg',
+        '/basics/News-Generic2_169.jpg',
+        '/basics/Officials_86.jpg',
+        '/basics/Officials_169.jpg',
+        '/basics/stadium-tbs.jpg'
+    ]
+};
 
 // About: Renders a list of links to images on a server within a given directory
-// Usage: <ImageLister directory="images/uploads/" onPickImage={this.onPickImage} selectedImage="path/to/image.jpg"/>
-// Note that directory is optional. Server will default to "images/uploads/".
-//  Take note of NO leading and included trailing '/'
+// Usage: <ImageLister directory="teams" onPickImage={this.onPickImage} selectedImage="path/to/image.jpg"/>
+// Note that directory is optional. Server will default to all images.
 // onPickImage() will receive the path to the image if a user clicks one of the list entries.
 //  Store this path and pass back in as selectedImage to highlight that selection.
 export default class ImageLister extends React.Component {
@@ -62,9 +65,11 @@ export default class ImageLister extends React.Component {
             }
         })
         .then(function (response) {
-            console.log("DEBUG: Image List:", response.data.files);
-            that.setState({files: [...standardImages,
-                                   ...response.data.files]});
+            //console.log("DEBUG: Image List:", response.data.files);
+            // that.setState({files: [...standardImages,
+            //                        ...response.data.files]});
+
+            that.setState({files: response.data});
         })
         .catch(function (error) {
             console.log("ERR: Problem getting images:", error);
@@ -81,19 +86,24 @@ export default class ImageLister extends React.Component {
         var renderImageList = () => {
             var {files} = this.state;
             var {selectedImage} = this.props;
+            var folderNames = Object.getOwnPropertyNames(files).sort();
 
             if (files) {
                 // So we can access handlers on 'this' within the map function
                 let that = this;
                 return (
                     <ul>
-                        {files.map(function(file, index){
-                            var styleName = 'unselectedImageName';
-                            if (selectedImage == file) {
-                                styleName = 'selectedImageName';
-                            }
-                            return <li key={index}><a href="#" onClick={(e) => {that.handleClickImage(e, file);}} className={styleName}>{file}</a></li>;
-                        })}
+                        {
+                            folderNames.map(function(folder) {
+                                return files[folder].map(function(file, index) {
+                                    var styleName = 'unselectedImageName';
+                                    if (selectedImage == file) {
+                                        styleName = 'selectedImageName';
+                                    }
+                                    return <li key={folder + index}><a href="#" onClick={(e) => {that.handleClickImage(e, file);}} className={styleName}>{file}</a></li>;
+                                })
+                            })
+                        }
                     </ul>
                 );
             }

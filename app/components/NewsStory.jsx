@@ -20,7 +20,7 @@ export class NewsStory extends React.Component {
         if (!image) {
             image = NewsAPI.DEFAULT_STORY.image;
         }
-        image = 'https://storage.cloud.google.com/daggers-demo-eu' + image;
+        image = 'https://daggers-demo-eu.storage.googleapis.com' + image;
 
         var dateMS = story.updatedAt || story.createdAt;
         var d = new Date(Number(dateMS));

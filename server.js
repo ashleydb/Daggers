@@ -4,7 +4,6 @@ const path = require('path');
 //const logger = require('morgan');
 const compression = require('compression');
 const bodyParser = require('body-parser');
-const fileUpload = require('express-fileupload');
 
 const app = express();
 
@@ -22,9 +21,6 @@ const PORT = process.env.PORT || 3000;
 
 // Server path to /public folder
 var publicPath = __dirname + '/public';
-
-// For image uploading
-app.use(fileUpload());
 
 
 // Enable Cross Origin Resource Sharing

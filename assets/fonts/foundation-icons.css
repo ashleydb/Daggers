@@ -6,11 +6,11 @@
 
 @font-face {
   font-family: "foundation-icons";
-  src: url("https://storage.cloud.google.com/daggers-demo-eu/fonts/foundation-icons.eot");
-  src: url("https://storage.cloud.google.com/daggers-demo-eu/fonts/foundation-icons.eot?#iefix") format("embedded-opentype"),
-       url("https://storage.cloud.google.com/daggers-demo-eu/fonts/foundation-icons.woff") format("woff"),
-       url("https://storage.cloud.google.com/daggers-demo-eu/fonts/foundation-icons.ttf") format("truetype"),
-       url("https://storage.cloud.google.com/daggers-demo-eu/fonts/foundation-icons.svg#fontcustom") format("svg");
+  src: url("https://daggers-demo-eu.storage.googleapis.com/fonts/foundation-icons.eot");
+  src: url("https://daggers-demo-eu.storage.googleapis.com/fonts/foundation-icons.eot?#iefix") format("embedded-opentype"),
+       url("https://daggers-demo-eu.storage.googleapis.com/fonts/foundation-icons.woff") format("woff"),
+       url("https://daggers-demo-eu.storage.googleapis.com/fonts/foundation-icons.ttf") format("truetype"),
+       url("https://daggers-demo-eu.storage.googleapis.com/fonts/foundation-icons.svg#fontcustom") format("svg");
   font-weight: normal;
   font-style: normal;
 }

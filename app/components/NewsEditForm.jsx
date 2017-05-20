@@ -75,7 +75,7 @@ export default class NewsEditForm extends React.Component {
                         <ImageLister onPickImage={this.onPickImage} selectedImage={image}/>
                     </div>
                     <div className="columns small-6">
-                        <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} ref="imageUploader"/>
+                        <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} folderName="news" ref="imageUploader"/>
                         <img src={image} alt="Image Preview" className="news-image-preview"/>
                     </div>
                 </div>

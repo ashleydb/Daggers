@@ -14,6 +14,11 @@ export class NewsEdit extends React.Component {
         // BINDING: Keep 'this' scoped to this object in any handlers
         this.handleSaveStory = this.handleSaveStory.bind(this);
     }
+    componentWillMount() {
+        // TODO: Copy the News year picking and pagination from News.jsx to here
+        // Get the most recent year's news
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST));
+    }
     handleSaveStory(story) {
         this.props.dispatch(actions.news.submitStory(story, this.props.login.token));
 
@@ -55,10 +60,12 @@ export class NewsEdit extends React.Component {
             // Show as a table with titles/dates and buttons to view/edit/delete
             // TODO: Make the delete button work, or add one to the edit form.
             var contentRows = news.map((story) => {
-                var d = new Date(story.createdAt);
+                var dateMS = story.updatedAt || story.createdAt;
+                var d = new Date(Number(dateMS));
+                var dateStr = d.toDateString();
                 return (
                     <tr key={story.id}>
-                        <td>{d.toDateString()}</td>
+                        <td>{dateStr}</td>
                         <td><Link to={`/admin/news/${story.id}`}>{story.headline}</Link></td>
                         <td><Link to={`/news/${story.id}`} className="button"><i className="fi-eye"></i> View</Link></td>
                         <td><Link to={`/admin/news/${story.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>

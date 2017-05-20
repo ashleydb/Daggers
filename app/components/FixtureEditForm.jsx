@@ -71,17 +71,17 @@ export default class FixtureEditForm extends React.Component {
     }
     render() {
         var {fixture} = this.props;
-        var logo = this.state.logo || fixture.logo;
+        var logo = this.state.logo || fixture.logo || '/basics/clublogo.png';
         var report = fixture.report ? `http://www.daggers.co.uk/news/${fixture.report}` : null;
         return (
             <div>
                 <div className="row">
                     <div className="columns small-6">
-                        <ImageLister onPickImage={this.onPickImage}/>
+                        <ImageLister directory="teams" onPickImage={this.onPickImage} selectedImage={logo}/>
                     </div>
                     <div className="columns small-6">
-                        <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} ref="imageUploader"/>
-                        <img src={logo} alt="Team Badge Preview" className="news-image-preview"/>
+                        <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} folderName="teams" ref="imageUploader"/>
+                        <img src={`https://daggers-demo-eu.storage.googleapis.com${logo}`} alt="Team Badge Preview" className="news-image-preview"/>
                     </div>
                 </div>
                 

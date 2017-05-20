@@ -2,6 +2,11 @@ import React from 'react';
 var Axios = require('axios');
 
 // TODO: Change URL based on environment var
+
+// Properties to define:
+//  folderName: The folder to upload the image to, (e.g. "teams", "news", "basics")
+//  onImageUploaded: Callback once the image has been submitted
+//  token: Token for making server API requests
 export default class ImageUploader extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
     constructor(props) {
@@ -18,10 +23,13 @@ export default class ImageUploader extends React.Component {
         let {onImageUploaded} = this.props;
 
         const formData = new FormData();
+        formData.set('folderName', this.refs.folderName.value);
         formData.append('imageFile', this.refs.imageFile.files[0]);
 
         const axiosInstance = Axios.create({
-            headers: {'x-access-token': this.props.token}
+            headers: {
+                'x-access-token': this.props.token
+            }
         });
         axiosInstance.post('/api/v1/image', formData)
             .then(function (response) {
@@ -37,7 +45,8 @@ export default class ImageUploader extends React.Component {
     render() {
         return (
             <form ref='uploadImageForm' id='uploadImageForm' method="post" encType="multipart/form-data" onSubmit={this.onFormSubmit}>
-                <label>Upload Image</label><input type="file" name="imageFile" ref="imageFile" className="expanded button" />
+                <label>Upload Image</label><input type="file" name="imageFile" id="imageFile" ref="imageFile" className="expanded button" />
+                <label>Folder Name</label><input type="text" name="folderName" id="folderName" defaultValue={this.props.folderName || ''} placeholder="e.g. news" ref="folderName"/>
                 <button className="expanded button"><i className="fi-upload-cloud"></i> Upload Image</button>
             </form>
         );
