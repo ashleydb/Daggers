@@ -51,7 +51,8 @@ export function getPage(id, pages) {
         }
     }
     console.log("ERR: Page not found:", id);
-    return this.DEFAULT_PAGE;
+    //return this.DEFAULT_PAGE;
+    return null;
 };
 
 export function addPage(page, token) {

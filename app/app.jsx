@@ -16,6 +16,7 @@ import NewsEdit from 'NewsEdit';
 import Fixtures from 'Fixtures';
 import FixturesEdit from 'FixturesEdit';
 import Admin from 'Admin';
+import Page from 'Page';
 import PagesEdit from 'PagesEdit';
 import Tickets from 'Tickets';
 import Team from 'Team';
@@ -43,7 +44,11 @@ ReactDOM.render(
         <Route path="fans" component={Fans}/>
         <Route path="club" component={Club}/>
         <Route path="commercial" component={Commercial}/>
-          
+        
+        <Route path="page" component={Page}>
+          <Route path=":pageId" component={Page}/>
+        </Route>
+
         <Route path="admin">
             <IndexRoute component={Admin}/>
             <Route path="news" component={NewsEdit}>

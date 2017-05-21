@@ -1,5 +1,6 @@
 import React from 'react';
 var Timeline = require('react-twitter-widgets').Timeline;
+import Page from 'Page';
 
 // TODO: All content on this page.
 
@@ -40,26 +41,7 @@ export default class Fans extends React.Component {
                         </div>
 
                         <div className="row">
-                            <div className="columns small-12">
-
-                                <h2>Latest Video</h2>
-                                <div className="responsive-embed widescreen">
-                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/LZNwwdMHVwg" frameBorder="0" allowFullScreen></iframe>
-                                </div>
-
-                                <ul>
-                                    <li>Youtube Highlights</li>
-                                    <li>Junior Daggers</li>
-                                    <li>Support The Daggers Fund (250 Club)</li>
-                                    <li>Daggers In The Community</li>
-                                    <li>Disabled Supporters Club</li>
-                                    <li>First Time Fans</li>
-                                    <li>Supporters Club</li>
-                                    <li>Daggers Twitter</li>
-                                    <li>Daggers Facebook</li>
-                                </ul>
-
-                            </div>
+                            <Page pageId='Fans' />
                         </div>
 
                     </div>

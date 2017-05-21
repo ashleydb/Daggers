@@ -36,7 +36,9 @@ export class Page extends React.Component {
                 </div>
             );
         } else {
-            var page = PagesAPI.getPage(this.props.pageId, pages);
+            // Either use the pageId passed in from a parent component, or take the one from our URL
+            var pageId = this.props.pageId || this.props.params.pageId;
+            var page = PagesAPI.getPage(pageId, pages);
             return page ? (
                     <div dangerouslySetInnerHTML={{ __html: page.content }}></div>
                 ) : (
