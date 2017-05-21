@@ -14,7 +14,6 @@ export default class Tickets extends React.Component {
     render() {
         return (
             <div>
-
                 <div className="row">
                     <div className="columns small-12 large-8">
 

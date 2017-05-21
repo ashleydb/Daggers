@@ -15,38 +15,20 @@ Needed:
 * What details will we have for players?
  * If we get everything from EFL, will it be updated by Daggers in future? If not, just omit it now?
 
-To Prove:
-* Paging content
- * Setup some placeholder stories/data on Firebase
- * Fixtures: Break up by season
- * News: Break up by year or year/month. Maybe have a most recent 10 as well.
+To Do:
+* Paging content on the NewsEdit page
+* Storing Fixtures by Season, (and allowing user to switch between them)
 * Fix react warnings about PropTypes, (if possible. Seems to be from a dependency.)
-* Build more API routes
-* Connecting to a DB - Replace Firebase with GCP Datastore?
-* Hosting in a production ready setup - GCP AppEngine
+* Finish setup of hosting in a production ready setup - GCP AppEngine
   * https://www.npmjs.com/package/letsencrypt
   * https://git.daplie.com/Daplie/greenlock-express
-* Uploading images in Production env.
- * (Can't do it directly with Heroku, would need to go to GCP CloudStorage or similar.)
-* Listing images already on the server
- * (Does it work in prod? Likely need to change to use GCP CloudStorage)
-
-Other stuff to do:
-* Fill out other content, (even if just placeholder,) such as fixtures, teams/players, etc.
-* Allow Editing of content, such as fixtures, players, ticket prices
-* Adding in the player details and such for real, from the EFL export
+* Add teams/players, allow editing
+* Finish migrating any other old content, (e.g. news)
 * Putting in traffic monitoring
 * Putting in advertising
 * Finalizing layouts
 * Cookie warnings and any other legal stuff like privacy policy
 * Code cleanup and TODO's
-
-Next:
-* Try making the Tickets page editable, (then the club could try filling out their own content)
-* Try making the teams/players pages.
- * Use this to try parsing and uploading existing XML. Only bother with currently active players?
- * Use this to try testing out paging-like data layout
- * Use this to try uploading images in production?
 
 Pulling Data:
 * Per team pages have links to their results and fixtures, e.g.:
