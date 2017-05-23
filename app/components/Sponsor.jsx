@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-// TODO: Have this pull from a DB?
+// TODO: Have this pull from a DB? Or at least and external JSON file...
+//  Make a Sponsors component that owns the data and renders a group of these?
 
 // Shows a thumbnail for a sponsor with a link to their website.
 //  sponsorId: Index of this.sponsors to use, (currently 0-7)

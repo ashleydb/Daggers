@@ -10,13 +10,10 @@ Clone this code, call yarn install, then run this in a server using:
 Needed:
 * Which Team pages are needed?
  * All except 9-16?
-* Sponsor details, (images, links, any other info needed)
- * Get these from the bottom of the current website
 * What details will we have for players?
  * If we get everything from EFL, will it be updated by Daggers in future? If not, just omit it now?
 
 To Do:
-* Paging content on the NewsEdit page
 * Storing Fixtures by Season, (and allowing user to switch between them)
 * Fix react warnings about PropTypes, (if possible. Seems to be from a dependency.)
 * Finish setup of hosting in a production ready setup - GCP AppEngine

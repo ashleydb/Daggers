@@ -13,6 +13,8 @@ export class NewsEdit extends React.Component {
         super(props);
         // BINDING: Keep 'this' scoped to this object in any handlers
         this.handleSaveStory = this.handleSaveStory.bind(this);
+        this.setPage = this.setPage.bind(this);
+        this.handleFetchNews = this.handleFetchNews.bind(this);
     }
     componentWillMount() {
         // TODO: Copy the News year picking and pagination from News.jsx to here
@@ -26,11 +28,64 @@ export class NewsEdit extends React.Component {
         //  TODO: Show a loading screen, then an error message or do this push
         browserHistory.push('/admin/news');
     }
+    handleFetchNews() {
+        var year = Number(this.refs.year.value);
+        var month = Number(this.refs.month.value);
+        // 0 is ALL in our picker, so null it out
+        if (month == 0)
+            month = null;
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month));
+    }
+    setPage(pageNum) {
+        // Change which page of news stories we are showing
+        this.props.dispatch(actions.news.pageNews(pageNum));
+    }
     render() {
         // Are we editing at a story right now, or about to?
         var { newsId } = this.props.params;
-        var { news, status } = this.props.news;
+        var {news, status, pageOfNews} = this.props.news;
         var story = NewsAPI.getStory(newsId, news);
+
+        function datePicker(_that, _year, _month) {
+            // TODO: years and months options just list all values, even if we don't have data, (e.g. could select a future month)
+            var years = NewsAPI.getYearList();
+            var yearOptions = years.map((year) => {
+                return (
+                    <option key={year} value={year}>{year}</option>
+                );
+            });
+
+            var months = NewsAPI.getMonthList();
+            months = ['All', ...months];
+            var monthOptions = months.map((month, index) => {
+                return (
+                    <option key={index} value={index}>{month}</option>
+                );
+            });
+
+            return (
+                <div className="row">
+                    <div className="column small-5">
+                        <label>Year
+                            <select ref="year" defaultValue={_year}>
+                                {yearOptions}
+                            </select>
+                        </label>
+                    </div>
+                    <div className="column small-5">
+                        <label>Month
+                            <select ref="month" defaultValue={_month}>
+                                {monthOptions}
+                            </select>
+                        </label>
+                    </div>
+                    <div className="column small-2">
+                        <br/>
+                        <button className="button" onClick={_that.handleFetchNews}>Go</button>
+                    </div>
+                </div>
+            );
+        }
 
         if (status.isFetching) {
             return (
@@ -57,9 +112,47 @@ export class NewsEdit extends React.Component {
                 </div>
             );
 
+            // Pagination calculated here
+            var numStoriesPerPage = 25;
+            var numPages = Math.ceil(news.length / numStoriesPerPage);
+            var pageNum = pageOfNews;
+ 
+            // Pull the portion of news to show from our full list of news stories
+            var sliceStart = pageNum * numStoriesPerPage;
+            var sliceEnd = sliceStart + numStoriesPerPage;
+            var tempNews = news.slice(sliceStart, sliceEnd);
+
+            function pagination(that, _numPages, _pageNum) {
+                var currentPage = (<li className="current"><span className="show-for-sr">You're on page</span> {_pageNum+1}</li>);
+
+                var prevLink = null;
+                if (_pageNum == 0) {
+                    prevLink = (<li className="pagination-previous disabled">Newer</li>);
+                } else {
+                    prevLink = (<li className="pagination-previous"><a onClick={(e) => {that.setPage(_pageNum-1)}} aria-label="Newer news">Newer</a></li>);
+                }
+
+                var nextLink = null;
+                if (_pageNum + 1 == _numPages) {
+                    nextLink = (<li className="pagination-next disabled">Older</li>);
+                } else {
+                    nextLink = (<li className="pagination-next"><a onClick={(e) => {that.setPage(_pageNum+1)}} aria-label="Older news">Older</a></li>);
+                }
+
+                return (
+                    <ul className="pagination text-center" role="navigation" aria-label="Pagination">
+                        {prevLink}
+                        {currentPage}
+                        {nextLink}
+                    </ul>
+                );
+            }
+
+            var paginationLinks = pagination(this, numPages, pageNum);
+
             // Show as a table with titles/dates and buttons to view/edit/delete
             // TODO: Make the delete button work, or add one to the edit form.
-            var contentRows = news.map((story) => {
+            var contentRows = tempNews.map((story) => {
                 var dateMS = story.updatedAt || story.createdAt;
                 var d = new Date(Number(dateMS));
                 var dateStr = d.toDateString();
@@ -73,23 +166,11 @@ export class NewsEdit extends React.Component {
                     </tr>
                 );
             });
-
-            // TODO: Add pagination, (see below,) links to load stories for a given day/week/month/year/season or just a "Load More" button?
-            /*
-            <ul className="pagination text-center" role="navigation" aria-label="Pagination">
-              <li className="pagination-previous disabled">Previous</li>
-              <li className="current"><span className="show-for-sr">You're on page</span> 1</li>
-              <li><a href="#" aria-label="Page 2">2</a></li>
-              <li><a href="#" aria-label="Page 3">3</a></li>
-              <li><a href="#" aria-label="Page 4">4</a></li>
-              <li className="ellipsis"></li>
-              <li><a href="#" aria-label="Page 12">12</a></li>
-              <li><a href="#" aria-label="Page 13">13</a></li>
-              <li className="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
-            </ul>
-            */
+            
             return (
                 <div>
+                    {datePicker(this, status.year, status.month)}
+                    {paginationLinks}
                     {errorMessage}
                     <Link to={`/admin/news/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
                     <table className="hover">
@@ -97,11 +178,13 @@ export class NewsEdit extends React.Component {
                             {contentRows}
                         </tbody>
                     </table>
+                    {paginationLinks}
                 </div>
             );
         } else {
             return (
                 <div>
+                    {datePicker(this, status.year, status.month)}
                     <div className="callout alert">
                         <h5>Error</h5>
                         <p>No news found.</p>

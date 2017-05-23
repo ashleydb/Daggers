@@ -35,48 +35,36 @@ export class News extends React.Component {
     render() {
         var {news, status, pageOfNews} = this.props.news;
 
+        // TODO: Break out this pagination code into something reusable, (e.g. for NewsEdit)
         function datePicker(_that, _year, _month) {
             // TODO: years and months options just list all values, even if we don't have data, (e.g. could select a future month)
             var years = NewsAPI.getYearList();
             var yearOptions = years.map((year) => {
-                if (year == _year) {
-                    return (
-                        <option key={year} value={year} selected>{year}</option>
-                    );
-                } else {
-                    return (
-                        <option key={year} value={year}>{year}</option>
-                    );
-                }
+                return (
+                    <option key={year} value={year}>{year}</option>
+                );
             });
 
             var months = NewsAPI.getMonthList();
             months = ['All', ...months];
             var monthOptions = months.map((month, index) => {
-                if (index == _month) {
-                    return (
-                        <option key={index} value={index} selected>{month}</option>
-                    );
-                } else {
-                    return (
-                        <option key={index} value={index}>{month}</option>
-                    );
-                }
+                return (
+                    <option key={index} value={index}>{month}</option>
+                );
             });
 
-            // TODO: Improve layout to be a single row
             return (
                 <div className="row">
                     <div className="column small-5">
                         <label>Year
-                            <select ref="year">
+                            <select ref="year" defaultValue={_year}>
                                 {yearOptions}
                             </select>
                         </label>
                     </div>
                     <div className="column small-5">
                         <label>Month
-                            <select ref="month">
+                            <select ref="month" defaultValue={_month}>
                                 {monthOptions}
                             </select>
                         </label>
