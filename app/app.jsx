@@ -7,6 +7,14 @@ var {Provider} = require('react-redux');
 // Same as var Route = require('react-router').Route; repeated for each item in the list.
 import { Route, Router, IndexRoute, browserHistory } from 'react-router';
 
+//Google Analytics
+var ReactGA = require('react-ga');
+ReactGA.initialize('UA-99830610-1');
+function logPageView() {
+  ReactGA.set({ page: window.location.pathname + window.location.search });
+  ReactGA.pageview(window.location.pathname + window.location.search);
+}
+
 //Include our component dependencies
 import Main from 'Main';
 import Home from 'Home';
@@ -33,7 +41,7 @@ require('applicationStyles');
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={browserHistory}>
+    <Router history={browserHistory} onUpdate={logPageView}>
       <Route path="/" component={Main}>
         <Route path="news" component={News}>
           <Route path=":newsId" component={NewsStory}/>

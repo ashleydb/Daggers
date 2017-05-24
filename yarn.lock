@@ -1400,7 +1400,7 @@ create-error-class@^3.0.2:
   dependencies:
     capture-stack-trace "^1.0.0"
 
-create-react-class@^15.5.1:
+create-react-class@^15.5.1, create-react-class@^15.5.2:
   version "15.5.2"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.5.2.tgz#6a8758348df660b88326a0e764d569f274aad681"
   dependencies:
@@ -3915,6 +3915,14 @@ react-foundation@^0.7.0:
   resolved "https://registry.yarnpkg.com/react-foundation/-/react-foundation-0.7.0.tgz#e52db639031ffc979dc996538cebd730db00c328"
   dependencies:
     classnames "^2.2.3"
+
+react-ga@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.2.0.tgz#45235de1356e4d988d9b82214d615a08489c9291"
+  dependencies:
+    create-react-class "^15.5.2"
+    object-assign "^4.0.1"
+    prop-types "^15.5.6"
 
 react-redux@^5.0.2:
   version "5.0.4"
