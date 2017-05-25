@@ -3,6 +3,7 @@ import {actions} from 'actions';
 export const INITIAL_STATE_FIXTURES = {
     fixtures: null, // Array of fixture objects
     fixture: null,  // Fixture object, e.g. FixturesAPI.DEFAULT_FIXTURE
+    season: null,   // When paging through fixtures, which season are we on?
     status: {
         isFetching: false,
         didInvalidate: false,
@@ -82,13 +83,20 @@ export var FixturesReducer = (state = INITIAL_STATE_FIXTURES, action) => {
             break;
 
         case actions.fixtures.RECEIVE_FIXTURE_LIST:
+            // Fixtures are already sorted, so get the .season from the last one to set the state's .season
+            var season = null;
+            if (action.fixtures && action.fixtures.length) {
+                season = action.fixtures[action.fixtures.length-1].season;
+            }
+
             return Object.assign({}, state, {
                 status: {
                     isFetching: false,
                     didInvalidate: false,
                     lastUpdated: action.receivedAt
                 },
-                fixtures: action.fixtures
+                fixtures: action.fixtures,
+                season
             });
             break;
 
@@ -96,6 +104,13 @@ export var FixturesReducer = (state = INITIAL_STATE_FIXTURES, action) => {
             return Object.assign({}, state, {
                 fixture: action.fixture
             });
+            break;
+
+        case actions.fixtures.SELECT_SEASON:
+            return {
+                ...state,
+                season: action.season
+            };
             break;
 
         default:

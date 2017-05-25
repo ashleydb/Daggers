@@ -35,6 +35,8 @@ router.route('/v1/fixtures')
             fixture.result = req.body.result;
         if (req.body.report)
             fixture.report = req.body.report;
+        if (req.body.season)
+            fixture.season = req.body.season;
     
         // save the fixture and check for errors
         fixture.save(function(err, id) {
@@ -100,6 +102,7 @@ router.route('/v1/fixtures/:fixture_id')
             updatedFixture.attendance = req.body.attendance || fixture.attendance;
             updatedFixture.report = req.body.report || fixture.report;
             updatedFixture.result = req.body.result || fixture.result;
+            updatedFixture.season = req.body.season || fixture.season;
 
             // save the news and check for errors
             updatedFixture.save(function(err, id) {

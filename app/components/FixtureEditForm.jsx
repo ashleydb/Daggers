@@ -47,6 +47,7 @@ export default class FixtureEditForm extends React.Component {
         fixture.attendance = this.refs.attendance.value;
         fixture.report = this.refs.report.value;
         fixture.result = this.refs.result.value;
+        fixture.season = this.refs.season.value;
         
         // Note: Not doing much validation. Assuming all elements are optional.
         this.props.onSaveFixture(fixture);
@@ -88,6 +89,7 @@ export default class FixtureEditForm extends React.Component {
                 <form onSubmit={this.onFormSubmit}>
                     <input type="hidden" defaultValue={fixture.id} ref="id"/>
                     <label>Date</label><input type="text" defaultValue={fixture.date} placeholder="e.g. 01-JAN-2018" ref="date"/>
+                    <label>Season</label><input type="text" defaultValue={fixture.season} placeholder="e.g. 2017-18" ref="season"/>
                     
                     <fieldset className="fieldset">
                         <legend>Home/Away</legend>

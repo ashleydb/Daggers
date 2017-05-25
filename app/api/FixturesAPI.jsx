@@ -80,7 +80,7 @@ export function addFixture(fixture, token) {
                     axiosInstance.post('/api/v1/fixtures', fixture)
                     .then(function (response) {
                         console.log(response);
-                        fixtures.id = response.data.id;
+                        fixture.id = response.data.id;
                         resolve(fixture);
                     })
                     .catch(function (error) {

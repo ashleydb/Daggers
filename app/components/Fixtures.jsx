@@ -19,9 +19,50 @@ export class Fixtures extends React.Component {
     componentWillMount() {
         this.props.dispatch(actions.fixtures.fetchFixturesIfNeeded());
     }
+    setSeason(season) {
+        // Change which page of news stories we are showing
+        this.props.dispatch(actions.fixtures.selectSeason(season));
+    }
     render() {
-        var {fixtures, status} = this.props.fixtures;
+        var {fixtures, status, season} = this.props.fixtures;
         
+        function seasonPicker(_that, _season) {
+            // Pull out unique values on objects in an array
+            function getUniqueValuesOfKey(array, key){
+                return array.reduce(function(carry, item){
+                    if(item[key] && !~carry.indexOf(item[key])) carry.push(item[key]);
+                    return carry;
+                }, []);
+            }
+
+            var seasons = getUniqueValuesOfKey(fixtures, 'season');
+
+            var seasonOptions = seasons.map((theSeason) => {
+                return (
+                    <option key={theSeason} value={theSeason}>{theSeason}</option>
+                );
+            });
+
+            return (
+                <div className="row">
+                    <div className="column small-5">
+                        <label>Season
+                            <select ref="season" defaultValue={_season}>
+                                {seasonOptions}
+                            </select>
+                        </label>
+                    </div>
+                    <div className="column small-2">
+                        <br/>
+                        <button className="button" onClick={(e) => {_that.setSeason(_that.refs.season.value)}}>Go</button>
+                    </div>
+                    <div className="column small-5">
+                        &nbsp;
+                    </div>
+                </div>
+            );
+        }
+
         if (status.isFetching) {
             return (
                 <div>
@@ -43,42 +84,45 @@ export class Fixtures extends React.Component {
         } else {
             // Get a list of fixtures output as table rows
             var fixtureRows = fixtures.map((fixture) => {
-                var logo = fixture.logo ?   `https://daggers-demo-eu.storage.googleapis.com${fixture.logo}` :    // `/images/uploads/teams/${fixture.logo}` :
-                                            'https://daggers-demo-eu.storage.googleapis.com/basics/clublogo.png';       // '/images/clublogo.png';
-                // TODO: Need to fill in report links for all fixtures
-                var w_l_d = fixture.w_l_d === 'X' ? '' : fixture.w_l_d;
-                var link = '';
-                if (w_l_d && fixture.report)
-                    link = <a href={fixture.report}>Report</a>;
-                else if (fixture.report)
-                    link = <a href={fixture.report}>Preview</a>;
-                else
-                    link = <a href="http://www.daggerstickets.co.uk">Tickets</a>;
-                
-                var home_away = fixture.home_away === 'X' ? '' : fixture.home_away;
+                if (fixture.season == season) {
+                    var logo = fixture.logo ?   `https://daggers-demo-eu.storage.googleapis.com${fixture.logo}` :    // `/images/uploads/teams/${fixture.logo}` :
+                                                'https://daggers-demo-eu.storage.googleapis.com/basics/clublogo.png';       // '/images/clublogo.png';
+                    // TODO: Need to fill in report links for all fixtures
+                    var w_l_d = fixture.w_l_d === 'X' ? '' : fixture.w_l_d;
+                    var link = '';
+                    if (w_l_d && fixture.report)
+                        link = <a href={fixture.report}>Report</a>;
+                    else if (fixture.report)
+                        link = <a href={fixture.report}>Preview</a>;
+                    else
+                        link = <a href="http://www.daggerstickets.co.uk">Tickets</a>;
+                    
+                    var home_away = fixture.home_away === 'X' ? '' : fixture.home_away;
 
-                return (
-                    <tr key={fixture.id}>
-                        <td>{fixture.date}</td>
-                        <td><img src={logo} alt={fixture.team} className="fixture-logo"/></td>
-                        <td><p className="team-name">{fixture.team}</p><p className="competition-name">{fixture.competition}</p></td>
-                        <td>Att {fixture.attendance}</td>
-                        <td>{home_away}</td>
-                        <td>{fixture.result}</td>
-                        <td>{w_l_d}</td>
-                        <td>{link}</td>
-                    </tr>
-                );
+                    return (
+                        <tr key={fixture.id}>
+                            <td>{fixture.date}</td>
+                            <td><img src={logo} alt={fixture.team} className="fixture-logo"/></td>
+                            <td><p className="team-name">{fixture.team}</p><p className="competition-name">{fixture.competition}</p></td>
+                            <td>Att {fixture.attendance}</td>
+                            <td>{home_away}</td>
+                            <td>{fixture.result}</td>
+                            <td>{w_l_d}</td>
+                            <td>{link}</td>
+                        </tr>
+                    );
+                }
             });
             
             return (
                 <div>
-
                     <div className="row">
                         <div className="columns small-12 large-8">
 
                             <h3>Fixtures &amp; Results</h3>
                             <h4>Check the League Table via the <a href="https://thenationalleague.org.uk/tables.php?division_id=7">National League</a></h4>
+
+                            {seasonPicker(this, season)}
                             <table className="hover stack text-center">
                                 <tbody>
                                     {fixtureRows}

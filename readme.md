@@ -14,14 +14,13 @@ Needed:
  * If we get everything from EFL, will it be updated by Daggers in future? If not, just omit it now?
 
 To Do:
-* Storing Fixtures by Season, (and allowing user to switch between them)
 * Fix react warnings about PropTypes, (if possible. Seems to be from a dependency.)
 * Finish setup of hosting in a production ready setup - GCP AppEngine
   * https://www.npmjs.com/package/letsencrypt
   * https://git.daplie.com/Daplie/greenlock-express
 * Add teams/players, allow editing
 * Finish migrating any other old content, (e.g. news)
-* Putting in traffic monitoring
+* Putting in (more detailed) traffic monitoring
 * Putting in advertising
 * Finalizing layouts
 * Cookie warnings and any other legal stuff like privacy policy

@@ -157,3 +157,14 @@ export var submitFixture = (fixture, token) => {
         });
     };
 }
+
+// --- VIEWING HEADLINES ---
+
+export const SELECT_SEASON  = 'SELECT_SEASON';
+
+export var selectSeason = (season) => {
+    return {
+        type: SELECT_SEASON,
+        season
+    };
+}
