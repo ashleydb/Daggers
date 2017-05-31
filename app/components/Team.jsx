@@ -1,7 +1,9 @@
 import React from 'react';
-import { Foundation, ButtonGroup, Link, Row, Column, Thumbnail } from 'react-foundation';
+//import { Foundation, ButtonGroup, Link, Row, Column, Thumbnail } from 'react-foundation';
 
-import Dialog from 'Dialog';
+//import Dialog from 'Dialog';
+
+import Player from 'Player';
 
 // TODO: Break this up into /team/ to select which team, default to main squad,
 // Have Link buttons to which group of people e.g. /team/:teamId, for staff, academy, etc.
@@ -17,19 +19,26 @@ export default class Team extends React.Component {
         // Call the parent constructor with the props object we automatically get
         super(props);
         // BINDING: Keep 'this' scoped to this object in any handlers
-        this.openDialog = this.openDialog.bind(this);
+        //this.openDialog = this.openDialog.bind(this);
     }
 
     //    componentDidMount() {
     //        $(document).foundation();
     //    }
 
-    openDialog(id) {
-        console.log('openDialog');
-        Dialog.open({ title: 'Player Detail', type: 'PLAYER', id: id });
-    }
+    // openDialog(id) {
+    //     console.log('openDialog');
+    //     Dialog.open({ title: 'Player Detail', type: 'PLAYER', id: id });
+    // }
 
     render() {
+        // TODO: Create Player Edit forms
+        // TODO: Just remove this component and replace with Player. (Maybe rename Player to Team.)
+        return (
+            <div><Player /></div>
+        );
+
+{/*
         return (
             <div>
 
@@ -135,5 +144,6 @@ export default class Team extends React.Component {
 
             </div>
         );
+*/}
     }
 };

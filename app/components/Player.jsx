@@ -1,6 +1,11 @@
 import React from 'react';
+var {connect} = require('react-redux');
+import {actions} from 'actions';
+import PlayerDetail from 'PlayerDetail';
+import PlayerSummary from 'PlayerSummary';
+import * as PlayersAPI from 'PlayersAPI';
 
-export default class Player extends React.Component {
+export class Player extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
     constructor(props) {
         // Call the parent constructor with the props object we automatically get
@@ -9,34 +14,105 @@ export default class Player extends React.Component {
         this.loadPlayer = this.loadPlayer.bind(this);
     }
     componentWillMount() {
-        this.loadPlayer(this.props.id);
+        //this.loadPlayer(this.props.id);
+        this.props.dispatch(actions.players.fetchPlayersIfNeeded());
     }
     loadPlayer(id) {
-        this.setState({
-            id: id,
-            name: "Oliver Hawkins",
-            image: "/images/player-head.jpg",
-            position: "Striker",
-            sponsors: [
-                {type: "Kit", name: "Paul Gwinn"},
-                {type: "Boots", name: "George Portlock"}
-            ],
-            description: "<p>Oliver joined the Daggers for a record transfer fee in January 2016.</p><p>He began his career at North Greenford United, but it was at Hillingdon Borough where he really began to break through during the 2010/11 season. He followed the manager to Northwood in March 2011 and finished top scorer two seasons running.</p><p>Unsurprisingly Hawkins' excellent form attracted the attention of clubs at higher levels, and the striker duly signed for Hemel Hempstead Town in the summer of 2013. The tall striker spent time at Harrow Borough, before returning and establishing himself as a regular for the Tudors.</p><p>He made his Daggers debut in the home game against Northampton Town in January, scoring his first goal a couple of weeks later at Mansfield Town.</p>"
-        });
+        var player = PlayersAPI.getPlayer(id, this.props.players.players);
+        this.props.dispatch(actions.players.changePlayer(player));
     }
     render() {
-        return (
-            <div>
-                <h1 id="playerModalHeader">{this.state.name}</h1>
-                <img src={this.state.image} alt={this.state.name} className="player-portrait float-right"/>
-                <h3>{this.state.position}</h3>
-                {this.state.sponsors.map((sponsor, index) => {
-                    return (
-                        <h5 key={index}>{sponsor.type} sponsored by {sponsor.name}</h5>
+        var {players, status, player} = this.props.players;
+
+        if (status.isFetching) {
+            return (
+                <div>
+                    <div className="callout">
+                      <h5>Loading</h5>
+                      <p>Please wait while we get the players...</p>
+                    </div>
+                </div>
+            );
+        } else if (!players || players.length < 1) {
+            return (
+                <div>
+                    <div className="callout alert">
+                      <h5>Error</h5>
+                      <p>No players found.</p>
+                    </div>
+                </div>
+            );
+        } else {
+            var playersData = {}; // Will be an object containing arrays named for each squad, (e.g. {'First':[playerComponent, ...], 'U16':[], ...})
+            var teamNames = []; // Will be an array of team names, (e.g. ['First', 'U16', ...])
+            for (var i = 0; i < players.length; ++i) {
+                var teamName = players[i].team;
+                if (!playersData[teamName]) {
+                    playersData[teamName] = [];
+                    teamNames.push(teamName);
+                }
+
+                playersData[teamName].push(
+                    <PlayerSummary player={players[i]} selected={player && (players[i].id == player.id)} onSelectPlayer={this.loadPlayer} />
+                );
+            }
+
+            var playersHTML = []; // Will be an array containing components to render
+            for (var i = 0; i < teamNames.length; ++i) {
+                var teamName = teamNames[i];
+                var rowCount = 0;
+                while (playersData[teamName].length) {
+                    var playerA = playersData[teamName].shift();
+                    var playerB = playersData[teamName].shift();
+                    var playerC = playersData[teamName].shift();
+
+                    playersHTML.push(
+                        <div className="row small-up-1 medium-up-3 large-up-4" key={`${teamName}-${rowCount}`}>
+                            <div className="column" key={playerA ? playerA.props.player.id : 'playerA'}>
+                                {playerA}
+                            </div>
+                            <div className="column" key={playerB ? playerB.props.player.id : 'playerB'}>
+                                {playerB}
+                            </div>
+                            <div className="column" key={playerC ? playerC.props.player.id : 'playerC'}>
+                                {playerC}
+                            </div>
+                        </div>
                     );
-                })}
-                <div dangerouslySetInnerHTML={{__html: this.state.description}}></div>
-            </div>
-        );
+
+                    ++rowCount;
+                }
+            }
+
+            var playerData = null; // Will be an individual player's details as a component to render
+            if (player) {
+                playerData = <PlayerDetail player={player} />
+            }
+
+            // TODO: Improve layout here
+            return (
+                <div>
+                    {playersHTML}
+
+                    <div className="row small-up-1 medium-up-3 large-up-4">
+                        <div className="column">
+                            {playerData}
+                        </div>
+                        <div className="column medium-centered large-uncentered">
+                            <div className="placeholder-ad">
+                                <p>Ads go here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
     }
 };
+
+export default connect(
+  (state) => {
+    return {
+        players: state.players
+    };
+  })(Player);

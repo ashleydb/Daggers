@@ -9,7 +9,7 @@ const ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTIwNTk3M
 
 console.log("INFO: Fixtures to upload: ", fixtureData.length);
 
-for (i = 0; i < fixtureData.length; ++i) {
+for (var i = 0; i < fixtureData.length; ++i) {
     //console.log("DEBUG: Fixture: ", fixtureData[i]);
     
     const axiosInstance = Axios.create({

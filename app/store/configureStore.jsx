@@ -6,17 +6,18 @@ const INITIAL_STATE = {
     news: Reducers.INITIAL_STATE_NEWS,
     fixtures: Reducers.INITIAL_STATE_FIXTURES,
     login: Reducers.INITIAL_STATE_LOGIN,
-    pages: Reducers.INITIAL_STATE_PAGES
+    pages: Reducers.INITIAL_STATE_PAGES,
+    players: Reducers.INITIAL_STATE_PLAYERS
 };
 
 export var configure = (initialState = INITIAL_STATE) => {
     var reducer = redux.combineReducers({
         // <state property>: <designated reducer>
         news: Reducers.NewsReducer,
-        //story: newsReducer  // TODO: Break news and story up?
         fixtures: Reducers.FixturesReducer,
         login: Reducers.LoginReducer,
-        pages: Reducers.PagesReducer
+        pages: Reducers.PagesReducer,
+        players: Reducers.PlayersReducer
     });
     
     var store = redux.createStore(reducer, initialState, redux.compose(
