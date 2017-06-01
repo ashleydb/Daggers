@@ -34,12 +34,14 @@ export default class PlayerDetail extends React.Component {
 
             return (
                 <div>
-                    <img src={image} alt={playerName} className="player-image"/>
-                    <table className="hover stack">
+                    <table className="hover stack player-detail">
                         <tbody>
                             <tr>
                                 <td className="player-label">Name</td>
                                 <td className="player-data">{playerName}</td>
+                                <td rowSpan={9} className="player-image">
+                                    <img src={image} alt={playerName} className="player-portrait"/>
+                                </td>
                             </tr>
                             <tr>
                                 <td className="player-label">Team</td>
@@ -74,7 +76,7 @@ export default class PlayerDetail extends React.Component {
                                 <td className="player-data">{player.onloan_status}</td>
                             </tr>
                             <tr>
-                                <td colSpan={2} className="player-data">{player.short_description} {player.biography} &nbsp;</td>
+                                <td colSpan={3} className="player-data">{player.short_description}<br /> {player.biography} &nbsp;</td>
                             </tr>
                         </tbody>
                     </table>

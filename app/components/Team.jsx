@@ -1,149 +1,131 @@
 import React from 'react';
-//import { Foundation, ButtonGroup, Link, Row, Column, Thumbnail } from 'react-foundation';
+var {connect} = require('react-redux');
+import {actions} from 'actions';
+import PlayerDetail from 'PlayerDetail';
+import PlayerSummary from 'PlayerSummary';
+import * as PlayersAPI from 'PlayersAPI';
 
-//import Dialog from 'Dialog';
-
-import Player from 'Player';
-
-// TODO: Break this up into /team/ to select which team, default to main squad,
-// Have Link buttons to which group of people e.g. /team/:teamId, for staff, academy, etc.
-// Have a list of people on that page, per position, which are links to each profile /team/:teamId/:playerId
-// Render the child props to show everything here.
-// Clean up react-foundation usage?
-// Restyle the list of players.
-
-export default class Team extends React.Component {
-
+export class Team extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
     constructor(props) {
         // Call the parent constructor with the props object we automatically get
         super(props);
         // BINDING: Keep 'this' scoped to this object in any handlers
-        //this.openDialog = this.openDialog.bind(this);
+        this.loadPlayer = this.loadPlayer.bind(this);
     }
-
-    //    componentDidMount() {
-    //        $(document).foundation();
-    //    }
-
-    // openDialog(id) {
-    //     console.log('openDialog');
-    //     Dialog.open({ title: 'Player Detail', type: 'PLAYER', id: id });
-    // }
-
+    componentWillMount() {
+        //this.loadPlayer(this.props.id);
+        this.props.dispatch(actions.players.fetchPlayersIfNeeded());
+    }
+    loadPlayer(id) {
+        var player = PlayersAPI.getPlayer(id, this.props.players.players);
+        this.props.dispatch(actions.players.changePlayer(player));
+    }
     render() {
-        // TODO: Create Player Edit forms
-        // TODO: Just remove this component and replace with Player. (Maybe rename Player to Team.)
-        return (
-            <div><Player /></div>
-        );
+        var {players, status, player} = this.props.players;
 
-{/*
-        return (
-            <div>
-
-                <div className="expanded button-group">
-                    <a className="button">Player Profiles</a>
-                    <a className="button">Staff Profiles</a>
-                    <a className="button">Academy</a>
-                    <a className="button">Academy Staff Profiles</a>
-                    <a className="button">Scholar Profiles</a>
-                    <a className="button">Academy U16-U9</a>
-                    <a className="button">Player Recruitment</a>
-                    <a className="button">Academy Fixtures</a>
-                    <a className="button">College Academy</a>
-                </div>
-
-                <div className="row">
-                    <div className="columns small-12 large-8">
-
-
-
-                        <div className="button-group-basics-example">
-                            <ButtonGroup>
-                                <Link to="team/goalkeepers">Goalkeepers</Link>
-                                <Link to="team/defenders">Defenders</Link>
-                                <Link to="team/midfielders">Midfielders</Link>
-                                <Link to="team/strikers">Strikers</Link>
-                            </ButtonGroup>
-                        </div>
-
-                        <div className="grid-block-example">
-                            <Row upOnSmall={1} upOnMedium={2} upOnLarge={4}>
-                                <Column >
-                                    <Thumbnail onClick={() => this.openDialog(1)} src="/images/player-head.jpg" alt="Oliver Hawkins" />
-                                </Column>
-                                <Column >
-                                    <Thumbnail onClick={() => this.openDialog(1)} src="/images/player-head.jpg" alt="Oliver Hawkins" />
-                                </Column>
-                                <Column >
-                                    <Thumbnail onClick={() => this.openDialog(1)} src="/images/player-head.jpg" alt="Oliver Hawkins" />
-                                </Column>
-                                <Column >
-                                    <Thumbnail onClick={() => this.openDialog(1)} src="/images/player-head.jpg" alt="Oliver Hawkins" />
-                                </Column>
-                                <Column >
-                                    <Thumbnail onClick={() => this.openDialog(1)} src="/images/player-head.jpg" alt="Oliver Hawkins" />
-                                </Column>
-                                <Column >
-                                    <Thumbnail onClick={() => this.openDialog(1)} src="/images/player-head.jpg" alt="Oliver Hawkins" />
-                                </Column>
-                            </Row>
-                        </div>
-
-
-
-
-
-                        <ul className="tabs" data-tabs id="example-tabs">
-                            <li className="tabs-title"><a href="#panel1">Goalkeepers</a></li>
-                            <li className="tabs-title"><a href="#panel2">Defenders</a></li>
-                            <li className="tabs-title"><a href="#panel3">Midfielders</a></li>
-                            <li className="tabs-title is-active"><a href="#panel4" aria-selected="true">Strikers</a></li>
-                        </ul>
-
-                        <div className="tabs-content" data-tabs-content="example-tabs">
-                            <div className="tabs-panel is-active" id="panel1">
-                                <img src="/images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail" onClick={() => this.openDialog(1)} />
-                            </div>
-                            <div className="tabs-panel" id="panel2">
-                                <a onClick={() => this.openDialog(1)}>
-                                    <img src="/images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail" />
-                                </a>
-                                <a onClick={() => this.openDialog(1)}>
-                                    <img src="/images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail" />
-                                </a>
-                            </div>
-                            <div className="tabs-panel" id="panel3">
-                                <a data-open="playerModal">
-                                    <img src="/images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail" />
-                                </a>
-                            </div>
-                            <div className="tabs-panel" id="panel4">
-                                <a data-open="playerModal">
-                                    <img src="/images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail" />
-                                </a>
-                                <a data-open="playerModal">
-                                    <img src="/images/player-head.jpg" alt="Oliver Hawkins" className="player-thumbnail" />
-                                </a>
-                                <a className="button" onClick={() => this.openDialog(1)}>dialog</a>
-                            </div>
-                        </div>
-
+        if (status.isFetching) {
+            return (
+                <div>
+                    <div className="callout">
+                      <h5>Loading</h5>
+                      <p>Please wait while we get the players...</p>
                     </div>
+                </div>
+            );
+        } else if (!players || players.length < 1) {
+            return (
+                <div>
+                    <div className="callout alert">
+                      <h5>Error</h5>
+                      <p>No players found.</p>
+                    </div>
+                </div>
+            );
+        } else {
+            var playersData = {}; // Will be an object containing arrays named for each squad, (e.g. {'First':[playerComponent, ...], 'U16':[], ...})
+            var teamNames = []; // Will be an array of team names, (e.g. ['First', 'U16', ...])
+            for (var i = 0; i < players.length; ++i) {
+                var teamName = players[i].team;
+                if (!playersData[teamName]) {
+                    playersData[teamName] = [];
+                    teamNames.push(teamName);
+                }
 
-                    <div className="columns small-12 large-4">
-                        <div className="placeholder-ad">
-                            <p>Ads go here</p>
+                playersData[teamName].push(
+                    <PlayerSummary player={players[i]} selected={player && (players[i].id == player.id)} onSelectPlayer={this.loadPlayer} />
+                );
+            }
+
+            var playersHTML = []; // Will be an array containing components to render
+            for (var i = 0; i < teamNames.length; ++i) {
+                var teamName = teamNames[i];
+                var rowCount = 0;
+                while (playersData[teamName].length) {
+                    var playerA = playersData[teamName].shift();
+                    var playerB = playersData[teamName].shift();
+                    var playerC = playersData[teamName].shift();
+                    var playerD = playersData[teamName].shift();
+
+                    playersHTML.push(
+                        <div className="row small-up-1 medium-up-4 large-up-4" key={`${teamName}-${rowCount}`}>
+                            <div className="column" key={playerA ? playerA.props.player.id : 'playerA'}>
+                                {playerA}
+                            </div>
+                            <div className="column" key={playerB ? playerB.props.player.id : 'playerB'}>
+                                {playerB}
+                            </div>
+                            <div className="column" key={playerC ? playerC.props.player.id : 'playerC'}>
+                                {playerC}
+                            </div>
+                            <div className="column" key={playerD ? playerD.props.player.id : 'playerD'}>
+                                {playerD}
+                            </div>
                         </div>
-                        <div className="placeholder-ad">
-                            <p>Ads go here</p>
+                    );
+
+                    ++rowCount;
+                }
+            }
+
+            var playerData = null; // Will be an individual player's details as a component to render
+            if (player) {
+                playerData = <PlayerDetail player={player} />
+            }
+
+            return (
+                <div>
+                    <div className="row">
+                        <div className="column medium-8 player-list">
+                            <div className="callout secondary">Scroll down for more players. Click one for more detail.</div>
+                            {playersHTML}
+                        </div>
+                        <div className="column medium-4">
+                            <div className="placeholder-ad">
+                                <p>Ads go here</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div className="row">
+                        <div className="column medium-8">
+                            {playerData}
+                        </div>
+                        <div className="column medium-4">
+                            <div className="placeholder-ad">
+                                <p>Ads go here</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-            </div>
-        );
-*/}
+            );
+        }
     }
 };
+
+export default connect(
+  (state) => {
+    return {
+        players: state.players
+    };
+  })(Team);

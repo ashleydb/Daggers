@@ -14,3 +14,9 @@
     margin-right: auto;
     vertical-align: top;
 }
+
+//Have a scrollbar for the list of players, since we could have a long list
+.player-list {
+    max-height: 450px;
+    overflow-y: scroll;
+}

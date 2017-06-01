@@ -1,6 +1,13 @@
 // TODO: Fill out these styles
-.player-image {}
+.player-image {
+    width: 200px;
+}
 .player-thumbnail {}
-.player-label {}
+.player-label {
+    font-weight: bold;
+}
 .player-data {}
-.player-summary-position {}
+.player-summary-position {
+    font-style: italic;
+}
+.player-detail {}
