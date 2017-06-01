@@ -46,15 +46,18 @@ export class Team extends React.Component {
             var playersData = {}; // Will be an object containing arrays named for each squad, (e.g. {'First':[playerComponent, ...], 'U16':[], ...})
             var teamNames = []; // Will be an array of team names, (e.g. ['First', 'U16', ...])
             for (var i = 0; i < players.length; ++i) {
-                var teamName = players[i].team;
-                if (!playersData[teamName]) {
-                    playersData[teamName] = [];
-                    teamNames.push(teamName);
-                }
+                // Only show Active players
+                if (players[i].status == 'Active') {
+                    var teamName = players[i].team;
+                    if (!playersData[teamName]) {
+                        playersData[teamName] = [];
+                        teamNames.push(teamName);
+                    }
 
-                playersData[teamName].push(
-                    <PlayerSummary player={players[i]} selected={player && (players[i].id == player.id)} onSelectPlayer={this.loadPlayer} />
-                );
+                    playersData[teamName].push(
+                        <PlayerSummary player={players[i]} selected={player && (players[i].id == player.id)} onSelectPlayer={this.loadPlayer} />
+                    );
+                }
             }
 
             var playersHTML = []; // Will be an array containing components to render

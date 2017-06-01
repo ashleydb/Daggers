@@ -10,7 +10,7 @@ class Players {
         this.id = 0; //Same as DEFAULT_PLAYER_ID
         this.first_name = ''; //Scott
         this.last_name = ''; //Doe
-        this.date_of_birth = '01-JAN-2100';
+        this.date_of_birth = 0; // 846835200000 = 1-NOV-1996
         this.image = '/player/bg_player_231by264.png';
         this.shirt_number = 0; //4
         this.position = 'Defender';

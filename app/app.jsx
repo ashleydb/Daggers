@@ -28,6 +28,7 @@ import Page from 'Page';
 import PagesEdit from 'PagesEdit';
 import Tickets from 'Tickets';
 import Team from 'Team';
+import PlayersEdit from 'PlayersEdit';
 import Fans from 'Fans';
 import Club from 'Club';
 import Commercial from 'Commercial';
@@ -67,6 +68,9 @@ ReactDOM.render(
             </Route>
             <Route path="pages" component={PagesEdit}>
                 <Route path=":pageId" component={PagesEdit}/>
+            </Route>
+            <Route path="players" component={PlayersEdit}>
+                <Route path=":playerId" component={PlayersEdit}/>
             </Route>
         </Route>
         <IndexRoute component={Home}/>

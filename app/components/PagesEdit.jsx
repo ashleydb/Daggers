@@ -27,7 +27,7 @@ export class PagesEdit extends React.Component {
         // Are we editing at a page right now, or about to?
         var { pageId } = this.props.params;
         var { pages, status } = this.props.pages;
-        var page = PagesAPI.getPage(pageId, pages);
+        var page = PagesAPI.getPage(pageId, pages) || PagesAPI.DEFAULT_PAGE;
 
         if (status.isFetching) {
             return (
@@ -38,7 +38,7 @@ export class PagesEdit extends React.Component {
                     </div>
                 </div>
             );
-        } else if (pageId == "new" || (page.id && page.id == pageId)) {
+        } else if (page.id == pageId) {
             return (
                 <div>
                     <PagesEditForm page={page} onSavePage={this.handleSavePage} token={this.props.login.token} />

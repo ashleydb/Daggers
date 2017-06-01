@@ -76,7 +76,12 @@ export default class PlayerDetail extends React.Component {
                                 <td className="player-data">{player.onloan_status}</td>
                             </tr>
                             <tr>
-                                <td colSpan={3} className="player-data">{player.short_description}<br /> {player.biography} &nbsp;</td>
+                                <td colSpan={3} className="player-data">
+                                    {player.short_description}
+                                    <br />
+                                    <div dangerouslySetInnerHTML={{ __html: player.biography }} />
+                                    &nbsp;
+                                </td>
                             </tr>
                         </tbody>
                     </table>

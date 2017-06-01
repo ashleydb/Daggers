@@ -10,20 +10,20 @@ export const DEFAULT_PLAYER_ID = 0;
 
 export const DEFAULT_PLAYER = {
     id: DEFAULT_PLAYER_ID,
-    "first_name": '', //Scott
-    "last_name": '', //Doe
-    "date_of_birth": '01-JAN-2100',
-    "image": '/player/bg_player_231by264.png',
-    "shirt_number": 0, //4
-    "position": 'Defender',
-    "short_description": '', //Kit sponsored by Haines Watts
-    "biography": '', //Some HTML
-    "height": '0 Metres', //1.85 Metres
-    "weight": '0 Kilograms', //77 Kilograms
-    "nationality": 'English',
-    "onloan_status": 'No',
-    "status": 'Active',
-    "team": 'First' // First team, Academy, etc.
+    first_name: '', //Scott
+    last_name: '', //Doe
+    date_of_birth: 0, // 846835200000 = 1-NOV-1996
+    image: '/player/bg_player_231by264.png',
+    shirt_number: 0, //4
+    position: 'Defender',
+    short_description: '', //Kit sponsored by Haines Watts
+    biography: '', //Some HTML
+    height: '0 Metres', //1.85 Metres
+    weight: '0 Kilograms', //77 Kilograms
+    nationality: 'English',
+    onloan_status: 'No',
+    status: 'Active',
+    team: 'First' // First team, Academy, etc.
 };
 
 // This is dumb and just loads in all player data we have for all squads. Page it by team?
@@ -40,7 +40,7 @@ export function getPlayers() {
                     // Cool, we got content.
                     
                     // Sort by team and position, (note we included Sorter above.)
-                    players.sortBy(function(o){ return [o.team,o.position] });
+                    players.sortBy(function(o){ return [o.team,o.position,o.last_name] });
                     
                     // Resolve the promise to return the data
                     resolve(players);
@@ -57,7 +57,7 @@ export function getPlayers() {
     );
 };
 
-// Get the content for a player which may be cached in the fixtures array.
+// Get the content for a player which may be cached in the players array.
 // TODO: If the ID doesn't match one we have cached, do we try fetching from the server? Feels like that should happen on the caller's side so they can update the state.
 export function getPlayer(id, players) {
     // Look through the list of players passed in, (would typically be from the state)
@@ -69,7 +69,8 @@ export function getPlayer(id, players) {
         }
     }
     console.log("ERR: Player not found:", id);
-    return this.DEFAULT_PLAYER;
+    //return this.DEFAULT_PLAYER;
+    return null;
 };
 
 export function addPlayer(player, token) {
@@ -81,7 +82,7 @@ export function addPlayer(player, token) {
                     headers: {'x-access-token': token}
                 });
                 
-                if (player.id == DEFAULT_FIXTURE_ID) {
+                if (player.id == DEFAULT_PLAYER_ID) {
                     // This is a POST
                     axiosInstance.post('/api/v1/players', player)
                     .then(function (response) {
