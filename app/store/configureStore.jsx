@@ -13,6 +13,7 @@ const INITIAL_STATE = {
 export var configure = (initialState = INITIAL_STATE) => {
     var reducer = redux.combineReducers({
         // <state property>: <designated reducer>
+        swal: Reducers.SweetAlertReducer,
         news: Reducers.NewsReducer,
         fixtures: Reducers.FixturesReducer,
         login: Reducers.LoginReducer,

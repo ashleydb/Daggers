@@ -97,3 +97,33 @@ export function addPage(page, token) {
         }
     );
 };
+
+export function removePage(pageId, token) {
+    return new Promise(
+        // The resolver function is called with the ability to resolve or reject the promise
+        function (resolve, reject) {
+            try {
+                const axiosInstance = Axios.create({
+                    headers: { 'x-access-token': token }
+                });
+
+                axiosInstance.delete(`/api/v1/pages/${pageId}`)
+                .then(function (response) {
+                    // Object was deleted
+                    console.log(response);
+                    resolve(response.data.id);
+                })
+                .catch(function (error) {
+                    // Some issue trying to delete the object
+                    console.log(error.response.data);
+                    reject(error.response.data);
+                });
+
+            } catch (e) {
+                // try failed
+                console.log("ERR: removePage() failed:", e);
+                reject(e);
+            }
+        }
+    );
+};

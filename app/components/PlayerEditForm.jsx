@@ -3,7 +3,6 @@ import {Link} from 'react-router';
 
 // For Rich Text Editor
 import Trumbowyg from 'react-trumbowyg'
-import 'style!css!react-trumbowyg/dist/trumbowyg.min.css';
 
 // For uploading images
 import ImageUploader from 'ImageUploader';

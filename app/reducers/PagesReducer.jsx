@@ -12,6 +12,7 @@ export const INITIAL_STATE_PAGES = {
 
 export var PagesReducer = (state = INITIAL_STATE_PAGES, action) => {
     switch (action.type) {
+        // NOTE: Not actually used? (Thunk)
         case actions.pages.SUBMIT_PAGE:
             return {
                 ...state,
@@ -87,6 +88,43 @@ export var PagesReducer = (state = INITIAL_STATE_PAGES, action) => {
         case actions.pages.RECEIVE_PAGE:
             return Object.assign({}, state, {
                 page: action.page
+            });
+            break;
+
+        // NOTE: Not actually used? (Thunk)
+        case actions.pages.REMOVE_PAGE:
+            return {
+                ...state,
+                page: {id: action.pageId}
+            };
+            break;
+
+        case actions.pages.REMOVE_PAGE_SUCCESS:
+            var pages = state.pages.filter((page) => {
+                if (page.id != action.pageId) {
+                    return page;
+                }
+            });
+
+            return {
+                ...state,
+                pages,
+                status: {
+                    isFetching: false,
+                    didInvalidate: false,
+                    lastUpdated: action.receivedAt  // TODO: Not actually being set, (likely true elsewhere too)
+                },
+                page: null
+            };
+            break;
+
+        case actions.pages.REMOVE_PAGE_ERROR:
+            return Object.assign({}, state, {
+                status: {
+                    isFetching: false,
+                    didInvalidate: false,
+                    error: action.error
+                }
             });
             break;
 

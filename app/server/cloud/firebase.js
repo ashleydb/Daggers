@@ -105,7 +105,7 @@ module.exports.readFromFirebase = function(ref = null, childName = '/') {
 }
 
 // Deletes data from firebase at the given ref.
-// Returns a promise that will return the ID of the deleted object.
+// Returns true on success or false on failure.
 // ref: Pass in a ref you want a child from, (if null, uses the root of the db)
 // childName: name of the child element you want to remove, e.g. 'news' or 'news/-Kf-uyuCGliTBTNfB_Lr'
 module.exports.removefromFirebase = function(ref = null, childName) {
@@ -120,11 +120,11 @@ module.exports.removefromFirebase = function(ref = null, childName) {
     // Removing data, so find the right element to do so
     var dataRef = dbRef.child(childName).remove();
 
-    // We don't get an id back when removing, so return the existing ID
-    return dataRef.then(() => { return id; })
+    // We don't get an id back when removing, so return success
+    return dataRef.then(() => { return true; })
     .catch(function(error) {
         console.log("ERR: Firebase Remove failed: " + error.message);
-        return null;
+        return false;
     });
 };
 

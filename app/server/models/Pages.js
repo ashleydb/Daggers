@@ -111,10 +111,14 @@ class Pages {
     static remove(params, callback) {
         myFirebase.removefromFirebase(myFirebase.firebaseRef,
                                    `pages/${params._id}`)
-        .then((id) => {
-            //Success
-            var page = {id: params._id};
-            callback(null, page);
+        .then((result) => {
+            if (result) {
+                //Success
+                var page = {id: params._id};
+                callback(null, page);
+            } else {
+                callback(`Error removing object: ${params._id}`);
+            }
         }, (e) => {
             // Error
             callback(e);

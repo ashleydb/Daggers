@@ -159,3 +159,38 @@ export var submitPage = (page, token) => {
         });
     };
 }
+
+
+// --- REMOVING A PAGE ---
+
+export const REMOVE_PAGE_SUCCESS = 'REMOVE_PAGE_SUCCESS';
+
+export var removePageSuccess = (pageId) => {
+    return {
+        type: REMOVE_PAGE_SUCCESS,
+        pageId
+    };
+}
+
+export const REMOVE_PAGE_ERROR = 'REMOVE_PAGE_ERROR';
+
+export var removePageError = (pageId, error) => {
+    return {
+        type: REMOVE_PAGE_ERROR,
+        pageId,
+        error
+    };
+}
+
+export const REMOVE_PAGE = 'REMOVE_PAGE';
+
+export var removePage = (pageId, token) => {
+    return (dispatch, getState) => {
+        PagesAPI.removePage(pageId, token).then((res) => {
+            if (res === {})
+                dispatch(removePageError(res, "Page not removed."));
+            else
+                dispatch(removePageSuccess(res));
+        });
+    };
+}

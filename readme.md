@@ -18,13 +18,16 @@ To Do:
 * Finish setup of hosting in a production ready setup - GCP AppEngine
   * https://www.npmjs.com/package/letsencrypt
   * https://git.daplie.com/Daplie/greenlock-express
-* Add teams/players, allow editing
-* Finish migrating any other old content, (e.g. news)
-* Putting in (more detailed) traffic monitoring
-* Putting in advertising
-* Finalizing layouts
+* Add Delete buttons to all edit pages
+* Migrate Pages, such as Fans and Commercial
+* Put in advertising
+* Finalize layouts
 * Cookie warnings and any other legal stuff like privacy policy
+* Need fixtures per team?
+* Documentation
 * Code cleanup and TODO's
+* Putting in (more detailed) traffic monitoring
+* Finish migrating any other old content, (e.g. news, match reports)
 
 Pulling Data:
 * Per team pages have links to their results and fixtures, e.g.:

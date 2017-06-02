@@ -3787,7 +3787,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.0.0, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@~15.5.7:
+prop-types@^15.0.0, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@~15.5.7:
   version "15.5.8"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
   dependencies:
@@ -3923,6 +3923,27 @@ react-ga@^2.2.0:
     create-react-class "^15.5.2"
     object-assign "^4.0.1"
     prop-types "^15.5.6"
+
+react-redux-sweetalert2@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/react-redux-sweetalert2/-/react-redux-sweetalert2-0.0.2.tgz#550c9cfceeb25dd2a205489f5d8e3836d99d21fa"
+  dependencies:
+    react "^15.3.2"
+    react-dom "^15.3.2"
+    react-redux "^4.4.6"
+    redux "^3.6.0"
+    sweetalert2 "^6.0.1"
+
+react-redux@^4.4.6:
+  version "4.4.8"
+  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-4.4.8.tgz#e7bc1dd100e8b64e96ac8212db113239b9e2e08f"
+  dependencies:
+    create-react-class "^15.5.1"
+    hoist-non-react-statics "^1.0.3"
+    invariant "^2.0.0"
+    lodash "^4.2.0"
+    loose-envify "^1.1.0"
+    prop-types "^15.5.4"
 
 react-redux@^5.0.2:
   version "5.0.4"
@@ -4574,6 +4595,10 @@ svgo@^0.7.0:
     mkdirp "~0.5.1"
     sax "~1.2.1"
     whet.extend "~0.9.9"
+
+sweetalert2@^6.0.1:
+  version "6.6.4"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-6.6.4.tgz#7799100c4dba878de2a9581b3f42d29f3dd1d9e0"
 
 symbol-observable@^1.0.2:
   version "1.0.4"

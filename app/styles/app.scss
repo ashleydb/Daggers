@@ -5,6 +5,9 @@
 @import "foundation";
 @include foundation-everything;
 
+// Trumbowyg - Rich Text Editor
+@import '~react-trumbowyg/dist/trumbowyg.min.css';
+
 // Components
 @import "components/Home";
 @import "components/Nav";

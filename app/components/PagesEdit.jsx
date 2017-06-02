@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, browserHistory} from 'react-router';
 var { connect } = require('react-redux');
+import { swal } from 'react-redux-sweetalert2';
 import adminComponent from 'AdminMessage';
 import PagesEditForm from 'PagesEditForm';
 import { actions } from 'actions';
@@ -13,6 +14,9 @@ export class PagesEdit extends React.Component {
         super(props);
         // BINDING: Keep 'this' scoped to this object in any handlers
         this.handleSavePage = this.handleSavePage.bind(this);
+        this.promptRemovePage = this.promptRemovePage.bind(this);
+        this.handleRemovePage = this.handleRemovePage.bind(this);
+        this.props.showAlert.bind(this);
     }
     componentWillMount() {
         this.props.dispatch(actions.pages.fetchPagesIfNeeded());
@@ -22,6 +26,31 @@ export class PagesEdit extends React.Component {
 
         // TODO: Not great, since write could fail and then we've gone away from the form's contents
         browserHistory.push('/admin/pages');
+    }
+    promptRemovePage(page) {
+        // TODO: Not sure how to do binding here, so I'll hack it with 'that'
+        var that = this;
+		this.props.showAlert({
+            title: 'Are you sure?',
+            text: `Delete "${page.name}"? You won't be able to revert this!`,
+            type: 'warning',
+            allowOutsideClick: false,
+            showCancelButton: true,
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            confirmButtonColor: '#3085d6',
+            showLoaderOnConfirm: true,
+            cancelCallback: () => {},
+            preConfirm: () => {
+                return new Promise(function (resolve) {
+                    that.handleRemovePage(page.id);
+                    resolve();
+                });
+            }
+        });
+    }
+    handleRemovePage(id) {
+        this.props.dispatch(actions.pages.removePage(id, this.props.login.token));
     }
     render() {
         // Are we editing at a page right now, or about to?
@@ -63,7 +92,7 @@ export class PagesEdit extends React.Component {
                         <td><Link to={`/admin/pages/${page.id}`}>{page.name}</Link></td>
                         <td><Link to={`/pages/${page.id}`} className="button"><i className="fi-eye"></i> View</Link></td>
                         <td><Link to={`/admin/pages/${page.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
-                        <td><button className="button disabled"><i className="fi-x"></i> Delete</button></td>
+                        <td><button className="button" onClick={() => this.promptRemovePage(page)}><i className="fi-x"></i> Delete</button></td>
                     </tr>
                 );
             });
@@ -93,10 +122,18 @@ export class PagesEdit extends React.Component {
     }
 };
 
-export default connect(
-    (state) => {
-        return {
-            pages: state.pages,
-            login: state.login
-        };
-    })(adminComponent(PagesEdit));
+import { bindActionCreators } from 'redux'
+
+function mapStateToProps(state) {
+    return {
+        pages: state.pages,
+        login: state.login
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    let actions = bindActionCreators({...swal}, dispatch);
+    return { ...actions, dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(adminComponent(PagesEdit))

@@ -1,4 +1,5 @@
 import React from 'react';
+import SweetAlert from 'react-redux-sweetalert2';
 import Nav from 'Nav';
 
 //Basic presentational component that would only have a render function
@@ -12,6 +13,7 @@ var Main = (props) => {
           {props.children}
         </div>
       </div>
+      <SweetAlert />
     </div>
   );
 }
