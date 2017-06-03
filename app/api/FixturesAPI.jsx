@@ -109,3 +109,35 @@ export function addFixture(fixture, token) {
         }        
     );  
 };
+
+// Delete content from our DB with the specified ID.
+// Returns the ID of the item deleted, or an error message.
+export function removeFixture(fixtureId, token) {
+    return new Promise(
+        // The resolver function is called with the ability to resolve or reject the promise
+        function (resolve, reject) {
+            try {
+                const axiosInstance = Axios.create({
+                    headers: { 'x-access-token': token }
+                });
+
+                axiosInstance.delete(`/api/v1/fixtures/${fixtureId}`)
+                .then(function (response) {
+                    // Object was deleted
+                    console.log(response);
+                    resolve(response.data.id);
+                })
+                .catch(function (error) {
+                    // Some issue trying to delete the object
+                    console.log(error.response.data);
+                    reject(error.response.data);
+                });
+
+            } catch (e) {
+                // try failed
+                console.log("ERR: removeFixture() failed:", e);
+                reject(e);
+            }
+        }
+    );
+};

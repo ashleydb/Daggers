@@ -18,13 +18,14 @@ To Do:
 * Finish setup of hosting in a production ready setup - GCP AppEngine
   * https://www.npmjs.com/package/letsencrypt
   * https://git.daplie.com/Daplie/greenlock-express
-* Add Delete buttons to all edit pages
 * Migrate Pages, such as Fans and Commercial
 * Put in advertising
 * Finalize layouts
 * Cookie warnings and any other legal stuff like privacy policy
-* Need fixtures per team?
+* Add Team field for fixtures, and allow filtering by team, (same as season)
 * Documentation
+* Add League table from API
+* Find a way to snap to top of the page when clicking links?
 * Code cleanup and TODO's
 * Putting in (more detailed) traffic monitoring
 * Finish migrating any other old content, (e.g. news, match reports)

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, browserHistory} from 'react-router';
 var {connect} = require('react-redux');
+import { swal } from 'react-redux-sweetalert2';
 import adminComponent from 'AdminMessage';
 import FixtureEditForm from 'FixtureEditForm';
 import {actions} from 'actions';
@@ -17,6 +18,9 @@ export class FixturesEdit extends React.Component {
         // BINDING: Keep 'this' scoped to this object in any handlers
         this.handleSaveFixture = this.handleSaveFixture.bind(this);
         this.setSeason = this.setSeason.bind(this);
+        this.promptRemoveFixture = this.promptRemoveFixture.bind(this);
+        this.handleRemoveFixture = this.handleRemoveFixture.bind(this);
+        this.props.showAlert.bind(this);
     }
     componentWillMount() {
         this.props.dispatch(actions.fixtures.fetchFixturesIfNeeded());
@@ -30,6 +34,31 @@ export class FixturesEdit extends React.Component {
     setSeason(season) {
         // Change which page of news stories we are showing
         this.props.dispatch(actions.fixtures.selectSeason(season));
+    }
+    promptRemoveFixture(fixture) {
+        // TODO: Not sure how to do binding here, so I'll hack it with 'that'
+        var that = this;
+		this.props.showAlert({
+            title: 'Are you sure?',
+            text: `Delete "${fixture.team}" fixture? You won't be able to revert this!`,
+            type: 'warning',
+            allowOutsideClick: false,
+            showCancelButton: true,
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            confirmButtonColor: '#3085d6',
+            showLoaderOnConfirm: true,
+            cancelCallback: () => {},
+            preConfirm: () => {
+                return new Promise(function (resolve) {
+                    that.handleRemoveFixture(fixture.id);
+                    resolve();
+                });
+            }
+        });
+    }
+    handleRemoveFixture(id) {
+        this.props.dispatch(actions.fixtures.removeFixture(id, this.props.login.token));
     }
     render() {
         var {fixtureId} = this.props.params;
@@ -106,6 +135,7 @@ export class FixturesEdit extends React.Component {
                     {seasonPicker(this, season)}
                     {errorMessage}
                     
+                    <Link to={`/admin/fixtures/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
                     <table className="hover text-center">
                         <tbody>
                             {fixtures.map((game) => {
@@ -114,16 +144,12 @@ export class FixturesEdit extends React.Component {
                                         <tr key={game.id}>
                                             <td>{game.date}</td>
                                             <td><p className="team-name">{game.team}</p><p className="competition-name">{game.competition}</p></td>
-                                            <td><Link to={`/admin/fixtures/${game.id}`}><i className="fi-pencil"></i> Edit</Link></td>
+                                            <td><Link to={`/admin/fixtures/${game.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
+                                            <td><button className="button" onClick={() => this.promptRemoveFixture(game)}><i className="fi-x"></i> Delete</button></td>
                                         </tr>
                                     );
                                 }
                             })}
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td><Link to={`/admin/fixtures/new`}><i className="fi-plus"></i> Create New</Link></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -142,10 +168,18 @@ export class FixturesEdit extends React.Component {
     }
 };
 
-export default connect(
-  (state) => {
+import { bindActionCreators } from 'redux'
+
+function mapStateToProps(state) {
     return {
         fixtures: state.fixtures,
         login: state.login
     };
-  })(adminComponent(FixturesEdit));
+}
+
+function mapDispatchToProps(dispatch) {
+    let actions = bindActionCreators({...swal}, dispatch);
+    return { ...actions, dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(adminComponent(FixturesEdit))

@@ -148,10 +148,14 @@ class Fixtures {
     static remove(params, callback) {
         myFirebase.removefromFirebase(myFirebase.firebaseRef,
                                    `fixtures/${params._id}`)
-        .then((id) => {
-            //Success
-            var fixture = {id: params._id};
-            callback(null, fixture);
+        .then((result) => {
+            if (result) {
+                //Success
+                var fixture = {id: params._id};
+                callback(null, fixture);
+            } else {
+                callback(`Error removing object: ${params._id}`);
+            }
         }, (e) => {
             // Error
             callback(e);

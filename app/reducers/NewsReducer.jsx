@@ -119,6 +119,43 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
             };
             break;
 
+        // NOTE: Not actually used? (Thunk)
+        case actions.news.REMOVE_STORY:
+            return {
+                ...state,
+                story: {id: action.newsId}
+            };
+            break;
+
+        case actions.news.REMOVE_STORY_SUCCESS:
+            var news = state.news.filter((story) => {
+                if (story.id != action.newsId) {
+                    return story;
+                }
+            });
+
+            return {
+                ...state,
+                news,
+                status: {
+                    isFetching: false,
+                    didInvalidate: false,
+                    lastUpdated: action.receivedAt  // TODO: Not actually being set, (likely true elsewhere too)
+                },
+                story: null
+            };
+            break;
+
+        case actions.news.REMOVE_STORY_ERROR:
+            return Object.assign({}, state, {
+                status: {
+                    isFetching: false,
+                    didInvalidate: false,
+                    error: action.error
+                }
+            });
+            break;
+
         default:
             return state;
             break;

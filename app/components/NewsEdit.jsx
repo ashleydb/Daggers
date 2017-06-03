@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, browserHistory} from 'react-router';
 var { connect } = require('react-redux');
+import { swal } from 'react-redux-sweetalert2';
 import adminComponent from 'AdminMessage';
 import NewsEditForm from 'NewsEditForm';
 import { actions } from 'actions';
@@ -15,6 +16,9 @@ export class NewsEdit extends React.Component {
         this.handleSaveStory = this.handleSaveStory.bind(this);
         this.setPage = this.setPage.bind(this);
         this.handleFetchNews = this.handleFetchNews.bind(this);
+        this.promptRemoveStory = this.promptRemoveStory.bind(this);
+        this.handleRemoveStory = this.handleRemoveStory.bind(this);
+        this.props.showAlert.bind(this);
     }
     componentWillMount() {
         // TODO: Copy the News year picking and pagination from News.jsx to here
@@ -39,6 +43,31 @@ export class NewsEdit extends React.Component {
     setPage(pageNum) {
         // Change which page of news stories we are showing
         this.props.dispatch(actions.news.pageNews(pageNum));
+    }
+    promptRemoveStory(story) {
+        // TODO: Not sure how to do binding here, so I'll hack it with 'that'
+        var that = this;
+		this.props.showAlert({
+            title: 'Are you sure?',
+            text: `Delete "${story.headline}"? You won't be able to revert this!`,
+            type: 'warning',
+            allowOutsideClick: false,
+            showCancelButton: true,
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            confirmButtonColor: '#3085d6',
+            showLoaderOnConfirm: true,
+            cancelCallback: () => {},
+            preConfirm: () => {
+                return new Promise(function (resolve) {
+                    that.handleRemoveStory(story);
+                    resolve();
+                });
+            }
+        });
+    }
+    handleRemoveStory(story) {
+        this.props.dispatch(actions.news.removeStory(story, this.props.login.token));
     }
     render() {
         // Are we editing at a story right now, or about to?
@@ -162,7 +191,7 @@ export class NewsEdit extends React.Component {
                         <td><Link to={`/admin/news/${story.id}`}>{story.headline}</Link></td>
                         <td><Link to={`/news/${story.id}`} className="button"><i className="fi-eye"></i> View</Link></td>
                         <td><Link to={`/admin/news/${story.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
-                        <td><button className="button disabled"><i className="fi-x"></i> Delete</button></td>
+                        <td><button className="button" onClick={() => this.promptRemoveStory(story)}><i className="fi-x"></i> Delete</button></td>
                     </tr>
                 );
             });
@@ -195,10 +224,18 @@ export class NewsEdit extends React.Component {
     }
 };
 
-export default connect(
-    (state) => {
-        return {
-            news: state.news,
-            login: state.login
-        };
-    })(adminComponent(NewsEdit));
+import { bindActionCreators } from 'redux'
+
+function mapStateToProps(state) {
+    return {
+        news: state.news,
+        login: state.login
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    let actions = bindActionCreators({...swal}, dispatch);
+    return { ...actions, dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(adminComponent(NewsEdit))

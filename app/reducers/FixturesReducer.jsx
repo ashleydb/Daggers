@@ -113,6 +113,43 @@ export var FixturesReducer = (state = INITIAL_STATE_FIXTURES, action) => {
             };
             break;
 
+        // NOTE: Not actually used? (Thunk)
+        case actions.fixtures.REMOVE_FIXTURE:
+            return {
+                ...state,
+                fixture: {id: action.fixtureId}
+            };
+            break;
+
+        case actions.fixtures.REMOVE_FIXTURE_SUCCESS:
+            var fixtures = state.fixtures.filter((fixture) => {
+                if (fixture.id != action.fixtureId) {
+                    return fixture;
+                }
+            });
+
+            return {
+                ...state,
+                fixtures,
+                status: {
+                    isFetching: false,
+                    didInvalidate: false,
+                    lastUpdated: action.receivedAt  // TODO: Not actually being set, (likely true elsewhere too)
+                },
+                fixture: null
+            };
+            break;
+
+        case actions.fixtures.REMOVE_FIXTURE_ERROR:
+            return Object.assign({}, state, {
+                status: {
+                    isFetching: false,
+                    didInvalidate: false,
+                    error: action.error
+                }
+            });
+            break;
+
         default:
             return state;
             break;

@@ -169,3 +169,38 @@ export var changePlayer = (player) => {
         player
     };
 }
+
+
+// --- REMOVING A PLAYER ---
+
+export const REMOVE_PLAYER_SUCCESS = 'REMOVE_PLAYER_SUCCESS';
+
+export var removePlayerSuccess = (playerId) => {
+    return {
+        type: REMOVE_PLAYER_SUCCESS,
+        playerId
+    };
+}
+
+export const REMOVE_PLAYER_ERROR = 'REMOVE_PLAYER_ERROR';
+
+export var removePlayerError = (playerId, error) => {
+    return {
+        type: REMOVE_PLAYER_ERROR,
+        playerId,
+        error
+    };
+}
+
+export const REMOVE_PLAYER = 'REMOVE_PLAYER';
+
+export var removePlayer = (playerId, token) => {
+    return (dispatch, getState) => {
+        PlayersAPI.removePlayer(playerId, token).then((res) => {
+            if (res === {})
+                dispatch(removePlayerError(res, "Player not removed."));
+            else
+                dispatch(removePlayerSuccess(res));
+        });
+    };
+}

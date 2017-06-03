@@ -185,3 +185,38 @@ export var pageNews = (pageNum) => {
         pageNum
     };
 }
+
+
+// --- REMOVING A STORY ---
+
+export const REMOVE_STORY_SUCCESS = 'REMOVE_STORY_SUCCESS';
+
+export var removeStorySuccess = (newsId) => {
+    return {
+        type: REMOVE_STORY_SUCCESS,
+        newsId
+    };
+}
+
+export const REMOVE_STORY_ERROR = 'REMOVE_STORY_ERROR';
+
+export var removeStoryError = (newsId, error) => {
+    return {
+        type: REMOVE_STORY_ERROR,
+        newsId,
+        error
+    };
+}
+
+export const REMOVE_STORY = 'REMOVE_STORY';
+
+export var removeStory = (story, token) => {
+    return (dispatch, getState) => {
+        NewsAPI.removeStory(story, token).then((res) => {
+            if (res === {})
+                dispatch(removeStoryError(res, "Story not removed."));
+            else
+                dispatch(removeStorySuccess(res));
+        });
+    };
+}

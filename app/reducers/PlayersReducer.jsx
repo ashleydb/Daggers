@@ -100,6 +100,43 @@ export var PlayersReducer = (state = INITIAL_STATE_PLAYERS, action) => {
             };
             break;
 
+        // NOTE: Not actually used? (Thunk)
+        case actions.players.REMOVE_PLAYER:
+            return {
+                ...state,
+                player: {id: action.playerId}
+            };
+            break;
+
+        case actions.players.REMOVE_PLAYER_SUCCESS:
+            var players = state.players.filter((player) => {
+                if (player.id != action.playerId) {
+                    return player;
+                }
+            });
+
+            return {
+                ...state,
+                players,
+                status: {
+                    isFetching: false,
+                    didInvalidate: false,
+                    lastUpdated: action.receivedAt  // TODO: Not actually being set, (likely true elsewhere too)
+                },
+                player: null
+            };
+            break;
+
+        case actions.players.REMOVE_PLAYER_ERROR:
+            return Object.assign({}, state, {
+                status: {
+                    isFetching: false,
+                    didInvalidate: false,
+                    error: action.error
+                }
+            });
+            break;
+
         default:
             return state;
             break;

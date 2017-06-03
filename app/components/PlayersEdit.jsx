@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, browserHistory} from 'react-router';
 var { connect } = require('react-redux');
+import { swal } from 'react-redux-sweetalert2';
 import adminComponent from 'AdminMessage';
 import PlayerEditForm from 'PlayerEditForm';
 import { actions } from 'actions';
@@ -13,6 +14,9 @@ export class PlayersEdit extends React.Component {
         super(props);
         // BINDING: Keep 'this' scoped to this object in any handlers
         this.handleSavePlayer = this.handleSavePlayer.bind(this);
+        this.promptRemovePlayer = this.promptRemovePlayer.bind(this);
+        this.handleRemovePlayer = this.handleRemovePlayer.bind(this);
+        this.props.showAlert.bind(this);
     }
     componentWillMount() {
         this.props.dispatch(actions.players.fetchPlayersIfNeeded());
@@ -22,6 +26,31 @@ export class PlayersEdit extends React.Component {
 
         // TODO: Not great, since write could fail and then we've gone away from the form's contents
         browserHistory.push('/admin/players');
+    }
+    promptRemovePlayer(player) {
+        // TODO: Not sure how to do binding here, so I'll hack it with 'that'
+        var that = this;
+		this.props.showAlert({
+            title: 'Are you sure?',
+            text: `Delete "${player.first_name} ${player.last_name}"? You won't be able to revert this!`,
+            type: 'warning',
+            allowOutsideClick: false,
+            showCancelButton: true,
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            confirmButtonColor: '#3085d6',
+            showLoaderOnConfirm: true,
+            cancelCallback: () => {},
+            preConfirm: () => {
+                return new Promise(function (resolve) {
+                    that.handleRemovePlayer(player.id);
+                    resolve();
+                });
+            }
+        });
+    }
+    handleRemovePlayer(id) {
+        this.props.dispatch(actions.players.removePlayer(id, this.props.login.token));
     }
     render() {
         // Are we editing at a player right now, or about to?
@@ -62,7 +91,7 @@ export class PlayersEdit extends React.Component {
                         <td><Link to={`/admin/players/${player.id}`}>{`${player.first_name} ${player.last_name}`}</Link></td>
                         <td>{player.position}</td>
                         <td><Link to={`/admin/players/${player.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
-                        <td><button className="button disabled"><i className="fi-x"></i> Delete</button></td>
+                        <td><button className="button" onClick={() => this.promptRemovePlayer(player)}><i className="fi-x"></i> Delete</button></td>
                     </tr>
                 );
             });
@@ -92,10 +121,18 @@ export class PlayersEdit extends React.Component {
     }
 };
 
-export default connect(
-    (state) => {
-        return {
-            players: state.players,
-            login: state.login
-        };
-    })(adminComponent(PlayersEdit));
+import { bindActionCreators } from 'redux'
+
+function mapStateToProps(state) {
+    return {
+        players: state.players,
+        login: state.login
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    let actions = bindActionCreators({...swal}, dispatch);
+    return { ...actions, dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(adminComponent(PlayersEdit))

@@ -158,7 +158,8 @@ export var submitFixture = (fixture, token) => {
     };
 }
 
-// --- VIEWING HEADLINES ---
+
+// --- VIEWING FIXTURES ---
 
 export const SELECT_SEASON  = 'SELECT_SEASON';
 
@@ -166,5 +167,40 @@ export var selectSeason = (season) => {
     return {
         type: SELECT_SEASON,
         season
+    };
+}
+
+
+// --- REMOVING A FIXTURE ---
+
+export const REMOVE_FIXTURE_SUCCESS = 'REMOVE_FIXTURE_SUCCESS';
+
+export var removeFixtureSuccess = (fixtureId) => {
+    return {
+        type: REMOVE_FIXTURE_SUCCESS,
+        fixtureId
+    };
+}
+
+export const REMOVE_FIXTURE_ERROR = 'REMOVE_FIXTURE_ERROR';
+
+export var removeFixtureError = (fixtureId, error) => {
+    return {
+        type: REMOVE_FIXTURE_ERROR,
+        fixtureId,
+        error
+    };
+}
+
+export const REMOVE_FIXTURE = 'REMOVE_FIXTURE';
+
+export var removeFixture = (fixtureId, token) => {
+    return (dispatch, getState) => {
+        FixturesAPI.removeFixture(fixtureId, token).then((res) => {
+            if (res === {})
+                dispatch(removeFixtureError(res, "Fixture not removed."));
+            else
+                dispatch(removeFixtureSuccess(res));
+        });
     };
 }

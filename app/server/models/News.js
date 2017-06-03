@@ -297,7 +297,7 @@ class News {
 
     // Delete a single news story from our DB
     // options: contains year, month and id of the news story to find
-    // callback: Should be callback(error, news)
+    // callback: Should be callback(error, newsId, year, month)
     static remove(options, callback) {
         var err = validateOptions(options, true, true, true);
         if (err) {
@@ -308,9 +308,13 @@ class News {
 
         myFirebase.removefromFirebase(myFirebase.firebaseRef,
                                    `news/${options.year}/${options.month}/${options.id}`)
-        .then((id) => {
-            //Success
-            callback(null, options.id, options.year, options.month);
+        .then((result) => {
+            if (result) {
+                //Success
+                callback(null, options.id, options.year, options.month);
+            } else {
+                callback(`Error removing object: ${options.id}`);
+            }
         }, (e) => {
             // Error
             callback(e);

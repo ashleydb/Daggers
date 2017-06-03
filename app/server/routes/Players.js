@@ -158,7 +158,7 @@ router.route('/v1/players/:player_id')
     // delete the player with this id (accessed at DELETE http://localhost:8080/api/v1/players/:player_id)
     // User must be authenticated as an admin.
     .delete(authenticate.isAdmin, function(req, res) {
-        Player.remove({
+        Players.remove({
             _id: req.params.player_id
         }, function(err, player) {
             if (err) {

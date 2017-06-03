@@ -98,6 +98,8 @@ export function addPage(page, token) {
     );
 };
 
+// Delete content from our DB with the specified ID.
+// Returns the ID of the item deleted, or an error message.
 export function removePage(pageId, token) {
     return new Promise(
         // The resolver function is called with the ability to resolve or reject the promise

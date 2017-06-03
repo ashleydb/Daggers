@@ -69,7 +69,7 @@ class Players {
     }
 
     // Get all players data from our DB
-    // callback: Should be callback(error, pages)
+    // callback: Should be callback(error, players)
     static find(callback) {
         myFirebase.readFromFirebase(myFirebase.firebaseRef,
                                    'players')
@@ -112,7 +112,7 @@ class Players {
 
     // Get a single player from our DB
     // playerId: id of the player to find
-    // callback: Should be callback(error, page)
+    // callback: Should be callback(error, player)
     static findById(playerId, callback) {
         myFirebase.readFromFirebase(myFirebase.firebaseRef,
                                    `players/${playerId}`)
@@ -127,15 +127,19 @@ class Players {
     }
 
     // Delete a single player from our DB
-    // params: contains an _id of the page to find
-    // callback: Should be callback(error, page)
+    // params: contains an _id of the player to find
+    // callback: Should be callback(error, player)
     static remove(params, callback) {
         myFirebase.removefromFirebase(myFirebase.firebaseRef,
                                    `players/${params._id}`)
-        .then((id) => {
-            //Success
-            var player = {id: params._id};
-            callback(null, player);
+        .then((result) => {
+            if (result) {
+                //Success
+                var player = {id: params._id};
+                callback(null, player);
+            } else {
+                callback(`Error removing object: ${params._id}`);
+            }
         }, (e) => {
             // Error
             callback(e);

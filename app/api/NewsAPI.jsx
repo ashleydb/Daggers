@@ -147,6 +147,7 @@ export function addStory(story, token) {
                         .then(function (response) {
                             console.log(response);
                             story.id = response.data.id;
+                            story.createdAt = Date.now(); // year and month returned in response, but just do this
                             resolve(story);
                         })
                         .catch(function (error) {
@@ -162,6 +163,7 @@ export function addStory(story, token) {
                     axiosInstance.put(`/api/v1/news/${year}/${month}/${story.id}`, story)
                         .then(function (response) {
                             console.log(response);
+                            story.updatedAt = Date.now(); // year and month returned in response, but just do this
                             resolve(story);
                         })
                         .catch(function (error) {
@@ -173,6 +175,42 @@ export function addStory(story, token) {
             } catch (e) {
                 // try failed
                 console.log("ERR: addStory() failed:", e);
+                reject(e);
+            }
+        }
+    );
+};
+
+// Delete content from our DB with the specified ID.
+// Returns the ID of the item deleted, or an error message.
+export function removeStory(story, token) {
+    return new Promise(
+        // The resolver function is called with the ability to resolve or reject the promise
+        function (resolve, reject) {
+            try {
+                const axiosInstance = Axios.create({
+                    headers: { 'x-access-token': token }
+                });
+                
+                var d = new Date(Number(story.createdAt));
+                var year = d.getFullYear();
+                var month = d.getMonth() + 1; // getMonth is 0-11, but we setup Firebase as 1-12
+
+                axiosInstance.delete(`/api/v1/news/${year}/${month}/${story.id}`)
+                .then(function (response) {
+                    // Object was deleted
+                    console.log(response);
+                    resolve(response.data.id);
+                })
+                .catch(function (error) {
+                    // Some issue trying to delete the object
+                    console.log(error.response.data);
+                    reject(error.response.data);
+                });
+
+            } catch (e) {
+                // try failed
+                console.log("ERR: removeStory() failed:", e);
                 reject(e);
             }
         }
