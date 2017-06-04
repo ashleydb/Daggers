@@ -14,6 +14,9 @@ export class Page extends React.Component {
     componentWillMount() {
         this.props.dispatch(actions.pages.fetchPagesIfNeeded());
     }
+    componentDidMount () {
+        window.scrollTo(0, 0);
+    }
     render() {
         var {pages, status} = this.props.pages;
         

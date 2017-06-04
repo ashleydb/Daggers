@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 var {connect} = require('react-redux');
 import {actions} from 'actions';
 import PlayerDetail from 'PlayerDetail';
@@ -20,6 +21,17 @@ export class Team extends React.Component {
     loadPlayer(id) {
         var player = PlayersAPI.getPlayer(id, this.props.players.players);
         this.props.dispatch(actions.players.changePlayer(player));
+        this.scrollTo('playerData');
+    }
+    scrollTo(name) {
+        switch (name) {
+            case 'playerData':
+                ReactDOM.findDOMNode(this._playerData).scrollIntoView()
+                break;
+            case 'playerList':
+                ReactDOM.findDOMNode(this._playerList).scrollIntoView()
+                break;
+        }
     }
     render() {
         var {players, status, player} = this.props.players;
@@ -71,7 +83,7 @@ export class Team extends React.Component {
                     var playerD = playersData[teamName].shift();
 
                     playersHTML.push(
-                        <div className="row small-up-1 medium-up-4 large-up-4" key={`${teamName}-${rowCount}`}>
+                        <div className="row small-up-1 medium-up-2 large-up-4" key={`${teamName}-${rowCount}`}>
                             <div className="column" key={playerA ? playerA.props.player.id : 'playerA'}>
                                 {playerA}
                             </div>
@@ -91,15 +103,23 @@ export class Team extends React.Component {
                 }
             }
 
+            // TODO: Should we only show either the team list OR player data with Back button?
+            //  Wouldn't need a weird box to scroll through with odd background colours...
             var playerData = null; // Will be an individual player's details as a component to render
             if (player) {
-                playerData = <PlayerDetail player={player} />
+                playerData = (
+                    <div>
+                        <a className="scroll-link" onClick={() => this.scrollTo('playerList')}>Back to Top</a>
+                        <PlayerDetail player={player} />
+                        <a className="scroll-link" onClick={() => this.scrollTo('playerList')}>Back to Top</a>
+                    </div>
+                );
             }
 
             return (
                 <div>
                     <div className="row">
-                        <div className="column medium-8 player-list">
+                        <div id="playerList" name="playerList" ref={(ref) => this._playerList = ref} className="column medium-8 player-list">
                             <div className="callout secondary">Scroll down for more players. Click one for more detail.</div>
                             {playersHTML}
                         </div>
@@ -111,7 +131,7 @@ export class Team extends React.Component {
                     </div>
                     <br />
                     <div className="row">
-                        <div className="column medium-8">
+                        <div id="playerData" name="playerData" ref={(ref) => this._playerData = ref} className="column medium-8">
                             {playerData}
                         </div>
                         <div className="column medium-4">

@@ -8,6 +8,9 @@ export class NewsStory extends React.Component {
         // Call the parent constructor with the props object we automatically get
         super(props);
     }
+    componentDidMount () {
+        window.scrollTo(0, 0);
+    }
     render() {
         // Get the story data from NewsAPI, based on the ID in the URL params
         // TODO: Should this come some other way...? like from the redux state? Same method as NewsEdit/NewsEditForm?

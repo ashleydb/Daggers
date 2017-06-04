@@ -6,7 +6,6 @@ import NewsSummary from 'NewsSummary';
 import * as NewsAPI from 'NewsAPI';
 import Sponsor from 'Sponsor';
 
-// TODO: Add sponsors.
 // TODO: Add Ad component, which can be adsense or overridden as a nice-to-have.
 // TODO: Add Google Analytics component.
 // TODO: Adjust layout a bit? Smaller main story with sidebar stories and ads? Twitter feed?
