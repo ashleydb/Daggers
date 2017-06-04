@@ -90,7 +90,7 @@ export class PagesEdit extends React.Component {
                 return (
                     <tr key={page.id}>
                         <td><Link to={`/admin/pages/${page.id}`}>{page.name}</Link></td>
-                        <td><Link to={`/pages/${page.id}`} className="button"><i className="fi-eye"></i> View</Link></td>
+                        <td><Link to={`/page/${page.id}`} className="button"><i className="fi-eye"></i> View</Link></td>
                         <td><Link to={`/admin/pages/${page.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
                         <td><button className="button" onClick={() => this.promptRemovePage(page)}><i className="fi-x"></i> Delete</button></td>
                     </tr>

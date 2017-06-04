@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 var {connect} = require('react-redux');
 import {actions} from 'actions';
 import NewsSummary from 'NewsSummary';
@@ -92,6 +93,14 @@ export class Home extends React.Component {
                             <Sponsor sponsorId={5} />
                             <Sponsor sponsorId={6} />
                             <Sponsor sponsorId={7} />
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="row small-12 footer">
+                            <Link to={'/page/PrivacyPolicy'} className="footer-link">Privacy Policy</Link>
+                            &nbsp;|&nbsp;
+                            <Link to={'/page/TermsAndConditions'} className="footer-link">Terms of Use</Link>
                         </div>
                     </div>
 
