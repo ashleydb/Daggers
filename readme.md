@@ -22,11 +22,10 @@ To Do:
 * Put in advertising
 * Finalize layouts
 * Cookie warnings and any other legal stuff like privacy policy
-* Add Team field for fixtures, and allow filtering by team, (same as season)
 * Documentation
 * Add League table from API
 * Find a way to snap to top of the page when clicking links?
-* Code cleanup and TODO's
+* Code cleanup, (remove console logging,) and TODO's
 * Putting in (more detailed) traffic monitoring
 * Finish migrating any other old content, (e.g. news, match reports)
 

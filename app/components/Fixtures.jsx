@@ -15,18 +15,19 @@ export class Fixtures extends React.Component {
     constructor(props) {
         // Call the parent constructor with the props object we automatically get
         super(props);
+        this.setSeasonAndSquad = this.setSeasonAndSquad.bind(this);
     }
     componentWillMount() {
         this.props.dispatch(actions.fixtures.fetchFixturesIfNeeded());
     }
-    setSeason(season) {
-        // Change which page of news stories we are showing
-        this.props.dispatch(actions.fixtures.selectSeason(season));
+    setSeasonAndSquad(season, squad) {
+        // Change which season of fixtures we are showing
+        this.props.dispatch(actions.fixtures.selectSeasonAndSquad(season, squad));
     }
     render() {
-        var {fixtures, status, season} = this.props.fixtures;
+        var {fixtures, status, season, squad} = this.props.fixtures;
         
-        function seasonPicker(_that, _season) {
+        function seasonAndSquadPicker(_that, _season, _squad) {
             // Pull out unique values on objects in an array
             function getUniqueValuesOfKey(array, key){
                 return array.reduce(function(carry, item){
@@ -36,10 +37,17 @@ export class Fixtures extends React.Component {
             }
 
             var seasons = getUniqueValuesOfKey(fixtures, 'season');
+            // TODO: This doesn't take into account that we may not have fixtures for all squads in all seasons, so results may be blank if user selects a bad combo
+            var squads = ['All', ...getUniqueValuesOfKey(fixtures, 'squad')];
 
             var seasonOptions = seasons.map((theSeason) => {
                 return (
                     <option key={theSeason} value={theSeason}>{theSeason}</option>
+                );
+            });
+            var squadOptions = squads.map((theSquad) => {
+                return (
+                    <option key={theSquad} value={theSquad}>{theSquad}</option>
                 );
             });
 
@@ -52,12 +60,16 @@ export class Fixtures extends React.Component {
                             </select>
                         </label>
                     </div>
+                    <div className="column small-5">
+                        <label>Squad
+                            <select ref="squad" defaultValue={_squad}>
+                                {squadOptions}
+                            </select>
+                        </label>
+                    </div>
                     <div className="column small-2">
                         <br/>
-                        <button className="button" onClick={(e) => {_that.setSeason(_that.refs.season.value)}}>Go</button>
-                    </div>
-                    <div className="column small-5">
-                        &nbsp;
+                        <button className="button" onClick={(e) => {_that.setSeasonAndSquad(_that.refs.season.value, _that.refs.squad.value)}}>Go</button>
                     </div>
                 </div>
             );
@@ -84,7 +96,7 @@ export class Fixtures extends React.Component {
         } else {
             // Get a list of fixtures output as table rows
             var fixtureRows = fixtures.map((fixture) => {
-                if (fixture.season == season) {
+                if (fixture.season == season && (squad == 'All' || squad == fixture.squad)) {
                     var logo = fixture.logo ?   `https://daggers-demo-eu.storage.googleapis.com${fixture.logo}` :    // `/images/uploads/teams/${fixture.logo}` :
                                                 'https://daggers-demo-eu.storage.googleapis.com/basics/clublogo.png';       // '/images/clublogo.png';
                     // TODO: Need to fill in report links for all fixtures
@@ -122,7 +134,7 @@ export class Fixtures extends React.Component {
                             <h3>Fixtures &amp; Results</h3>
                             <h4>Check the League Table via the <a href="https://thenationalleague.org.uk/tables.php?division_id=7">National League</a></h4>
 
-                            {seasonPicker(this, season)}
+                            {seasonAndSquadPicker(this, season)}
                             <table className="hover stack text-center">
                                 <tbody>
                                     {fixtureRows}

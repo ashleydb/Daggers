@@ -4,6 +4,7 @@ export const INITIAL_STATE_FIXTURES = {
     fixtures: null, // Array of fixture objects
     fixture: null,  // Fixture object, e.g. FixturesAPI.DEFAULT_FIXTURE
     season: null,   // When paging through fixtures, which season are we on?
+    squad: 'All',   // When paging through fixtures, which squad are we on?
     status: {
         isFetching: false,
         didInvalidate: false,
@@ -106,10 +107,11 @@ export var FixturesReducer = (state = INITIAL_STATE_FIXTURES, action) => {
             });
             break;
 
-        case actions.fixtures.SELECT_SEASON:
+        case actions.fixtures.SELECT_SEASON_AND_SQUAD:
             return {
                 ...state,
-                season: action.season
+                season: action.season,
+                squad: action.squad
             };
             break;
 

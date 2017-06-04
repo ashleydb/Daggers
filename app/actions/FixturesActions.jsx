@@ -161,12 +161,13 @@ export var submitFixture = (fixture, token) => {
 
 // --- VIEWING FIXTURES ---
 
-export const SELECT_SEASON  = 'SELECT_SEASON';
+export const SELECT_SEASON_AND_SQUAD  = 'SELECT_SEASON_AND_SQUAD';
 
-export var selectSeason = (season) => {
+export var selectSeasonAndSquad = (season, squad) => {
     return {
-        type: SELECT_SEASON,
-        season
+        type: SELECT_SEASON_AND_SQUAD,
+        season,
+        squad
     };
 }
 

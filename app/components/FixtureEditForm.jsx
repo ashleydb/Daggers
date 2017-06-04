@@ -5,9 +5,6 @@ import {Link} from 'react-router';
 import ImageUploader from 'ImageUploader';
 import ImageLister from 'ImageLister';
 
-// TODO: Need to pick which Daggers team this is for?
-// TODO: Need to pick which season this is for?
-
 export default class FixtureEditForm extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
     constructor(props) {
@@ -48,6 +45,7 @@ export default class FixtureEditForm extends React.Component {
         fixture.report = this.refs.report.value;
         fixture.result = this.refs.result.value;
         fixture.season = this.refs.season.value;
+        fixture.squad = this.refs.squad.value;
         
         // Note: Not doing much validation. Assuming all elements are optional.
         this.props.onSaveFixture(fixture);
@@ -90,6 +88,7 @@ export default class FixtureEditForm extends React.Component {
                     <input type="hidden" defaultValue={fixture.id} ref="id"/>
                     <label>Date</label><input type="text" defaultValue={fixture.date} placeholder="e.g. 01-JAN-2018" ref="date"/>
                     <label>Season</label><input type="text" defaultValue={fixture.season} placeholder="e.g. 2017-18" ref="season"/>
+                    <label>Squad</label><input type="text" defaultValue={fixture.squad} placeholder="e.g. First, U16, etc." ref="squad"/>
                     
                     <fieldset className="fieldset">
                         <legend>Home/Away</legend>

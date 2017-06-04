@@ -10,10 +10,17 @@ export const DEFAULT_FIXTURE_ID = 0;
 
 export const DEFAULT_FIXTURE = {
     id: DEFAULT_FIXTURE_ID,
-    "date": "01-JAN-2100",
-    //"logo": "badge-woking.png",
-    "competition": "Vanarama National League",
-    "team": ""
+    date: '01-JAN-2100',
+    // logo: 'badge-woking.png', // Defaults to Daggers logo
+    competition: 'Vanarama National League', // Or FA Cup, etc.
+    team: '', // Name of the opposition club
+    // home_away: 'H', // H or A
+    // w_l_d: '', // W, L or D for Win, Lose or Draw, X or '' for not yet played
+    // attendance: '1,000', // A Number of spectators
+    // report: '#', // URL of a match report, (if there is a w_l_d value,) or to a match preview. Otherwise a ticket sales link is shown, if blank.
+    // result: '', // Score, e.g. '3 - 2'
+    // season: '2017-18', // Years of this season
+    squad: 'First' // Or U16, etc.
 };
 
 // TODO: This is dumb and just loads in all fixture data we have. Page it? (Placeholders here aren't used)

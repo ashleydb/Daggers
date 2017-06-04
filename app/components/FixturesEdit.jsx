@@ -17,7 +17,7 @@ export class FixturesEdit extends React.Component {
         super(props);
         // BINDING: Keep 'this' scoped to this object in any handlers
         this.handleSaveFixture = this.handleSaveFixture.bind(this);
-        this.setSeason = this.setSeason.bind(this);
+        this.setSeasonAndSquad = this.setSeasonAndSquad.bind(this);
         this.promptRemoveFixture = this.promptRemoveFixture.bind(this);
         this.handleRemoveFixture = this.handleRemoveFixture.bind(this);
         this.props.showAlert.bind(this);
@@ -31,9 +31,9 @@ export class FixturesEdit extends React.Component {
         // TODO: Not great, since write could fail and then we've gone away from the form's contents
         browserHistory.push('/admin/fixtures');
     }
-    setSeason(season) {
-        // Change which page of news stories we are showing
-        this.props.dispatch(actions.fixtures.selectSeason(season));
+    setSeasonAndSquad(season, squad) {
+        // Change which season of fixtures we are showing
+        this.props.dispatch(actions.fixtures.selectSeasonAndSquad(season, squad));
     }
     promptRemoveFixture(fixture) {
         // TODO: Not sure how to do binding here, so I'll hack it with 'that'
@@ -62,10 +62,10 @@ export class FixturesEdit extends React.Component {
     }
     render() {
         var {fixtureId} = this.props.params;
-        var {fixtures, status, season} = this.props.fixtures;
+        var {fixtures, status, season, squad} = this.props.fixtures;
         var fixture = FixturesAPI.getFixture(fixtureId, fixtures);
 
-        function seasonPicker(_that, _season) {
+        function seasonAndSquadPicker(_that, _season, _squad) {
             // Pull out unique values on objects in an array
             function getUniqueValuesOfKey(array, key){
                 return array.reduce(function(carry, item){
@@ -75,10 +75,17 @@ export class FixturesEdit extends React.Component {
             }
 
             var seasons = getUniqueValuesOfKey(fixtures, 'season');
+            // TODO: This doesn't take into account that we may not have fixtures for all squads in all seasons, so results may be blank if user selects a bad combo
+            var squads = ['All', ...getUniqueValuesOfKey(fixtures, 'squad')];
 
             var seasonOptions = seasons.map((theSeason) => {
                 return (
                     <option key={theSeason} value={theSeason}>{theSeason}</option>
+                );
+            });
+            var squadOptions = squads.map((theSquad) => {
+                return (
+                    <option key={theSquad} value={theSquad}>{theSquad}</option>
                 );
             });
 
@@ -91,12 +98,16 @@ export class FixturesEdit extends React.Component {
                             </select>
                         </label>
                     </div>
+                    <div className="column small-5">
+                        <label>Squad
+                            <select ref="squad" defaultValue={_squad}>
+                                {squadOptions}
+                            </select>
+                        </label>
+                    </div>
                     <div className="column small-2">
                         <br/>
-                        <button className="button" onClick={(e) => {_that.setSeason(_that.refs.season.value)}}>Go</button>
-                    </div>
-                    <div className="column small-5">
-                        &nbsp;
+                        <button className="button" onClick={(e) => {_that.setSeasonAndSquad(_that.refs.season.value, _that.refs.squad.value)}}>Go</button>
                     </div>
                 </div>
             );
@@ -129,17 +140,16 @@ export class FixturesEdit extends React.Component {
                 </div>
             );
             
-            // TODO: Add a Delete button
             return (
                 <div>
-                    {seasonPicker(this, season)}
+                    {seasonAndSquadPicker(this, season, squad)}
                     {errorMessage}
                     
                     <Link to={`/admin/fixtures/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
                     <table className="hover text-center">
                         <tbody>
                             {fixtures.map((game) => {
-                                if (game.season == season) {
+                                if (game.season == season && (squad == 'All' || squad == game.squad)) {
                                     return (
                                         <tr key={game.id}>
                                             <td>{game.date}</td>

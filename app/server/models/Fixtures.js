@@ -10,7 +10,7 @@ var myFirebase = require('../cloud/firebase');
 class Fixtures {
     constructor(_id = undefined, _date = undefined, _home_away = undefined,
                 _team = undefined, _logo = undefined, _competition = undefined,
-                _w_l_d = undefined, _attendance = undefined, _report = undefined, _result = undefined, _season = undefined) {
+                _w_l_d = undefined, _attendance = undefined, _report = undefined, _result = undefined, _season = undefined, _squad = undefined) {
         this.id = _id || 0; //Same as DEFAULT_FIXTURE_ID
         this.date = _date || '01-JAN-2100';
         this.home_away = _home_away || 'H';
@@ -22,6 +22,7 @@ class Fixtures {
         this.report = _report || undefined;
         this.result = _result || undefined;
         this.season = _season || undefined;
+        this.squad = _squad || undefined;
     }
 
     // TODO: Do I really need this helper? Seems so, since I don't want to send the id field, (that is a separate parameter to Firebase,) and also need to make sure there is a value on each variable, (otherwise Firebase barfs.)
@@ -57,6 +58,9 @@ class Fixtures {
         
         if (this.season && this.season != '')
             obj.season = this.season;
+        
+        if (this.squad && this.squad != '')
+            obj.squad = this.squad;
         
         console.log("DEBUG: Fixtures.toObj(): ", obj)
         return obj;
@@ -105,9 +109,10 @@ class Fixtures {
                 var report = fixtures[id].report;
                 var result = fixtures[id].result;
                 var season = fixtures[id].season;
+                var squad = fixtures[id].squad;
                 
                 parsedFixtures.push({
-                    id, date, home_away, logo, team, w_l_d, competition, attendance, report, result, season
+                    id, date, home_away, logo, team, w_l_d, competition, attendance, report, result, season, squad
                 });
             });
 
