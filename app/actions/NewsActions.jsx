@@ -63,6 +63,7 @@ function shouldFetchNewsStories(year, month, state) {
 }
 
 export const FETCH_LATEST = NewsAPI.FETCH_LATEST;
+export const FETCH_RECENT = NewsAPI.FETCH_RECENT;
 export const FETCH_ALL = NewsAPI.FETCH_ALL;
 
 // (1) Starts the chain of events to load in the news posts, if they are not already valid in the cache.

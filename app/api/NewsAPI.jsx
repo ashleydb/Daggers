@@ -20,6 +20,7 @@ export const DEFAULT_STORY = {
 
 // For specifying which news stories to download, if not a specific year or year/month
 export const FETCH_LATEST = 'latest';
+export const FETCH_RECENT = 'recent';
 export const FETCH_ALL = null;
 
 // How far back does our news go in the DB? This was the first year we have news for.
@@ -67,7 +68,7 @@ export function getStories(_year = FETCH_ALL, _month = FETCH_ALL) {
                     var fullNews = response.data;
                     // If we requested a specific year, use that. Else use the current year.
                     var year = _year;
-                    if (!_year || _year == FETCH_LATEST) {
+                    if (!_year || _year == FETCH_LATEST || _year == FETCH_RECENT) {
                         var d = new Date();
                         year = d.getFullYear();
                     }
@@ -93,7 +94,7 @@ export function getStories(_year = FETCH_ALL, _month = FETCH_ALL) {
                             }
                         }
                         // If we requested a specific year, we can break early
-                        if ((_year && _year != FETCH_LATEST) || (_year == FETCH_LATEST && stories.length))
+                        if ((_year && _year != FETCH_LATEST && _year != FETCH_RECENT) || (_year == FETCH_LATEST && stories.length) || (_year == FETCH_RECENT && stories.length))
                             break;
                         month = 12;
                         --year;

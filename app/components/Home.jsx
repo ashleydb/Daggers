@@ -21,7 +21,7 @@ export class Home extends React.Component {
     }
     componentWillMount() {
         // Get the most recent month's stories
-        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST, actions.news.FETCH_LATEST));
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_RECENT, null));
     }
     render() {
         var {news, status} = this.props.news;

@@ -7,6 +7,7 @@ var authenticate = require('../middleware/validateRequest');
 // TODO: Currently these aren't just models, but APIs which obfuscate the DB being used
 var News = require('../models/News');
 const FETCH_LATEST = 'latest';
+const FETCH_RECENT = 'recent';
 
 // Routes that end in /news
 // ----------------------------------------------------
@@ -78,8 +79,18 @@ router.route('/v1/news/:year')
     .get(function(req, res) {
         // By default, return all news we have for this year
         // Optional params to only get a list of the months/ids that we have content for so the client can "page"
+        var year = req.params.year;
+        switch (year) {
+            case FETCH_RECENT:
+                break;
+            case FETCH_LATEST:
+                break;
+            default:
+                Number(req.params.year);
+                break;
+        }
         var options = {
-            year: (req.params.year == FETCH_LATEST) ? FETCH_LATEST : Number(req.params.year),
+            year,
             month: null,
             listIDs: req.query.listIDs === "true" ? true : false
         }

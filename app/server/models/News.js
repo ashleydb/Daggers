@@ -11,6 +11,7 @@ const NEWS_FIRST_YEAR = 2012;
 
 // For specifying which news stories to download, if not All or a specific year or year/month
 const FETCH_LATEST = 'latest';
+const FETCH_RECENT = 'recent';
 
 // Represents a News story.
 class News {
@@ -209,6 +210,56 @@ class News {
                         return;
                     });
                 }
+            } else if (options.year == FETCH_RECENT) {
+                //`https://daggers-demo.firebaseio.com/news/2017.json?orderBy=%22$key%22&limitToLast=2&print=pretty`
+
+                // TODO: Cache latest year and month values (start off null, then store,) and invalidate occasionally, (24hrs?)
+                getLatestYear()
+                .then((latestYear) => {
+                    // We are going to get the most recent 2 months of content for the most recent year
+                    myFirebase.firebaseRest(`news/${latestYear}.json?orderBy=%22$key%22&limitToLast=2`)
+                    .then((content) => {
+                        var d = new Date();
+                        var year = d.getFullYear();
+                        options.year = year; // TODO: Bit of a hack (want to return an object with a year, not 'recent')
+
+                        // Sometimes Firebase returns an object with a '0' property of null, which screws everything up trying to count properties
+                        var firstObj = content[ Object.keys(content)[0] ];
+
+                        if ( (firstObj && Object.keys(content).length >= 2) ||
+                            (!firstObj && Object.keys(content).length >= 3) ) {
+                            var returnData = formatJsonForClient(options, content);
+                            callback(null, returnData);
+                            return;
+                        } else {
+                            // We don't have two months of data to return for this year... only likely to happen in January.
+                            // So, do we have enough content in this month, as is? TODO: values shouldn't be hardcoded
+                            var secondObj = content[ Object.keys(content)[1] ];
+                            if ( (firstObj && Object.keys(firstObj).length > 5) || 
+                                 (secondObj && Object.keys(secondObj).length > 5) ) {
+                                // This is just the same as above...
+                                var returnData = formatJsonForClient(options, content);
+                                callback(null, returnData);
+                                return;
+                            } else {
+                                // Get the last 2 months from last year too, (and we're going to assume last year has data)
+                                var prevYear = Number(latestYear) - 1;
+                                myFirebase.firebaseRest(`news/${prevYear}.json?orderBy=%22$key%22&limitToLast=2`)
+                                .then((moreContent) => {
+                                    const totalContent = Object.assign({}, content, moreContent);
+                                    var returnData = formatJsonForClient(options, totalContent);
+                                    callback(null, returnData);
+                                    return;
+                                });
+                            }
+                        }
+                    });
+                }).catch((e) => {
+                    callback(e);
+                    return;
+                });
+
+
             } else if (options.year) {
                 if (options.month == FETCH_LATEST) {
                     // Now get the news for the month
@@ -327,7 +378,8 @@ module.exports = News;
 // Get the most recent value from a list of IDs at a given URL, e.g.
 //  "news.json?shallow=true" for most recent year
 //  `news/${year}.json?shallow=true` for most recent month in a year
-function getLatestIds(urlParams) {
+// If single = false, then will return an array of IDs sorted by latest first, otherwise just a single id for the most recent.
+function getLatestIds(urlParams, single = true) {
     return new Promise(
         // The resolver function is called with the ability to resolve or reject the promise
         function (resolve, reject) {
@@ -336,9 +388,13 @@ function getLatestIds(urlParams) {
             .then((res) => {
                 // Get the values as an array and sort them
                 let sortedRes = Object.keys(res);
-                sortedRes.sortBy(function(o){ return o });
-                let latestRes = sortedRes[sortedRes.length-1];
-                resolve(latestRes);
+                sortedRes.sortBy(function(o){ return -o });
+                if (single) {
+                    let latestRes = sortedRes[0];
+                    resolve(latestRes);
+                } else {
+                    return sortedRes;
+                }
             }).catch((error) => {
                 console.log("ERR: Problem fetching latest data:", error);
                 reject(error);
@@ -407,15 +463,17 @@ function formatJsonForClient(options, news) {
         var d = new Date();
         var yearId = d.getFullYear();
         while (yearId > NEWS_FIRST_YEAR) {
-            var monthId = 12;
-            while (monthId) {
-                if (news[yearId] && news[yearId][monthId]) {
-                    var monthData = options.listIDs ? Object.keys(news[yearId][monthId]) : parseFirebaseNews(news[yearId][monthId]);
-                    if (!returnData[yearId])
-                        returnData[yearId] = {};
-                    returnData[yearId][monthId] = monthData;
+            if (news[yearId]) {
+                var monthId = 12;
+                while (monthId) {
+                    if (news[yearId][monthId]) {
+                        var monthData = options.listIDs ? Object.keys(news[yearId][monthId]) : parseFirebaseNews(news[yearId][monthId]);
+                        if (!returnData[yearId])
+                            returnData[yearId] = {};
+                        returnData[yearId][monthId] = monthData;
+                    }
+                    --monthId;
                 }
-                --monthId;
             }
             --yearId;
         }
