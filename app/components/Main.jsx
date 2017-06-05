@@ -1,5 +1,6 @@
 import React from 'react';
 import SweetAlert from 'react-redux-sweetalert2';
+import CookieBanner from 'react-cookie-banner';
 import Nav from 'Nav';
 
 //Basic presentational component that would only have a render function
@@ -7,6 +8,11 @@ import Nav from 'Nav';
 var Main = (props) => {
   return (
     <div>
+      <CookieBanner
+        message='This site uses cookies. By continuing to browse the site you are agreeing to our use of cookies. Find out more here.'
+        link={{ msg: 'Cookie Policy', url: '/page/PrivacyPolicy' }}
+        onAccept={() => {}}
+        cookie='user-has-accepted-cookies' />
       <Nav/>
       <div className="row">
         <div className="small-centered columns">

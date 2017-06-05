@@ -21,7 +21,6 @@ To Do:
 * Migrate Pages, such as Fans and Commercial
 * Put in advertising
 * Finalize layouts
-* Cookie warnings
 * Documentation
 * Add League table from API
 * Code cleanup, (remove console logging,) and TODO's
