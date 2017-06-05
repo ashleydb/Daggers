@@ -2,7 +2,8 @@ import React from 'react';
 import {Link} from 'react-router';
 
 // For Rich Text Editor
-import Trumbowyg from 'react-trumbowyg'
+import Trumbowyg from 'react-trumbowyg';
+import '../../node_modules/trumbowyg/dist/plugins/table/trumbowyg.table';
 
 // For uploading images
 import ImageUploader from 'ImageUploader';
@@ -89,12 +90,14 @@ export default class NewsEditForm extends React.Component {
                     <Trumbowyg id='react-trumbowyg'
                         buttons={
                             [
+                                ['viewHTML'],
                                 ['formatting'],
                                 'btnGrp-semantic',
                                 ['link'],
                                 ['insertImage'],
                                 'btnGrp-justify',
                                 'btnGrp-lists',
+                                ['table'],
                                 ['fullscreen']
                             ]
                         }
