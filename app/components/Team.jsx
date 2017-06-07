@@ -5,6 +5,7 @@ import {actions} from 'actions';
 import PlayerDetail from 'PlayerDetail';
 import PlayerSummary from 'PlayerSummary';
 import * as PlayersAPI from 'PlayersAPI';
+import MediaNetAd from 'MediaNetAd';
 
 export class Team extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
@@ -125,7 +126,7 @@ export class Team extends React.Component {
                         </div>
                         <div className="column medium-4">
                             <div className="placeholder-ad">
-                                <p>Ads go here</p>
+                                <MediaNetAd />
                             </div>
                         </div>
                     </div>
@@ -136,7 +137,7 @@ export class Team extends React.Component {
                         </div>
                         <div className="column medium-4">
                             <div className="placeholder-ad">
-                                <p>Ads go here</p>
+                                <MediaNetAd />
                             </div>
                         </div>
                     </div>

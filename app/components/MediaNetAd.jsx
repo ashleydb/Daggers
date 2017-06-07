@@ -5,26 +5,8 @@ import React from 'react';
 /*
 // Example Usage:
 
-// First, put this in the index.html
-<head>
-...
- <script> ????
-</head>
-
-// Then in a React Component add the following:
-import MediaNetAd from 'MediaNetAd';
-
-// Render this within a component, getting the values from your Media.Net code
-<MediaNetAd 
-    width={336}
-    height={280}
-    crid={482223462}
-    version={111299}
-/>
-*/
-
-// This is the code that Media.Net gives you for an Ad Unit
-/*
+// This is the code that Media.Net gives you for an Ad Unit.
+// Put this in the body of a separate html file, e.g. 'ad-medianet-332x280.html'.
 <script id="mNCC" language="javascript">
    medianet_width = "336";
    medianet_height = "280";
@@ -36,27 +18,33 @@ import MediaNetAd from 'MediaNetAd';
        document.write('<scr' + 'ipt type="text/javascript" id="mNSC" src="' + mnSrc + '"></scr' + 'ipt>');
    })();
 </script>
+
+// In a React Component add the following:
+import MediaNetAd from 'MediaNetAd';
+
+// Then add this component wherever you want to show an ad, getting the values from your Media.Net code.
+// Note that the props are all optional, the values shown here are the defaults.
+<MediaNetAd 
+    width={336}
+    height={280}
+    src={'ad-medianet-332x280.html'}
+/>
 */
 
 export default class MediaNetAd extends React.Component {
   constructor(props) {
     super(props);
   }
-  // This code runs when the component mounts
-  componentDidMount() {
-    var medianet_width = this.props.width;
-    var medianet_height = this.props.height;
-    var medianet_crid = this.props.crid;
-    var medianet_versionId = this.props.version;
-    // (function() {
-    //     var isSSL = 'https:' == document.location.protocol;
-    //     var mnSrc = (isSSL ? 'https:' : 'http:') + '//contextual.media.net/nmedianet.js?cid=8CUM55E8A' + (isSSL ? '&https=1' : '');
-    //     document.write('<scr' + 'ipt type="text/javascript" id="mNSC" src="' + mnSrc + '"></scr' + 'ipt>');
-    // })();
-  }
+//   shouldComponentUpdate(nextProps, nextState) {
+//     return false;
+//   }
   render() {
+    var width = this.props.width || 336;
+    var height = this.props.height || 280;
+    var src = this.props.src || 'ad-medianet-332x280.html';
+    
     return (
-      <script id="mNCC"></script>
+      <iframe frameBorder="0" style={{ width: width, height: height}} src={src}></iframe>
     );
   }
 }

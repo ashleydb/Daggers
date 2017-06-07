@@ -1,5 +1,6 @@
 import React from 'react';
 import Page from 'Page';
+import MediaNetAd from 'MediaNetAd';
 
 // TODO: All content on this page.
 
@@ -20,7 +21,7 @@ export default class Commercial extends React.Component {
               </div>
               <div className="columns small-12 large-4">
                   <div className="placeholder-ad">
-                      <p>Ads go here</p>
+                      <MediaNetAd />
                   </div>
               </div>
           </div>

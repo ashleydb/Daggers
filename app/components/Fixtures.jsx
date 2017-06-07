@@ -2,6 +2,7 @@ import React from 'react';
 var {connect} = require('react-redux');
 import {actions} from 'actions';
 import * as FixturesAPI from 'FixturesAPI';
+import MediaNetAd from 'MediaNetAd';
 
 // TODO: Break out this table into smaller components, (like a table entry)?
 // TODO: Does a fixture need a link to a Report AND a video?
@@ -144,7 +145,7 @@ export class Fixtures extends React.Component {
                         </div>
                         <div className="columns small-12 large-4">
                             <div className="placeholder-ad">
-                                <p>Ads go here</p>
+                                <MediaNetAd />
                             </div>
                         </div>
                     </div>

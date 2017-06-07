@@ -1,6 +1,7 @@
 import React from 'react';
 var Timeline = require('react-twitter-widgets').Timeline;
 import Page from 'Page';
+import MediaNetAd from 'MediaNetAd';
 
 // TODO: All content on this page.
 
@@ -47,7 +48,7 @@ export default class Fans extends React.Component {
                     </div>
                     <div className="columns small-12 large-4">
                         <div className="placeholder-ad">
-                            <p>Ads go here</p>
+                            <MediaNetAd />
                         </div>
 
                         <Timeline
