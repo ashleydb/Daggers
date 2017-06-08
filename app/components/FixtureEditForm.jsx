@@ -80,7 +80,7 @@ export default class FixtureEditForm extends React.Component {
                     </div>
                     <div className="columns small-6">
                         <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} folderName="teams" ref="imageUploader"/>
-                        <img src={`https://daggers-demo-eu.storage.googleapis.com${logo}`} alt="Team Badge Preview" className="news-image-preview"/>
+                        <img src={`https://{-{gcp.storageBucket}-}.storage.googleapis.com${logo}`} alt="Team Badge Preview" className="news-image-preview"/>
                     </div>
                 </div>
                 

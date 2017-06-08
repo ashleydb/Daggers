@@ -20,7 +20,7 @@ export default class Nav extends React.Component {
                         <ul className="vertical medium-horizontal menu club-nav">
                             <li className="menu-text">
                                 <IndexLink to="/">
-                                    <img src="https://daggers-demo-eu.storage.googleapis.com/basics/clublogo.png" alt="Dagenham & Redbridge FC Logo" className="nav-image"/>
+                                    <img src={`https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/clublogo.png`} alt="Dagenham & Redbridge FC Logo" className="nav-image"/>
                                 </IndexLink>
                             </li>
 

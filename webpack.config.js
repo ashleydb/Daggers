@@ -12,6 +12,19 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 // Load the relevant environment vars from the config folder, (if the file exists)
 envFile(path.join(__dirname, 'config/' + process.env.NODE_ENV + '.env'), {raise: false});
 
+// For replacing strings within the content at build time
+const properties = require(path.join(__dirname, 'app/config/properties.json'));
+const StringReplacePlugin = require('string-replace-webpack-plugin');
+const string_replacement_loader = StringReplacePlugin.replace({
+  replacements: [
+    {
+      pattern: /\{-{(.*)}-}/g,
+      replacement: function (match, p1, offset, string) {
+        return eval('properties.' + p1);
+      }
+    }
+  ]});
+
 module.exports = {
   entry: [
     //Where script!, (or style! or css! etc.) are used, that means use a loader, (e.g. script-loader module,) to pull in these files.
@@ -52,7 +65,8 @@ module.exports = {
         AUTH_USERNAME: JSON.stringify(process.env.AUTH_USERNAME),
         AUTH_PASSWORD: JSON.stringify(process.env.AUTH_PASSWORD)
       }
-    })
+    }),
+    new StringReplacePlugin()
   ],
   output: {
     path: __dirname,
@@ -87,12 +101,17 @@ module.exports = {
         exclude: /(node_modules|bower_components)/
       },
       {
+        loaders: [string_replacement_loader],
+        test: /\.jsx?$/,
+        exclude: /(node_modules|bower_components)/
+      },
+      {
         test: /\.scss$/,
-        loaders: ["style-loader", "css-loader", "sass-loader"]
+        loaders: ["style-loader", "css-loader", "sass-loader", string_replacement_loader]
       },
       {
         test: /\.css$/,
-        loaders: ["style-loader", "css-loader"]
+        loaders: ["style-loader", "css-loader", string_replacement_loader]
       },
       {
         test: /\.(png|jpg|jpeg|gif)$/,

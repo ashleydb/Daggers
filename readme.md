@@ -18,6 +18,7 @@ To Do:
 * Finish setup of hosting in a production ready setup - GCP AppEngine
   * https://www.npmjs.com/package/letsencrypt
   * https://git.daplie.com/Daplie/greenlock-express
+  * Need to setup a separate instance for prod, running in EU, not using the *-demo data. Document the different settings.
 * Migrate Pages, such as Fans and Commercial
 * Put in advertising
 * Finalize layouts

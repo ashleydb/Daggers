@@ -71,7 +71,7 @@ export default class Sponsor extends React.Component {
         if (!sponsor)
             return (<div className="column column-block"></div>);
 
-        var image = 'https://daggers-demo-eu.storage.googleapis.com' + sponsor.image;
+        var image = `https://{-{gcp.storageBucket}-}.storage.googleapis.com${sponsor.image}`;
 
         // TODO: Change news-thumbnail to a class just for sponsors
         return (

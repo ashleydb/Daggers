@@ -32,7 +32,7 @@ export default class PlayerSummary extends React.Component {
             if (!image) {
                 image = PlayersAPI.DEFAULT_PLAYER.image;
             }
-            image = 'https://daggers-demo-eu.storage.googleapis.com' + image;
+            image = `https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`;
 
             var playerName = `${player.first_name} ${player.last_name}`;
 

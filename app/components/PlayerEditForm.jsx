@@ -109,7 +109,7 @@ export default class PlayerEditForm extends React.Component {
                     </div>
                     <div className="columns small-6">
                         <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} folderName="player" ref="imageUploader"/>
-                        <img src={`https://daggers-demo-eu.storage.googleapis.com${image}`} alt="Player Portrait Preview" className="news-image-preview"/>
+                        <img src={`https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`} alt="Player Portrait Preview" className="news-image-preview"/>
                     </div>
                 </div>
 

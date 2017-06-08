@@ -98,8 +98,8 @@ export class Fixtures extends React.Component {
             // Get a list of fixtures output as table rows
             var fixtureRows = fixtures.map((fixture) => {
                 if (fixture.season == season && (squad == 'All' || squad == fixture.squad)) {
-                    var logo = fixture.logo ?   `https://daggers-demo-eu.storage.googleapis.com${fixture.logo}` :    // `/images/uploads/teams/${fixture.logo}` :
-                                                'https://daggers-demo-eu.storage.googleapis.com/basics/clublogo.png';       // '/images/clublogo.png';
+                    var logo = fixture.logo ?   `https://{-{gcp.storageBucket}-}.storage.googleapis.com${fixture.logo}` :    // `/images/uploads/teams/${fixture.logo}` :
+                                                `https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/clublogo.png`;// '/images/clublogo.png';
                     // TODO: Need to fill in report links for all fixtures
                     var w_l_d = fixture.w_l_d === 'X' ? '' : fixture.w_l_d;
                     var link = '';

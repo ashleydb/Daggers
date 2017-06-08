@@ -24,7 +24,7 @@ export default class PlayerDetail extends React.Component {
             if (!image) {
                 image = PlayersAPI.DEFAULT_PLAYER.image;
             }
-            image = 'https://daggers-demo-eu.storage.googleapis.com' + image;
+            image = `https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`;
 
             var dateMS = player.date_of_birth;
             var d = new Date(Number(dateMS));
