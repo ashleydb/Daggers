@@ -67,7 +67,7 @@ export default class PagesEditForm extends React.Component {
                     </div>
                     <div className="columns small-6">
                         <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} ref="imageUploader"/>
-                        <img src={image} alt="Image Preview" className="news-image-preview"/>
+                        <img src={`https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`} alt="Image Preview" className="news-image-preview"/>
                     </div>
                 </div>
 
@@ -75,7 +75,7 @@ export default class PagesEditForm extends React.Component {
                     <h5>How to add images to a page</h5>
                     <p>Use the tools above to upload, browse and preview images. When you find the one you want, note the full name, (e.g. "/basics/News-Generic2_169.jpg")</p>
                     <p>In the text editor below, click the Insert Image button: <i className="fi-photo"></i></p>
-                    <p>You will be prompted for a URL, (enter the full image file name, e.g. "/basics/News-Generic2_169.jpg") and a Description, (enter a comment, e.g. "Daggers TBS Stand".)</p>
+                    <p>You will be prompted for a URL, (enter the full image file name, e.g. "https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/News-Generic2_169.jpg") and a Description, (enter a comment, e.g. "Daggers TBS Stand".)</p>
                     <p>You can then drag the images around within the text box to move them on the page. You can delete the image in the same way as text.</p>
                 </div>
                 

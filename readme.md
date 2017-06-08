@@ -15,10 +15,11 @@ Needed:
 
 To Do:
 * Fix react warnings about PropTypes, (if possible. Seems to be from a dependency.)
-* Finish setup of hosting in a production ready setup - GCP AppEngine
+* Update DNS to point to GCP
+* Need SSL?
   * https://www.npmjs.com/package/letsencrypt
   * https://git.daplie.com/Daplie/greenlock-express
-  * Need to setup a separate instance for prod, running in EU, not using the *-demo data. Document the different settings.
+  * Document prod settings?
 * Migrate Pages, such as Fans and Commercial
 * Put in advertising
 * Finalize layouts

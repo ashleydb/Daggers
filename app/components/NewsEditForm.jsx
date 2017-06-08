@@ -76,7 +76,7 @@ export default class NewsEditForm extends React.Component {
                     </div>
                     <div className="columns small-6">
                         <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} folderName="news" ref="imageUploader"/>
-                        <img src={image} alt="Image Preview" className="news-image-preview"/>
+                        <img src={`https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`} alt="Image Preview" className="news-image-preview"/>
                     </div>
                 </div>
                 
