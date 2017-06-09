@@ -90,6 +90,13 @@ export default class PlayerEditForm extends React.Component {
     render() {
         var {player} = this.props;
         var image = this.state.image || player.image || '/player/bg_player_231by264.png';
+        var imagePath = '';
+        var imagePreview = null;
+        if (image) {
+            imagePath = `https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`;
+            // TODO: className="news-image-preview" - Replace/Rename this?
+            imagePreview = <img src={imagePath} alt="Image Preview" className="news-image-preview"/>
+        }
 
         function dateToString(dateMS) {
             if (!dateMS)
@@ -109,7 +116,8 @@ export default class PlayerEditForm extends React.Component {
                     </div>
                     <div className="columns small-6">
                         <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} folderName="player" ref="imageUploader"/>
-                        <img src={`https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`} alt="Player Portrait Preview" className="news-image-preview"/>
+                        <input type="text" value={imagePath} readOnly ref="imagePath"/>
+                        {imagePreview}
                     </div>
                 </div>
 

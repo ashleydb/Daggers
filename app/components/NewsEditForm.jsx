@@ -88,6 +88,13 @@ export default class NewsEditForm extends React.Component {
 
         var {story} = this.props;
         var image = this.state.image || story.image;
+        var imagePath = '';
+        var imagePreview = null;
+        if (image) {
+            imagePath = `https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`;
+            // TODO: className="news-image-preview" - Replace/Rename this?
+            imagePreview = <img src={imagePath} alt="Image Preview" className="news-image-preview"/>
+        }
         return (
             <div>
                 <div className="row">
@@ -96,7 +103,8 @@ export default class NewsEditForm extends React.Component {
                     </div>
                     <div className="columns small-6">
                         <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} folderName="news" ref="imageUploader"/>
-                        <img src={`https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`} alt="Image Preview" className="news-image-preview"/>
+                        <input type="text" value={imagePath} readOnly ref="imagePath"/>
+                        {imagePreview}
                     </div>
                 </div>
                 

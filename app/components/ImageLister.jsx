@@ -91,20 +91,23 @@ export default class ImageLister extends React.Component {
             if (files) {
                 // So we can access handlers on 'this' within the map function
                 let that = this;
-                return (
-                    <ul>
-                        {
-                            folderNames.map(function(folder) {
-                                return files[folder].map(function(file, index) {
-                                    var styleName = 'unselectedImageName';
-                                    if (selectedImage == file) {
-                                        styleName = 'selectedImageName';
-                                    }
-                                    return <li key={folder + index}><a href="#" onClick={(e) => {that.handleClickImage(e, file);}} className={styleName}>{file}</a></li>;
-                                })
-                            })
+                let selectedImageFound = false; // HACK: For newly uploaded images, they won't be in the list of files without calling refresh
+                let imageList = folderNames.map(function(folder) {
+                    return files[folder].map(function(file, index) {
+                        var styleName = 'unselectedImageName';
+                        if (selectedImage && selectedImage == file) {
+                            styleName = 'selectedImageName';
+                            selectedImageFound = true;
                         }
-                    </ul>
+                        return <li key={folder + index}><a href="#" onClick={(e) => {that.handleClickImage(e, file);}} className={styleName}>{file}</a></li>;
+                    });
+                });
+                if (selectedImage && !selectedImageFound) {
+                    // HACK: Put the image right at the start of the 2D array. Disappears if they click another image name, so should probably be calling refreshImages(), (really using an API and actions)
+                    imageList[0].unshift(<li key={selectedImage}><a href="#" onClick={(e) => {that.handleClickImage(e, selectedImage);}} className='selectedImageName'>{selectedImage}</a></li>);
+                }
+                return (
+                    <ul>{imageList}</ul>
                 );
             }
             return null;

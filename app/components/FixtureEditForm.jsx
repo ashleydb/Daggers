@@ -70,17 +70,25 @@ export default class FixtureEditForm extends React.Component {
     }
     render() {
         var {fixture} = this.props;
-        var logo = this.state.logo || fixture.logo || '/basics/clublogo.png';
         var report = fixture.report ? `http://www.daggers.co.uk/news/${fixture.report}` : null;
+        var image = this.state.logo || fixture.logo || '/basics/clublogo.png';
+        var imagePath = '';
+        var imagePreview = null;
+        if (image) {
+            imagePath = `https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`;
+            // TODO: className="news-image-preview" - Replace/Rename this?
+            imagePreview = <img src={imagePath} alt="Image Preview" className="news-image-preview"/>
+        }
         return (
             <div>
                 <div className="row">
                     <div className="columns small-6">
-                        <ImageLister directory="teams" onPickImage={this.onPickImage} selectedImage={logo}/>
+                        <ImageLister directory="teams" onPickImage={this.onPickImage} selectedImage={image}/>
                     </div>
                     <div className="columns small-6">
                         <ImageUploader onImageUploaded={this.onNewImage} token={this.props.token} folderName="teams" ref="imageUploader"/>
-                        <img src={`https://{-{gcp.storageBucket}-}.storage.googleapis.com${logo}`} alt="Team Badge Preview" className="news-image-preview"/>
+                        <input type="text" value={imagePath} readOnly ref="imagePath"/>
+                        {imagePreview}
                     </div>
                 </div>
                 
