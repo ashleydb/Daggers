@@ -21,6 +21,8 @@ To Do:
   * https://git.daplie.com/Daplie/greenlock-express
   * Document prod settings?
 * Migrate Pages, such as Fans and Commercial
+* Uploading images should correctly be added to the list of images to select and should be the selected image, (probably need to break out as an images api.)
+ * Add a recommended image size to the docs, (e.g. for news, should be 1200x~600. How about Players, etc.?)
 * Put in advertising
 * Finalize layouts
 * Add League table from API

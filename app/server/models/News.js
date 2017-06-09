@@ -54,12 +54,13 @@ class News {
     }
 
     // Save this news data to our DB
-    // callback: Should be callback(error, id)
+    // callback: Should be callback(error, id, year, month, createdAt)
     save(callback) {
         //console.log('DEBUG: News.save() this=', this);
         var d = new Date(Number(this.createdAt));
         let year = d.getFullYear();
         let month = d.getMonth() + 1;
+        let createdAt = this.createdAt;
 
         var childName = `news/${year}/${month}`;
         
@@ -69,8 +70,8 @@ class News {
                                    this.toObj())
         .then((id) => {
             //Success
-            this.id = id;
-            callback(null, id, year, month);
+            //this.id = id;
+            callback(null, id, year, month, createdAt);
         }, (e) => {
             // Error
             callback(e);

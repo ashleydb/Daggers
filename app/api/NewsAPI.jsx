@@ -148,7 +148,7 @@ export function addStory(story, token) {
                         .then(function (response) {
                             console.log(response);
                             story.id = response.data.id;
-                            story.createdAt = Date.now(); // year and month returned in response, but just do this
+                            story.createdAt = response.data.createdAt;
                             resolve(story);
                         })
                         .catch(function (error) {
@@ -158,7 +158,7 @@ export function addStory(story, token) {
                         });
                 } else {
                     // This is a PUT
-                    var d = new Date(Number(story.createdAt));
+                    var d = new Date(Number(story.oldCreatedAt));
                     var year = d.getFullYear();
                     var month = d.getMonth() + 1; // getMonth is 0-11, but we setup Firebase as 1-12
                     axiosInstance.put(`/api/v1/news/${year}/${month}/${story.id}`, story)

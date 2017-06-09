@@ -25,9 +25,15 @@ export class NewsStory extends React.Component {
         }
         image = `https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`;
 
-        var dateMS = story.updatedAt || story.createdAt;
+        var dateMS = story.createdAt;
         var d = new Date(Number(dateMS));
         var dateStr = d.toDateString();
+
+        if (story.updatedAt) {
+            dateMS = story.updatedAt;
+            d = new Date(Number(dateMS));
+            dateStr = `${dateStr} , (Last Updated: ${d.toDateString()})`;
+        }
 
         // Extra checking in case there was a story already loaded, but not the one we wanted
         if (status.isFetching) {

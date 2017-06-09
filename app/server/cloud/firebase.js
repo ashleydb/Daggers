@@ -26,7 +26,7 @@ var serviceAccount = {
 // The app only has access as defined in the Security Rules
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
-  databaseURL: "https://daggers-demo.firebaseio.com/",
+  databaseURL: `https://${process.env.FIREBASE_SERVICE_PROJECT_ID}.firebaseio.com/`,
   databaseAuthVariableOverride: {
     uid: "my-service-worker"
   }
@@ -140,7 +140,7 @@ module.exports.firebaseRest = function(apiParams) {
     return new Promise(
         // The resolver function is called with the ability to resolve or reject the promise
         function (resolve, reject) {
-            var apiPath = 'https://daggers-demo.firebaseio.com/' + apiParams;
+            var apiPath = `https://${process.env.FIREBASE_SERVICE_PROJECT_ID}.firebaseio.com/${apiParams}`;
 
             // Call our server to fetch some news
             Axios.get(apiPath)

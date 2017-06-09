@@ -20,7 +20,7 @@ export default class NewsSummary extends React.Component {
         }
         image = `https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`;
 
-        var dateMS = story.updatedAt || story.createdAt;
+        var dateMS = story.createdAt;
         var d = new Date(Number(dateMS));
         var dateStr = d.toDateString();
 

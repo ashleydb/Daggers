@@ -182,7 +182,7 @@ export class NewsEdit extends React.Component {
             // Show as a table with titles/dates and buttons to view/edit/delete
             // TODO: Make the delete button work, or add one to the edit form.
             var contentRows = tempNews.map((story) => {
-                var dateMS = story.updatedAt || story.createdAt;
+                var dateMS = story.createdAt;
                 var d = new Date(Number(dateMS));
                 var dateStr = d.toDateString();
                 return (

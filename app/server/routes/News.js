@@ -38,13 +38,13 @@ router.route('/v1/news')
             news.createdAt = Date.now();
     
         // save the news and check for errors
-        news.save(function(err, id, year, month) {
+        news.save(function(err, id, year, month, createdAt) {
             if (err) {
                 res.status(err.status || 400).send(err);
                 return;
             }
 
-            res.json({ message: 'News created!', id, year, month });
+            res.json({ message: 'News created!', id, year, month, createdAt });
         });
     })
 
@@ -171,7 +171,21 @@ router.route('/v1/news/:year/:month/:news_id')
                 res.status(err.status || 400).send(err);
                 return;
             }
-            
+
+            // Check if the new created date's year and month match the old ones, (our params)
+            var d = new Date(Number(req.body.createdAt));
+            var year = d.getFullYear();
+            var month = d.getMonth() + 1; // getMonth is 0-11, but we setup Firebase as 1-12
+            if (req.params.year != year || req.params.month != month) {
+                // Don't match, so remove the old entry before we save the new one
+                News.remove(options, function(err, id, year, month) {
+                    if (err) {
+                        res.status(err.status || 400).send(err);
+                        return;
+                    }
+                });
+            }
+
             // TODO: We currently get back a raw data object, not an object of class news, (I removed it while debugging,) so I'm making a new news object here. No big deal.
             // Fill in the elements from the request
             var updatedNews = new News();
@@ -187,13 +201,13 @@ router.route('/v1/news/:year/:month/:news_id')
             updatedNews.updatedAt = req.body.updatedAt ? req.body.updatedAt : Date.now();
 
             // save the news and check for errors
-            updatedNews.save(function(err, id, year, month) {
+            updatedNews.save(function(err, id, year, month, createdAt) {
                 if (err) {
                     res.status(err.status || 400).send(err);
                     return;
                 }
 
-                res.json({ message: 'News updated!', id, year, month });
+                res.json({ message: 'News updated!', id, year, month, createdAt });
             });
         })
     })
