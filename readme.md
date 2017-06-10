@@ -21,6 +21,7 @@ To Do:
   * https://git.daplie.com/Daplie/greenlock-express
   * Document prod settings?
 * Migrate Pages, such as Fans and Commercial
+* Add a banner feature to the site
 * Add a recommended image size to the docs, (e.g. for news, should be 1200x~600. How about Players, etc.?)
 * Put in advertising
 * Finalize layouts

@@ -30,8 +30,10 @@ import Tickets from 'Tickets';
 import Team from 'Team';
 import PlayersEdit from 'PlayersEdit';
 import Fans from 'Fans';
+import Community from 'Community';
 import Club from 'Club';
 import Commercial from 'Commercial';
+import BannerEdit from 'BannerEdit';
 
 var store = require('configureStore').configure();
 
@@ -51,6 +53,7 @@ ReactDOM.render(
         <Route path="tickets" component={Tickets}/>
         <Route path="team" component={Team}/>
         <Route path="fans" component={Fans}/>
+        <Route path="community" component={Community}/>
         <Route path="club" component={Club}/>
         <Route path="commercial" component={Commercial}/>
         
@@ -71,6 +74,9 @@ ReactDOM.render(
             </Route>
             <Route path="players" component={PlayersEdit}>
                 <Route path=":playerId" component={PlayersEdit}/>
+            </Route>
+            <Route path="banner" component={BannerEdit}>
+                <Route path=":bannerId" component={BannerEdit}/>
             </Route>
         </Route>
         <IndexRoute component={Home}/>

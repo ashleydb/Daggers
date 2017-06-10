@@ -39,7 +39,7 @@ module.exports.firebaseRef = firebase.database().ref("/");
 // Writes data to firebase at the given ref.
 // Returns a promise that will get the ID back of the new object.
 // ref: Pass in a ref you want a child from, (if null, uses the root of the db)
-// childName: name of the child element you want to write, e.g. 'news'
+// childName: name of the child element you want to write, e.g. 'news', (safety measure so we can't wipe out all data)
 // id: id of existing element to update, or null for new data, e.g. '-Kf-uyuCGliTBTNfB_Lr'
 // data: Data to write at that ref
 module.exports.writeToFirebase = function(ref = null, childName, id, data) {

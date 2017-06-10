@@ -9,4 +9,22 @@
 
 .top-bar {
     margin-bottom: 2em;
+    background-color: #A95;
+    padding: 0;
+
+    .menu {
+        background-color: #A95;
+    }
+}
+
+.logo-bar {
+    background-color: #d6334a;
+    //width: 100%;
+    //overflow: auto;
+    margin: 0px;
+}
+
+.nav-banner {
+    width: auto;
+    max-height: 160px;
 }
