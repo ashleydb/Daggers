@@ -25,7 +25,7 @@ export function login(username, password) {
                     password
                 })
                 .then(function (response) {
-                    console.log("DEBUG: LoginAPI.login() res=", response);
+                    //console.log("DEBUG: LoginAPI.login() res=", response);
                     resolve(response.data);
                 })
                 .catch(function (error) {

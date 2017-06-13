@@ -40,7 +40,7 @@ class Table {
                 callback(error);
             });
         } else {
-            console.log('DEBUG: Returning Table form cache');
+            //console.log('DEBUG: Returning Table form cache');
             callback(null, this.tableData);
         }
     }

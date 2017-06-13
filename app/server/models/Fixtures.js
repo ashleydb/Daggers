@@ -62,7 +62,7 @@ class Fixtures {
         if (this.squad && this.squad != '')
             obj.squad = this.squad;
         
-        console.log("DEBUG: Fixtures.toObj(): ", obj)
+        //console.log("DEBUG: Fixtures.toObj(): ", obj)
         return obj;
     }
 
