@@ -44,7 +44,7 @@ export default class MediaNetAd extends React.Component {
     var src = this.props.src || 'ad-medianet-332x280.html';
     
     return (
-      <iframe frameBorder="0" style={{ width: width, height: height}} src={src}></iframe>
+      <iframe frameBorder="0" style={{ width: width, height: height}} src={src} title='Advertisement'></iframe>
     );
   }
 }

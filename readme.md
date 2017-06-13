@@ -20,8 +20,10 @@ Nice to Have:
 * Structured Data for Search Results, (see Google IO 2017 Notes in Google Docs)
 * Fix react warnings about PropTypes, (if possible. Seems to be from a dependency.)
 * Need SSL?
+  * https://cloud.google.com/appengine/docs/flexible/nodejs/using-custom-domains-and-ssl?hl=fr
   * https://www.npmjs.com/package/letsencrypt
   * https://git.daplie.com/Daplie/greenlock-express
+  * https://stackoverflow.com/questions/7185074/heroku-nodejs-http-to-https-ssl-forced-redirect
   * Document prod settings?
 * Heroku image uploading now working, (need to fix Google authentication)
  * https://developers.google.com/accounts/docs/application-default-credentials

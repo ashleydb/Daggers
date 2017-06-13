@@ -24,83 +24,87 @@ const fileManifest = [
   },
   {
     "url": "/android-icon-144x144.png",
-    "revision": "bb51c8451a69590d3670f4029377402c"
+    "revision": "f899c10741a2629a0747ec39dbcf1101"
   },
   {
     "url": "/android-icon-192x192.png",
-    "revision": "91632e6d1f61f1474e304083b38aae96"
+    "revision": "7745a05a52b278cb68a63f2b3416d3b5"
   },
   {
     "url": "/android-icon-36x36.png",
-    "revision": "5c750c7156413ae664544e6d8559ef72"
+    "revision": "f6635497c2f34964f03cdc3479cd5716"
   },
   {
     "url": "/android-icon-48x48.png",
-    "revision": "b14d2ce59ffe15ef684f31939e2468f2"
+    "revision": "83cb1c103839a080053f12c00f7ef06c"
+  },
+  {
+    "url": "/android-icon-512x512.png",
+    "revision": "fbcafa1c8fe507fef6cf5051bb8416b2"
   },
   {
     "url": "/android-icon-72x72.png",
-    "revision": "e3922231238408b5e46d30490dd18279"
+    "revision": "ce9b7f404eef68c476d0d3137d430fc1"
   },
   {
     "url": "/android-icon-96x96.png",
-    "revision": "b487bd9bee330f4617b9b33c3d456be8"
+    "revision": "60ced9a950e19a1bd4cb9d90dedcaef2"
   },
   {
     "url": "/apple-icon-114x114.png",
-    "revision": "56a53d1a4234f9ca76729ac111c13e29"
+    "revision": "71f8654b89dbdfdd2440882279041371"
   },
   {
     "url": "/apple-icon-120x120.png",
-    "revision": "e6c679d4b94038a3e6485a34e21514be"
+    "revision": "cc2e9769dac80515398f005d0fb75d50"
   },
   {
     "url": "/apple-icon-144x144.png",
-    "revision": "bb51c8451a69590d3670f4029377402c"
+    "revision": "032c20b002abbf2c527fa196309faedf"
   },
   {
     "url": "/apple-icon-152x152.png",
-    "revision": "862fe7a45937637feae57651d091b676"
+    "revision": "3fe9cd116af4ffd57dc415eb389ce9fd"
   },
   {
     "url": "/apple-icon-180x180.png",
-    "revision": "52eed402e80a0614b239c9822f48c8de"
+    "revision": "00fd478bcfaf72e8a08ea27476250c8c"
   },
   {
     "url": "/apple-icon-57x57.png",
-    "revision": "80b4772c3804ebb0f1b71ba5a924809a"
+    "revision": "5cc30fcb38ab217141d8f95711513c63"
   },
   {
     "url": "/apple-icon-60x60.png",
-    "revision": "13639429bd04732041bda3f084bed6cc"
+    "revision": "ac3758f6e5ef9bad791156fb4b599730"
   },
   {
     "url": "/apple-icon-72x72.png",
-    "revision": "e3922231238408b5e46d30490dd18279"
+    "revision": "0832b37856668339e8e5c8590a0783cb"
   },
   {
     "url": "/apple-icon-76x76.png",
-    "revision": "60d4c199e5ae1bd298f95bae8e83d38d"
+    "revision": "112ff4b59a3e837f26aef35369e1ddcc"
   },
   {
     "url": "/apple-icon-precomposed.png",
-    "revision": "611578a9235027ec721c607fd8795966"
+    "revision": "1a9a65747d2fae6bf565aff9c396dc54"
   },
   {
     "url": "/apple-icon.png",
-    "revision": "611578a9235027ec721c607fd8795966"
+    "revision": "48f054d0ac198859c65f10e1404b0a02"
   },
   {
     "url": "/favicon-16x16.png",
-    "revision": "8b02f9d6bc9f4626a0a569ada8712485"
+    "revision": "7f336f157c8d46e61ce9be6a358bd641"
   },
   {
     "url": "/favicon-32x32.png",
-    "revision": "b3ffb5220bcc399215366d165892aba7"
+    "revision": "02b7c9ee360058ea8098bbe90bf9d578"
   },
   {
     "url": "/favicon-96x96.png",
-    "revision": "b487bd9bee330f4617b9b33c3d456be8"
+    "revision": "fc81b23eb5f94eea3dc9e5f5b04ec6c3"
   },
   {
     "url": "/favicon.ico",
@@ -108,27 +112,27 @@ const fileManifest = [
   },
   {
     "url": "/index.html",
-    "revision": "bf0781bce1955ed3c5b34e77d9944f8b"
+    "revision": "4c640469c5f4015ef75b61d633480c58"
   },
   {
     "url": "/manifest.json",
-    "revision": "24bea440cd546359df51424a88296ce5"
+    "revision": "3099449cdeecac7a7d6dad142c8e3c74"
   },
   {
     "url": "/ms-icon-144x144.png",
-    "revision": "bb51c8451a69590d3670f4029377402c"
+    "revision": "6e6785601a4cc8fc9b3fc3e109843bba"
   },
   {
     "url": "/ms-icon-150x150.png",
-    "revision": "52bea3be08eb32038b66d88222033084"
+    "revision": "4706da189fe30ebf01ab690595e5e696"
   },
   {
     "url": "/ms-icon-310x310.png",
-    "revision": "cb944f9e34b32797e351b32650e13a30"
+    "revision": "5b41239a3c9be07255b6ab8c36b8e4f0"
   },
   {
     "url": "/ms-icon-70x70.png",
-    "revision": "b293031138020ef52a64544261526a36"
+    "revision": "ec026a03574dc1ea0cc6bc51ee58ecee"
   }
 ];
 
