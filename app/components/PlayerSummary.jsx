@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'react-lazy-image';
 import * as PlayersAPI from 'PlayersAPI';
 
 export default class PlayerSummary extends React.Component {
@@ -40,7 +41,7 @@ export default class PlayerSummary extends React.Component {
                 <div className="column column-block">
                     <div className="card">
                             <a href='#' onClick={(e) => this.handleClickPlayer(e, player.id)}>
-                                <img src={image} alt={playerName} className="player-thumbnail"/>
+                                <Image source={image} alt={playerName} className="player-thumbnail"/>
                             </a>
                             <div className="card-section">
                                 <a href='#' onClick={(e) => this.handleClickPlayer(e, player.id)}>

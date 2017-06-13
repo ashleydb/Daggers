@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Image from 'react-lazy-image';
 
 // TODO: Have this pull from a DB? Or at least and external JSON file...
 //  Make a Sponsors component that owns the data and renders a group of these?
@@ -78,7 +79,7 @@ export default class Sponsor extends React.Component {
             <div className="column column-block">
                 <div className="card">
                     <Link to={sponsor.link}>
-                        <img src={image} alt={sponsor.name} className="news-thumbnail" />
+                        <Image source={image} alt={sponsor.name} className="news-thumbnail" />
                     </Link>
                     <div className="card-section">
                         <p>{sponsor.type}</p>

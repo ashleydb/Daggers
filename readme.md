@@ -31,8 +31,6 @@ Nice to Have:
  * Check if the token is expired, or will soon, on the client so the user doesn't lose their work?
  * Change the Auth.js model to use a DB with hashed passwords, not env vars.
 * Putting in (more detailed) traffic monitoring
-* Lazy load images?
- * https://github.com/yuanyan/react-image
 
 Cleanup dependencies?
 * uuid

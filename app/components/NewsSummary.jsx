@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Image from 'react-lazy-image';
 import * as NewsAPI from 'NewsAPI';
 
 export default class NewsSummary extends React.Component {
@@ -34,7 +35,7 @@ export default class NewsSummary extends React.Component {
                                 <Link to={`/news/${story.id}`}><h4>{story.headline}</h4></Link>
                             </div>
                             <Link to={`/news/${story.id}`}>
-                                <img src={image} alt={story.summary} className="news-main-image" />
+                                <Image source={image} alt={story.summary} className="news-main-image" />
                             </Link>
                             <div className="card-section">
                                 <p className="news-summary-date">{dateStr}</p>
@@ -50,7 +51,7 @@ export default class NewsSummary extends React.Component {
                     <div className="column column-block">
                         <div className="card">
                             <Link to={`/news/${story.id}`}>
-                                <img src={image} alt={story.summary} className="news-thumbnail" />
+                                <Image source={image} alt={story.summary} className="news-thumbnail" />
                             </Link>
                             <div className="card-section">
                                 <Link to={`/news/${story.id}`}><h4>{story.headline}</h4></Link>

@@ -1911,7 +1911,7 @@ faye-websocket@0.9.3:
   dependencies:
     websocket-driver ">=0.5.1"
 
-fbjs@^0.8.4, fbjs@^0.8.9:
+fbjs@^0.8.1, fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.12"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.12.tgz#10b5d92f76d45575fd63a217d4ea02bea2f8ed04"
   dependencies:
@@ -4065,6 +4065,12 @@ react-ga@^2.2.0:
     object-assign "^4.0.1"
     prop-types "^15.5.6"
 
+react-lazy-image@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-lazy-image/-/react-lazy-image-1.1.0.tgz#18fb0c10034e15902d766469e41f06bc1e7c4595"
+  dependencies:
+    react "15.3.0"
+
 react-redux-sweetalert2@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/react-redux-sweetalert2/-/react-redux-sweetalert2-0.0.2.tgz#550c9cfceeb25dd2a205489f5d8e3836d99d21fa"
@@ -4127,6 +4133,14 @@ react-twitter-widgets@^1.2.0:
     lodash.isequal "^4.1.1"
     prop-types "^15.3.0"
     scriptjs "^2.5.8"
+
+react@15.3.0:
+  version "15.3.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.3.0.tgz#b06a26d26e5613888acb196aa93e9c082a9c21fa"
+  dependencies:
+    fbjs "^0.8.1"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.0"
 
 react@>=0.13.0, react@^15.3.2, react@^15.4.1:
   version "15.5.4"
