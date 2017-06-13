@@ -72,7 +72,7 @@ module.exports = {
     }),
     new StringReplacePlugin(),
     new workboxPlugin({
-      globPatterns: ['**\/*.{html,js,css}'],
+      globPatterns: ['**\/*.{html,js,css,png,ico,json}'],
       //globIgnores: ['admin.html'],
       //swSrc: './src/sw.js',
       swDest: path.join(DIST_DIR, 'sw.js'),

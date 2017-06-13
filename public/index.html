@@ -31,6 +31,20 @@
 <body>
   <div id="app"></div>
   <script src="/bundle.js"></script>
-  <script src="/sw.js"></script>
+  <script>
+    if(navigator.serviceWorker) {
+      navigator.serviceWorker.register('/sw.js')
+      .catch(function(err) {
+        console.error('Unable to register service worker.', err);
+      });
+    }
+  </script>
+  <noscript>
+    Sorry, but your browser currently has JavaScript disabled but it is required to use this website. You should try one of the following:
+    <ul>
+      <li><a href="https://www.google.com/search?q=enable+javascript+in+my+browser">Enable JavaScript in your Browser</a></li>
+      <li>Try a new browser, such as <a href="https://www.google.com/chrome/browser/">Chrome</a> or <a href="https://www.mozilla.org/firefox">FireFox</a></li>
+    </ul>
+  </noscript>
 </body>
 </html>
