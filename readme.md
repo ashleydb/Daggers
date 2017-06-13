@@ -17,6 +17,7 @@ To Do:
 * Add caching to server, (e.g. to News, like I've done with Table data)
 
 Nice to Have:
+* Structured Data for Search Results, (see Google IO 2017 Notes in Google Docs)
 * Fix react warnings about PropTypes, (if possible. Seems to be from a dependency.)
 * Need SSL?
   * https://www.npmjs.com/package/letsencrypt

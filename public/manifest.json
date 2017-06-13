@@ -1,5 +1,6 @@
 {
- "name": "App",
+ "short_name": "Daggers",
+ "name": "Dagenham & Redbridge FC",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
@@ -37,5 +38,9 @@
    "type": "image\/png",
    "density": "4.0"
   }
- ]
+ ],
+ "start_url": "/?utm_source=homescreen",
+ "background_color": "#AA9955",
+ "theme_color": "#AA9955",
+ "display": "standalone"
 }

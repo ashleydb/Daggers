@@ -5,6 +5,10 @@
 var webpack = require('webpack');
 var path = require('path');
 var envFile = require('node-env-file');
+const workboxPlugin = require('workbox-webpack-plugin');
+
+// For Workbox plugin, for ServiceWorkers
+const DIST_DIR = 'public';
 
 // Will be 'production' on heroku, but missing locallaly so we'll set to 'development'
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -66,11 +70,17 @@ module.exports = {
         AUTH_PASSWORD: JSON.stringify(process.env.AUTH_PASSWORD)
       }
     }),
-    new StringReplacePlugin()
+    new StringReplacePlugin(),
+    new workboxPlugin({
+      globPatterns: ['**\/*.{html,js,css}'],
+      //globIgnores: ['admin.html'],
+      //swSrc: './src/sw.js',
+      swDest: path.join(DIST_DIR, 'sw.js'),
+    })
   ],
   output: {
-    path: __dirname,
-    filename: './public/bundle.js'
+    path: path.resolve(__dirname, DIST_DIR),
+    filename: 'bundle.js'
   },
   resolve: {
     root: __dirname,
