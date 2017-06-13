@@ -51,7 +51,7 @@ export function getPlayers() {
             })
             .catch(function (error) {
                 console.log("ERR: Problem fetching players:", error);
-                reject(e);
+                reject(error);
             });
         }
     );

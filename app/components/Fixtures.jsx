@@ -133,8 +133,6 @@ export class Fixtures extends React.Component {
                         <div className="columns small-12 large-8">
 
                             <h3>Fixtures &amp; Results</h3>
-                            <h4>Check the League Table via the <a href="https://thenationalleague.org.uk/tables.php?division_id=7">National League</a></h4>
-
                             {seasonAndSquadPicker(this, season)}
                             <table className="hover stack text-center">
                                 <tbody>

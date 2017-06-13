@@ -52,7 +52,7 @@ export function getFixtures(season = null) {
             })
             .catch(function (error) {
                 console.log("ERR: Problem fetching fixtures:", error);
-                reject(e);
+                reject(error);
             });
         }
     );

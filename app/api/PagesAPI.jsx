@@ -33,7 +33,7 @@ export function getPages() {
                 })
                 .catch(function (error) {
                     console.log("ERR: Problem fetching pages:", error);
-                    reject(e);
+                    reject(error);
                 });
         }
     );

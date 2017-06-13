@@ -28,7 +28,7 @@ export function getBanner() {
             })
             .catch(function (error) {
                 console.log("ERR: Problem fetching banner:", error);
-                reject(e);
+                reject(error);
             });
         }
     );

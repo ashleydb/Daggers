@@ -33,6 +33,7 @@ export default class Nav extends React.Component {
                             <li><IndexLink to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>HOME</IndexLink></li>
                             <li><Link to="/news" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>NEWS</Link></li>
                             <li><Link to="/fixtures" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>FIXTURES &amp; RESULTS</Link></li>
+                            <li><Link to="/table" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>TABLE</Link></li>
                             <li><Link to="/tickets" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>TICKETS</Link></li>
                             <li><Link to="/team" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>TEAM</Link></li>
                             <li><Link to="/fans" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>FANS</Link></li>

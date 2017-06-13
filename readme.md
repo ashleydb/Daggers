@@ -11,10 +11,10 @@ To Do:
 * Update DNS to point to GCP
 * Put in advertising
 * Migrate Pages, such as Fans and Commercial
-* Add League table from API
 * Add a background image, (so you can see it on the sides.)
 * Code cleanup, (remove console logging,) and TODO's
 * Finish migrating any other old content, (e.g. news, match reports)
+* Add caching to server, (e.g. to News, like I've done with Table data)
 
 Nice to Have:
 * Fix react warnings about PropTypes, (if possible. Seems to be from a dependency.)

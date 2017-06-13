@@ -34,6 +34,7 @@ import Community from 'Community';
 import Club from 'Club';
 import Commercial from 'Commercial';
 import BannerEdit from 'BannerEdit';
+import Table from 'Table';
 
 var store = require('configureStore').configure();
 
@@ -50,6 +51,7 @@ ReactDOM.render(
           <Route path=":newsId" component={NewsStory}/>
         </Route>
         <Route path="fixtures" component={Fixtures}/>
+        <Route path="table" component={Table}/>
         <Route path="tickets" component={Tickets}/>
         <Route path="team" component={Team}/>
         <Route path="fans" component={Fans}/>

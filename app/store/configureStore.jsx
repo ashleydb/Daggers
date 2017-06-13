@@ -8,7 +8,8 @@ const INITIAL_STATE = {
     login: Reducers.INITIAL_STATE_LOGIN,
     pages: Reducers.INITIAL_STATE_PAGES,
     players: Reducers.INITIAL_STATE_PLAYERS,
-    banner: Reducers.INITIAL_STATE_BANNER
+    banner: Reducers.INITIAL_STATE_BANNER,
+    table: Reducers.INITIAL_STATE_TABLE
 };
 
 export var configure = (initialState = INITIAL_STATE) => {
@@ -20,7 +21,8 @@ export var configure = (initialState = INITIAL_STATE) => {
         login: Reducers.LoginReducer,
         pages: Reducers.PagesReducer,
         players: Reducers.PlayersReducer,
-        banner: Reducers.BannerReducer
+        banner: Reducers.BannerReducer,
+        table: Reducers.TableReducer
     });
     
     var store = redux.createStore(reducer, initialState, redux.compose(
