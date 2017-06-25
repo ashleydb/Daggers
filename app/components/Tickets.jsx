@@ -2,7 +2,7 @@ import React from 'react';
 var {connect} = require('react-redux');
 import {actions} from 'actions';
 import Page from 'Page';
-import MediaNetAd from 'MediaNetAd';
+import MedianetTag from 'MedianetTag';
 
 // TODO: Add advertising to the layout.
 
@@ -23,15 +23,15 @@ export default class Tickets extends React.Component {
                     </div>
                     <div className="columns small-12 large-4">
                         <div className="placeholder-ad">
-                            <MediaNetAd />
+                            <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                         </div>
 
                         <div className="placeholder-ad">
-                            <MediaNetAd />
+                            <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                         </div>
 
                         <div className="placeholder-ad">
-                            <MediaNetAd />
+                            <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                         </div>
                     </div>
                 </div>

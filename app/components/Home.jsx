@@ -5,7 +5,7 @@ import {actions} from 'actions';
 import NewsSummary from 'NewsSummary';
 import * as NewsAPI from 'NewsAPI';
 import Sponsor from 'Sponsor';
-import MediaNetAd from 'MediaNetAd';
+import MedianetTag from 'MedianetTag';
 
 // TODO: Add Ad component, which can be adsense or overridden as a nice-to-have.
 // TODO: Add Google Analytics component.
@@ -74,7 +74,7 @@ export class Home extends React.Component {
                             </div>
                             
                             <div className="placeholder-ad">
-                                <MediaNetAd />
+                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                             </div>
                             
                             <div className="row">

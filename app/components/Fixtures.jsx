@@ -3,7 +3,7 @@ var {connect} = require('react-redux');
 import Image from 'react-lazy-image';
 import {actions} from 'actions';
 import * as FixturesAPI from 'FixturesAPI';
-import MediaNetAd from 'MediaNetAd';
+import MedianetTag from 'MedianetTag';
 
 // TODO: Break out this table into smaller components, (like a table entry)?
 // TODO: Does a fixture need a link to a Report AND a video?
@@ -144,7 +144,7 @@ export class Fixtures extends React.Component {
                         </div>
                         <div className="columns small-12 large-4">
                             <div className="placeholder-ad">
-                                <MediaNetAd />
+                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                             </div>
                         </div>
                     </div>

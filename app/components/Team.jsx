@@ -5,7 +5,7 @@ import {actions} from 'actions';
 import PlayerDetail from 'PlayerDetail';
 import PlayerSummary from 'PlayerSummary';
 import * as PlayersAPI from 'PlayersAPI';
-import MediaNetAd from 'MediaNetAd';
+import MedianetTag from 'MedianetTag';
 
 export class Team extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
@@ -126,7 +126,7 @@ export class Team extends React.Component {
                         </div>
                         <div className="column medium-4">
                             <div className="placeholder-ad">
-                                <MediaNetAd />
+                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                             </div>
                         </div>
                     </div>
@@ -137,7 +137,7 @@ export class Team extends React.Component {
                         </div>
                         <div className="column medium-4">
                             <div className="placeholder-ad">
-                                <MediaNetAd />
+                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                             </div>
                         </div>
                     </div>

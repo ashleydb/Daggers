@@ -1,7 +1,7 @@
 import React from 'react';
 var Timeline = require('react-twitter-widgets').Timeline;
 import Page from 'Page';
-import MediaNetAd from 'MediaNetAd';
+import MedianetTag from 'MedianetTag';
 
 export default class Community extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
@@ -23,7 +23,7 @@ export default class Community extends React.Component {
                     </div>
                     <div className="columns small-12 large-4">
                         <div className="placeholder-ad">
-                            <MediaNetAd />
+                            <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                         </div>
                     </div>
                 </div>

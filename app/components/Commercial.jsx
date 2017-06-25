@@ -1,6 +1,6 @@
 import React from 'react';
 import Page from 'Page';
-import MediaNetAd from 'MediaNetAd';
+import MedianetTag from 'MedianetTag';
 
 // TODO: All content on this page.
 
@@ -21,7 +21,7 @@ export default class Commercial extends React.Component {
               </div>
               <div className="columns small-12 large-4">
                   <div className="placeholder-ad">
-                      <MediaNetAd />
+                      <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                   </div>
               </div>
           </div>

@@ -3,7 +3,7 @@ var {connect} = require('react-redux');
 import {actions} from 'actions';
 import NewsSummary from 'NewsSummary';
 import * as NewsAPI from 'NewsAPI';
-import MediaNetAd from 'MediaNetAd';
+import MedianetTag from 'MedianetTag';
 
 // TODO: Replace placeholder ads with an AdSense React component. One probably exists out there already.
 // TODO: 3 wide on a phone doesn't look good. Breaks down to 2, 1.
@@ -165,7 +165,7 @@ export class News extends React.Component {
                         </div>
                         <div className="column medium-centered large-uncentered">
                             <div className="placeholder-ad">
-                                <MediaNetAd />
+                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                             </div>
                         </div>
                     </div>
@@ -182,7 +182,7 @@ export class News extends React.Component {
                         </div>
                         <div className="column medium-centered large-uncentered">
                             <div className="placeholder-ad">
-                                <MediaNetAd />
+                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                             </div>
                         </div>
                     </div>
@@ -199,7 +199,7 @@ export class News extends React.Component {
                         </div>
                         <div className="column medium-centered large-uncentered">
                             <div className="placeholder-ad">
-                                <MediaNetAd />
+                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                             </div>
                         </div>
                     </div>

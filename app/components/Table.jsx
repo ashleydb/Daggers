@@ -2,7 +2,7 @@ import React from 'react';
 var {connect} = require('react-redux');
 import {Link} from 'react-router';
 import {actions} from 'actions';
-import MediaNetAd from 'MediaNetAd';
+import MedianetTag from 'MedianetTag';
 
 // Table is a Component to render essentially static content.
 export class Table extends React.Component {
@@ -83,7 +83,7 @@ export class Table extends React.Component {
                         </div>
                         <div className="columns small-12 large-4">
                             <div className="placeholder-ad">
-                                <MediaNetAd />
+                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                             </div>
                         </div>
                     </div>
