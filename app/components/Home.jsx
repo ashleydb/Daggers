@@ -92,7 +92,6 @@ export class Home extends React.Component {
                             <Sponsor sponsorId={4} />
                             <Sponsor sponsorId={5} />
                             <Sponsor sponsorId={6} />
-                            <Sponsor sponsorId={7} />
                         </div>
                     </div>
 

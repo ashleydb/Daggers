@@ -22,14 +22,14 @@ export default class Nav extends React.Component {
                     </div>
                 </div>
 
-                <div className="title-bar" data-responsive-toggle="nav-menu" data-hide-for="medium">
+                <div className="title-bar" data-responsive-toggle="nav-menu" data-hide-for="large">
                     <button className="menu-icon" type="button" data-toggle="nav-menu"></button>
                     <div className="title-bar-title">D&amp;R</div>
                 </div>
 
                 <div className="top-bar" id="nav-menu">
                     <div className="top-bar-left">
-                        <ul className="vertical medium-horizontal menu club-nav">
+                        <ul className="vertical large-horizontal menu club-nav">
                             <li><IndexLink to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>HOME</IndexLink></li>
                             <li><Link to="/news" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>NEWS</Link></li>
                             <li><Link to="/fixtures" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>FIXTURES &amp; RESULTS</Link></li>
@@ -40,7 +40,7 @@ export default class Nav extends React.Component {
                             <li><Link to="/community" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>COMMUNITY</Link></li>
                             <li><Link to="/club" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>CLUB</Link></li>
                             <li><Link to="/commercial" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>COMMERCIAL</Link></li>
-                            <li><Link to="https://www.daggers-shop.co.uk/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>CLUB SHOP</Link></li>
+                            <li><a href="https://www.daggers-shop.co.uk/">CLUB SHOP</a></li>
                         </ul>
                     </div>
                 </div>

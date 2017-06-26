@@ -8,12 +8,8 @@ Clone this code, call yarn install, then run this in a server using:
   NODE_ENV=production npm start
 
 To Do:
-* Update DNS to point to GCP
-* Put in advertising
-* Migrate Pages, such as Fans and Commercial
 * Add a background image, (so you can see it on the sides.)
 * Code cleanup, (remove console logging,) and TODO's
-* Finish migrating any other old content, (e.g. news, match reports)
 * Add caching to server, (e.g. to News, like I've done with Table data)
 
 Nice to Have:
@@ -33,6 +29,8 @@ Nice to Have:
  * Check if the token is expired, or will soon, on the client so the user doesn't lose their work?
  * Change the Auth.js model to use a DB with hashed passwords, not env vars.
 * Putting in (more detailed) traffic monitoring
+* Storing Secrets
+ * https://cloud.google.com/kms/docs/secret-management
 
 Cleanup dependencies?
 * uuid
