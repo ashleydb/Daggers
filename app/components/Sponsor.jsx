@@ -56,12 +56,6 @@ export default class Sponsor extends React.Component {
                 link: "http://www.vanarama.co.uk/",
                 image: "/sponsors/vanarama.jpg",
                 type: "Official Club Partner"
-            },
-            {
-                name: "Blackmore Buildings",
-                link: "http://www.blackmorebuildings.co.uk/",
-                image: "/sponsors/blackmore-building.png",
-                type: "Official Club Partner"
             }
         ];
     }

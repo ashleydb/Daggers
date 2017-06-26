@@ -21,7 +21,7 @@ export default class Commercial extends React.Component {
               </div>
               <div className="columns small-12 large-4">
                   <div className="placeholder-ad">
-                      <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
+                      <MedianetTag cid="8CUM55E8A" crid="183428731" size="160x600" divId = "183428731"/>
                   </div>
               </div>
           </div>
