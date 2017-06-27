@@ -12,7 +12,10 @@ var Main = (props) => {
         message='This site uses cookies. By continuing to browse the site you are agreeing to our use of cookies. Find out more here.'
         link={{ msg: 'Cookie Policy', url: '/page/PrivacyPolicy' }}
         onAccept={() => {}}
-        cookie='user-has-accepted-cookies' />
+        cookie='user-has-accepted-cookies'
+        styles={{
+          banner: { height: 'auto' }
+        }} />
       <Nav/>
       <div className="row">
         <div className="small-centered columns">

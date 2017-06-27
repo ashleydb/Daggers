@@ -41,7 +41,7 @@ export class Table extends React.Component {
                 return (
                     <tr key={team.position}>
                         <td className='text-center'>{team.position}</td>
-                        <td>{team.teamName}</td>
+                        <td>{team.teamName.replace('&amp;', '&')}</td>
                         <td className='text-center'>{team.playedGames}</td>
                         <td className='text-center'>{team.wins}</td>
                         <td className='text-center'>{team.draws}</td>
@@ -61,24 +61,26 @@ export class Table extends React.Component {
                             <h3>League Table</h3>
                             <p>Check the full League Table via the <a href="https://thenationalleague.org.uk/tables.php?division_id=7">National League</a></p>
 
-                            <table className="hover stack">
-                                <thead>
-                                    <tr>
-                                        <th className='text-center'>Pos</th>
-                                        <th>Team</th>
-                                        <th className='text-center'>Played</th>
-                                        <th className='text-center'>W</th>
-                                        <th className='text-center'>D</th>
-                                        <th className='text-center'>L</th>
-                                        <th className='text-center'>Goals</th>
-                                        <th className='text-center'>Against</th>
-                                        <th className='text-center'>Points</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {tableRows}
-                                </tbody>
-                            </table>
+                            <div className="table-scroll">
+                                <table className="hover">
+                                    <thead>
+                                        <tr>
+                                            <th className='text-center'>Pos</th>
+                                            <th>Team</th>
+                                            <th className='text-center'>Played</th>
+                                            <th className='text-center'>W</th>
+                                            <th className='text-center'>D</th>
+                                            <th className='text-center'>L</th>
+                                            <th className='text-center'>Goals</th>
+                                            <th className='text-center'>Against</th>
+                                            <th className='text-center'>Points</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {tableRows}
+                                    </tbody>
+                                </table>
+                            </div>
 
                         </div>
                         <div className="columns small-12 large-4">

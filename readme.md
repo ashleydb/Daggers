@@ -8,11 +8,12 @@ Clone this code, call yarn install, then run this in a server using:
   NODE_ENV=production npm start
 
 To Do:
-* Add a background image, (so you can see it on the sides.)
+* Fix images not updating when paging through news, (is it because of lazy load?)
 * Code cleanup, (remove console logging,) and TODO's
 * Add caching to server, (e.g. to News, like I've done with Table data)
 
 Nice to Have:
+* Add a customizable background image, (so you can see it on the sides.)
 * Structured Data for Search Results, (see Google IO 2017 Notes in Google Docs)
 * Fix react warnings about PropTypes, (if possible. Seems to be from a dependency.)
 * Need SSL?
