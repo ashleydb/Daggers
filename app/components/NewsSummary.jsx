@@ -51,7 +51,7 @@ export default class NewsSummary extends React.Component {
                     <div className="column column-block">
                         <div className="card">
                             <Link to={`/news/${story.id}`}>
-                                <Image source={image} alt={story.summary} className="news-thumbnail" />
+                                <Image source={image} alt={story.summary} className="news-thumbnail" key={story.id} />
                             </Link>
                             <div className="card-section">
                                 <Link to={`/news/${story.id}`}><h4>{story.headline}</h4></Link>

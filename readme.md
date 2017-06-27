@@ -8,7 +8,6 @@ Clone this code, call yarn install, then run this in a server using:
   NODE_ENV=production npm start
 
 To Do:
-* Fix images not updating when paging through news, (is it because of lazy load?)
 * Code cleanup, (remove console logging,) and TODO's
 * Add caching to server, (e.g. to News, like I've done with Table data)
 
