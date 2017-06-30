@@ -1,6 +1,7 @@
 import React from 'react';
 var {connect} = require('react-redux');
-import Image from 'react-lazy-image';
+import LazyLoad from 'react-lazyload';
+import PlaceholderComponent from 'Placeholder';
 import {actions} from 'actions';
 import * as FixturesAPI from 'FixturesAPI';
 import MedianetTag from 'MedianetTag';
@@ -116,7 +117,11 @@ export class Fixtures extends React.Component {
                     return (
                         <tr key={fixture.id}>
                             <td>{fixture.date}</td>
-                            <td><Image source={logo} alt={fixture.team} className="fixture-logo"/></td>
+                            <td>
+                                <LazyLoad placeholder={<PlaceholderComponent />}>
+                                    <img src={logo} alt={fixture.team} className="fixture-logo" />
+                                </LazyLoad>
+                            </td>
                             <td><p className="team-name">{fixture.team}</p><p className="competition-name">{fixture.competition}</p></td>
                             <td>Att {fixture.attendance}</td>
                             <td>{home_away}</td>

@@ -1,5 +1,6 @@
 import React from 'react';
-import Image from 'react-lazy-image';
+import LazyLoad from 'react-lazyload';
+import PlaceholderComponent from 'Placeholder';
 import * as PlayersAPI from 'PlayersAPI';
 
 export default class PlayerSummary extends React.Component {
@@ -41,7 +42,9 @@ export default class PlayerSummary extends React.Component {
                 <div className="column column-block">
                     <div className="card">
                             <a href='#' onClick={(e) => this.handleClickPlayer(e, player.id)}>
-                                <Image source={image} alt={playerName} className="player-thumbnail"/>
+                                <LazyLoad placeholder={<PlaceholderComponent />}>
+                                    <img src={image} alt={playerName} className="player-thumbnail" />
+                                </LazyLoad>
                             </a>
                             <div className="card-section">
                                 <a href='#' onClick={(e) => this.handleClickPlayer(e, player.id)}>

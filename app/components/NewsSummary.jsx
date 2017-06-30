@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
-import Image from 'react-lazy-image';
+import LazyLoad from 'react-lazyload';
+import PlaceholderComponent from 'Placeholder';
 import * as NewsAPI from 'NewsAPI';
 
 export default class NewsSummary extends React.Component {
@@ -35,7 +36,9 @@ export default class NewsSummary extends React.Component {
                                 <Link to={`/news/${story.id}`}><h4>{story.headline}</h4></Link>
                             </div>
                             <Link to={`/news/${story.id}`}>
-                                <Image source={image} alt={story.summary} className="news-main-image" />
+                                <LazyLoad placeholder={<PlaceholderComponent />}>
+                                    <img src={image} alt={story.summary} className="news-main-image" />
+                                </LazyLoad>
                             </Link>
                             <div className="card-section">
                                 <p className="news-summary-date">{dateStr}</p>
@@ -51,7 +54,9 @@ export default class NewsSummary extends React.Component {
                     <div className="column column-block">
                         <div className="card">
                             <Link to={`/news/${story.id}`}>
-                                <Image source={image} alt={story.summary} className="news-thumbnail" key={story.id} />
+                                <LazyLoad placeholder={<PlaceholderComponent />}>
+                                    <img src={image} alt={story.summary} className="news-thumbnail" key={story.id} />
+                                </LazyLoad>
                             </Link>
                             <div className="card-section">
                                 <Link to={`/news/${story.id}`}><h4>{story.headline}</h4></Link>
