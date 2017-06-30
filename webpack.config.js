@@ -31,6 +31,7 @@ const string_replacement_loader = StringReplacePlugin.replace({
 
 module.exports = {
   entry: [
+    'babel-polyfill',
     //Where script!, (or style! or css! etc.) are used, that means use a loader, (e.g. script-loader module,) to pull in these files.
     'script!jquery/dist/jquery.min.js',
     'script!foundation-sites/dist/js/foundation.min.js',

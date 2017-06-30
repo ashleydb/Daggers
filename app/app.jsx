@@ -1,4 +1,7 @@
-//Include our npm dependencies
+// For Polyfilling Internet Explorer
+import 'babel-polyfill';
+
+// NPM dependencies for React and Redux
 import React from 'react';
 import ReactDOM from 'react-dom';
 var {Provider} = require('react-redux');

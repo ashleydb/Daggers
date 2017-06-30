@@ -4,23 +4,23 @@ import * as BannerAPI from 'BannerAPI';
 
 // --- ALL BANNER ---
 
-export const INVALIDATE_BANNER = 'INVALIDATE_BANNER'
+export const INVALIDATE_BANNER = 'INVALIDATE_BANNER';
 
-export const REQUEST_BANNER = 'REQUEST_BANNER'
-export const RECEIVE_BANNER = 'RECEIVE_BANNER'
+export const REQUEST_BANNER = 'REQUEST_BANNER';
+export const RECEIVE_BANNER = 'RECEIVE_BANNER';
 
 // So we reload the state.banner objects if we dispatch fetchBannerIfNeeded() again
 export function invalidateBanner() {
     return {
         type: INVALIDATE_BANNER
-    }
+    };
 }
 
 // (4) We are getting the list of banner contents
 function requestBanner() {
     return {
         type: REQUEST_BANNER
-    }
+    };
 }
 
 // (5) We got the banner contents back.
@@ -35,9 +35,9 @@ function receiveBanner(banner) {
 // (3) Triggers the download of banner content
 function fetchBanner() {
     return dispatch => {
-        dispatch(requestBanner())
+        dispatch(requestBanner());
         return BannerAPI.getBanner()
-            .then(response => dispatch(receiveBanner(response)))
+            .then(response => dispatch(receiveBanner(response)));
     };
 }
 
@@ -64,12 +64,12 @@ export function fetchBannerIfNeeded() {
     return (dispatch, getState) => {
         if (shouldFetchBanner(getState())) {
             // Dispatch a thunk from thunk!
-            return dispatch(fetchBanner())
+            return dispatch(fetchBanner());
         } else {
             // Let the calling code know there's nothing to wait for.
-            return Promise.resolve()
+            return Promise.resolve();
         }
-    }
+    };
 }
 
 
