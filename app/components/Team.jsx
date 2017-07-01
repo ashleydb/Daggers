@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 var {connect} = require('react-redux');
+import {forceCheck} from 'react-lazyload';
 import {actions} from 'actions';
 import PlayerDetail from 'PlayerDetail';
 import PlayerSummary from 'PlayerSummary';
@@ -14,6 +15,7 @@ export class Team extends React.Component {
         super(props);
         // BINDING: Keep 'this' scoped to this object in any handlers
         this.loadPlayer = this.loadPlayer.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
     }
     componentWillMount() {
         //this.loadPlayer(this.props.id);
@@ -33,6 +35,10 @@ export class Team extends React.Component {
                 ReactDOM.findDOMNode(this._playerList).scrollIntoView()
                 break;
         }
+    }
+    handleScroll() {
+        // When scrolling the player list, (rather than the window,) make our lazy loading images check themselves
+        forceCheck();
     }
     render() {
         var {players, status, player} = this.props.players;
@@ -120,7 +126,7 @@ export class Team extends React.Component {
             return (
                 <div>
                     <div className="row">
-                        <div id="playerList" name="playerList" ref={(ref) => this._playerList = ref} className="column medium-8 player-list">
+                        <div id="playerList" name="playerList" ref={(ref) => this._playerList = ref} className="column medium-8 player-list" onScroll={this.handleScroll}>
                             <div className="callout secondary">Scroll down for more players. Click one for more detail.</div>
                             {playersHTML}
                         </div>

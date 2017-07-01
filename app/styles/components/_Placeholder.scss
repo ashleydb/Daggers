@@ -6,7 +6,7 @@
     font-size: 10px;
   }
   .spinner > div {
-    background-color: #999;
+    background-color: $daggers-blue;
     height: 100%;
     width: 6px;
     display: inline-block;
@@ -43,8 +43,9 @@
     }
   }
   .placeholder {
-    background: #f8f8f8;
-    height: 50px;
-    margin: 10px 0;
+    //background: #f8f8f8;
+    //height: 50px;
+    //margin: 10px 0;
     //padding-top: 80px;
+    height: 100%;
   }
