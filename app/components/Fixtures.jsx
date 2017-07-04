@@ -98,7 +98,8 @@ export class Fixtures extends React.Component {
             );
         } else {
             // Get a list of fixtures output as table rows
-            var fixtureRows = fixtures.map((fixture) => {
+            var fixtureRows = [];
+            fixtures.forEach((fixture) => {
                 if (fixture.season == season && (squad == 'All' || squad == fixture.squad)) {
                     var logo = fixture.logo ?   `https://{-{gcp.storageBucket}-}.storage.googleapis.com${fixture.logo}` :    // `/images/uploads/teams/${fixture.logo}` :
                                                 `https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/clublogo.png`;// '/images/clublogo.png';
@@ -114,7 +115,7 @@ export class Fixtures extends React.Component {
                     
                     var home_away = fixture.home_away === 'X' ? '' : fixture.home_away;
 
-                    return (
+                    fixtureRows.push((
                         <tr key={fixture.id}>
                             <td>{fixture.date}</td>
                             <td>
@@ -129,7 +130,7 @@ export class Fixtures extends React.Component {
                             <td>{w_l_d}</td>
                             <td>{link}</td>
                         </tr>
-                    );
+                    ));
                 }
             });
             

@@ -5,6 +5,7 @@ var Axios = require('axios');
 
 // For sorting arrays efficiently
 var Sorter = require('app/Sorter');
+var moment = require('moment');
 
 export const DEFAULT_FIXTURE_ID = 0;
 
@@ -41,7 +42,9 @@ export function getFixtures(season = null) {
                     // Cool, we got content.
                     
                     // Sort by date, (note we included Sorter above.)
-                    fixtures.sortBy(function(o){ return new Date( o.date ) });
+                    fixtures.sortBy(function(o){
+                        return moment(o.date, "D-MMM-YYYY").valueOf();
+                    });
                     
                     // Resolve the promise to return the data
                     resolve(fixtures);
