@@ -140,6 +140,7 @@ export class Fixtures extends React.Component {
                         <div className="columns small-12 large-8">
 
                             <h3>Fixtures &amp; Results</h3>
+                            <a href="webcal://calendar.google.com/calendar/ical/daggersfc110%40gmail.com/public/basic.ics" className="button expanded"><i className="fi-calendar"></i> Add Daggers Fixtures to your Calendar</a>
                             {seasonAndSquadPicker(this, season)}
                             <table className="hover stack text-center">
                                 <tbody>
