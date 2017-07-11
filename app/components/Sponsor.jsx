@@ -36,7 +36,7 @@ export default class Sponsor extends React.Component {
             },
             {
                 name: "JAKO",
-                link: "http://teamsport.jako.de/en/",
+                link: "https://www.jako.ie/",
                 image: "/sponsors/jako.png",
                 type: "Official Club Partner"
             },
@@ -48,7 +48,7 @@ export default class Sponsor extends React.Component {
             },
             {
                 name: "BT Sport",
-                link: "http://www.productsandservices.bt.com/products/bt-sport",
+                link: "http://sport.bt.com/",
                 image: "/sponsors/bt-sport.png",
                 type: "Official Club Partner"
             },
