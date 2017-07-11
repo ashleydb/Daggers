@@ -14,7 +14,7 @@ export const DEFAULT_PLAYER = {
     last_name: '', //Doe
     date_of_birth: 0, // 846835200000 = 1-NOV-1996
     image: '/player/bg_player_231by264.png',
-    shirt_number: 0, //4
+    shirt_number: 99, //4
     position: 'Defender',
     short_description: '', //Kit sponsored by Haines Watts
     biography: '', //Some HTML

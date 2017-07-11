@@ -61,10 +61,10 @@ router.route('/v1/players')
             player.image = '/player/bg_player_231by264.png';
         }
 
+        player.shirt_number = req.body.shirt_number;
+
         if (req.body.date_of_birth)
             player.date_of_birth = req.body.date_of_birth;
-        if (req.body.shirt_number)
-            player.shirt_number = req.body.shirt_number;
         if (req.body.short_description)
             player.short_description = req.body.short_description;
         if (req.body.biography)
@@ -133,7 +133,7 @@ router.route('/v1/players/:player_id')
             updatedPlayer.last_name = req.body.last_name || player.last_name;
             updatedPlayer.date_of_birth = req.body.date_of_birth || player.date_of_birth;
             updatedPlayer.image = req.body.image || player.image;
-            updatedPlayer.shirt_number = req.body.shirt_number || player.shirt_number;
+            updatedPlayer.shirt_number = req.body.shirt_number;
             updatedPlayer.position = req.body.position || player.position;
             updatedPlayer.short_description = req.body.short_description || player.short_description;
             updatedPlayer.biography = req.body.biography || player.biography;

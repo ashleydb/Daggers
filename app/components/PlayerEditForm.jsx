@@ -44,7 +44,6 @@ export default class PlayerEditForm extends React.Component {
         player.first_name = this.refs.first_name.value;
         player.last_name = this.refs.last_name.value;
         player.image = this.refs.image.value;
-        player.shirt_number = Number(this.refs.shirt_number.value);
         player.short_description = this.refs.short_description.value;
         player.biography = this.refs.biography.value;
         player.height = this.refs.height.value;
@@ -52,6 +51,10 @@ export default class PlayerEditForm extends React.Component {
         player.nationality = this.refs.nationality.value;
         player.team = this.refs.team.value;
 
+        if (this.refs.shirt_number.value) {
+            player.shirt_number = Number(this.refs.shirt_number.value);
+        }
+        
         player.date_of_birth = moment(this.refs.date_of_birth.value, "D-MMM-YYYY").valueOf();
 
         player.onloan_status = onloan_status;
