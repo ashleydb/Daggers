@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+var moment = require('moment');
 
 // For Rich Text Editor
 import Trumbowyg from 'react-trumbowyg';
@@ -51,7 +52,7 @@ export default class PlayerEditForm extends React.Component {
         player.nationality = this.refs.nationality.value;
         player.team = this.refs.team.value;
 
-        player.date_of_birth = new Date(this.refs.date_of_birth.value).getTime();
+        player.date_of_birth = moment(this.refs.date_of_birth.value, "D-MMM-YYYY").valueOf();
 
         player.onloan_status = onloan_status;
         player.status = status;

@@ -26,9 +26,11 @@ export default class PlayerDetail extends React.Component {
             }
             image = `https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`;
 
-            var dateMS = player.date_of_birth;
-            var d = new Date(Number(dateMS));
-            var dateStr = d.toDateString();
+            var dateStr = '';
+            if (player.date_of_birth) {
+                var d = new Date(Number(player.date_of_birth));
+                dateStr = d.toDateString();
+            }
 
             var playerName = `${player.first_name} ${player.last_name}`;
 
