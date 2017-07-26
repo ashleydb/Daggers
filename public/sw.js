@@ -19,10 +19,6 @@ importScripts('workbox-sw.prod.v1.0.1.js');
  */
 const fileManifest = [
   {
-    "url": "/ad-medianet-332x280.html",
-    "revision": "4bdeb17fb9775489c6a55b49fc4f8e40"
-  },
-  {
     "url": "/android-icon-144x144.png",
     "revision": "f899c10741a2629a0747ec39dbcf1101"
   },

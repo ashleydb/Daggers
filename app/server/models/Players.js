@@ -12,7 +12,7 @@ class Players {
         this.last_name = ''; //Doe
         this.date_of_birth = 0; // 846835200000 = 1-NOV-1996
         this.image = '/player/bg_player_231by264.png';
-        this.shirt_number = 0; //4
+        this.shirt_number = 99; //4
         this.position = 'Defender';
         this.short_description = ''; //Kit sponsored by Haines Watts
         this.biography = ''; //Some HTML
