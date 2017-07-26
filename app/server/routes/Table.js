@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+// Note the Table model has a built in cache since it relies on a third party data source
 var Table = require('../models/Table');
 var _Table = new Table();
 

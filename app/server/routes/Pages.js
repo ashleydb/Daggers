@@ -7,6 +7,11 @@ var authenticate = require('../middleware/validateRequest');
 // MODELS: Our data format
 var Pages = require('../models/Pages');
 
+// Cache value to represent Pages data from our DB
+var Cache = require('../cache');
+var PageCache = new Cache();
+PageCache.setTimeout(60 * 24); // 24hr cache
+
 // Routes that end in /pages
 // ----------------------------------------------------
 router.route('/v1/pages')
@@ -36,6 +41,7 @@ router.route('/v1/pages')
     
         // save the page and check for errors
         page.save(function(err, id) {
+            PageCache.invalidate();
             if (err) {
                 res.status(err.status).send(err);
             } else {
@@ -47,13 +53,20 @@ router.route('/v1/pages')
     // get all of the pages (accessed at GET http://localhost:8080/api/v1/pages)
     // No authentication required.
     .get(function(req, res) {
-        Pages.find(function(err, pages) {
-            if (err) {
-                res.status(err.status).send(err);
-            } else {
-                res.json(pages);
-            }
-        });
+        var pages = PageCache.getDataIfValid();
+        if (pages) {
+            //console.log('DEBUG: Using Page Cache!');
+            res.json(pages);
+        } else {
+            Pages.find(function(err, pages) {
+                if (err) {
+                    res.status(err.status).send(err);
+                } else {
+                    PageCache.setData(pages);
+                    res.json(pages);
+                }
+            });
+        }
     });
 
 
@@ -64,6 +77,11 @@ router.route('/v1/pages/:page_id')
     // get the page with that id (accessed at GET http://localhost:8080/api/v1/pages/:page_id)
     // No authentication required.
     .get(function(req, res) {
+        // var pages = PageCache.getDataIfValid();
+        // if (pages) {
+        //     // TODO: loop through pages to find the one with the relevant id
+        // }
+
         Pages.findById(req.params.page_id, function(err, page) {
             if (err) {
                 res.status(err.status).send(err);
@@ -95,6 +113,7 @@ router.route('/v1/pages/:page_id')
 
             // save the page and check for errors
             updatedPage.save(function(err, id) {
+                PageCache.invalidate();
                 if (err) {
                     res.status(err.status).send(err);
                 } else {
@@ -110,6 +129,7 @@ router.route('/v1/pages/:page_id')
         Pages.remove({
             _id: req.params.page_id
         }, function(err, page) {
+            PageCache.invalidate();
             if (err) {
                 res.status(err.status).send(err);
             } else {

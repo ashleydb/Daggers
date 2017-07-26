@@ -6,6 +6,11 @@ var authenticate = require('../middleware/validateRequest');
 // MODELS: Our data format
 var Fixtures = require('../models/Fixtures');
 
+// Cache value to represent Fixture data from our DB
+var Cache = require('../cache');
+var FixtureCache = new Cache();
+FixtureCache.setTimeout(60 * 24); // 24hr cache
+
 // Routes that end in /fixtures
 // ----------------------------------------------------
 router.route('/v1/fixtures')
@@ -42,6 +47,8 @@ router.route('/v1/fixtures')
     
         // save the fixture and check for errors
         fixture.save(function(err, id) {
+            FixtureCache.invalidate();
+
             if (err) {
                 res.status(err.status).send(err);
                 return;
@@ -54,14 +61,21 @@ router.route('/v1/fixtures')
     // get all the fixtures (accessed at GET http://localhost:8080/api/v1/fixtures)
     // No authentication required.
     .get(function(req, res) {
-        Fixtures.find(function(err, fixtures) {
-            if (err) {
-                res.status(err.status).send(err);
-                return;
-            }
-
+        var fixtures = FixtureCache.getDataIfValid();
+        if (fixtures) {
+            //console.log('DEBUG: Using Fixture Cache!');
             res.json(fixtures);
-        });
+        } else {
+            Fixtures.find(function(err, fixtures) {
+                if (err) {
+                    res.status(err.status).send(err);
+                    return;
+                }
+
+                FixtureCache.setData(fixtures);
+                res.json(fixtures);
+            });
+        }
     });
 
 
@@ -109,6 +123,8 @@ router.route('/v1/fixtures/:fixture_id')
 
             // save the news and check for errors
             updatedFixture.save(function(err, id) {
+                FixtureCache.invalidate();
+
                 if (err) {
                     res.status(err.status).send(err);
                     return;
@@ -125,6 +141,8 @@ router.route('/v1/fixtures/:fixture_id')
         Fixtures.remove({
             _id: req.params.fixture_id
         }, function(err, fixture) {
+            FixtureCache.invalidate();
+
             if (err) {
                 res.status(err.status).send(err);
                 return;

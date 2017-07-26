@@ -9,6 +9,11 @@ var News = require('../models/News');
 const FETCH_LATEST = 'latest';
 const FETCH_RECENT = 'recent';
 
+// Cache value to represent News data from our DB
+var Cache = require('../cache');
+var RecentNewsCache = new Cache();
+RecentNewsCache.setTimeout(60); // 1hr cache
+
 // Routes that end in /news
 // ----------------------------------------------------
 router.route('/v1/news')
@@ -39,6 +44,8 @@ router.route('/v1/news')
     
         // save the news and check for errors
         news.save(function(err, id, year, month, createdAt) {
+            RecentNewsCache.invalidate();
+
             if (err) {
                 res.status(err.status || 400).send(err);
                 return;
@@ -94,12 +101,23 @@ router.route('/v1/news/:year')
             month: null,
             listIDs: req.query.listIDs === "true" ? true : false
         }
+
+        // If we're getting the recent news, (i.e. on the homepage, check our cache)
+        if (options.year == FETCH_RECENT && !options.listIDs) {
+            var news = RecentNewsCache.getDataIfValid();
+            if (news) {
+                //console.log('DEBUG: Using News Cache!');
+                res.json(news);
+                return;
+            }
+        }
+            
         News.find(options, function(err, news) {
             if (err) {
                 res.status(err.status || 400).send(err);
                 return;
             }
-
+            RecentNewsCache.setData(news);
             res.json(news);
         });
     });
@@ -202,6 +220,8 @@ router.route('/v1/news/:year/:month/:news_id')
 
             // save the news and check for errors
             updatedNews.save(function(err, id, year, month, createdAt) {
+                RecentNewsCache.invalidate();
+
                 if (err) {
                     res.status(err.status || 400).send(err);
                     return;
@@ -224,6 +244,8 @@ router.route('/v1/news/:year/:month/:news_id')
             id: req.params.news_id
         };
         News.remove(options, function(err, id, year, month) {
+            RecentNewsCache.invalidate();
+
             if (err) {
                 res.status(err.status || 400).send(err);
                 return;

@@ -7,6 +7,11 @@ var authenticate = require('../middleware/validateRequest');
 // MODELS: Our data format
 var Players = require('../models/Players');
 
+// Cache value to represent Pages data from our DB
+var Cache = require('../cache');
+var PlayerCache = new Cache();
+PlayerCache.setTimeout(60 * 24); // 24hr cache
+
 // Routes that end in /players
 // ----------------------------------------------------
 router.route('/v1/players')
@@ -78,6 +83,7 @@ router.route('/v1/players')
 
         // save the player and check for errors
         player.save(function(err, id) {
+            PlayerCache.invalidate();
             if (err) {
                 res.status(err.status).send(err);
             } else {
@@ -89,13 +95,20 @@ router.route('/v1/players')
     // get all of the players (accessed at GET http://localhost:8080/api/v1/players)
     // No authentication required.
     .get(function(req, res) {
-        Players.find(function(err, players) {
-            if (err) {
-                res.status(err.status).send(err);
-            } else {
-                res.json(players);
-            }
-        });
+        var players = PlayerCache.getDataIfValid();
+        if (players) {
+            //console.log('DEBUG: Using Player Cache!');
+            res.json(players);
+        } else {
+            Players.find(function(err, players) {
+                if (err) {
+                    res.status(err.status).send(err);
+                } else {
+                    PlayerCache.setData(players);
+                    res.json(players);
+                }
+            });
+        }
     });
 
 
@@ -146,6 +159,7 @@ router.route('/v1/players/:player_id')
             
             // save the player and check for errors
             updatedPlayer.save(function(err, id) {
+                PlayerCache.invalidate();
                 if (err) {
                     res.status(err.status).send(err);
                 } else {
@@ -161,6 +175,7 @@ router.route('/v1/players/:player_id')
         Players.remove({
             _id: req.params.player_id
         }, function(err, player) {
+            PlayerCache.invalidate();
             if (err) {
                 res.status(err.status).send(err);
             } else {

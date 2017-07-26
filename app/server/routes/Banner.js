@@ -6,6 +6,11 @@ var authenticate = require('../middleware/validateRequest');
 // MODELS: Our data format
 var Banner = require('../models/Banner');
 
+// Cache value to represent Banner data from our DB
+var Cache = require('../cache');
+var BannerCache = new Cache();
+BannerCache.setTimeout(60 * 24); // 24hr cache
+
 // Routes that end in /banner
 // ----------------------------------------------------
 router.route('/v1/banner')
@@ -33,6 +38,7 @@ router.route('/v1/banner')
     
         // save the banner and check for errors
         banner.save(function(err, msg) {
+            BannerCache.invalidate();
             if (err) {
                 res.status(err.status).send(err);
             } else {
@@ -44,19 +50,27 @@ router.route('/v1/banner')
     // get all of the banner (accessed at GET http://localhost:8080/api/v1/banner)
     // No authentication required.
     .get(function(req, res) {
-        Banner.find(function(err, banner) {
-            if (err) {
-                res.status(err.status).send(err);
-            } else {
-                res.json(banner);
-            }
-        });
+        var banner = BannerCache.getDataIfValid();
+        if (banner) {
+            //console.log('DEBUG: Using Banner Cache!');
+            res.json(banner);
+        } else {
+            Banner.find(function(err, banner) {
+                if (err) {
+                    res.status(err.status).send(err);
+                } else {
+                    BannerCache.setData(banner);
+                    res.json(banner);
+                }
+            });
+        }
     })
 
     // delete the banner (accessed at DELETE http://localhost:8080/api/v1/banner)
     // User must be authenticated as an admin.
     .delete(authenticate.isAdmin, function(req, res) {
         Banner.remove(function(err, msg) {
+            BannerCache.invalidate();
             if (err) {
                 res.status(err.status).send(err);
             } else {
