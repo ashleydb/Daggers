@@ -13,13 +13,21 @@ export class Team extends React.Component {
     constructor(props) {
         // Call the parent constructor with the props object we automatically get
         super(props);
+        // Now set the state here, based on the props
+        this.state = {
+            selectedTeam: -1
+        };
         // BINDING: Keep 'this' scoped to this object in any handlers
+        this.onSelectTeam = this.onSelectTeam.bind(this);
         this.loadPlayer = this.loadPlayer.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
     }
     componentWillMount() {
         //this.loadPlayer(this.props.id);
         this.props.dispatch(actions.players.fetchPlayersIfNeeded());
+    }
+    onSelectTeam() {
+        this.setState({selectedTeam: this.refs.teamSelect.value});
     }
     loadPlayer(id) {
         var player = PlayersAPI.getPlayer(id, this.props.players.players);
@@ -80,35 +88,49 @@ export class Team extends React.Component {
             }
 
             var playersHTML = []; // Will be an array containing components to render
-            for (var i = 0; i < teamNames.length; ++i) {
-                var teamName = teamNames[i];
-                var rowCount = 0;
-                while (playersData[teamName].length) {
-                    var playerA = playersData[teamName].shift();
-                    var playerB = playersData[teamName].shift();
-                    var playerC = playersData[teamName].shift();
-                    var playerD = playersData[teamName].shift();
-
-                    playersHTML.push(
-                        <div className="row small-up-1 medium-up-2 large-up-4" key={`${teamName}-${rowCount}`}>
-                            <div className="column" key={playerA ? playerA.props.player.id : 'playerA'}>
-                                {playerA}
-                            </div>
-                            <div className="column" key={playerB ? playerB.props.player.id : 'playerB'}>
-                                {playerB}
-                            </div>
-                            <div className="column" key={playerC ? playerC.props.player.id : 'playerC'}>
-                                {playerC}
-                            </div>
-                            <div className="column" key={playerD ? playerD.props.player.id : 'playerD'}>
-                                {playerD}
-                            </div>
-                        </div>
-                    );
-
-                    ++rowCount;
+            var teamIndex = this.state.selectedTeam;
+            if (teamIndex == -1) {
+                for (var i = 0; i < teamNames.length; ++i) {
+                    if (teamNames[i] == 'First') {
+                        teamIndex = i;
+                        break;
+                    }
                 }
             }
+
+            var teamName = teamNames[teamIndex];
+            var rowCount = 0;
+            while (playersData[teamName].length) {
+                var playerA = playersData[teamName].shift();
+                var playerB = playersData[teamName].shift();
+                var playerC = playersData[teamName].shift();
+                var playerD = playersData[teamName].shift();
+
+                playersHTML.push(
+                    <div className="row small-up-1 medium-up-2 large-up-4" key={`${teamName}-${rowCount}`}>
+                        <div className="column" key={playerA ? playerA.props.player.id : 'playerA'}>
+                            {playerA}
+                        </div>
+                        <div className="column" key={playerB ? playerB.props.player.id : 'playerB'}>
+                            {playerB}
+                        </div>
+                        <div className="column" key={playerC ? playerC.props.player.id : 'playerC'}>
+                            {playerC}
+                        </div>
+                        <div className="column" key={playerD ? playerD.props.player.id : 'playerD'}>
+                            {playerD}
+                        </div>
+                    </div>
+                );
+
+                ++rowCount;
+            }
+
+            var teamOptions = teamNames.map((teamName, index) => {
+                return (
+                    <option key={index} value={index}>{teamName}</option>
+                );
+            });
 
             // TODO: Should we only show either the team list OR player data with Back button?
             //  Wouldn't need a weird box to scroll through with odd background colours...
@@ -126,6 +148,21 @@ export class Team extends React.Component {
             return (
                 <div>
                     <div className="row">
+
+                        <div className="row">
+                            <div className="column small-10">
+                                <label>Team
+                                    <select ref="teamSelect" defaultValue={teamIndex}>
+                                        {teamOptions}
+                                    </select>
+                                </label>
+                            </div>
+                            <div className="column small-2">
+                                <br/>
+                                <button className="button" onClick={this.onSelectTeam}>Go</button>
+                            </div>
+                        </div>
+
                         <div id="playerList" name="playerList" ref={(ref) => this._playerList = ref} className="column medium-8 player-list" onScroll={this.handleScroll}>
                             <div className="callout secondary">Scroll down for more players. Click one for more detail.</div>
                             {playersHTML}

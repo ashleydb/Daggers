@@ -69,17 +69,19 @@ export default class Sponsor extends React.Component {
 
         var image = `https://{-{gcp.storageBucket}-}.storage.googleapis.com${sponsor.image}`;
 
+        var name = sponsor.name.replace('&amp;', '&');
+
         // TODO: Change news-thumbnail to a class just for sponsors
         return (
             <div className="column column-block">
                 <div className="card">
-                    <Link to={sponsor.link}>
+                    <a href={sponsor.link}>
                         <LazyLoad placeholder={<PlaceholderComponent />}>
-                            <img src={image} alt={sponsor.name} className="news-thumbnail" />
+                            <img src={image} alt={name} className="news-thumbnail" />
                         </LazyLoad>
-                    </Link>
+                    </a>
                     <div className="card-section">
-                        <p>{sponsor.type}</p>
+                        <p>{sponsor.type}: <a href={sponsor.link}>{name}</a></p>
                     </div>
                 </div>
             </div>
