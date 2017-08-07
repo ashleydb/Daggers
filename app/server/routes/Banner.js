@@ -9,7 +9,7 @@ var Banner = require('../models/Banner');
 // Cache value to represent Banner data from our DB
 var Cache = require('../cache');
 var BannerCache = new Cache();
-BannerCache.setTimeout(60 * 24); // 24hr cache
+BannerCache.setTimeout(60 * 1); // 1hr cache
 
 // Routes that end in /banner
 // ----------------------------------------------------

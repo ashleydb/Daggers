@@ -1,7 +1,9 @@
 // Model for News Articles
 
-// Using Firebase
+// Using Firebase with a cache to represent News data from our DB
 var myFirebase = require('../cloud/firebase');
+var FirebaseCacheNews = require('../cloud/firebaseCache');
+var newsCache = new FirebaseCacheNews();
 
 // For sorting arrays efficiently
 var Sorter = require('../../Sorter');
@@ -89,226 +91,18 @@ class News {
             return;
         }
 
-        if (options.listIDs) {
-            // Only want news story IDs
-            if (options.year == FETCH_LATEST) {
-                // Get the ID of the most recent year
-                getLatestYear()
-                .then((latestYear) => {
-                    if (options.month == FETCH_LATEST) {
-                        // Only get the latest month
-                        getLatestMonth(latestYear)
-                        .then((latestMonth) => {
-                            // Now get the news IDs for the month
-                            myFirebase.firebaseRest(`news/${latestYear}/${latestMonth}.json?shallow=true`)
-                            .then((content) => {
-                                options.year = latestYear;
-                                options.month = latestMonth;
-                                var returnData = formatJsonForClient(options, content);
-                                callback(null, returnData);
-                                return;
-                            });
-                        })
-                    } else if (options.month) {
-                        // Now get the news IDs for the specified month
-                        myFirebase.firebaseRest(`news/${latestYear}/${options.month}.json?shallow=true`)
-                        .then((content) => {
-                            options.year = latestYear;
-                            var returnData = formatJsonForClient(options, content);
-                            callback(null, returnData);
-                            return;
-                        });
-                    } else {
-                        // Get the news IDs for the whole year
-                        callback("Asking for all news story IDs for a year. Not currently implemented. Get all content instead.");
-                        return;
-                    }
-                }).catch((e) => {
-                    callback(e);
-                    return;
-                });
-            } else if (options.year) {
-                if (options.month == FETCH_LATEST) {
-                    // Only get the latest month
-                    getLatestMonth(options.year)
-                    .then((latestMonth) => {
-                        // Now get the news IDs for the month
-                        myFirebase.firebaseRest(`news/${options.year}/${latestMonth}.json?shallow=true`)
-                        .then((content) => {
-                            options.month = latestMonth;
-                            var returnData = formatJsonForClient(options, content);
-                            callback(null, returnData);
-                            return;
-                        });
-                    }).catch((e) => {
-                        callback(e);
-                        return;
-                    });
-                } else if (options.month) {
-                    // Now get the news IDs for the specified month
-                    myFirebase.firebaseRest(`news/${options.year}/${options.month}.json?shallow=true`)
-                    .then((content) => {
-                        var returnData = formatJsonForClient(options, content);
-                        callback(null, returnData);
-                        return;
-                    }).catch((e) => {
-                        callback(e);
-                        return;
-                    });
-                } else {
-                    // Get the news IDs for the whole year
-                    callback("Asking for all news story IDs for a year. Not currently implemented. Get all content instead.");
-                    return;
-                }
-            } else {
-                // Get the news IDs for all time
-                callback("Asking for all news story IDs for all time. Not currently implemented. Get all content instead.");
-                return;
-            }
+        var news = newsCache.getData(options);// May get back null
+        if (!news) {
+            callback({
+                status: 404,
+                message: "Error: Object not found in DB.",
+                year: options.year,
+                month: options.month,
+                id: options.id,
+                listIDs: options.listIDs
+            });
         } else {
-            // Want news story content
-            if (options.year == FETCH_LATEST) {
-                if (options.month) {
-                    // Only want a month's data, so need to parse out the year first
-                    getLatestYear()
-                    .then((latestYear) => {
-                        if (options.month == FETCH_LATEST) {
-                            // Only get the latest month
-                            myFirebase.firebaseRest(`news/${latestYear}.json?orderBy=%22$key%22&limitToLast=1`)
-                            .then((content) => {
-                                options.year = latestYear;
-                                options.month = null; // TODO: Bit of a hack
-                                var returnData = formatJsonForClient(options, content);
-                                callback(null, returnData);
-                                return;
-                            });
-                        } else {
-                            // Now get the news IDs for the specified month
-                            myFirebase.firebaseRest(`news/${latestYear}/${options.month}.json`)
-                            .then((content) => {
-                                options.year = latestYear;
-                                var returnData = formatJsonForClient(options, content);
-                                callback(null, returnData);
-                                return;
-                            });
-                        }
-                    }).catch((e) => {
-                        callback(e);
-                        return;
-                    });
-
-                } else {
-                    // Get the news for the whole year
-                    myFirebase.firebaseRest("news.json?orderBy=%22$key%22&limitToLast=1")
-                    .then((content) => {
-                        options.year = null; // TODO: Bit of a hack
-                        options.month = null; // TODO: Bit of a hack
-                        var returnData = formatJsonForClient(options, content);
-                        callback(null, returnData);
-                        return;
-                    }).catch((e) => {
-                        callback(e);
-                        return;
-                    });
-                }
-            } else if (options.year == FETCH_RECENT) {
-                //`https://daggers-demo.firebaseio.com/news/2017.json?orderBy=%22$key%22&limitToLast=2&print=pretty`
-
-                // TODO: Cache latest year and month values (start off null, then store,) and invalidate occasionally, (24hrs?)
-                getLatestYear()
-                .then((latestYear) => {
-                    // We are going to get the most recent 2 months of content for the most recent year
-                    myFirebase.firebaseRest(`news/${latestYear}.json?orderBy=%22$key%22&limitToLast=2`)
-                    .then((content) => {
-                        var d = new Date();
-                        var year = d.getFullYear();
-                        options.year = year; // TODO: Bit of a hack (want to return an object with a year, not 'recent')
-
-                        // Sometimes Firebase returns an object with a '0' property of null, which screws everything up trying to count properties
-                        var firstObj = content[ Object.keys(content)[0] ];
-
-                        if ( (firstObj && Object.keys(content).length >= 2) ||
-                            (!firstObj && Object.keys(content).length >= 3) ) {
-                            var returnData = formatJsonForClient(options, content);
-                            callback(null, returnData);
-                            return;
-                        } else {
-                            // We don't have two months of data to return for this year... only likely to happen in January.
-                            // So, do we have enough content in this month, as is? TODO: values shouldn't be hardcoded
-                            var secondObj = content[ Object.keys(content)[1] ];
-                            if ( (firstObj && Object.keys(firstObj).length > 5) || 
-                                 (secondObj && Object.keys(secondObj).length > 5) ) {
-                                // This is just the same as above...
-                                var returnData = formatJsonForClient(options, content);
-                                callback(null, returnData);
-                                return;
-                            } else {
-                                // Get the last 2 months from last year too, (and we're going to assume last year has data)
-                                var prevYear = Number(latestYear) - 1;
-                                myFirebase.firebaseRest(`news/${prevYear}.json?orderBy=%22$key%22&limitToLast=2`)
-                                .then((moreContent) => {
-                                    const totalContent = Object.assign({}, content, moreContent);
-                                    var returnData = formatJsonForClient(options, totalContent);
-                                    callback(null, returnData);
-                                    return;
-                                });
-                            }
-                        }
-                    });
-                }).catch((e) => {
-                    callback(e);
-                    return;
-                });
-
-
-            } else if (options.year) {
-                if (options.month == FETCH_LATEST) {
-                    // Now get the news for the month
-                    myFirebase.firebaseRest(`news/${options.year}.json?orderBy=%22$key%22&limitToLast=1`)
-                    .then((content) => {
-                        options.month = null; // TODO: Bit of a hack
-                        var returnData = formatJsonForClient(options, content);
-                        callback(null, returnData);
-                        return;
-                    }).catch((e) => {
-                        callback(e);
-                        return;
-                    });
-                } else if (options.month) {
-                    // Now get the news for the specified month
-                    myFirebase.firebaseRest(`news/${options.year}/${options.month}.json`)
-                    .then((content) => {
-                        var returnData = formatJsonForClient(options, content);
-                        callback(null, returnData);
-                        return;
-                    }).catch((e) => {
-                        callback(e);
-                        return;
-                    });
-                } else {
-                    // Get the news for the whole year
-                    myFirebase.firebaseRest(`news/${options.year}.json`)
-                    .then((content) => {
-                        var returnData = formatJsonForClient(options, content);
-                        callback(null, returnData);
-                        return;
-                    }).catch((e) => {
-                        callback(e);
-                        return;
-                    });
-                }
-            } else {
-                // Get the news for all time
-                myFirebase.firebaseRest("news.json")
-                .then((content) => {
-                    var returnData = formatJsonForClient(options, content);
-                    callback(null, returnData);
-                    return;
-                }).catch((e) => {
-                    callback(e);
-                    return;
-                });
-            }
+            callback(null, news);
         }
     }
 
@@ -323,28 +117,20 @@ class News {
             return;
         }
 
-        myFirebase.readFromFirebase(myFirebase.firebaseRef,
-                                   `news/${options.year}/${options.month}/${options.id}`)
-        .then((news) => {
-            //Success
+        var news = newsCache.getData(options);
 
-            // May get back an empty object...
-            if (!news.headline) {
-                callback({
-                    status: 400,
-                    message: "Error: Object not found in DB.",
-                    year: options.year,
-                    month: options.month,
-                    id: options.id
-                });
-            } else {
-                news.id = options.id;
-                callback(null, news);
-            }
-        }, (e) => {
-            // Error
-            callback(e);
-        });
+        // May get back null
+        if (!news) {
+            callback({
+                status: 404,
+                message: "Error: Object not found in DB.",
+                year: options.year,
+                month: options.month,
+                id: options.id
+            });
+        } else {
+            callback(null, news);
+        }
     }
 
     // Delete a single news story from our DB
@@ -376,138 +162,6 @@ class News {
 
 module.exports = News;
 
-// Get the most recent value from a list of IDs at a given URL, e.g.
-//  "news.json?shallow=true" for most recent year
-//  `news/${year}.json?shallow=true` for most recent month in a year
-// If single = false, then will return an array of IDs sorted by latest first, otherwise just a single id for the most recent.
-function getLatestIds(urlParams, single = true) {
-    return new Promise(
-        // The resolver function is called with the ability to resolve or reject the promise
-        function (resolve, reject) {
-            // Get the ID of the most recent year
-            myFirebase.firebaseRest(urlParams)
-            .then((res) => {
-                // Get the values as an array and sort them
-                let sortedRes = Object.keys(res);
-                sortedRes.sortBy(function(o){ return -o });
-                if (single) {
-                    let latestRes = sortedRes[0];
-                    resolve(latestRes);
-                } else {
-                    return sortedRes;
-                }
-            }).catch((error) => {
-                console.log("ERR: Problem fetching latest data:", error);
-                reject(error);
-            });
-        }
-    );
-}
-
-// Get the most recent year with data in it.
-function getLatestYear() {
-    return getLatestIds("news.json?shallow=true");
-}
-
-// Get the most recent month with data in it for a given year.
-//  year should be 2017 or similar.
-function getLatestMonth(year) {
-    return getLatestIds(`news/${year}.json?shallow=true`);
-}
-
-// Get the most recent single news ID for the given year/month.
-//  year should be 2017 or similar.
-//  month should be 1-12.
-function getLatestMonthContent(year, month) {
-    return getLatestIds(`news/${year}/${month}.json?shallow=true`);
-}
-
-// Takes Firebase json data for news and formats it so that our react client can use it
-function formatJsonForClient(options, news) {
-    var returnData = {}
-
-    // We may have got no data back
-    if (!news)
-        return returnData;
-
-    if (options && options.year) {
-        if (options.month) {
-            // Specific Month. news will be all stories for one month, e.g.  {id: story, id: story, ...}
-
-            // Output should be just an object with story_ids e.g. {2017: 12: [id, id]}
-            // Or output should be an object with all story content e.g. {2017: 12: [{story}, {story}]}
-            var monthData = options.listIDs ? Object.keys(news) : parseFirebaseNews(news);
-            // Looks like arrays, but is just syntax for dynamically named properties on objects
-            if (!returnData[options.year])
-                returnData[options.year] = {};
-            returnData[options.year][options.month] = monthData;
-        } else {
-            // Full Year. news will be all stories for all months for a year, e.g.  {12: {id: story, ...}, 11: ..., ...}
-
-            // As above, but looping through all possible months
-            var yearId = options.year;
-            var monthId = 12;
-            while (monthId) {
-                if (news[monthId]) {
-                    var monthData = options.listIDs ? Object.keys(news[monthId]) : parseFirebaseNews(news[monthId]);
-                    if (!returnData[yearId])
-                        returnData[yearId] = {};
-                    returnData[yearId][monthId] = monthData;
-                }
-                --monthId;
-            }
-        }
-    } else {
-        // All News. news will be all years, months and stories, e.g.  {2017: 12: {id: story, ...}, 11: ..., 2016:...}
-
-        // As above, but looping through all possible years from this year back to NEWS_FIRST_YEAR
-        var d = new Date();
-        var yearId = d.getFullYear();
-        while (yearId > NEWS_FIRST_YEAR) {
-            if (news[yearId]) {
-                var monthId = 12;
-                while (monthId) {
-                    if (news[yearId][monthId]) {
-                        var monthData = options.listIDs ? Object.keys(news[yearId][monthId]) : parseFirebaseNews(news[yearId][monthId]);
-                        if (!returnData[yearId])
-                            returnData[yearId] = {};
-                        returnData[yearId][monthId] = monthData;
-                    }
-                    --monthId;
-                }
-            }
-            --yearId;
-        }
-    }
-
-    return returnData;
-}
-
-// news is a Firebase object that represents an array. Returns a javascript array of objects with ids.
-function parseFirebaseNews(news) {
-    // This will be the output array we want
-    var parsedNews = [];
-
-    // id will be the id values we need, which is the object (array index) name in the firebase object.
-    // Would be easy with the spread operator...
-    Object.keys(news).forEach((id) => {
-        
-        var headline = news[id].headline;
-        var summary = news[id].summary;
-        var story = news[id].story;
-        var image = news[id].image;
-        var createdAt = news[id].createdAt;
-        var updatedAt = news[id].updatedAt;
-        var youtube = news[id].youtube;
-        
-        parsedNews.push({
-            id, headline, summary, story, image, createdAt, updatedAt, youtube
-        });
-    });
-
-    return parsedNews;
-}
-
 // Checks if options are valid. Returns null for success or an error object.
 function validateOptions(options, requiresYear, requiresMonth, requiresId) {
     var errorMessage = null;
@@ -518,11 +172,12 @@ function validateOptions(options, requiresYear, requiresMonth, requiresId) {
             // Check the range of the year is valid
             var d = new Date();
             var year = d.getFullYear();
-            // TODO: Could be more rigorous around whether LATEST is allowed, since it is not valid for all APIs
-            if (options.year == FETCH_LATEST) {
-                // Move along
-            } else if (options.year > year || options.year < NEWS_FIRST_YEAR) {
-                errorMessage = 'Error: year was out of range';
+            // TODO: Could be more rigorous around whether LATEST/RECENT are allowed, since they are not valid for all APIs
+            if (options.year != FETCH_LATEST && options.year != FETCH_RECENT) {
+                options.year = Number(options.year);
+                if (options.year > year || options.year < NEWS_FIRST_YEAR) {
+                    errorMessage = 'Error: year was out of range';
+                }
             }
         } else if (requiresYear) {
             // Error, year was required
@@ -533,10 +188,11 @@ function validateOptions(options, requiresYear, requiresMonth, requiresId) {
         if (options.month) {
             // Check the range of the month is valid
             // TODO: Could be more rigorous around whether LATEST is allowed, since it is not valid for all APIs
-            if (options.month == FETCH_LATEST) {
-                // Move along
-            } else if (options.month < 1 || options.month > 12) {
-                errorMessage = 'Error: month was out of range';
+            if (options.month != FETCH_LATEST) {
+                options.month = Number(options.month);
+                if (options.month < 1 || options.month > 12) {
+                    errorMessage = 'Error: month was out of range';
+                }
             }
             // Always need a year with a month
             if (!options.year) {

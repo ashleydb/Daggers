@@ -1,5 +1,6 @@
 import React from 'react';
 var { connect } = require('react-redux');
+import {actions} from 'actions';
 import * as NewsAPI from 'NewsAPI';
 
 export class NewsStory extends React.Component {
@@ -7,6 +8,19 @@ export class NewsStory extends React.Component {
     constructor(props) {
         // Call the parent constructor with the props object we automatically get
         super(props);
+    }
+    componentWillMount() {
+        var { news, status } = this.props.news;
+        var { newsId } = this.props.params;
+
+        if (newsId) {
+            // Get a specific story and if it isn't found locally then try and get it from our server
+            var story = news ? NewsAPI.getStory(newsId, news) : null;
+            if (!story || story.id != newsId) {
+                // TODO: Lazy. Just gets ALL news data to guarantee we get the story. Users are getting lots of data and we're spending on bandwidth.
+                this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded());
+            }
+        }
     }
     componentDidMount () {
         window.scrollTo(0, 0);

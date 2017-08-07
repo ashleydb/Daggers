@@ -9,11 +9,6 @@ var News = require('../models/News');
 const FETCH_LATEST = 'latest';
 const FETCH_RECENT = 'recent';
 
-// Cache value to represent News data from our DB
-var Cache = require('../cache');
-var RecentNewsCache = new Cache();
-RecentNewsCache.setTimeout(60); // 1hr cache
-
 // Routes that end in /news
 // ----------------------------------------------------
 router.route('/v1/news')
@@ -44,13 +39,10 @@ router.route('/v1/news')
     
         // save the news and check for errors
         news.save(function(err, id, year, month, createdAt) {
-            RecentNewsCache.invalidate();
-
             if (err) {
                 res.status(err.status || 400).send(err);
                 return;
             }
-
             res.json({ message: 'News created!', id, year, month, createdAt });
         });
     })
@@ -71,7 +63,6 @@ router.route('/v1/news')
                 res.status(err.status || 400).send(err);
                 return;
             }
-
             res.json(news);
         });
     });
@@ -101,23 +92,12 @@ router.route('/v1/news/:year')
             month: null,
             listIDs: req.query.listIDs === "true" ? true : false
         }
-
-        // If we're getting the recent news, (i.e. on the homepage, check our cache)
-        if (options.year == FETCH_RECENT && !options.listIDs) {
-            var news = RecentNewsCache.getDataIfValid();
-            if (news) {
-                //console.log('DEBUG: Using News Cache!');
-                res.json(news);
-                return;
-            }
-        }
             
         News.find(options, function(err, news) {
             if (err) {
                 res.status(err.status || 400).send(err);
                 return;
             }
-            RecentNewsCache.setData(news);
             res.json(news);
         });
     });
@@ -138,6 +118,7 @@ router.route('/v1/news/:year/:month')
             month: (req.params.month == FETCH_LATEST) ? FETCH_LATEST : Number(req.params.month),
             listIDs: req.query.listIDs === "true" ? true : false
         }
+        
         News.find(options, function(err, news) {
             if (err) {
                 res.status(err.status || 400).send(err);
@@ -184,11 +165,13 @@ router.route('/v1/news/:year/:month/:news_id')
             month: Number(req.params.month),
             id: req.params.news_id
         };
-        News.findById(options, function(err, news) {
+        News.findById(options, function(err, newsData) {
             if (err) {
                 res.status(err.status || 400).send(err);
                 return;
             }
+
+            var news = newsData[options.year][options.month][0];
 
             // Check if the new created date's year and month match the old ones, (our params)
             var d = new Date(Number(req.body.createdAt));
@@ -220,13 +203,10 @@ router.route('/v1/news/:year/:month/:news_id')
 
             // save the news and check for errors
             updatedNews.save(function(err, id, year, month, createdAt) {
-                RecentNewsCache.invalidate();
-
                 if (err) {
                     res.status(err.status || 400).send(err);
                     return;
                 }
-
                 res.json({ message: 'News updated!', id, year, month, createdAt });
             });
         })
@@ -244,13 +224,10 @@ router.route('/v1/news/:year/:month/:news_id')
             id: req.params.news_id
         };
         News.remove(options, function(err, id, year, month) {
-            RecentNewsCache.invalidate();
-
             if (err) {
                 res.status(err.status || 400).send(err);
                 return;
             }
-
             res.json({ message: 'Successfully deleted', id, year, month });
         });
     });

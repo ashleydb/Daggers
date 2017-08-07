@@ -43,7 +43,8 @@ function fetchNewsStories(year, month) {
     return dispatch => {
         dispatch(requestNewsStories(year, month))
         return NewsAPI.getStories(year, month)
-            .then(response => dispatch(receiveNewsStories(response, year, month)))
+            .then(response => dispatch(receiveNewsStories(response, year, month)),
+                       err => dispatch(receiveNewsStories([], year, month)))
     };
 }
 
@@ -105,7 +106,7 @@ function receiveNewsStory(story) {
 // (3) Triggers the download of news stories
 function fetchNewsStory(news, newsId) {
     return dispatch => {
-        var story = NewsAPI.getStory(newsId, news)
+        var story = NewsAPI.getStory(newsId, news)  // TODO: This doesn't fetch from the server, only the passed in news, so could fail
         dispatch(receiveNewsStory(story));
     };
 }
