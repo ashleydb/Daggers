@@ -5,6 +5,8 @@
 # [START runtime]
 runtime: nodejs
 env: flex
+automatic_scaling:
+  min_num_instances: 1
 env_variables:
   NODE_ENV: 'production'
   FIREBASE_SERVICE_PROJECT_ID: ''
@@ -17,4 +19,5 @@ env_variables:
   AUTH_SECRET: ''
   AUTH_USERNAME: ''
   AUTH_PASSWORD: ''
+  LEAGUE_TABLE_URL: ''
 # [END runtime]

@@ -68,7 +68,8 @@ module.exports = {
         GOOGLE_CLOUD_STORAGE_BUCKET: JSON.stringify(process.env.GOOGLE_CLOUD_STORAGE_BUCKET),
         AUTH_SECRET: JSON.stringify(process.env.AUTH_SECRET),
         AUTH_USERNAME: JSON.stringify(process.env.AUTH_USERNAME),
-        AUTH_PASSWORD: JSON.stringify(process.env.AUTH_PASSWORD)
+        AUTH_PASSWORD: JSON.stringify(process.env.AUTH_PASSWORD),
+        LEAGUE_TABLE_URL: JSON.stringify(process.env.LEAGUE_TABLE_URL)
       }
     }),
     new StringReplacePlugin(),
