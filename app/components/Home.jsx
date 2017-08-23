@@ -4,7 +4,7 @@ var {connect} = require('react-redux');
 import {actions} from 'actions';
 import NewsSummary from 'NewsSummary';
 import * as NewsAPI from 'NewsAPI';
-import Sponsor from 'Sponsor';
+import SponsorsGroup from 'SponsorsGroup';
 import MedianetTag from 'MedianetTag';
 
 // TODO: Add Ad component, which can be adsense or overridden as a nice-to-have.
@@ -102,15 +102,7 @@ export class Home extends React.Component {
                     </div>
                     
                     <div className="row">
-                        <div className="row small-up-4 large-up-7">
-                            <Sponsor sponsorId={0} />
-                            <Sponsor sponsorId={1} />
-                            <Sponsor sponsorId={2} />
-                            <Sponsor sponsorId={3} />
-                            <Sponsor sponsorId={4} />
-                            <Sponsor sponsorId={5} />
-                            <Sponsor sponsorId={6} />
-                        </div>
+                        <SponsorsGroup/>
                     </div>
 
                     <div className="row">
