@@ -6,6 +6,7 @@ import PlaceholderComponent from 'Placeholder';
 // Shows a thumbnail for a sponsor with a link to their website.
 //  sponsor: Sponsor data to use, for example:
 //        {
+//            id: 23jrbwkjbrwkjq4lbt
 //            name: "The National League",
 //            link: "https://www.thenationalleague.org.uk/",
 //            image: "/sponsors/the-national-league.jpg",
@@ -30,7 +31,7 @@ export default class Sponsor extends React.Component {
 
         // TODO: Change news-thumbnail to a class just for sponsors
         return (
-            <div className="column column-block">
+            <div className="column column-block" key={sponsor.id}>
                 <div className="card">
                     <a href={sponsor.link}>
                         <LazyLoad placeholder={<PlaceholderComponent />}>
