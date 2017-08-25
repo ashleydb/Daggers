@@ -1,4 +1,6 @@
 import React from 'react';
+var {connect} = require('react-redux');
+import {actions} from 'actions';
 import Sponsor from 'Sponsor';
 
 // Shows a grid of Sponsors in a row. Adjusts to the number of Sponsors available.
