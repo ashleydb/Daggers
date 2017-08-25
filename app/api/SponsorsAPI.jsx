@@ -6,8 +6,8 @@ export const DEFAULT_SPONSOR_ID = "new";
 
 export const DEFAULT_SPONSOR = {
     id: DEFAULT_SPONSOR_ID,
-    name: "The National League",
-    link: "https://www.thenationalleague.org.uk/",
+    name: "Placeholder",
+    link: "https://www.placeholder.co.uk/",
     image: "/sponsors/the-national-league.jpg",
     type: "Official Club Partner"
 }

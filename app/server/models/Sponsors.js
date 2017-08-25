@@ -9,8 +9,8 @@ var sponsorsCache = new FirebaseCacheSponsors();
 class Sponsors {
     constructor() {
         this.id = 'new'; //Same as DEFAULT_SPONSOR_ID
-        this.name = "The National League";
-        this.link = "https://www.thenationalleague.org.uk/";
+        this.name = "Placeholder";
+        this.link = "https://www.placeholder.co.uk/";
         this.image = "/sponsors/the-national-league.jpg";
         this.type = "Official Club Partner";
 
@@ -35,7 +35,7 @@ class Sponsors {
     save(callback) {
         //console.log('DEBUG: Sponsors.save() this=', this);
         myFirebase.writeToFirebase(myFirebase.firebaseRef,
-                                   'sponsors',
+                                   'sponsors/sponsors',
                                    this.id === 'new' ? null : this.id,
                                    this.toObj())
         .then((id) => {

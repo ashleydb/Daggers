@@ -12,25 +12,23 @@ class FirebaseCacheSponsors extends FirebaseCache {
     }
 
     parseSnapshot(snapshot) {        
-        // Object for an individual sponsor
-        var temp = {};
-        var newSponsor = snapshot.val();
-        temp.id = snapshot.key;
-        temp.name = newSponsor.name;
-        temp.link = newSponsor.link;
-        temp.image = newSponsor.image;
-        temp.type = newSponsor.type;
+        var id = snapshot.key; // should be 'snapshot'
+        // Always clear out so we don't have duplicate/old data
+        this.firebaseData = [];
+        
+        snapshot.forEach(function(sponsorSnapshot) {
+            var newSponsor = sponsorSnapshot.val();
 
-        var newEntry = true;
-        for(var i = 0; i < this.firebaseData.length; ++i) {
-            if (this.firebaseData[i].id == temp.id) {
-                this.firebaseData[i] = temp;
-                newEntry = false;
-                break;
-            }
-        }
-        if (newEntry)
+            // Object for an individual sponsor
+            var temp = {};
+            temp.id = sponsorSnapshot.key; // should be '-kweroingslsDFG' or similar
+            temp.name = newSponsor.name;
+            temp.link = newSponsor.link;
+            temp.image = newSponsor.image;
+            temp.type = newSponsor.type;
+
             this.firebaseData.push(temp);
+        }.bind(this));
     }
 
     // Gets data from our firebase cache.
