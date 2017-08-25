@@ -12,6 +12,11 @@ export default class SponsorsEditForm extends React.Component {
         // Call the parent constructor with the props object we automatically get
         super(props);
 
+        // Now set the state here, based on the props
+        this.state = {
+            image: null
+        };
+
         // BINDING: Keep 'this' scoped to this object in any handlers
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onNewImage = this.onNewImage.bind(this);

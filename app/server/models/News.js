@@ -2,7 +2,7 @@
 
 // Using Firebase with a cache to represent News data from our DB
 var myFirebase = require('../cloud/firebase');
-var FirebaseCacheNews = require('../cloud/firebaseCache');
+var FirebaseCacheNews = require('../cloud/FirebaseCacheNews');
 var newsCache = new FirebaseCacheNews();
 
 // For sorting arrays efficiently

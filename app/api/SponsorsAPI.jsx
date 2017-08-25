@@ -105,7 +105,7 @@ export function addSponsor(sponsor, token) {
 
 // Delete content from our DB with the specified ID.
 // Returns the ID of the item deleted, or an error message.
-export function removeSponsor(sponsor, token) {
+export function removeSponsor(sponsorId, token) {
     return new Promise(
         // The resolver function is called with the ability to resolve or reject the promise
         function (resolve, reject) {
@@ -114,7 +114,7 @@ export function removeSponsor(sponsor, token) {
                     headers: { 'x-access-token': token }
                 });
 
-                axiosInstance.delete(`/api/v1/sponsors/${sponsor.id}`)
+                axiosInstance.delete(`/api/v1/sponsors/${sponsorId}`)
                 .then(function (response) {
                     // Object was deleted
                     console.log(response);

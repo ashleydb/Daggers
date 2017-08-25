@@ -2,7 +2,7 @@
 
 // Using Firebase with a cache to represent Sponsors data from our DB
 var myFirebase = require('../cloud/firebase');
-var FirebaseCacheSponsors = require('../cloud/firebaseCache');
+var FirebaseCacheSponsors = require('../cloud/FirebaseCacheSponsors');
 var sponsorsCache = new FirebaseCacheSponsors();
 
 // Represents a Sponsor and interacting with Sponsors.
@@ -51,7 +51,7 @@ class Sponsors {
     // Get all sponsors data from our DB
     // callback: Should be callback(error, sponsors)
     static find(callback) {
-        var sponsors = sponsorsCache.getData(null); // May get back null
+        var sponsors = sponsorsCache.getData({}); // May get back null
         if (!sponsors) {
             callback({
                 status: 404,

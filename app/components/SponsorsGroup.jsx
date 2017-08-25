@@ -57,7 +57,7 @@ export class SponsorsGroup extends React.Component {
         ];
     }
     componentWillMount() {
-        this.props.dispatch(actions.news.fetchSponsorsIfNeeded());
+        this.props.dispatch(actions.sponsors.fetchSponsorsIfNeeded());
     }
     render() {
         var {sponsors, status} = this.props.sponsors;
