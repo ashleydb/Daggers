@@ -83,7 +83,7 @@ class Sponsors {
     // callback: Should be callback(error, sponsorsId)
     static remove(options, callback) {
         myFirebase.removefromFirebase(myFirebase.firebaseRef,
-                                   `sponsors/${options.id}`)
+                                   `sponsors/sponsors/${options.id}`)
         .then((result) => {
             if (result) {
                 //Success
