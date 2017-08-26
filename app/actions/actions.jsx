@@ -6,6 +6,7 @@ import * as pageActions from 'app/actions/PageActions';
 import * as playersActions from 'app/actions/PlayersActions';
 import * as bannerActions from 'app/actions/BannerActions';
 import * as tableActions from 'app/actions/TableActions';
+import * as sponsorsActions from 'app/actions/SponsorsActions';
 
 export var actions = {
     news: newsActions,
@@ -14,5 +15,6 @@ export var actions = {
     pages: pageActions,
     players: playersActions,
     banner: bannerActions,
-    table: tableActions
+    table: tableActions,
+    sponsors: sponsorsActions
 };

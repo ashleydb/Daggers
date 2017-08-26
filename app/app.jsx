@@ -37,6 +37,7 @@ import Community from 'Community';
 import Club from 'Club';
 import Commercial from 'Commercial';
 import BannerEdit from 'BannerEdit';
+import SponsorsEdit from 'SponsorsEdit';
 import Table from 'Table';
 
 var store = require('configureStore').configure();
@@ -82,6 +83,9 @@ ReactDOM.render(
             </Route>
             <Route path="banner" component={BannerEdit}>
                 <Route path=":bannerId" component={BannerEdit}/>
+            </Route>
+            <Route path="sponsors" component={SponsorsEdit}>
+                <Route path=":sponsorId" component={SponsorsEdit}/>
             </Route>
         </Route>
         <IndexRoute component={Home}/>

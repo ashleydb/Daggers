@@ -70,6 +70,7 @@ var pagesRoute = require('./app/server/routes/Pages');
 var playersRoute = require('./app/server/routes/Players');
 var bannerRoute = require('./app/server/routes/Banner');
 var tableRoute = require('./app/server/routes/Table');
+var sponsorsRoute = require('./app/server/routes/Sponsors');
 var imagesRoute = require('./app/server/routes/Images');
 var authRoute = require('./app/server/routes/Auth');
 
@@ -78,7 +79,7 @@ var authRoute = require('./app/server/routes/Auth');
 // All of our API routes will be prefixed with /api
 // Just add more routers to the array to handle other API endpoints
 app.use('/api', [router, newsRoute, fixturesRoute, pagesRoute,
-                 playersRoute, bannerRoute, tableRoute, imagesRoute]);
+                 playersRoute, bannerRoute, tableRoute, sponsorsRoute, imagesRoute]);
 // Other routes from the root go here
 app.use('/', [authRoute]);
 

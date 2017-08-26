@@ -6,6 +6,7 @@ export var {PagesReducer, INITIAL_STATE_PAGES} = require('app/reducers/PagesRedu
 export var {PlayersReducer, INITIAL_STATE_PLAYERS} = require('app/reducers/PlayersReducer');
 export var {BannerReducer, INITIAL_STATE_BANNER} = require('app/reducers/BannerReducer');
 export var {TableReducer, INITIAL_STATE_TABLE} = require('app/reducers/TableReducer');
+export var {SponsorsReducer, INITIAL_STATE_SPONSORS} = require('app/reducers/SponsorsReducer');
 
 // For Sweet Alert
 import { reducers } from 'react-redux-sweetalert2';

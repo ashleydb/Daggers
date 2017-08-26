@@ -9,7 +9,8 @@ const INITIAL_STATE = {
     pages: Reducers.INITIAL_STATE_PAGES,
     players: Reducers.INITIAL_STATE_PLAYERS,
     banner: Reducers.INITIAL_STATE_BANNER,
-    table: Reducers.INITIAL_STATE_TABLE
+    table: Reducers.INITIAL_STATE_TABLE,
+    sponsors: Reducers.INITIAL_STATE_SPONSORS
 };
 
 export var configure = (initialState = INITIAL_STATE) => {
@@ -22,7 +23,8 @@ export var configure = (initialState = INITIAL_STATE) => {
         pages: Reducers.PagesReducer,
         players: Reducers.PlayersReducer,
         banner: Reducers.BannerReducer,
-        table: Reducers.TableReducer
+        table: Reducers.TableReducer,
+        sponsors: Reducers.SponsorsReducer
     });
     
     var store = redux.createStore(reducer, initialState, redux.compose(
