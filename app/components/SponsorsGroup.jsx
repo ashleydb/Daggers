@@ -33,7 +33,7 @@ export class SponsorsGroup extends React.Component {
         } else {
             let output = [];
             sponsors.forEach(function(sponsor) {
-                output.push(<Sponsor sponsor={sponsor} />);
+                output.push(<Sponsor sponsor={sponsor} key={sponsor.id} />);
             }, this);
 
             let classString = '';

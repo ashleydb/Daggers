@@ -111,6 +111,10 @@ const fileManifest = [
     "revision": "4c640469c5f4015ef75b61d633480c58"
   },
   {
+    "url": "/league-sponsor.png",
+    "revision": "ab83819a0a9b77cf87b26e02d9e7a37b"
+  },
+  {
     "url": "/manifest.json",
     "revision": "677fcf130a7fa1cfb571e0dab2b1ffa9"
   },

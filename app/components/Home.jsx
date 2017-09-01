@@ -52,6 +52,12 @@ export class Home extends React.Component {
             return (
 
                 <div>
+                    <div className="row hide-for-large">
+                        <a href="http://www.vanarama.co.uk/">
+                            <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor.png" className="league-sponsor float-center" alt="Vanarama"/>
+                        </a>
+                    </div>
+
                     {/* will render a list of news items when at /news/ */}
                     <div className="row">
                         <div className="columns small-12 large-8">
@@ -85,6 +91,13 @@ export class Home extends React.Component {
                                         <i className="fi-social-twitter social-icon-large social-color-twitter"></i>
                                     </a>
                                 </div>
+                            </div>
+                            
+                            <div className="row show-for-large">
+                                <a href="http://www.vanarama.co.uk/">
+                                    <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor.png" className="league-sponsor float-center" alt="Vanarama"/>
+                                </a>
+                                <br />
                             </div>
 
                             <div className="row">
