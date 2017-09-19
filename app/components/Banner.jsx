@@ -22,9 +22,9 @@ export class Banner extends React.Component {
 
             if (banner.link) {
                 bannerElement = (
-                    <Link to={banner.link} activeClassName="active" activeStyle={{fontWeight: 'bold'}}>
+                    <a href={banner.link}>
                         {bannerElement}
-                    </Link>
+                    </a>
                 );
             }
         }
