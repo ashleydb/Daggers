@@ -9,6 +9,15 @@ const app = express();
 
 //app.use(logger('dev'));
 
+// Redirect all requests from http to https
+app.use(function(req, res, next){
+  if (req.host != 'localhost' && req.get('X-Forwarded-Proto') == 'http') {
+    res.redirect(`https://${req.host}${req.url}`);
+    return;
+  }
+  next();
+});
+
 // configure app to use bodyParser() which will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

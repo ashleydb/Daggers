@@ -1,4 +1,4 @@
-importScripts('workbox-sw.prod.v1.0.1.js');
+importScripts('workbox-sw.prod.v1.3.0.js');
 
 /**
  * DO NOT EDIT THE FILE MANIFEST ENTRY
@@ -19,120 +19,120 @@ importScripts('workbox-sw.prod.v1.0.1.js');
  */
 const fileManifest = [
   {
-    "url": "/android-icon-144x144.png",
+    "url": "android-icon-144x144.png",
     "revision": "f899c10741a2629a0747ec39dbcf1101"
   },
   {
-    "url": "/android-icon-192x192.png",
+    "url": "android-icon-192x192.png",
     "revision": "7745a05a52b278cb68a63f2b3416d3b5"
   },
   {
-    "url": "/android-icon-36x36.png",
+    "url": "android-icon-36x36.png",
     "revision": "f6635497c2f34964f03cdc3479cd5716"
   },
   {
-    "url": "/android-icon-48x48.png",
+    "url": "android-icon-48x48.png",
     "revision": "83cb1c103839a080053f12c00f7ef06c"
   },
   {
-    "url": "/android-icon-512x512.png",
+    "url": "android-icon-512x512.png",
     "revision": "fbcafa1c8fe507fef6cf5051bb8416b2"
   },
   {
-    "url": "/android-icon-72x72.png",
+    "url": "android-icon-72x72.png",
     "revision": "ce9b7f404eef68c476d0d3137d430fc1"
   },
   {
-    "url": "/android-icon-96x96.png",
+    "url": "android-icon-96x96.png",
     "revision": "60ced9a950e19a1bd4cb9d90dedcaef2"
   },
   {
-    "url": "/apple-icon-114x114.png",
+    "url": "apple-icon-114x114.png",
     "revision": "71f8654b89dbdfdd2440882279041371"
   },
   {
-    "url": "/apple-icon-120x120.png",
+    "url": "apple-icon-120x120.png",
     "revision": "cc2e9769dac80515398f005d0fb75d50"
   },
   {
-    "url": "/apple-icon-144x144.png",
+    "url": "apple-icon-144x144.png",
     "revision": "032c20b002abbf2c527fa196309faedf"
   },
   {
-    "url": "/apple-icon-152x152.png",
+    "url": "apple-icon-152x152.png",
     "revision": "3fe9cd116af4ffd57dc415eb389ce9fd"
   },
   {
-    "url": "/apple-icon-180x180.png",
+    "url": "apple-icon-180x180.png",
     "revision": "00fd478bcfaf72e8a08ea27476250c8c"
   },
   {
-    "url": "/apple-icon-57x57.png",
+    "url": "apple-icon-57x57.png",
     "revision": "5cc30fcb38ab217141d8f95711513c63"
   },
   {
-    "url": "/apple-icon-60x60.png",
+    "url": "apple-icon-60x60.png",
     "revision": "ac3758f6e5ef9bad791156fb4b599730"
   },
   {
-    "url": "/apple-icon-72x72.png",
+    "url": "apple-icon-72x72.png",
     "revision": "0832b37856668339e8e5c8590a0783cb"
   },
   {
-    "url": "/apple-icon-76x76.png",
+    "url": "apple-icon-76x76.png",
     "revision": "112ff4b59a3e837f26aef35369e1ddcc"
   },
   {
-    "url": "/apple-icon-precomposed.png",
+    "url": "apple-icon-precomposed.png",
     "revision": "1a9a65747d2fae6bf565aff9c396dc54"
   },
   {
-    "url": "/apple-icon.png",
+    "url": "apple-icon.png",
     "revision": "48f054d0ac198859c65f10e1404b0a02"
   },
   {
-    "url": "/favicon-16x16.png",
+    "url": "favicon-16x16.png",
     "revision": "7f336f157c8d46e61ce9be6a358bd641"
   },
   {
-    "url": "/favicon-32x32.png",
+    "url": "favicon-32x32.png",
     "revision": "02b7c9ee360058ea8098bbe90bf9d578"
   },
   {
-    "url": "/favicon-96x96.png",
+    "url": "favicon-96x96.png",
     "revision": "fc81b23eb5f94eea3dc9e5f5b04ec6c3"
   },
   {
-    "url": "/favicon.ico",
+    "url": "favicon.ico",
     "revision": "2da457b1f25a021a64c8a425bc919dea"
   },
   {
-    "url": "/index.html",
-    "revision": "4c640469c5f4015ef75b61d633480c58"
+    "url": "index.html",
+    "revision": "4769f68d95ce4c3f248f4ad10d7cfcde"
   },
   {
-    "url": "/league-sponsor.png",
-    "revision": "ab83819a0a9b77cf87b26e02d9e7a37b"
+    "url": "manifest.json",
+    "revision": "7c8b87aa5d41d2483bc8d0e3e1e4e5c8"
   },
   {
-    "url": "/manifest.json",
-    "revision": "677fcf130a7fa1cfb571e0dab2b1ffa9"
-  },
-  {
-    "url": "/ms-icon-144x144.png",
+    "url": "ms-icon-144x144.png",
     "revision": "6e6785601a4cc8fc9b3fc3e109843bba"
   },
   {
-    "url": "/ms-icon-150x150.png",
+    "url": "ms-icon-150x150.png",
     "revision": "4706da189fe30ebf01ab690595e5e696"
   },
   {
-    "url": "/ms-icon-310x310.png",
+    "url": "ms-icon-310x310.png",
     "revision": "5b41239a3c9be07255b6ab8c36b8e4f0"
   },
   {
-    "url": "/ms-icon-70x70.png",
+    "url": "ms-icon-70x70.png",
     "revision": "ec026a03574dc1ea0cc6bc51ee58ecee"
+  },
+  {
+    "url": "workbox-sw.prod.v1.0.1.js",
+    "revision": "3fbc93cd82283d7c3a2cb4dcaf36be91"
   }
 ];
 
