@@ -6,6 +6,7 @@ import NewsSummary from 'NewsSummary';
 import * as NewsAPI from 'NewsAPI';
 import SponsorsGroup from 'SponsorsGroup';
 import MedianetTag from 'MedianetTag';
+import PitcheroVideoPlayer from 'PitcheroVideoPlayer';
 
 // TODO: Add Ad component, which can be adsense or overridden as a nice-to-have.
 // TODO: Add Google Analytics component.
@@ -65,6 +66,10 @@ export class Home extends React.Component {
                             <div className="row">
                                 <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="MAIN"/>
                             </div>
+                            
+                            <div className="placeholder-ad center-text hide-for-large">
+                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
+                            </div>
 
                             <div className="row small-up-1 medium-up-3">
                                 <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
@@ -74,38 +79,21 @@ export class Home extends React.Component {
 
                         </div>
                         <div className="columns small-12 large-4">
-                            
-                            <div className="row">
-                                <div className="columns small-4 center-text">
-                                    <a href="https://www.youtube.com/user/OfficialDaggers">
-                                        <i className="fi-social-youtube social-icon-large social-color-youtube"></i>
-                                    </a>
-                                </div>
-                                <div className="columns small-4 center-text">
-                                    <a href="https://www.facebook.com/OfficialDaggers">
-                                        <i className="fi-social-facebook social-icon-large social-color-facebook"></i>
-                                    </a>
-                                </div>
-                                <div className="columns small-4 center-text">
-                                    <a href="http://twitter.com/dag_redfc">
-                                        <i className="fi-social-twitter social-icon-large social-color-twitter"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            
                             <div className="row show-for-large">
                                 <a href="http://www.vanarama.co.uk/">
                                     <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor.png" className="league-sponsor float-center" alt="Vanarama"/>
                                 </a>
                                 <br />
                             </div>
+                            
+                            <div className="placeholder-ad center-text show-for-large">
+                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
+                            </div>
 
                             <div className="row">
-                                <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
-                            </div>
-                            
-                            <div className="placeholder-ad">
-                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
+                                <div className="card card-block">
+                                    <PitcheroVideoPlayer/>
+                                </div>
                             </div>
                             
                             <div className="row">
@@ -116,6 +104,22 @@ export class Home extends React.Component {
                     
                     <div className="row">
                         <SponsorsGroup/>
+                    </div>
+
+                    <div className="row">
+                        <div className="columns small-12 center-text">
+                            <a href="https://www.youtube.com/user/OfficialDaggers">
+                                <i className="fi-social-youtube social-icon-large social-color-youtube"></i>
+                            </a>
+                            &nbsp;&nbsp;
+                            <a href="https://www.facebook.com/OfficialDaggers">
+                                <i className="fi-social-facebook social-icon-large social-color-facebook"></i>
+                            </a>
+                            &nbsp;&nbsp;
+                            <a href="http://twitter.com/dag_redfc">
+                                <i className="fi-social-twitter social-icon-large social-color-twitter"></i>
+                            </a>
+                        </div>
                     </div>
 
                     <div className="row">
