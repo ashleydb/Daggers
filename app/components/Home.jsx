@@ -66,10 +66,6 @@ export class Home extends React.Component {
                             <div className="row">
                                 <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="MAIN"/>
                             </div>
-                            
-                            <div className="placeholder-ad center-text hide-for-large">
-                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
-                            </div>
 
                             <div className="row small-up-1 medium-up-3">
                                 <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
@@ -86,7 +82,7 @@ export class Home extends React.Component {
                                 <br />
                             </div>
                             
-                            <div className="placeholder-ad center-text show-for-large">
+                            <div className="placeholder-ad center-text">
                                 <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                             </div>
 
