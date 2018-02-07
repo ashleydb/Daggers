@@ -4,18 +4,18 @@ import React from 'react';
 
 class PitcheroVideoPlayer extends React.Component {
     componentDidMount() {
-        // Put this just before the closing body tag
-        //<script type="text/javascript" src="https://cdn.pitchero.com/nl/dovr.js"></script>
+        //<!-- Put this line just before the closing body tag -->
+        //<script type="text/javascript" src="https://cdn.pitchero.com/nl/dagr.js"></script> 
 
         // TODO: Is there a way to only do this once?
         const s = document.createElement('script');
         s.type = 'text/javascript';
-        s.src = 'https://cdn.pitchero.com/nl/dovr.js';
+        s.src = 'https://cdn.pitchero.com/nl/dagr.js';
         document.body.appendChild(s);
     }
 
     render() {
-        // Put this where you would like the video unit to display
+        //<!-- Put this line where you would like the video unit to display -->
         //<div id="ph-vjs-video-highlights"></div>
 
         return <div id="ph-vjs-video-highlights" />;
