@@ -57,6 +57,12 @@ export class Home extends React.Component {
                         <a href="http://www.vanarama.co.uk/">
                             <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor.png" className="league-sponsor float-center" alt="Vanarama"/>
                         </a>
+                        <br />
+                        <a href="https://www.daggers-shop.co.uk/donate"
+                            title="Please support us by donating"
+                            className="donate">
+                            Support Us. Please Donate
+                        </a>
                     </div>
 
                     {/* will render a list of news items when at /news/ */}
@@ -80,6 +86,11 @@ export class Home extends React.Component {
                                     <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor.png" className="league-sponsor float-center" alt="Vanarama"/>
                                 </a>
                                 <br />
+                                <a href="https://www.daggers-shop.co.uk/donate"
+                                    title="Please support us by donating"
+                                    className="donate">
+                                    Support Us. Please Donate
+                                </a>
                             </div>
                             
                             <div className="placeholder-ad center-text">
