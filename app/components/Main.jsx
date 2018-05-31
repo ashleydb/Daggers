@@ -16,6 +16,11 @@ var Main = (props) => {
         styles={{
           banner: { height: 'auto' }
         }} />
+      <a href="https://www.daggers-shop.co.uk/donate"
+          title="Please support us by donating"
+          className="donate">
+          Support Us. Please Donate
+      </a>
       <Nav/>
       <div className="row">
         <div className="small-centered columns">
