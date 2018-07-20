@@ -26,6 +26,7 @@ import NewsStory from 'NewsStory';
 import NewsEdit from 'NewsEdit';
 import Fixtures from 'Fixtures';
 import FixturesEdit from 'FixturesEdit';
+import CalendarSubscribe from 'CalendarSubscribe';
 import Admin from 'Admin';
 import Page from 'Page';
 import PagesEdit from 'PagesEdit';
@@ -55,6 +56,7 @@ ReactDOM.render(
           <Route path=":newsId" component={NewsStory}/>
         </Route>
         <Route path="fixtures" component={Fixtures}/>
+        <Route path="fixturescalendar" component={CalendarSubscribe}/>
         <Route path="table" component={Table}/>
         <Route path="tickets" component={Tickets}/>
         <Route path="team" component={Team}/>

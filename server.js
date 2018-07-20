@@ -11,8 +11,8 @@ const app = express();
 
 // Redirect all requests from http to https
 app.use(function(req, res, next){
-  if (req.host != 'localhost' && req.get('X-Forwarded-Proto') == 'http') {
-    res.redirect(`https://${req.host}${req.url}`);
+  if (req.hostname != 'localhost' && req.get('X-Forwarded-Proto') == 'http') {
+    res.redirect(`https://${req.hostname}${req.url}`);
     return;
   }
   next();

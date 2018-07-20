@@ -1,5 +1,6 @@
 import React from 'react';
 var {connect} = require('react-redux');
+import { Link } from 'react-router';
 import LazyLoad from 'react-lazyload';
 import PlaceholderComponent from 'Placeholder';
 import {actions} from 'actions';
@@ -140,7 +141,7 @@ export class Fixtures extends React.Component {
                         <div className="columns small-12 large-8">
 
                             <h3>Fixtures &amp; Results</h3>
-                            <a href="webcal://calendar.google.com/calendar/ical/daggersfc110%40gmail.com/public/basic.ics" className="button expanded"><i className="fi-calendar"></i> Add Daggers Fixtures to your Calendar</a>
+                            <Link to={'/fixturescalendar'} className="expanded button"><i className="fi-calendar"></i> Add Daggers Fixtures to your Calendar</Link>
                             {seasonAndSquadPicker(this, season)}
                             <table className="hover stack text-center">
                                 <tbody>
