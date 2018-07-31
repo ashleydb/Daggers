@@ -101,13 +101,13 @@ export class Table extends React.Component {
             height: '500px'
           };
           
-        var tableFrame = (<iframe style={iframeStyle} src={`https://www.thenationalleague.org.uk/match-info/tables?division_id=35403`}></iframe>);
+        var tableFrame = (<iframe style={iframeStyle} src={`http://www.thenationalleague.org.uk/match-info/tables?division_id=42247`}></iframe>);
         return (
             <div>
                 <div className="row">
                     <div className="columns small-12 large-8">
                         <h3>League Table</h3>
-                        <p>Check the full League Table via the <a href="https://thenationalleague.org.uk/tables.php?division_id=7">National League</a></p>
+                        <p>Check the full League Table via the <a href="http://www.thenationalleague.org.uk/match-info/tables?division_id=42247">National League</a></p>
                         {tableFrame}
                     </div>
                     <div className="columns small-12 large-4">
