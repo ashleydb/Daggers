@@ -99,16 +99,17 @@ export class Table extends React.Component {
         var iframeStyle = {
             width: '95%',
             height: '500px'
-          };
-          
-        var tableFrame = (<iframe style={iframeStyle} src={`http://www.thenationalleague.org.uk/match-info/tables?division_id=42247`}></iframe>);
+        };
+        
+        // Since our site is running as https, any iframe content needs to be the same.
+        //var tableFrame = (<iframe style={iframeStyle} src={`http://www.thenationalleague.org.uk/match-info/tables?division_id=42247`}></iframe>);
         return (
             <div>
                 <div className="row">
                     <div className="columns small-12 large-8">
                         <h3>League Table</h3>
                         <p>Check the full League Table via the <a href="http://www.thenationalleague.org.uk/match-info/tables?division_id=42247">National League</a></p>
-                        {tableFrame}
+                        {/*tableFrame*/}
                     </div>
                     <div className="columns small-12 large-4">
                         <div className="placeholder-ad">
