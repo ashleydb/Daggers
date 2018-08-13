@@ -14,7 +14,7 @@ export default class Nav extends React.Component {
                 <div className="row logo-bar small-collapse">
                     <div className="small-6 columns">
                         <IndexLink to="/">
-                            <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/images/header-left.png" alt="Dagenham & Redbridge FC Logo" className="nav-banner"/>
+                            <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/images/header-logo.png" alt="Dagenham & Redbridge FC Logo" className="nav-banner"/>
                         </IndexLink>
                     </div>
                     <div className="small-6 columns">
