@@ -108,11 +108,11 @@ const fileManifest = [
   },
   {
     "url": "index.html",
-    "revision": "4c640469c5f4015ef75b61d633480c58"
+    "revision": "4769f68d95ce4c3f248f4ad10d7cfcde"
   },
   {
     "url": "manifest.json",
-    "revision": "e6b8850d37c9545617a4f80548d357b0"
+    "revision": "dff999c770aec7aea064aa210ffef8f8"
   },
   {
     "url": "ms-icon-144x144.png",
