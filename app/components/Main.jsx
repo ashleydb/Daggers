@@ -6,6 +6,15 @@ import Nav from 'Nav';
 //Basic presentational component that would only have a render function
 // rewritten using arrow functions from ES6.
 var Main = (props) => {
+  var SHOW_DONATE_BANNER = false;
+  var donateBanner = SHOW_DONATE_BANNER ? (
+    <a href="https://www.daggers-shop.co.uk/donate"
+      title="Please support us by donating"
+      className="donate">
+      Support Us. Please Donate
+    </a>
+  ) : ' ';
+
   return (
     <div>
       <CookieBanner
@@ -16,11 +25,7 @@ var Main = (props) => {
         styles={{
           banner: { height: 'auto' }
         }} />
-      <a href="https://www.daggers-shop.co.uk/donate"
-          title="Please support us by donating"
-          className="donate">
-          Support Us. Please Donate
-      </a>
+      {donateBanner}
       <Nav/>
       <div className="row">
         <div className="small-centered columns">

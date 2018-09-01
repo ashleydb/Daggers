@@ -19,116 +19,120 @@ importScripts('workbox-sw.prod.v1.3.0.js');
  */
 const fileManifest = [
   {
-    "url": "android-icon-144x144.png",
-    "revision": "f899c10741a2629a0747ec39dbcf1101"
+    "url": "android-chrome-192x192.png",
+    "revision": "cfda5fa55496290ea2f962c7ba1b744a"
   },
   {
-    "url": "android-icon-192x192.png",
-    "revision": "7745a05a52b278cb68a63f2b3416d3b5"
+    "url": "android-chrome-512x512.png",
+    "revision": "c9b43fbe5560322c1fc725a5ed37ec42"
   },
   {
-    "url": "android-icon-36x36.png",
-    "revision": "f6635497c2f34964f03cdc3479cd5716"
+    "url": "apple-touch-icon-114x114-precomposed.png",
+    "revision": "9ea4e31cb1d1cf2aecd21fa843613368"
   },
   {
-    "url": "android-icon-48x48.png",
-    "revision": "83cb1c103839a080053f12c00f7ef06c"
+    "url": "apple-touch-icon-114x114.png",
+    "revision": "eb5f38a521a3687b352e01402bf99371"
   },
   {
-    "url": "android-icon-512x512.png",
-    "revision": "fbcafa1c8fe507fef6cf5051bb8416b2"
+    "url": "apple-touch-icon-120x120-precomposed.png",
+    "revision": "3e730dbd68eafefe304b3fd088c44f68"
   },
   {
-    "url": "android-icon-72x72.png",
-    "revision": "ce9b7f404eef68c476d0d3137d430fc1"
+    "url": "apple-touch-icon-120x120.png",
+    "revision": "0682054480ff4b9cfc58c616a2ef8d51"
   },
   {
-    "url": "android-icon-96x96.png",
-    "revision": "60ced9a950e19a1bd4cb9d90dedcaef2"
+    "url": "apple-touch-icon-144x144-precomposed.png",
+    "revision": "cd179d4665fa54e54cdebf683f7ec582"
   },
   {
-    "url": "apple-icon-114x114.png",
-    "revision": "71f8654b89dbdfdd2440882279041371"
+    "url": "apple-touch-icon-144x144.png",
+    "revision": "2fbd43a4117a41ca8141ac3870c9213b"
   },
   {
-    "url": "apple-icon-120x120.png",
-    "revision": "cc2e9769dac80515398f005d0fb75d50"
+    "url": "apple-touch-icon-152x152-precomposed.png",
+    "revision": "26c39f469ed3899f2d91a98d0d0bbc73"
   },
   {
-    "url": "apple-icon-144x144.png",
-    "revision": "032c20b002abbf2c527fa196309faedf"
+    "url": "apple-touch-icon-152x152.png",
+    "revision": "f01c6f1347d35f807a1236a72e0f0a5c"
   },
   {
-    "url": "apple-icon-152x152.png",
-    "revision": "3fe9cd116af4ffd57dc415eb389ce9fd"
+    "url": "apple-touch-icon-180x180-precomposed.png",
+    "revision": "5887a6e879eda0e5c8dadd185f94f992"
   },
   {
-    "url": "apple-icon-180x180.png",
-    "revision": "00fd478bcfaf72e8a08ea27476250c8c"
+    "url": "apple-touch-icon-180x180.png",
+    "revision": "859627dcd458c4d95b03e0b1f0b666e7"
   },
   {
-    "url": "apple-icon-57x57.png",
-    "revision": "5cc30fcb38ab217141d8f95711513c63"
+    "url": "apple-touch-icon-57x57-precomposed.png",
+    "revision": "e51f5fc6438f256c09a01b51ead15799"
   },
   {
-    "url": "apple-icon-60x60.png",
-    "revision": "ac3758f6e5ef9bad791156fb4b599730"
+    "url": "apple-touch-icon-57x57.png",
+    "revision": "7993a1bf071ec74ada975ac1202f5508"
   },
   {
-    "url": "apple-icon-72x72.png",
-    "revision": "0832b37856668339e8e5c8590a0783cb"
+    "url": "apple-touch-icon-60x60-precomposed.png",
+    "revision": "68f1f95c273f03ed3407b664f73de44b"
   },
   {
-    "url": "apple-icon-76x76.png",
-    "revision": "112ff4b59a3e837f26aef35369e1ddcc"
+    "url": "apple-touch-icon-60x60.png",
+    "revision": "b0c82929007aac49525ed40ca9611be4"
   },
   {
-    "url": "apple-icon-precomposed.png",
-    "revision": "1a9a65747d2fae6bf565aff9c396dc54"
+    "url": "apple-touch-icon-72x72-precomposed.png",
+    "revision": "971aa7ad40cf4550f9581935c710bdc1"
   },
   {
-    "url": "apple-icon.png",
-    "revision": "48f054d0ac198859c65f10e1404b0a02"
+    "url": "apple-touch-icon-72x72.png",
+    "revision": "538cabc9b200a22d09a53d37f2bc31fa"
+  },
+  {
+    "url": "apple-touch-icon-76x76-precomposed.png",
+    "revision": "79d7f82ae276198319891ad959788c43"
+  },
+  {
+    "url": "apple-touch-icon-76x76.png",
+    "revision": "60dcb07dda33c46830ff364969411e1f"
+  },
+  {
+    "url": "apple-touch-icon-precomposed.png",
+    "revision": "5887a6e879eda0e5c8dadd185f94f992"
+  },
+  {
+    "url": "apple-touch-icon.png",
+    "revision": "859627dcd458c4d95b03e0b1f0b666e7"
   },
   {
     "url": "favicon-16x16.png",
-    "revision": "7f336f157c8d46e61ce9be6a358bd641"
+    "revision": "fc5131b143e88430ac11adb6e5a182fb"
+  },
+  {
+    "url": "favicon-194x194.png",
+    "revision": "3f9a9e6af129af628627a529b4428af8"
   },
   {
     "url": "favicon-32x32.png",
-    "revision": "02b7c9ee360058ea8098bbe90bf9d578"
-  },
-  {
-    "url": "favicon-96x96.png",
-    "revision": "fc81b23eb5f94eea3dc9e5f5b04ec6c3"
+    "revision": "b66a1a19645b2b444bce27592dbb4a67"
   },
   {
     "url": "favicon.ico",
-    "revision": "2da457b1f25a021a64c8a425bc919dea"
+    "revision": "c10c515b347c170754cdcb09bb80d438"
   },
   {
     "url": "index.html",
-    "revision": "4769f68d95ce4c3f248f4ad10d7cfcde"
+    "revision": "2517d8142681bc5798b34b455187d29b"
   },
   {
-    "url": "manifest.json",
-    "revision": "dff999c770aec7aea064aa210ffef8f8"
+    "url": "mstile-144x144.png",
+    "revision": "10130cd14fd4a187acfbe838c6aeb972"
   },
   {
-    "url": "ms-icon-144x144.png",
-    "revision": "6e6785601a4cc8fc9b3fc3e109843bba"
-  },
-  {
-    "url": "ms-icon-150x150.png",
-    "revision": "4706da189fe30ebf01ab690595e5e696"
-  },
-  {
-    "url": "ms-icon-310x310.png",
-    "revision": "5b41239a3c9be07255b6ab8c36b8e4f0"
-  },
-  {
-    "url": "ms-icon-70x70.png",
-    "revision": "ec026a03574dc1ea0cc6bc51ee58ecee"
+    "url": "mstile-150x150.png",
+    "revision": "75ecf75bc74b76802d84a0fa5e703c28"
   },
   {
     "url": "workbox-sw.prod.v1.0.1.js",
