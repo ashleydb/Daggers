@@ -11,7 +11,7 @@ export default class Nav extends React.Component {
     render() {
         return (
             <div className="logo-bar">
-                <div className="row logo-bar small-collapse">
+                <div className="row small-collapse menu-centered">
                     <div className="small-6 columns">
                         <IndexLink to="/">
                             <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/images/header-logo.png" alt="Dagenham & Redbridge FC Logo" className="nav-banner"/>
@@ -28,7 +28,7 @@ export default class Nav extends React.Component {
                 </div>
 
                 <div className="top-bar" id="nav-menu">
-                    <div className="top-bar-left">
+                    <div className="menu-centered">
                         <ul className="vertical large-horizontal menu club-nav">
                             <li><IndexLink to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>HOME</IndexLink></li>
                             <li><Link to="/news" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>NEWS</Link></li>
@@ -41,6 +41,9 @@ export default class Nav extends React.Component {
                             <li><Link to="/club" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>CLUB</Link></li>
                             <li><Link to="/commercial" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>COMMERCIAL</Link></li>
                             <li><a href="https://www.daggers-shop.co.uk/">CLUB SHOP</a></li>
+                            <li><a href="https://www.youtube.com/user/OfficialDaggers"><i className="fi-social-youtube social-icon-medium social-color-youtube"></i></a></li>
+                            <li><a href="https://www.facebook.com/OfficialDaggers"><i className="fi-social-facebook social-icon-medium social-color-facebook"></i></a></li>
+                            <li><a href="http://twitter.com/dag_redfc"><i className="fi-social-twitter social-icon-medium social-color-twitter"></i></a></li>
                         </ul>
                     </div>
                 </div>

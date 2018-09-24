@@ -26,6 +26,9 @@ export class Team extends React.Component {
         //this.loadPlayer(this.props.id);
         this.props.dispatch(actions.players.fetchPlayersIfNeeded());
     }
+    componentDidMount() {
+        ReactDOM.findDOMNode(this._contentTop).scrollIntoView();
+    }
     onSelectTeam() {
         this.setState({selectedTeam: this.refs.teamSelect.value});
     }
@@ -54,6 +57,7 @@ export class Team extends React.Component {
         if (status.isFetching) {
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="callout">
                       <h5>Loading</h5>
                       <p>Please wait while we get the players...</p>
@@ -63,6 +67,7 @@ export class Team extends React.Component {
         } else if (!players || players.length < 1) {
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="callout alert">
                       <h5>Error</h5>
                       <p>No players found.</p>
@@ -147,6 +152,7 @@ export class Team extends React.Component {
 
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="row">
 
                         <div className="row">

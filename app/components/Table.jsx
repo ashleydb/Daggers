@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 var {connect} = require('react-redux');
 import {Link} from 'react-router';
 import {actions} from 'actions';
@@ -95,6 +96,10 @@ export class Table extends React.Component {
     //     }
     // }
 
+    componentDidMount() {
+        ReactDOM.findDOMNode(this._contentTop).scrollIntoView();
+    }
+
     render() {
         var iframeStyle = {
             width: '95%',
@@ -105,6 +110,7 @@ export class Table extends React.Component {
         //var tableFrame = (<iframe style={iframeStyle} src={`http://www.thenationalleague.org.uk/match-info/tables?division_id=42247`}></iframe>);
         return (
             <div>
+                <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                 <div className="row">
                     <div className="columns small-12 large-8">
                         <h3>League Table</h3>

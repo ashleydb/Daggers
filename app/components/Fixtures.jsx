@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 var {connect} = require('react-redux');
 import { Link } from 'react-router';
 import LazyLoad from 'react-lazyload';
@@ -23,6 +24,9 @@ export class Fixtures extends React.Component {
     }
     componentWillMount() {
         this.props.dispatch(actions.fixtures.fetchFixturesIfNeeded());
+    }
+    componentDidMount() {
+        ReactDOM.findDOMNode(this._contentTop).scrollIntoView();
     }
     setSeasonAndSquad(season, squad) {
         // Change which season of fixtures we are showing
@@ -82,6 +86,7 @@ export class Fixtures extends React.Component {
         if (status.isFetching) {
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="callout">
                       <h5>Loading</h5>
                       <p>Please wait while we get the fixtures...</p>
@@ -91,6 +96,7 @@ export class Fixtures extends React.Component {
         } else if (!fixtures || fixtures.length < 1) {
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="callout alert">
                       <h5>Error</h5>
                       <p>No fixtures found.</p>
@@ -137,6 +143,7 @@ export class Fixtures extends React.Component {
             
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="row">
                         <div className="columns small-12 large-8">
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
 var {connect} = require('react-redux');
 import {actions} from 'actions';
@@ -25,12 +26,16 @@ export class Home extends React.Component {
         // Get the most recent month's stories
         this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_RECENT, null));
     }
+    componentDidMount() {
+        ReactDOM.findDOMNode(this._contentTop).scrollIntoView();
+    }
     render() {
         var {news, status} = this.props.news;
         
         if (status.isFetching) {
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="callout">
                       <h5>Loading</h5>
                       <p>Please wait while we get the news...</p>
@@ -40,6 +45,7 @@ export class Home extends React.Component {
         } else if (!news || news.length < 1) {
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="callout alert">
                       <h5>Error</h5>
                       <p>No news found.</p>
@@ -53,6 +59,7 @@ export class Home extends React.Component {
             return (
 
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="row hide-for-large">
                         <a href="http://www.vanarama.co.uk/">
                             <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor.png" className="league-sponsor float-center" alt="Vanarama"/>

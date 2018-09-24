@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 var {connect} = require('react-redux');
 import {actions} from 'actions';
 import NewsSummary from 'NewsSummary';
@@ -20,6 +21,9 @@ export class News extends React.Component {
     componentWillMount() {
         // Get the most recent year's news
         this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST));
+    }
+    componentDidMount() {
+        ReactDOM.findDOMNode(this._contentTop).scrollIntoView();
     }
     handleFetchNews() {
         var year = Number(this.refs.year.value);
@@ -82,12 +86,14 @@ export class News extends React.Component {
             // This will render `NewsStory.jsx` when at /news/:newsId
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     {this.props.children}
                 </div>
             );
         } else if (status.isFetching) {
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="callout">
                       <h5>Loading</h5>
                       <p>Please wait while we get the news...</p>
@@ -97,6 +103,7 @@ export class News extends React.Component {
         } else if (!news || news.length < 1) {
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     {datePicker(this, status.year, status.month)}
 
                     <div className="callout alert">
@@ -149,6 +156,7 @@ export class News extends React.Component {
             
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     {datePicker(this, status.year, status.month)}
                     {paginationLinks}
 
