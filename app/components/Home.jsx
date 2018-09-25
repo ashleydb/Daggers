@@ -69,17 +69,9 @@ export class Home extends React.Component {
                     {/* will render a list of news items when at /news/ */}
                     <div className="row">
                         <div className="columns small-12 large-8">
-                            
                             <div className="row">
                                 <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="MAIN"/>
                             </div>
-
-                            <div className="row small-up-1 medium-up-3">
-                                <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
-                                <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
-                                <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
-                            </div>
-
                         </div>
                         <div className="columns small-12 large-4">
                             <div className="row show-for-large">
@@ -98,8 +90,12 @@ export class Home extends React.Component {
                                     <PitcheroVideoPlayer/>
                                 </div>
                             </div>
-                            
-                            <div className="row">
+                        </div>
+                        <div className="columns small-12">
+                            <div className="row small-up-1 medium-up-4">
+                                <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                                <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
+                                <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
                                 <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="SMALL"/>
                             </div>
                         </div>
