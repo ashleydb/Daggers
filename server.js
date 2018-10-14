@@ -88,6 +88,12 @@ var sponsorsRoute = require('./app/server/routes/Sponsors');
 var imagesRoute = require('./app/server/routes/Images');
 var authRoute = require('./app/server/routes/Auth');
 
+// For specifying if the server is up and working
+var healthRoute = express.Router();
+healthRoute.get('/health', function(req, res) {
+  res.json({ message: 'Server is up.' });   
+});
+
 
 // REGISTER OUR ROUTES -------------------------------
 // All of our API routes will be prefixed with /api
@@ -95,7 +101,7 @@ var authRoute = require('./app/server/routes/Auth');
 app.use('/api', [router, newsRoute, fixturesRoute, pagesRoute,
                  playersRoute, bannerRoute, tableRoute, sponsorsRoute, imagesRoute]);
 // Other routes from the root go here
-app.use('/', [authRoute]);
+app.use('/', [authRoute, healthRoute]);
 
 
 // Auth Middleware - This will check if the token is valid
