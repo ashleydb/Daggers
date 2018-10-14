@@ -5,6 +5,11 @@ const path = require('path');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 
+// For error logging on GCP
+const ErrorReporting = require('@google-cloud/error-reporting').ErrorReporting;
+//const errors = new ErrorReporting({ignoreEnvironmentCheck:true}); // To run locally during development
+const errors = new ErrorReporting(); // To run on GCP server
+
 const app = express();
 
 //app.use(logger('dev'));
@@ -108,6 +113,10 @@ app.use(express.static(publicPath));
 app.get('*', function (request, response){
     response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
 });
+
+
+// Last line is to log any errors
+app.use(errors.express);
 
 // Start the server
 app.listen(PORT, function() {

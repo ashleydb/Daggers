@@ -1,5 +1,10 @@
 // Model for News Articles
 
+// Use CGP Error Reporting
+const ErrorReporting = require('@google-cloud/error-reporting').ErrorReporting;
+//const errors = new ErrorReporting({ignoreEnvironmentCheck:true}); // To run locally during development
+const errors = new ErrorReporting(); // To run on GCP server
+
 // Using Firebase with a cache to represent News data from our DB
 var myFirebase = require('../cloud/firebase');
 var FirebaseCacheNews = require('../cloud/FirebaseCacheNews');
@@ -76,6 +81,12 @@ class News {
             callback(null, id, year, month, createdAt);
         }, (e) => {
             // Error
+
+            // Report an Error object to GCP
+            errors.report(new Error('Models:News:Save() - ' + e.message), () => {
+                console.log('Models:News:Save() error reported.');
+            });
+
             callback(e);
         });
     }
@@ -87,6 +98,12 @@ class News {
         var err = validateOptions(options, false, false, false);
         if (err) {
             // Error
+
+            // Report an Error object to GCP
+            errors.report(new Error('Models:News:Find() - ' + e.message), () => {
+                console.log('Models:News:Save() error reported.');
+            });
+
             callback(err);
             return;
         }
@@ -113,6 +130,12 @@ class News {
         var err = validateOptions(options, true, true, true);
         if (err) {
             // Error
+
+            // Report an Error object to GCP
+            errors.report(new Error('Models:News:FindById() - ' + e.message), () => {
+                console.log('Models:News:Save() error reported.');
+            });
+
             callback(err);
             return;
         }
@@ -140,6 +163,12 @@ class News {
         var err = validateOptions(options, true, true, true);
         if (err) {
             // Error
+
+            // Report an Error object to GCP
+            errors.report(new Error('Models:News:Remove() - Invalid Options - ' + e.message), () => {
+                console.log('Models:News:Save() error reported.');
+            });
+
             callback(err);
             return;
         }
@@ -155,6 +184,12 @@ class News {
             }
         }, (e) => {
             // Error
+
+            // Report an Error object to GCP
+            errors.report(new Error('Models:News:Remove() - ' + e.message), () => {
+                console.log('Models:News:Save() error reported.');
+            });
+
             callback(e);
         });
     }

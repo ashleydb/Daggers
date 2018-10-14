@@ -11,9 +11,10 @@
   "author": "Ashley Bennett",
   "license": "...",
   "engines": {
-    "node": "6.12.x"
+    "node": "6.14.x"
   },
   "dependencies": {
+    "@google-cloud/error-reporting": "^0.5.1",
     "@google-cloud/storage": "^1.1.1",
     "axios": "^0.15.3",
     "babel-core": "^6.18.2",
