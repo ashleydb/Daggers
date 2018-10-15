@@ -6,7 +6,9 @@
   "scripts": {
     "test": "SET NODE_ENV=test&& karma start",
     "build": "webpack",
-    "start": "npm run build && node server.js"
+    //"start": "npm run build && node server.js"
+    //"start": "yarn build && node server.js"
+    "start": "node server.js"
   },
   "author": "Ashley Bennett",
   "license": "...",
