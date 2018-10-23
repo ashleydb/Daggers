@@ -1,15 +1,18 @@
 {
   "name": "daggers",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Website for Dagenham & Redbridge FC",
+  "homepage": "https://github.com/ashleydb/Daggers/",
   "main": "bundle.js",
   "scripts": {
     "test": "SET NODE_ENV=test&& karma start",
     "build": "webpack",
-    "start": "node server.js"
+    "start": "node server.js",
+    "rebuild": "yarn build && node server.js",
+    "rebuildN": "npm run build && node server.js"
   },
   "author": "Ashley Bennett",
-  "license": "...",
+  "license": "NPOSL-3.0",
   "engines": {
     "node": "6.14.x"
   },
