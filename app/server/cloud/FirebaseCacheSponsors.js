@@ -1,5 +1,5 @@
 // Using Firebase
-var myFirebase = require('./firebase');
+//var myFirebase = require('./firebase');
 var FirebaseCache = require('./firebaseCache');
 
 class FirebaseCacheSponsors extends FirebaseCache {

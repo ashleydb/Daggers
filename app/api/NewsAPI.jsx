@@ -26,11 +26,17 @@ export const FETCH_ALL = null;
 // How far back does our news go in the DB? This was the first year we have news for.
 const NEWS_FIRST_YEAR = 2012;
 
+// How many stories to fetch from the server when getting Recent stories for the homepage
+const NEWS_RECENT_STORY_COUNT = 5;
+
 // TODO: This assumes we have data for all of these years. Doesn't check with our DB even once.
-export function getYearList() {
+export function getYearList(includeNextYear = false) {
     var years = [];
     var d = new Date();
     var year = d.getFullYear();
+    if (includeNextYear) {
+        ++year;
+    }
     while (year >= NEWS_FIRST_YEAR) {
         years.push(year);
         --year;
@@ -47,24 +53,29 @@ export function getMonthList() {
 // Doesn't store the data within the API at all, just returns whatever we download to the caller who needs to manage the state.
 //   NOTE: Returns a flat array, with no notion of year/month preserved...
 // TODO: Should the caller store as a 2d array? Should they sort the array as new results come in?
-export function getStories(_year = FETCH_ALL, _month = FETCH_ALL) {
+export function getStories(_year = FETCH_ALL, _month = FETCH_ALL, token = null) {
     return new Promise(
         // The resolver function is called with the ability to resolve or reject the promise
         function (resolve, reject) {
-            var apiPath = '/api/v1/news'; // {2017: 12: {id: story, ...}, 11: ..., 2016:...}
-            if (_year) {
-                if (_month)
-                    apiPath = `/api/v1/news/${_year}/${_month}`; // {2017: 12: {id: story, ...}}
-                else
-                    apiPath = `/api/v1/news/${_year}`; // {2017: 12: {id: story, ...}, 11: ...}
-            }
-            // Call our server to fetch some news
-            Axios.get(apiPath, {
-                params: {
-                    listIDs: false
+
+            try {
+                const axiosInstance = Axios.create({
+                    headers: { 'x-access-token': token }
+                });
+
+                var apiPath = '/api/v1/news'; // {2017: 12: {id: story, ...}, 11: ..., 2016:...}
+                if (_year) {
+                    if (_month)
+                        apiPath = `/api/v1/news/${_year}/${_month}`; // {2017: 12: {id: story, ...}}
+                    else
+                        apiPath = `/api/v1/news/${_year}`; // {2017: 12: {id: story, ...}, 11: ...}
                 }
-            })
-                .then(function (response) {
+
+                axiosInstance.get(apiPath, {
+                    params: {
+                        listIDs: false
+                    }
+                }).then(function (response) {
                     var fullNews = response.data;
                     // If we requested a specific year, use that. Else use the current year.
                     var year = _year;
@@ -94,7 +105,7 @@ export function getStories(_year = FETCH_ALL, _month = FETCH_ALL) {
                             }
                         }
                         // If we requested a specific year, we can break early
-                        if ((_year && _year != FETCH_LATEST && _year != FETCH_RECENT) || (_year == FETCH_LATEST && stories.length) || (_year == FETCH_RECENT && stories.length))
+                        if ((_year && _year != FETCH_LATEST && _year != FETCH_RECENT) || (_year == FETCH_LATEST && stories.length) || (_year == FETCH_RECENT && stories.length >= NEWS_RECENT_STORY_COUNT))
                             break;
                         month = 12;
                         --year;
@@ -112,6 +123,12 @@ export function getStories(_year = FETCH_ALL, _month = FETCH_ALL) {
                     console.log("ERR: Problem fetching news:", error);
                     reject(error);
                 });
+                
+            } catch (e) {
+                // try failed
+                console.log("ERR: getStories() failed:", e);
+                reject(e);
+            }
         }
     );
 };

@@ -118,6 +118,7 @@ class News {
                 id: options.id,
                 listIDs: options.listIDs
             });
+            console.log('Models:News:find() - No news found.');
         } else {
             callback(null, news);
         }
@@ -204,9 +205,9 @@ function validateOptions(options, requiresYear, requiresMonth, requiresId) {
     if (options) {
         // Was a year passed in?
         if (options.year) {
-            // Check the range of the year is valid
+            // Check the range of the year is valid. Assume this year for non-admins, or year+1 for admins is the high end
             var d = new Date();
-            var year = d.getFullYear();
+            var year = (options.isAdmin) ? d.getFullYear() + 1 : d.getFullYear();
             // TODO: Could be more rigorous around whether LATEST/RECENT are allowed, since they are not valid for all APIs
             if (options.year != FETCH_LATEST && options.year != FETCH_RECENT) {
                 options.year = Number(options.year);

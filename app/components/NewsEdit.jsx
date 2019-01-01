@@ -22,8 +22,8 @@ export class NewsEdit extends React.Component {
     }
     componentWillMount() {
         // TODO: Copy the News year picking and pagination from News.jsx to here
-        // Get the most recent year's news
-        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST));
+        // Get the most recent month's news
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST, actions.news.FETCH_LATEST, this.props.login.token));
     }
     handleSaveStory(story) {
         this.props.dispatch(actions.news.submitStory(story, this.props.login.token));
@@ -35,10 +35,10 @@ export class NewsEdit extends React.Component {
     handleFetchNews() {
         var year = Number(this.refs.year.value);
         var month = Number(this.refs.month.value);
-        // 0 is ALL in our picker, so null it out
-        if (month == 0)
-            month = null;
-        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month));
+        // No longer true: // 0 is ALL in our picker, so null it out
+        // if (month == 0)
+        //     month = null;
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month, this.props.login.token));
     }
     setPage(pageNum) {
         // Change which page of news stories we are showing
@@ -77,7 +77,7 @@ export class NewsEdit extends React.Component {
 
         function datePicker(_that, _year, _month) {
             // TODO: years and months options just list all values, even if we don't have data, (e.g. could select a future month)
-            var years = NewsAPI.getYearList();
+            var years = NewsAPI.getYearList(true);
             var yearOptions = years.map((year) => {
                 return (
                     <option key={year} value={year}>{year}</option>
@@ -85,10 +85,10 @@ export class NewsEdit extends React.Component {
             });
 
             var months = NewsAPI.getMonthList();
-            months = ['All', ...months];
+            //months = ['All', ...months]; // Non-admins can't request all news for a year now, so no need for 'All' option. Note the change to index+1 below.
             var monthOptions = months.map((month, index) => {
                 return (
-                    <option key={index} value={index}>{month}</option>
+                    <option key={index} value={index+1}>{month}</option>
                 );
             });
 
@@ -196,9 +196,10 @@ export class NewsEdit extends React.Component {
                 );
             });
             
+            var dateNow = new Date();
             return (
                 <div>
-                    {datePicker(this, status.year, status.month)}
+                    {datePicker(this, dateNow.getFullYear(), dateNow.getMonth())}
                     {paginationLinks}
                     {errorMessage}
                     <Link to={`/admin/news/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
@@ -211,9 +212,10 @@ export class NewsEdit extends React.Component {
                 </div>
             );
         } else {
+            var dateNow = new Date();
             return (
                 <div>
-                    {datePicker(this, status.year, status.month)}
+                    {datePicker(this, dateNow.getFullYear(), dateNow.getMonth())}
                     <div className="callout alert">
                         <h5>Error</h5>
                         <p>No news found.</p>

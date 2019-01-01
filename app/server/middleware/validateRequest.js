@@ -11,6 +11,28 @@ var ValidateAuth = {
     // Check if the user is logged in
     isUser: function(req, res, next) {
         validateAuthentication(false, req, res, next);
+    },
+    // Non-middleware admin check. Returns true if an admin, false if not or on error
+    checkAdmin(req) {
+        var token = (req.body && req.body.access_token) ||
+                    (req.query && req.query.access_token) ||
+                    req.headers['x-access-token'];
+        
+        if (token) {
+            try {
+                var decoded = jwt.decode(token, process.env.AUTH_SECRET);
+                if (decoded.exp > Date.now()) {
+                    // Token not expired. Authorize the user to see if s/he can access our resources
+                    var dbUser = validateUser(decoded.username); // The key would be the logged in user's username
+                    if (dbUser && dbUser.role == 'admin') {
+                        return true;
+                    }
+                }
+            } catch (err) {
+                return false;
+            }
+        }
+        return false;
     }
 }
 

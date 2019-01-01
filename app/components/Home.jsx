@@ -16,6 +16,9 @@ import PitcheroVideoPlayer from 'PitcheroVideoPlayer';
 // TODO: Correctly load enough stories to pass to summaries
 // TODO: 3 summaries on a row on a phone doesn't look good. Breaks down to 2, 1.
 
+// How many stories to fetch from the server when getting Recent stories for the homepage
+const NEWS_RECENT_STORY_COUNT = 5;
+
 export class Home extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
     constructor(props) {
@@ -55,7 +58,7 @@ export class Home extends React.Component {
         } else {
             // Shift the first element off the array to get the latest story.
             //  If we don't have any more, show a placeholder.
-            var tempNews = news.slice(0, 6);
+            var tempNews = news.slice(0, NEWS_RECENT_STORY_COUNT);
             return (
 
                 <div>

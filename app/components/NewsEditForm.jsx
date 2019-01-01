@@ -83,7 +83,7 @@ export default class NewsEditForm extends React.Component {
             var d = new Date(Number(dateMS));
             var months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
             //01-JAN-2000
-            return `${d.getDate()}-${months[d.getMonth()]}-${d.getFullYear()}`;
+            return `${d.getDate()}-${months[d.getMonth()]}-${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
         }
 
         var {story} = this.props;
@@ -111,7 +111,7 @@ export default class NewsEditForm extends React.Component {
                 <form onSubmit={this.onFormSubmit}>
                     <input type="hidden" defaultValue={story.id} ref="id"/>
                     <input type="hidden" defaultValue={story.createdAt} ref="oldCreatedAt"/>
-                    <label>Date</label><input type="text" defaultValue={dateToString(story.createdAt)} placeholder="Optional, e.g. 01-JAN-2100" ref="createdAt"/>
+                    <label>Date</label><input type="text" defaultValue={dateToString(story.createdAt)} placeholder="Optional, e.g. 01-JAN-2030 09:00 or just 01-JAN-2030" ref="createdAt"/>
                     <label>Headline</label><input type="text" defaultValue={story.headline} ref="headline"/>
                     <label>Summary</label><input type="text" defaultValue={story.summary} ref="summary"/>
                     

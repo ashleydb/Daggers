@@ -48,15 +48,16 @@ router.route('/v1/news')
     })
 
     // get all the news (accessed at GET http://localhost:8080/api/v1/news) or a list of years/months/ids
-    // (Optional) listIDs must be true/false as a query parameter to only get IDs back
-    // No authentication required.
-    .get(function(req, res) {
+    // (Optional) listIDs must be true/false as a query parameter to only get IDs back (TODO)
+    // Must be an admin to get all news, partly in case there is future news
+    .get(authenticate.isAdmin, function(req, res) {
         // By default, return all news we have.
         // Optional params to only get a list of the years/months/ids that we have content for so the client can "page"
         var options = {
             year: null,
             month: null,
-            listIDs: req.query.listIDs === "true" ? true : false
+            listIDs: req.query.listIDs === "true" ? true : false,
+            isAdmin: true
         }
         News.find(options, function(err, news) {
             if (err) {
@@ -72,8 +73,8 @@ router.route('/v1/news')
 router.route('/v1/news/:year')
     // get all the news (accessed at GET http://localhost:8080/api/v1/news/:year) or a list of months/ids
     // year must be a number, e.g. 2017, or "latest" for the most recent year
-    // (Optional) listIDs must be true/false as a query parameter to only get IDs back
-    // No authentication required.
+    // (Optional) listIDs must be true/false as a query parameter to only get IDs back (TODO)
+    // No authentication required, but need to be an admin to include future news
     .get(function(req, res) {
         // By default, return all news we have for this year
         // Optional params to only get a list of the months/ids that we have content for so the client can "page"
@@ -84,13 +85,14 @@ router.route('/v1/news/:year')
             case FETCH_LATEST:
                 break;
             default:
-                Number(req.params.year);
+                year = Number(req.params.year);
                 break;
         }
         var options = {
             year,
             month: null,
-            listIDs: req.query.listIDs === "true" ? true : false
+            listIDs: req.query.listIDs === "true" ? true : false,
+            isAdmin: authenticate.checkAdmin(req)
         }
             
         News.find(options, function(err, news) {
@@ -108,15 +110,16 @@ router.route('/v1/news/:year/:month')
     // get all the news (accessed at GET http://localhost:8080/api/v1/news/:year/:month) or a list of ids
     // year must be a number, e.g. 2017, or "latest" for the most recent year
     // month must be a number, 1-12, or "latest" for the most recent month
-    // (Optional) listIDs must be true/false as a query parameter to only get IDs back
-    // No authentication required.
+    // (Optional) listIDs must be true/false as a query parameter to only get IDs back (TODO)
+    // No authentication required, but need to be an admin to include future news
     .get(function(req, res) {
         // By default, return all news we have for this year/month
         // Optional params to only get a list of the ids that we have content for so the client can "page"
         var options = {
             year: (req.params.year == FETCH_LATEST) ? FETCH_LATEST : Number(req.params.year),
             month: (req.params.month == FETCH_LATEST) ? FETCH_LATEST : Number(req.params.month),
-            listIDs: req.query.listIDs === "true" ? true : false
+            listIDs: req.query.listIDs === "true" ? true : false,
+            isAdmin: authenticate.checkAdmin(req)
         }
         
         News.find(options, function(err, news) {
@@ -137,12 +140,13 @@ router.route('/v1/news/:year/:month/:news_id')
     // year must be a number, e.g. 2017
     // month must be a number, 1-12
     // id must be an article id, e.g. "-KfjGxf03zvpWrCw9cun"
-    // No authentication required.
+    // No authentication required, but need to be an admin if this is future news
     .get(function(req, res) {
         var options = {
             year: Number(req.params.year),
             month: Number(req.params.month),
-            id: req.params.news_id
+            id: req.params.news_id,
+            isAdmin: authenticate.checkAdmin(req)
         };
         News.findById(options, function(err, news) {
             if (err) {
@@ -163,7 +167,8 @@ router.route('/v1/news/:year/:month/:news_id')
         var options = {
             year: Number(req.params.year),
             month: Number(req.params.month),
-            id: req.params.news_id
+            id: req.params.news_id,
+            isAdmin: true
         };
         News.findById(options, function(err, newsData) {
             if (err) {
@@ -221,7 +226,8 @@ router.route('/v1/news/:year/:month/:news_id')
         var options = {
             year: Number(req.params.year),
             month: Number(req.params.month),
-            id: req.params.news_id
+            id: req.params.news_id,
+            isAdmin: true
         };
         News.remove(options, function(err, id, year, month) {
             if (err) {

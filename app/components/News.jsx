@@ -20,7 +20,7 @@ export class News extends React.Component {
     }
     componentWillMount() {
         // Get the most recent year's news
-        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST));
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST, actions.news.FETCH_LATEST));
     }
     componentDidMount() {
         ReactDOM.findDOMNode(this._contentTop).scrollIntoView();
@@ -28,9 +28,9 @@ export class News extends React.Component {
     handleFetchNews() {
         var year = Number(this.refs.year.value);
         var month = Number(this.refs.month.value);
-        // 0 is ALL in our picker, so null it out
-        if (month == 0)
-            month = null;
+        // No longer true: // 0 is ALL in our picker, so null it out
+        // if (month == 0)
+        //     month = null;
         this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month));
     }
     setPage(pageNum) {
@@ -43,7 +43,7 @@ export class News extends React.Component {
         // TODO: Break out this pagination code into something reusable, (e.g. for NewsEdit)
         function datePicker(_that, _year, _month) {
             // TODO: years and months options just list all values, even if we don't have data, (e.g. could select a future month)
-            var years = NewsAPI.getYearList();
+            var years = NewsAPI.getYearList(false);
             var yearOptions = years.map((year) => {
                 return (
                     <option key={year} value={year}>{year}</option>
@@ -51,10 +51,10 @@ export class News extends React.Component {
             });
 
             var months = NewsAPI.getMonthList();
-            months = ['All', ...months];
+            //months = ['All', ...months]; // Non-admins can't request all news for a year now, so no need for 'All' option. Note the change to index+1 below.
             var monthOptions = months.map((month, index) => {
                 return (
-                    <option key={index} value={index}>{month}</option>
+                    <option key={index} value={index+1}>{month}</option>
                 );
             });
 
