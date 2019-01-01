@@ -27,11 +27,6 @@ class FirebaseCacheNews extends FirebaseCache {
         this.years = null;
         this.months = {};
 
-        // Used to cache the latest news stories or numerical year/month rather than always calculating them
-        this.recentNews = null;
-        this.latestYearNonAdmin = null;
-        this.latestMonthNonAdmin = null;
-
         // BINDING: Keep 'this' scoped to this object in any handlers
         this.getYears = this.getYears.bind(this);
         this.getMonths = this.getMonths.bind(this);
@@ -45,9 +40,6 @@ class FirebaseCacheNews extends FirebaseCache {
         this.firebaseData[year] = {};
         this.years = null;
         this.months = {};
-        this.recentNews = null;
-        this.latestYearNonAdmin = null;
-        this.latestMonthNonAdmin = null;
 
         snapshot.forEach(function(monthSnapshot) {
             var month = monthSnapshot.key;
@@ -88,36 +80,30 @@ class FirebaseCacheNews extends FirebaseCache {
 
         if (year == FETCH_RECENT) {
             // Admins never use RECENT, so we never return future stories here
-            if (this.recentNews) {
-                returnData = this.recentNews;
-            } else {
-                year = this.getLatestYear();
-                month = this.getLatestMonth(year);
+            year = this.getLatestYear();
+            month = this.getLatestMonth(year);
 
-                returnData = {};
-                returnData[year] = {};
-                returnData[year][month] = this.hideFutureStories(this.firebaseData[year][month]);
+            returnData = {};
+            returnData[year] = {};
+            returnData[year][month] = this.hideFutureStories(this.firebaseData[year][month]);
 
-                var count = returnData[year][month].length;
-                if (count < NEWS_RECENT_STORY_COUNT) {
-                    var _month = month - 1;
-                    var _year = year;
-                    while (_year > NEWS_FIRST_YEAR && count < NEWS_RECENT_STORY_COUNT) {
-                        while (_month && count < NEWS_RECENT_STORY_COUNT) {
-                            if (this.firebaseData[_year][_month]) {
-                                if (!returnData[_year])
-                                    returnData[_year] = {};
-                                returnData[_year][_month] = this.hideFutureStories(this.firebaseData[_year][_month]);
-                                count += returnData[_year][_month].length;
-                            }
-                            --_month;
+            var count = returnData[year][month].length;
+            if (count < NEWS_RECENT_STORY_COUNT) {
+                var _month = month - 1;
+                var _year = year;
+                while (_year > NEWS_FIRST_YEAR && count < NEWS_RECENT_STORY_COUNT) {
+                    while (_month && count < NEWS_RECENT_STORY_COUNT) {
+                        if (this.firebaseData[_year][_month]) {
+                            if (!returnData[_year])
+                                returnData[_year] = {};
+                            returnData[_year][_month] = this.hideFutureStories(this.firebaseData[_year][_month]);
+                            count += returnData[_year][_month].length;
                         }
-                        --_year;
-                        _month = 12;
+                        --_month;
                     }
+                    --_year;
+                    _month = 12;
                 }
-
-                this.recentNews = returnData;
             }
 
         } else if (year) {
@@ -130,8 +116,6 @@ class FirebaseCacheNews extends FirebaseCache {
                 // Only admins can request data for a future year
                 if (isAdmin) {
                     year = this.getLatestYear();
-                } else if (this.latestYearNonAdmin) {
-                    year = this.latestYearNonAdmin;
                 } else {
                     var years = this.getYears(); // Array of year values
                     var _year = 9999; // For our loop to find a valid year
@@ -148,7 +132,6 @@ class FirebaseCacheNews extends FirebaseCache {
                         return null;
                     else {
                         year = _year;
-                        this.latestYearNonAdmin = _year;
                     }
                 }
             }
@@ -164,8 +147,6 @@ class FirebaseCacheNews extends FirebaseCache {
                     // Only admins can request data for a future year
                     if (isAdmin) {
                         month = this.getLatestMonth(year);
-                    } else if ((year == this.latestYearNonAdmin) && this.latestMonthNonAdmin) {
-                        month = this.latestMonthNonAdmin;
                     } else {
                         var months = this.getMonths(year); // Array of month values
                         var _month = 13; // For our loop to find a valid month
@@ -185,7 +166,6 @@ class FirebaseCacheNews extends FirebaseCache {
                             return null;
                         else {
                             month = _month;
-                            this.latestMonthNonAdmin = _month;
                         }
                     }
                 }

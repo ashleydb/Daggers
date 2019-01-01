@@ -28,9 +28,6 @@ export class News extends React.Component {
     handleFetchNews() {
         var year = Number(this.refs.year.value);
         var month = Number(this.refs.month.value);
-        // No longer true: // 0 is ALL in our picker, so null it out
-        // if (month == 0)
-        //     month = null;
         this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month));
     }
     setPage(pageNum) {
@@ -51,7 +48,6 @@ export class News extends React.Component {
             });
 
             var months = NewsAPI.getMonthList();
-            //months = ['All', ...months]; // Non-admins can't request all news for a year now, so no need for 'All' option. Note the change to index+1 below.
             var monthOptions = months.map((month, index) => {
                 return (
                     <option key={index} value={index+1}>{month}</option>
