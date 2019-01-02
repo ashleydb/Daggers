@@ -9,7 +9,8 @@
     "build": "webpack",
     "start": "node server.js",
     "rebuild": "yarn build && node server.js",
-    "rebuildN": "npm run build && node server.js"
+    "rebuildN": "npm run build && node server.js",
+    "buildProd": "cross-env NODE_ENV=production webpack"
   },
   "author": "Ashley Bennett",
   "license": "NPOSL-3.0",
@@ -28,6 +29,7 @@
     "babel-preset-stage-0": "^6.16.0",
     "body-parser": "^1.17.1",
     "compression": "^1.6.2",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.26.1",
     "express": "^4.14.0",
     "firebase-admin": "^4.1.3",
