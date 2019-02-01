@@ -1,0 +1,12 @@
+#< SSP/Exchange Domain >, < SellerAccountID >, < PaymentsType >, < TAGID >
+
+# From National League Pitchero Video Player
+google.com, pub-1956856209985681, DIRECT, f08c47fec0942fa0
+google.com, pub-6031766607527281, DIRECT, f08c47fec0942fa0
+tidaltv.com, 4373, RESELLER
+appnexus.com, 2127, Reseller, f5ab79cb980f11d1
+appnexus.com, 3310, Reseller, f5ab79cb980f11d1
+sovrn.com, 239163, RESELLER, fafdf38b16bf6b2b
+lijit.com, 239163, RESELLER, fafdf38b16bf6b2b
+appnexus.com, 3391, RESELLER, f5ab79cb980f11d1
+google.com, pub-2024690810381654, RESELLER, f08c47fec0942fa0
