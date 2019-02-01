@@ -157,6 +157,37 @@ class News {
         }
     }
 
+    // Get a single news story from our DB
+    // options: contains id of the news story to find and isAdmin
+    // callback: Should be callback(error, news)
+    static findByIdBrute(options, callback) {
+        var err = validateOptions(options, false, false, true);
+        if (err) {
+            // Error
+
+            // Report an Error object to GCP
+            errors.report(new Error('Models:News:FindById() - ' + e.message), () => {
+                console.log('Models:News:Save() error reported.');
+            });
+
+            callback(err);
+            return;
+        }
+
+        var news = newsCache.getDataBrute(options);
+
+        // May get back null
+        if (!news) {
+            callback({
+                status: 404,
+                message: "Error: Object not found in DB.",
+                id: options.id
+            });
+        } else {
+            callback(null, news);
+        }
+    }
+
     // Delete a single news story from our DB
     // options: contains year, month and id of the news story to find
     // callback: Should be callback(error, newsId, year, month)

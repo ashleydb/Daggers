@@ -117,6 +117,8 @@ export class Fixtures extends React.Component {
                         link = <a href={fixture.report}>Report</a>;
                     else if (fixture.report)
                         link = <a href={fixture.report}>Preview</a>;
+                    else if (w_l_d)
+                        link = '-'; // No report for a completed game
                     else
                         link = <a href="http://www.daggerstickets.co.uk">Tickets</a>;
                     

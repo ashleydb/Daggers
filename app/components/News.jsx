@@ -19,8 +19,12 @@ export class News extends React.Component {
         this.handleFetchNews = this.handleFetchNews.bind(this);
     }
     componentWillMount() {
-        // Get the most recent year's news
-        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST, actions.news.FETCH_LATEST));
+        // Are we at 'news:id'?
+        var { newsId } = this.props.params;
+        if (!newsId) {
+            // We are on the overall News page, not a specific story. Get the most recent year's news
+            this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST, actions.news.FETCH_LATEST));
+        }
     }
     componentDidMount() {
         ReactDOM.findDOMNode(this._contentTop).scrollIntoView();

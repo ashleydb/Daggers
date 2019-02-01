@@ -10,46 +10,21 @@ export class NewsStory extends React.Component {
         super(props);
     }
     componentWillMount() {
-        var { news, status } = this.props.news;
+        var { story } = this.props.news; // TODO: .news shouldn't be needed
         var { newsId } = this.props.params;
 
-        if (newsId) {
+        if (!story || (newsId && (story.id != newsId))) {
             // Get a specific story and if it isn't found locally then try and get it from our server
-            var story = news ? NewsAPI.getStory(newsId, news) : null;
-            if (!story || story.id != newsId) {
-                // TODO: Lazy. Just gets ALL news data to guarantee we get the story. Users are getting lots of data and we're spending on bandwidth.
-                this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded());
-            }
+            this.props.dispatch(actions.news.fetchNewsStoryIfNeeded(newsId));
         }
     }
     componentDidMount () {
         window.scrollTo(0, 0);
     }
     render() {
-        // Get the story data from NewsAPI, based on the ID in the URL params
-        // TODO: Should this come some other way...? like from the redux state? Same method as NewsEdit/NewsEditForm?
-
-        var { news, status } = this.props.news; // TODO: .news shouldn't be needed
+        var { story, status } = this.props.news; // TODO: .news shouldn't be needed
         var { newsId } = this.props.params;
-        var story = NewsAPI.getStory(newsId, news);
 
-        var image = story.image;
-        if (!image) {
-            image = NewsAPI.DEFAULT_STORY.image;
-        }
-        image = `https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`;
-
-        var dateMS = story.createdAt;
-        var d = new Date(Number(dateMS));
-        var dateStr = d.toDateString();
-
-        if (story.updatedAt) {
-            dateMS = story.updatedAt;
-            d = new Date(Number(dateMS));
-            dateStr = `${dateStr} , (Last Updated: ${d.toDateString()})`;
-        }
-
-        // Extra checking in case there was a story already loaded, but not the one we wanted
         if (status.isFetching) {
             return (
                 <div>
@@ -69,6 +44,22 @@ export class NewsStory extends React.Component {
                 </div>
             );
         } else {
+            var image = story.image;
+            if (!image) {
+                image = NewsAPI.DEFAULT_STORY.image;
+            }
+            image = `https://{-{gcp.storageBucket}-}.storage.googleapis.com${image}`;
+
+            var dateMS = story.createdAt;
+            var d = new Date(Number(dateMS));
+            var dateStr = d.toDateString();
+
+            if (story.updatedAt) {
+                dateMS = story.updatedAt;
+                d = new Date(Number(dateMS));
+                dateStr = `${dateStr} , (Last Updated: ${d.toDateString()})`;
+            }
+
             var youtube = null;
             if (story.youtube) {
                 // Example link: https://youtu.be/Y9OCIIKwI94
@@ -77,6 +68,7 @@ export class NewsStory extends React.Component {
                 var videoId = urlComponents[urlComponents.length - 1];
                 youtube = (<iframe width={560} height={315} src={`https://www.youtube.com/embed/${videoId}?ecver=1`} frameBorder={0} allowFullScreen></iframe>);
             }
+
             return (
                 <div>
                     <div className="column">

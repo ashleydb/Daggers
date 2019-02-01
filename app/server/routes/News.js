@@ -68,6 +68,29 @@ router.route('/v1/news')
         });
     });
 
+
+// Routes that end in /news/id/:news_id
+// ----------------------------------------------------
+router.route('/v1/news/id/:news_id')
+// get the news story with that id (accessed at GET http://localhost:8080/api/v1/news/id/:news_id)
+// for when you don't know the year or month (e.g. from a raw story link)
+// id must be an article id, e.g. "-KfjGxf03zvpWrCw9cun"
+// No authentication required, but need to be an admin if this is future news
+.get(function(req, res) {
+    var options = {
+        id: req.params.news_id,
+        isAdmin: authenticate.checkAdmin(req)
+    };
+    News.findByIdBrute(options, function(err, news) {
+        if (err) {
+            res.status(err.status || 400).send(err);
+            return;
+        }
+        res.json(news);
+    });
+})
+
+
 // Routes that end in /news/:year
 // ----------------------------------------------------
 router.route('/v1/news/:year')
@@ -104,6 +127,7 @@ router.route('/v1/news/:year')
         });
     });
 
+    
 // Routes that end in /news/:year/:month
 // ----------------------------------------------------
 router.route('/v1/news/:year/:month')
@@ -237,5 +261,6 @@ router.route('/v1/news/:year/:month/:news_id')
             res.json({ message: 'Successfully deleted', id, year, month });
         });
     });
+
 
 module.exports = router;

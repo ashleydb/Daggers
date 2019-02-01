@@ -106,8 +106,24 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
             });
             break;
 
+        case actions.news.REQUEST_NEWS_STORY:
+            return Object.assign({}, state, {
+                status: {
+                    isFetching: true,
+                    didInvalidate: false,
+                    id: action.newsId
+                }
+            });
+            break;
+
         case actions.news.RECEIVE_NEWS_STORY:
             return Object.assign({}, state, {
+                ...state,
+                status: {
+                    isFetching: false,
+                    didInvalidate: false,
+                    lastUpdated: action.receivedAt
+                },
                 story: action.story
             });
             break;

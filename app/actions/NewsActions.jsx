@@ -6,6 +6,7 @@ export const INVALIDATE_NEWS = 'INVALIDATE_NEWS'
 
 export const REQUEST_NEWS_STORIES = 'REQUEST_NEWS_STORIES'
 export const RECEIVE_NEWS_STORIES = 'RECEIVE_NEWS_STORIES'
+export const REQUEST_NEWS_STORY = 'REQUEST_NEWS_STORY'
 export const RECEIVE_NEWS_STORY = 'RECEIVE_NEWS_STORY'
 
 
@@ -94,7 +95,15 @@ export function fetchNewsStoriesIfNeeded(year = FETCH_ALL, month = FETCH_ALL, to
 
 // --- INDIVIDUAL NEWS STORY ---
 
-// (4) We got the news posts back. If it was empty, preload some default data.
+// (4) We are getting the news post
+function requestNewsStory(newsId) {
+    return {
+        type: REQUEST_NEWS_STORY,
+        newsId
+    }
+}
+
+// (5) We got the news post back (potentially default data).
 function receiveNewsStory(story) {
     return {
         type: RECEIVE_NEWS_STORY,
@@ -103,11 +112,13 @@ function receiveNewsStory(story) {
     };
 }
 
-// (3) Triggers the download of news stories
+// (3) Triggers the download of news story
 function fetchNewsStory(news, newsId) {
     return dispatch => {
-        var story = NewsAPI.getStory(newsId, news)  // TODO: This doesn't fetch from the server, only the passed in news, so could fail
-        dispatch(receiveNewsStory(story));
+        dispatch(requestNewsStory(newsId))
+        return NewsAPI.getStoryRemote(newsId, news)
+            .then(response => dispatch(receiveNewsStory(response)),
+                       err => dispatch(receiveNewsStory(err)))
     };
 }
 

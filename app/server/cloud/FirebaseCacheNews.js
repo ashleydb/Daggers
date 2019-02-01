@@ -209,6 +209,43 @@ class FirebaseCacheNews extends FirebaseCache {
         return returnData;
     }
 
+    // Gets a single story from our firebase cache.
+    // You can ask for:
+    //  options.id for a specific story
+    //  options.isAdmin if that story if for a future date
+    //  (TODO) options.listIDs (true/false) gets just the IDs, otherwise you get the content
+    getDataBrute(options) {
+        var {id, listIDs, isAdmin} = options;
+
+        // Work backwards through the years in our cache
+        for(var year = Number(this.getLatestYear()); year >= NEWS_FIRST_YEAR; --year) {
+            if (!this.firebaseData[year]) {
+                continue;
+            }
+
+            // Work backwards through the months in this year
+            for(var month = 12; month > 0; --month) {
+                if (!this.firebaseData[year][month]) {
+                    continue;
+                }
+
+                // Check each story in this month to find this id
+                for(var i = 0; i < this.firebaseData[year][month].length; ++i) {
+                    var story = this.firebaseData[year][month][i];
+                    if (story.id == id) {
+                        var now = new Date();
+                        if (story.createdAt < now.getTime() || isAdmin) {
+                            return story;
+                        }
+                        return null;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
     // Additional custom helpers
     getYears() {
         if (!this.years) {

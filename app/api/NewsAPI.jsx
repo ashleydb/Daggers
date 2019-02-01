@@ -149,6 +149,64 @@ export function getStory(id, stories) {
     return this.DEFAULT_STORY;
 };
 
+
+// Get the content for a story which may be cached in the stories array.
+// If the ID doesn't match one we have cached, we will check the server.
+// Returns a Promise. Eventual response is the story or DEFAULT_STORY if nothing is found.
+export function getStoryRemote(_id, _stories) {
+    return new Promise(
+        // The resolver function is called with the ability to resolve or reject the promise
+        function (resolve, reject) {
+
+            // Look through the list of stories passed in, (would typically be from the state)
+            if (_stories) {
+                for (var i = 0; i < _stories.length; ++i) {
+                    if (_id == _stories[i].id) {
+                        // Cool, we got content. Resolve the promise to return the data
+                        resolve(_stories[i]);
+                        return;
+                    }
+                }
+            }
+            
+            // Story not found in the local news, so check the server
+            try {
+                const axiosInstance = Axios.create({
+                    //headers: { 'x-access-token': token }
+                });
+
+                var apiPath = `/api/v1/news/id/${_id}`;
+
+                axiosInstance.get(apiPath, {
+                    params: {
+                        listIDs: false
+                    }
+                }).then(function (response) {
+                    var story = response.data;
+                    if (story) {
+                        // Cool, we got content. Resolve the promise to return the data
+                        resolve(story);
+                    } else {
+                        // Still nothing found. Just return a default story
+                        console.log("WARN: getStoryRemote() - Story not found:", id);
+                        resolve(this.DEFAULT_STORY);
+                    }
+                })
+                .catch(function (error) {
+                    console.log("ERR: getStoryRemote() - Problem fetching story:", error);
+                    reject(error);
+                });
+                
+            } catch (e) {
+                // try failed
+                console.log("ERR: getStoryRemote() failed:", e);
+                reject(e);
+            }
+        }
+    );
+};
+
+
 // Creates or updates a story in our DB
 export function addStory(story, token) {
     return new Promise(
