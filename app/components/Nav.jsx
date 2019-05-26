@@ -14,7 +14,7 @@ export default class Nav extends React.Component {
                 <div className="row small-collapse menu-centered">
                     <div className="small-6 columns">
                         <IndexLink to="/">
-                            <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/images/header-logo.png" alt="Dagenham & Redbridge FC Logo" className="nav-banner"/>
+                            <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/images/header-logo2019.png" alt="Dagenham & Redbridge FC Logo" className="nav-banner"/>
                         </IndexLink>
                     </div>
                     <div className="small-6 columns">
@@ -41,9 +41,9 @@ export default class Nav extends React.Component {
                             <li><Link to="/club" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>CLUB</Link></li>
                             <li><Link to="/commercial" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>COMMERCIAL</Link></li>
                             <li><a href="https://www.daggers-shop.co.uk/">CLUB SHOP</a></li>
-                            <li><a href="https://www.youtube.com/user/OfficialDaggers"><i className="fi-social-youtube social-icon-medium social-color-youtube"></i></a></li>
-                            <li><a href="https://www.facebook.com/OfficialDaggers"><i className="fi-social-facebook social-icon-medium social-color-facebook"></i></a></li>
-                            <li><a href="http://twitter.com/dag_redfc"><i className="fi-social-twitter social-icon-medium social-color-twitter"></i></a></li>
+                            <li><a href="https://www.youtube.com/user/OfficialDaggers"><i className="fi-social-youtube social-icon-medium social-color-white"></i></a></li>
+                            <li><a href="https://www.facebook.com/OfficialDaggers"><i className="fi-social-facebook social-icon-medium social-color-white"></i></a></li>
+                            <li><a href="http://twitter.com/dag_redfc"><i className="fi-social-twitter social-icon-medium social-color-white"></i></a></li>
                         </ul>
                     </div>
                 </div>

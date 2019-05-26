@@ -9,22 +9,23 @@
 
 .top-bar {
     margin-bottom: 2em;
-    background-color: $daggers-blue;
+    background-color: $daggers-red;
     padding: 0;
 
     .menu {
-        background-color: $daggers-blue;
+        background-color: $daggers-red;
     }
 }
 
 .logo-bar {
-    background-color: #d6334a;
+    background-color: $daggers-blue;
     //width: 100%;
     //overflow: auto;
     margin: 0px;
 
-    background-image: url("https://daggers.storage.googleapis.com/images/header-bg.jpg"); // Hardcoded to Prod URL
-    background-repeat: repeat;
+    //background-color: #d6334a;
+    //background-image: url("https://daggers.storage.googleapis.com/images/header-bg.jpg"); // Hardcoded to Prod URL
+    //background-repeat: repeat;
 }
 
 .nav-banner {
