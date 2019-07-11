@@ -9,7 +9,13 @@ import '../../node_modules/trumbowyg/dist/plugins/table/trumbowyg.table';
 import ImageUploader from 'ImageUploader';
 import ImageLister from 'ImageLister';
 
-export default class NewsEditForm extends React.Component {
+// For alert dialog box
+var { connect } = require('react-redux');
+import { swal } from 'react-redux-sweetalert2';
+
+import * as NewsAPI from 'NewsAPI';
+
+export class NewsEditForm extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
     constructor(props) {
         // Call the parent constructor with the props object we automatically get
@@ -23,6 +29,7 @@ export default class NewsEditForm extends React.Component {
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onNewImage = this.onNewImage.bind(this);
         this.onPickImage = this.onPickImage.bind(this);
+        this.props.showAlert.bind(this);
     }
     // Callback for rich text editor
     onTextChange(editor) {
@@ -42,19 +49,52 @@ export default class NewsEditForm extends React.Component {
         if (this.refs.youtube.value != '')
             story.youtube = this.refs.youtube.value;
         
-        // If we are editing an existing story, preserve the original creation date
-        if (this.refs.createdAt.value != '') {
-            // Turn the date string into a ms number
-            story.createdAt = new Date(this.refs.createdAt.value).getTime();
-            // If it is NaN, then there will be problems
-            // TODO: Make this a clearer warning with a dialog box or form hint or something
-            if ( isNaN(story.createdAt) ) {
-                return;
-            }
+
+        // Turn the date string into a ms number
+        var newCreatedAt = new Date();
+        newCreatedAt.setDate(this.refs.day.value);
+        newCreatedAt.setMonth(this.refs.month.value);
+        newCreatedAt.setFullYear(this.refs.year.value);
+        newCreatedAt.setHours(this.refs.hour.value);
+        newCreatedAt.setMinutes(this.refs.minute.value);
+        // If it is NaN, then there will be problems
+        if ( isNaN(newCreatedAt.getTime()) ) {
+            // Log an error and show a clear warning as a dialog box
+            console.log("Error: Date is not valid (NaN)");
+            this.props.showAlert({
+                title: 'Date is invalid',
+                text: 'Please enter a valid date.',
+                type: 'warning',
+                allowOutsideClick: false,
+                confirmButtonText: 'OK, I\'ll fix it!',
+                confirmButtonColor: '#3085d6',
+                showLoaderOnConfirm: true
+            });
+            return;
         }
+        if (newCreatedAt.getMonth() != this.refs.month.value) {
+            // Log an error and show a clear warning as a dialog box
+            console.log("Error: Date was not valid ("
+                +this.refs.day.value+"-"+(Number(this.refs.month.value)+1)+"-"+this.refs.year.value
+                +"). Would be updated to "
+                +newCreatedAt.getDate()+"-"+(newCreatedAt.getMonth()+1)+"-"+newCreatedAt.getFullYear());
+            this.props.showAlert({
+                title: 'Date is invalid',
+                text: `${this.refs.day.value}-${(Number(this.refs.month.value)+1)}-${this.refs.year.value} is not a real date. Not enough days in the month perhaps?`,
+                type: 'warning',
+                allowOutsideClick: false,
+                confirmButtonText: 'OK, I\'ll fix it!',
+                confirmButtonColor: '#3085d6',
+                showLoaderOnConfirm: true
+            });
+            return;
+        }
+        story.createdAt = newCreatedAt.getTime();
+        // If we are editing an existing story, preserve the original creation date
         if (this.refs.oldCreatedAt.value != '')
             story.oldCreatedAt = Number(this.refs.oldCreatedAt.value);
         
+
         story.story = this.refs.story.value;                    // Works as we're repurposing in onTextChange
         //story.story = this.refs.storyrich.target.innerHTML;   // This doesn't work
         //story.story = this.state.text;                        // This is if we manage the text on the state
@@ -75,15 +115,80 @@ export default class NewsEditForm extends React.Component {
         this.setState({image: imgPath});
     }
     render() {
-        // TODO: Break this out as a utility function, (also used elsewhere)
-        function dateToString(dateMS) {
-            if (!dateMS)
-                return '';
+        // TODO: Break out this date picker code into something reusable
+        function datePicker(dateMS = null) {
+            // If a date is passed in, use that, otherwise use right now
+            var d = (dateMS) ? new Date(Number(dateMS)) : new Date();
 
-            var d = new Date(Number(dateMS));
-            var months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
-            //01-JAN-2000
-            return `${d.getDate()}-${months[d.getMonth()]}-${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
+            // TODO: years and months options just list all values, even if we don't have data, (e.g. could select a future month)
+            var years = NewsAPI.getYearList(true);
+            var yearOptions = years.map((year) => {
+                return (
+                    <option key={year} value={year}>{year}</option>
+                );
+            });
+
+            var months = NewsAPI.getMonthList();
+            var monthOptions = months.map((month, index) => {
+                return (
+                    <option key={index} value={index}>{month}</option>
+                );
+            });
+
+            var dayOptions = [];
+            for (var index = 1; index <= 31; ++index) {
+                dayOptions.push( <option key={index} value={index}>{index}</option> );
+            };
+
+            var hourOptions = [];
+            for (var index = 0; index <= 23; ++index) {
+                hourOptions.push( <option key={index} value={index}>{index}</option> );
+            };
+
+            var minuteOptions = [];
+            for (var index = 0; index <= 59; ++index) {
+                minuteOptions.push( <option key={index} value={index}>{index}</option> );
+            };
+
+            return (
+                <div className="row">
+                    <div className="column small-2">
+                        <label>Day
+                            <select ref="day" defaultValue={d.getDate()}>
+                                {dayOptions}
+                            </select>
+                        </label>
+                    </div>
+                    <div className="column small-4">
+                        <label>Month
+                            <select ref="month" defaultValue={d.getMonth()}>
+                                {monthOptions}
+                            </select>
+                        </label>
+                    </div>
+                    <div className="column small-2">
+                        <label>Year
+                            <select ref="year" defaultValue={d.getFullYear()}>
+                                {yearOptions}
+                            </select>
+                        </label>
+                    </div>
+                    <div className="column small-2">
+                        <label>Hour
+                            <select ref="hour" defaultValue={d.getHours()}>
+                                {hourOptions}
+                            </select>
+                        </label>
+                    </div>
+                    <div className="column small-2">
+                        <label>Mins
+                            <select ref="minute" defaultValue={d.getMinutes()}>
+                                {minuteOptions}
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            );
         }
 
         var {story} = this.props;
@@ -111,7 +216,7 @@ export default class NewsEditForm extends React.Component {
                 <form onSubmit={this.onFormSubmit}>
                     <input type="hidden" defaultValue={story.id} ref="id"/>
                     <input type="hidden" defaultValue={story.createdAt} ref="oldCreatedAt"/>
-                    <label>Date</label><input type="text" defaultValue={dateToString(story.createdAt)} placeholder="Optional, e.g. 01-JAN-2030 09:00 or just 01-JAN-2030" ref="createdAt"/>
+                    <label>Date</label>{datePicker(story.createdAt)}
                     <label>Headline</label><input type="text" defaultValue={story.headline} ref="headline"/>
                     <label>Summary</label><input type="text" defaultValue={story.summary} ref="summary"/>
                     
@@ -150,3 +255,17 @@ export default class NewsEditForm extends React.Component {
         );
     }
 }
+
+import { bindActionCreators } from 'redux'
+
+function mapStateToProps(state) {
+    return {
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    let actions = bindActionCreators({...swal}, dispatch);
+    return { ...actions, dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewsEditForm)
