@@ -244,9 +244,11 @@ export class NewsEdit extends React.Component {
             });
             
             var dateNow = new Date();
+            var pickMonth = status.month && (typeof status.month === 'number') ? status.month : dateNow.getMonth() + 1;
+            var pickYear = status.year && (typeof status.year === 'number') ? status.year : dateNow.getFullYear();
             return (
                 <div>
-                    {datePicker(this, dateNow.getFullYear(), dateNow.getMonth())}
+                    {datePicker(this, pickYear, pickMonth)}
                     {paginationLinks}
                     {errorMessage}
                     <Link to={`/admin/news/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
@@ -260,9 +262,11 @@ export class NewsEdit extends React.Component {
             );
         } else {
             var dateNow = new Date();
+            var pickMonth = status.month ? status.month : dateNow.getMonth() + 1;
+            var pickYear = status.year ? status.year : dateNow.getFullYear();
             return (
                 <div>
-                    {datePicker(this, dateNow.getFullYear(), dateNow.getMonth())}
+                    {datePicker(this, pickYear, pickMonth)}
                     <div className="callout alert">
                         <h5>Error</h5>
                         <p>No news found.</p>
@@ -274,7 +278,6 @@ export class NewsEdit extends React.Component {
 };
 
 import { bindActionCreators } from 'redux'
-//import { stat } from 'fs';
 
 function mapStateToProps(state) {
     return {

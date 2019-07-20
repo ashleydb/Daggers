@@ -153,11 +153,13 @@ export class Fixtures extends React.Component {
                             <Link to={'/fixturescalendar'} className="expanded button"><i className="fi-calendar"></i> Add Daggers Fixtures to your Calendar</Link>
                             <a href="https://storage.googleapis.com/daggers/downloads/CurrentFixtures.pdf" className="expanded button"><i className="fi-page"></i> Download Daggers Calendar Poster</a>
                             {seasonAndSquadPicker(this, season)}
-                            <table className="hover stack text-center">
-                                <tbody>
-                                    {fixtureRows}
-                                </tbody>
-                            </table>
+                                <div className="table-scroll">
+                                <table className="hover text-center">
+                                    <tbody>
+                                        {fixtureRows}
+                                    </tbody>
+                                </table>
+                            </div>
 
                         </div>
                         <div className="columns small-12 large-4">

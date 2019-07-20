@@ -57,6 +57,7 @@ export class NewsEditForm extends React.Component {
         newCreatedAt.setFullYear(this.refs.year.value);
         newCreatedAt.setHours(this.refs.hour.value);
         newCreatedAt.setMinutes(this.refs.minute.value);
+        newCreatedAt.setSeconds(0);
         // If it is NaN, then there will be problems
         if ( isNaN(newCreatedAt.getTime()) ) {
             // Log an error and show a clear warning as a dialog box
@@ -147,7 +148,11 @@ export class NewsEditForm extends React.Component {
 
             var minuteOptions = [];
             for (var index = 0; index <= 59; ++index) {
-                minuteOptions.push( <option key={index} value={index}>{index}</option> );
+                var minStr = index.toString();
+                if (index < 10) {
+                    minStr = '0' + minStr;
+                }
+                minuteOptions.push( <option key={index} value={index}>{minStr}</option> );
             };
 
             return (

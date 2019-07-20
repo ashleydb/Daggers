@@ -101,10 +101,13 @@ export class News extends React.Component {
                 </div>
             );
         } else if (!news || news.length < 1) {
+            var dateNow = new Date();
+            var pickMonth = status.month && (typeof status.month === 'number') ? status.month : dateNow.getMonth() + 1;
+            var pickYear = status.year && (typeof status.year === 'number') ? status.year : dateNow.getFullYear();
             return (
                 <div>
                     <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
-                    {datePicker(this, status.year, status.month)}
+                    {datePicker(this, pickYear, pickMonth)}
 
                     <div className="callout alert">
                       <h5>Error</h5>
@@ -153,11 +156,15 @@ export class News extends React.Component {
             }
 
             var paginationLinks = pagination(this, numPages, pageNum);
+
+            var dateNow = new Date();
+            var pickMonth = status.month && (typeof status.month === 'number') ? status.month : dateNow.getMonth() + 1;
+            var pickYear = status.year && (typeof status.year === 'number') ? status.year : dateNow.getFullYear();
             
             return (
                 <div>
                     <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
-                    {datePicker(this, status.year, status.month)}
+                    {datePicker(this, pickYear, pickMonth)}
                     {paginationLinks}
 
                     {/* will render a list of news items when at /news/ */}
