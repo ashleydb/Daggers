@@ -128,11 +128,11 @@ export function fetchPageIfNeeded(pageId) {
 
 export const SUBMIT_PAGE_SUCCESS = 'SUBMIT_PAGE_SUCCESS';
 
-export var submitPageSuccess = (page, recievedAt) => {
+export var submitPageSuccess = (page, receivedAt) => {
     return {
         type: SUBMIT_PAGE_SUCCESS,
         page,
-        recievedAt
+        receivedAt
     };
 }
 

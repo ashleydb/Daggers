@@ -156,11 +156,11 @@ export function fetchNewsStoryIfNeeded(newsId) {
 
 export const SUBMIT_STORY_SUCCESS   = 'SUBMIT_STORY_SUCCESS';
 
-export var submitStorySuccess = (story, recievedAt) => {
+export var submitStorySuccess = (story, receivedAt) => {
     return {
         type: SUBMIT_STORY_SUCCESS,
         story,
-        recievedAt
+        receivedAt
     };
 }
 
@@ -180,10 +180,13 @@ export var submitStory = (story, token) => {
     return (dispatch, getState) => {
         NewsAPI.addStory(story, token).then((newStory) => {
             if (newStory === {})
-                dispatch(submitStoryError(story, "Story not saved."));
+                dispatch(submitStoryError(story, "Story not saved. Unknown Error."));
             else
                 dispatch(submitStorySuccess(newStory,
                                            story.updatedAt ? story.updatedAt : story.createdAt));
+        }).catch((error) => {
+            console.log(error);
+            dispatch(submitStoryError({}, "Story not saved: " + error));
         });
     };
 }

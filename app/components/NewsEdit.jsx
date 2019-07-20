@@ -19,18 +19,61 @@ export class NewsEdit extends React.Component {
         this.promptRemoveStory = this.promptRemoveStory.bind(this);
         this.handleRemoveStory = this.handleRemoveStory.bind(this);
         this.props.showAlert.bind(this);
+        //this.props.hideAlert.bind(this);
     }
     componentWillMount() {
         // TODO: Copy the News year picking and pagination from News.jsx to here
         // Get the most recent month's news
         this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST, actions.news.FETCH_LATEST, this.props.login.token));
     }
-    handleSaveStory(story) {
-        this.props.dispatch(actions.news.submitStory(story, this.props.login.token));
+    componentDidUpdate(prevProps, prevState){
+        var { newsId } = this.props.params;
+        var {news, status} = this.props.news;
+        var story = NewsAPI.getStory(newsId, news);
 
-        // TODO: Not great, since write could fail and then we've gone away from the form's contents
-        //  TODO: Show a loading screen, then an error message or do this push
+        if (newsId == "new" || (story.id && story.id == newsId)) {
+            if (status.isSubmitting === false && status.lastUpdated && this.props.news.story === null) {
+                this.handleSaveStoryComplete();
+            } else if (status.error) {
+                this.handleSaveStoryError(status.error);
+            }
+        }
+    }
+    handleSaveStory(story) {
+        this.props.dispatch(actions.news.submitStory(story, this.props.login.token))
+
+        var d = new Date(Number(story.createdAt));
+        var that = this;
+        this.props.showAlert({
+            title: 'Saving',
+            text: `Please wait. Adding story, going live at "${d.toString()}."`,
+            type: 'info',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            confirmButtonText: 'Don\'t wait for server',
+        })
+    }
+    handleSaveStoryComplete() {
+		this.props.showAlert({
+            title: 'Saved!',
+            text: 'Your story is ready.',
+            type: 'success',
+            allowOutsideClick: true,
+            confirmButtonText: 'Excellent!',
+            showConfirmButton: true
+        });
+        this.props.news.status.isSubmitting = null;
         browserHistory.push('/admin/news');
+    }
+    handleSaveStoryError(error) {
+		this.props.showAlert({
+            title: 'Problem Saving Story',
+            text: error,
+            type: 'error',
+            allowOutsideClick: false,
+            confirmButtonText: 'OK',
+            showConfirmButton: true
+        });
     }
     handleFetchNews() {
         var year = Number(this.refs.year.value);
@@ -122,8 +165,16 @@ export class NewsEdit extends React.Component {
                 </div>
             );
         } else if (newsId == "new" || (story.id && story.id == newsId)) {
+            var errorMessage = status.error === undefined ? null : (
+                <div className="callout alert">
+                    <h5>Error</h5>
+                    <p>{status.error}</p>
+                </div>
+            );
+
             return (
                 <div>
+                    {errorMessage}
                     <NewsEditForm story={story} onSaveStory={this.handleSaveStory} token={this.props.login.token} />
                 </div>
             );
@@ -223,6 +274,7 @@ export class NewsEdit extends React.Component {
 };
 
 import { bindActionCreators } from 'redux'
+//import { stat } from 'fs';
 
 function mapStateToProps(state) {
     return {

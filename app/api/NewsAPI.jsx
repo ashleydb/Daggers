@@ -126,8 +126,8 @@ export function getStories(_year = FETCH_ALL, _month = FETCH_ALL, token = null) 
                 
             } catch (e) {
                 // try failed
-                console.log("ERR: getStories() failed:", e);
-                reject(e);
+                console.log("ERR: getStories() failed:", e.message);
+                reject(e.message);
             }
         }
     );
@@ -199,8 +199,8 @@ export function getStoryRemote(_id, _stories) {
                 
             } catch (e) {
                 // try failed
-                console.log("ERR: getStoryRemote() failed:", e);
-                reject(e);
+                console.log("ERR: getStoryRemote() failed:", e.message);
+                reject(e.message);
             }
         }
     );
@@ -228,8 +228,8 @@ export function addStory(story, token) {
                         })
                         .catch(function (error) {
                             // TODO: Show error message on UI
-                            console.log(error.response.data);
-                            reject(error.response.data);
+                            console.log("ERR: addStory(): " + error.message);
+                            reject(error.message);
                         });
                 } else {
                     // This is a PUT
@@ -244,14 +244,14 @@ export function addStory(story, token) {
                         })
                         .catch(function (error) {
                             // TODO: Show error message on UI
-                            console.log(error.response.data);
-                            reject(error.response.data);
+                            console.log("ERR: addStory(): " + error.message);
+                            reject(error.message);
                         });
                 }
             } catch (e) {
                 // try failed
-                console.log("ERR: addStory() failed:", e);
-                reject(e);
+                console.log("ERR: addStory() failed:", e.message);
+                reject(e.message);
             }
         }
     );
@@ -280,14 +280,14 @@ export function removeStory(story, token) {
                 })
                 .catch(function (error) {
                     // Some issue trying to delete the object
-                    console.log(error.response.data);
-                    reject(error.response.data);
+                    console.log("ERR: removeStory(): " + error.message);
+                    reject(error.message);
                 });
 
             } catch (e) {
                 // try failed
-                console.log("ERR: removeStory() failed:", e);
-                reject(e);
+                console.log("ERR: removeStory() failed:", e.message);
+                reject(e.message);
             }
         }
     );

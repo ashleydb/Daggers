@@ -13,6 +13,7 @@ export var INITIAL_STATE_NEWS = {
         lastUpdated: null
         //year: undefined,  // Would be null for ALL, or a number like 2017
         //month: undefined  // Would be null for ALL in the year, or a number 1-12
+        //isSubmitting: true when submitting, false when complete/error, undefined any other time
     }
 };
 
@@ -21,6 +22,10 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
         case actions.news.SUBMIT_STORY:
             return {
                 ...state,
+                status: {
+                    ...state.status,
+                    isSubmitting: true
+                },
                 story: action.story
             };
             break;
@@ -45,7 +50,8 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
                 status: {
                     isFetching: false,
                     didInvalidate: false,
-                    lastUpdated: action.receivedAt
+                    lastUpdated: action.receivedAt,
+                    isSubmitting: false
                 },
                 story: null
             };
@@ -56,7 +62,8 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
                 status: {
                     isFetching: false,
                     didInvalidate: false,
-                    error: action.error
+                    error: action.error,
+                    isSubmitting: false
                 }
             });
             break;
