@@ -3,22 +3,32 @@ import React from 'react';
 // National League Video Player. Renders a video player from Pitchero.
 
 class PitcheroVideoPlayer extends React.Component {
+    constructor(props) {
+        super(props);
+    
+        this.videoPlayerScript = null;
+    }
+    
     componentDidMount() {
-        //<!-- Put this line just before the closing body tag -->
-        //<script type="text/javascript" src="https://cdn.pitchero.com/nl/dagr.js"></script> 
+        this.videoPlayerScript = this.loadScript();
+    }
 
-        // TODO: Is there a way to only do this once?
+    componentWillUnmount() {
+    }
+
+    loadScript() {
+        //<script src="//player.performgroup.com/eplayer.js#78d4987de530194c9c9ff83b20.rywmih1gu61g1r2v2f4e59w8q" async></script>
+
         const s = document.createElement('script');
         s.type = 'text/javascript';
-        s.src = 'https://cdn.pitchero.com/nl/dagr.js';
-        document.body.appendChild(s);
+        s.async = true;
+        s.src = '//player.performgroup.com/eplayer.js#78d4987de530194c9c9ff83b20.rywmih1gu61g1r2v2f4e59w8q';
+        
+        return this.instance.appendChild(s);
     }
 
     render() {
-        //<!-- Put this line where you would like the video unit to display -->
-        //<div id="ph-vjs-video-highlights"></div>
-
-        return <div id="ph-vjs-video-highlights" />;
+        return <div ref={el => (this.instance = el)} />;
     }
 }
 
