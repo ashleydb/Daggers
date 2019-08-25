@@ -40,6 +40,7 @@ import Commercial from 'Commercial';
 import BannerEdit from 'BannerEdit';
 import SponsorsEdit from 'SponsorsEdit';
 import Table from 'Table';
+import Vanarama from 'Vanarama';
 
 var store = require('configureStore').configure();
 
@@ -64,6 +65,7 @@ ReactDOM.render(
         <Route path="community" component={Community}/>
         <Route path="club" component={Club}/>
         <Route path="commercial" component={Commercial}/>
+        <Route path="vanarama" component={Vanarama}/>
         
         <Route path="page" component={Page}>
           <Route path=":pageId" component={Page}/>
@@ -91,6 +93,7 @@ ReactDOM.render(
             </Route>
         </Route>
         <IndexRoute component={Home}/>
+        <Route path="*" component={Home}/>
       </Route>
     </Router>
   </Provider>,
