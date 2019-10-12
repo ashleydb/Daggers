@@ -71,12 +71,12 @@ export class Home extends React.Component {
 
                     {/* will render a list of news items when at /news/ */}
                     <div className="row">
-                        <div className="columns small-12 large-8">
+                        <div className="columns small-12 large-7">
                             <div className="row">
                                 <NewsSummary story={tempNews.shift() || NewsAPI.DEFAULT_STORY} style="MAIN"/>
                             </div>
                         </div>
-                        <div className="columns small-12 large-4">
+                        <div className="columns small-12 large-5 center-content center-text">
                             <div className="row show-for-large">
                                 <a href="http://www.vanarama.co.uk/">
                                     <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor.png" className="league-sponsor float-center" alt="Vanarama"/>
@@ -84,12 +84,12 @@ export class Home extends React.Component {
                                 <br />
                             </div>
                             
-                            <div className="placeholder-ad center-text">
+                            <div className="placeholder-ad">
                                 <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                             </div>
 
                             <div className="row">
-                                <div className="card card-block">
+                                <div className="video-player">
                                     <PitcheroVideoPlayer/>
                                 </div>
                             </div>
