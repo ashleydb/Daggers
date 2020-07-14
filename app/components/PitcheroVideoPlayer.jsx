@@ -17,12 +17,12 @@ class PitcheroVideoPlayer extends React.Component {
     }
 
     loadScript() {
-        //<script src="//player.performgroup.com/eplayer.js#78d4987de530194c9c9ff83b20.rywmih1gu61g1r2v2f4e59w8q" async></script>
+        //<script src="//player.daznservices.com/player.js#21205da4208e48245df5543dae.rywmih1gu61g1r2v2f4e59w8q$dfchid=g781x3oc44fp1lhvt47dzjlco" async></script>
 
         const s = document.createElement('script');
         s.type = 'text/javascript';
         s.async = true;
-        s.src = '//player.performgroup.com/eplayer.js#78d4987de530194c9c9ff83b20.rywmih1gu61g1r2v2f4e59w8q';
+        s.src = '//player.daznservices.com/player.js#21205da4208e48245df5543dae.rywmih1gu61g1r2v2f4e59w8q$dfchid=g781x3oc44fp1lhvt47dzjlco';
         
         return this.instance.appendChild(s);
     }
