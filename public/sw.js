@@ -88,7 +88,7 @@ const fileManifest = [
   },
   {
     "url": "bundle.js",
-    "revision": "0ce5b7de9adf9a7f7bafc0867f1c7a0d"
+    "revision": "83145d6cddcc1ab05c7a8673b0942620"
   },
   {
     "url": "favicon-16x16.png",
