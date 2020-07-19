@@ -5,6 +5,10 @@ const path = require('path');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 
+// In order to add liveliness/readiness/health checks for Kubernetes
+const http = require('http');
+const { createTerminus } = require('@godaddy/terminus');
+
 // For error logging on GCP
 const ErrorReporting = require('@google-cloud/error-reporting').ErrorReporting;
 //const errors = new ErrorReporting({ignoreEnvironmentCheck:true}); // To run locally during development
@@ -71,10 +75,10 @@ var router = express.Router();
 
 // test route to make sure everything is working (accessed at GET http://localhost:3000/api)
 router.get('/', function(req, res) {
-    res.json({ message: 'Specify a version to use the API' });   
+    res.json({ message: 'Specify a version to use the API' });
 });
 router.get('/v1', function(req, res) {
-    res.json({ message: 'Specify an object endpoint to use the API!' });   
+    res.json({ message: 'Specify an object endpoint to use the API!' });
 });
 
 // More routes, mostly for our API
@@ -88,12 +92,6 @@ var sponsorsRoute = require('./app/server/routes/Sponsors');
 var imagesRoute = require('./app/server/routes/Images');
 var authRoute = require('./app/server/routes/Auth');
 
-// For specifying if the server is up and working
-var healthRoute = express.Router();
-healthRoute.get('/health', function(req, res) {
-  res.json({ message: 'Server is up.' });   
-});
-
 
 // REGISTER OUR ROUTES -------------------------------
 // All of our API routes will be prefixed with /api
@@ -101,12 +99,13 @@ healthRoute.get('/health', function(req, res) {
 app.use('/api', [router, newsRoute, fixturesRoute, pagesRoute,
                  playersRoute, bannerRoute, tableRoute, sponsorsRoute, imagesRoute]);
 // Other routes from the root go here
-app.use('/', [authRoute, healthRoute]);
+//app.use('/', [authRoute, healthRoute]);
+app.use('/', [authRoute]);
 
 
 // Auth Middleware - This will check if the token is valid
 // Only the requests that start with /api/* will be checked for the token.
-// Any URL's that do not follow the below pattern should be avoided unless you 
+// Any URL's that do not follow the below pattern should be avoided unless you
 // are sure that authentication is not needed
 //app.all('/api/*', [require('./app/server/middleware/validateRequest')]);
 
@@ -121,10 +120,41 @@ app.get('*', function (request, response){
 });
 
 
+// Configuring health checks for the server
+const server = http.createServer(app);
+
+function onHealthCheck () {
+  // checks if the system is healthy, like the db connection is live
+  // resolves, if health, rejects if not
+  // TODO: We'll just say everything works every time for now
+  return Promise.resolve(
+    // optionally include a resolve value to be included as
+    // info in the health check response
+  );
+}
+
+function onSignal () {
+  console.log('server is starting cleanup');
+  return Promise.all([
+    // TODO: Add clean-up logic, like closing database connections
+  ]);
+}
+
+function onShutdown () {
+  console.log('cleanup finished, server is shutting down');
+}
+
+createTerminus(server, {
+  healthChecks: { '/health': onHealthCheck },
+  onSignal,
+  onShutdown
+});
+
+
 // Last line is to log any errors
 app.use(errors.express);
 
 // Start the server
-app.listen(PORT, function() {
+server.listen(PORT, function() {
     console.log('Express server is up on port ' + PORT);
 });
