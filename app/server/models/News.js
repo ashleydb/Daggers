@@ -1,7 +1,7 @@
 // Model for News Articles
 
 // Use CGP Error Reporting
-const ErrorReporting = require('@google-cloud/error-reporting').ErrorReporting;
+const {ErrorReporting} = require('@google-cloud/error-reporting');
 //const errors = new ErrorReporting({ignoreEnvironmentCheck:true}); // To run locally during development
 const errors = new ErrorReporting(); // To run on GCP server
 
@@ -28,11 +28,11 @@ class News {
         this.image = '/images/news-thumbnail.jpg';
         this.summary = 'Placeholder';
         this.story = 'Placeholder';
-        
+
         // These are added when calling POST or PUT respectively
         //this.createdAt = 0;
         //this.updatedAt = 0;
-        
+
         // These are optional components of a story
         //this.youtube = null;
 
@@ -49,14 +49,14 @@ class News {
             "story": this.story,
             "createdAt": this.createdAt
         };
-        
+
         if (this.updatedAt) {
             obj.updatedAt = this.updatedAt;
         }
         if (this.youtube) {
             obj.youtube = this.youtube;
         }
-        
+
         return obj;
     }
 
@@ -70,7 +70,7 @@ class News {
         let createdAt = this.createdAt;
 
         var childName = `news/${year}/${month}`;
-        
+
         myFirebase.writeToFirebase(myFirebase.firebaseRef,
                                    childName,
                                    this.id === 'new' ? null : this.id,

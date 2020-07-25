@@ -1,4 +1,4 @@
-importScripts('workbox-sw.prod.v1.3.0.js');
+importScripts('workbox-sw.prod.v2.1.3.js');
 
 /**
  * DO NOT EDIT THE FILE MANIFEST ENTRY
@@ -88,7 +88,7 @@ const fileManifest = [
   },
   {
     "url": "bundle.js",
-    "revision": "76c1b5d0853fad43cb49c18fb332447b"
+    "revision": "7b39851d398ae9058f6afd98c06449a8"
   },
   {
     "url": "favicon-16x16.png",
@@ -129,10 +129,6 @@ const fileManifest = [
   {
     "url": "ms-icon-70x70.png",
     "revision": "8e366a99b3f904a41d7346aaebf2c0f2"
-  },
-  {
-    "url": "workbox-sw.prod.v1.0.1.js",
-    "revision": "3fbc93cd82283d7c3a2cb4dcaf36be91"
   }
 ];
 

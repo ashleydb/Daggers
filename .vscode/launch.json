@@ -8,7 +8,10 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/server.js"
+            "program": "${workspaceRoot}/server.js",
+            "env": {
+                "GOOGLE_APPLICATION_CREDENTIALS": "Enter Full Path to Firebase credentials .json"
+            }
         },
         {
             "type": "node",

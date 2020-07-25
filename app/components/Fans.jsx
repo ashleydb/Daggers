@@ -50,18 +50,6 @@ export default class Fans extends React.Component {
                         <div className="placeholder-ad">
                             <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                         </div>
-
-                        <Timeline
-                            dataSource={{
-                                sourceType: 'profile',
-                                screenName: 'Dag_RedFC'
-                            }}
-                            options={{
-                                tweetLimit: '5',
-                                height: '400'
-                            }}
-                        />
-
                     </div>
                 </div>
 

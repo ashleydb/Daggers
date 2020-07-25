@@ -10,7 +10,7 @@ const http = require('http');
 const { createTerminus } = require('@godaddy/terminus');
 
 // For error logging on GCP
-const ErrorReporting = require('@google-cloud/error-reporting').ErrorReporting;
+const {ErrorReporting} = require('@google-cloud/error-reporting');
 //const errors = new ErrorReporting({ignoreEnvironmentCheck:true}); // To run locally during development
 const errors = new ErrorReporting(); // To run on GCP server
 
