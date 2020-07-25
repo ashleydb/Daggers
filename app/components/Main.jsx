@@ -18,13 +18,15 @@ var Main = (props) => {
   return (
     <div>
       <CookieBanner
-        message='This site uses cookies. By continuing to browse the site you are agreeing to our use of cookies. Find out more here.'
-        link={{ msg: 'Cookie Policy', url: '/page/PrivacyPolicy' }}
-        onAccept={() => {}}
+        styles={{banner: { height: 'auto' }}}
+        message={'This site uses cookies. By continuing to browse the site you are agreeing to our use of cookies. Find out more here.'}
+        link={<a href='/page/PrivacyPolicy'>Cookie Policy</a>}
+        buttonMessage='Close'
         cookie='user-has-accepted-cookies'
-        styles={{
-          banner: { height: 'auto' }
-        }} />
+        dismissOnScroll={false}
+        dismissOnClick={true}
+        onAccept={() => {}}
+      />
       {donateBanner}
       <Nav/>
       <div className="row">
