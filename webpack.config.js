@@ -114,57 +114,8 @@ module.exports = {
           string_replacement_loader
         ]
       },
-
-      // {
-      //   test: /\.scss$/,
-      //   include: [
-      //     path.resolve(__dirname, './node_modules/foundation-sites/scss')
-      //   ],
-      //   use: [
-      //     "style-loader",
-      //     "css-loader",
-      //     "sass-loader",
-      //     string_replacement_loader
-      //   ]
-      // },
-
-      // {
-      //     test: /\.scss$/,
-      //     include: [path.resolve(__dirname, './node_modules/foundation-sites/scss')],
-      //     use: [
-      //       {loader: "style-loader"},
-      //       {loader: "css-loader"},
-      //       {
-      //         loader: "sass-loader"
-      //         // options: {
-      //         //   sassOptions: {includePaths: [path.resolve(__dirname, './node_modules/foundation-sites/scss')]}
-      //         // }
-      //       },
-      //       {loader: string_replacement_loader}
-      //     ]
-      // },
-
-      // {
-      //   test: /\.scss$/,
-      //   use: [
-      //     {
-      //       loader: 'style-loader'
-      //     },
-      //     {
-      //       loader: 'css-loader'
-      //     },
-      //     {
-      //       loader: 'sass-loader'
-      //     },
-      //     {
-      //       loader: string_replacement_loader
-      //     }
-      //   ]
-      // },
-
       {
           test: /\.scss$/,
-          //include: [path.resolve(__dirname, './node_modules/foundation-sites/scss')],
           use: [
             {
               loader: "style-loader"
@@ -185,20 +136,6 @@ module.exports = {
             }
           ]
       },
-
-
-      // {
-      //   test: /\.css$/,
-      //   // include: [
-      //   //   path.resolve(__dirname, './node_modules/foundation-sites/scss')
-      //   // ],
-      //   use: [
-      //     "style-loader",
-      //     "css-loader",
-      //     string_replacement_loader
-      //   ]
-      // },
-
       {
         test: /\.css$/,
         use: [
@@ -216,8 +153,6 @@ module.exports = {
           }
         ]
       },
-
-
       {
         test: /\.(png|jpg|jpeg|gif)$/,
         loader: 'url-loader'
@@ -240,11 +175,6 @@ module.exports = {
       }
     ]
   },
-  // sassLoader: {
-  //   includePaths: [
-  //     path.resolve(__dirname, './node_modules/foundation-sites/scss')
-  //   ]
-  // },
   //'eval-source-map' lets us debug the code as written, rather than in bundle.js.
   // Only applies during development, since it is a devtool setting.
   devtool: process.env.NODE_ENV === 'production' ? undefined : 'cheap-module-eval-source-map'
