@@ -6,10 +6,11 @@
   "main": "bundle.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test karma start",
-    "build": "webpack --mode=development",
+    "build": "webpack --mode=production",
     "start": "node server.js",
     "rebuild": "yarn build && node server.js",
     "rebuildN": "npm run build && node server.js",
+    "buildDev": "cross-env NODE_ENV=development webpack --mode=development",
     "buildProd": "cross-env NODE_ENV=production webpack --mode=production"
   },
   "author": "Ashley Bennett",
