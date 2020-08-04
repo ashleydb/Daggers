@@ -88,7 +88,7 @@ const fileManifest = [
   },
   {
     "url": "bundle.js",
-    "revision": "b746517f9cd7ac5aec5854782b84e30a"
+    "revision": "c076665359bf002ba5fbc26509a1a285"
   },
   {
     "url": "favicon-16x16.png",
@@ -108,7 +108,7 @@ const fileManifest = [
   },
   {
     "url": "index.html",
-    "revision": "991f0c1d364a9e65fdc02b86bf6aa0d4"
+    "revision": "0d3cf883b1ac53792c64777c052e4f81"
   },
   {
     "url": "manifest.json",
