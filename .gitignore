@@ -2,3 +2,5 @@ node_modules/
 public/bundle.js
 config/
 historical/
+.DS_Store
+yarn-error.log

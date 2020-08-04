@@ -95,8 +95,8 @@ export function addFixture(fixture, token) {
                     })
                     .catch(function (error) {
                         // TODO: Show error message on UI
-                        console.log(error.response.data);
-                        reject(error.response.data);
+                        console.log("ERR: addFixture(): " + error.message);
+                        reject(error.message);
                     });
                 } else {
                     // This is a PUT
@@ -107,14 +107,14 @@ export function addFixture(fixture, token) {
                     })
                     .catch(function (error) {
                         // TODO: Show error message on UI
-                        console.log(error.response.data);
-                        reject(error.response.data);
+                        console.log("ERR: addFixture(): " + error.message);
+                        reject(error.message);
                     });
                 }
             } catch(e) {
                 // try failed
-                console.log("ERR: addFixture() failed:", e);
-                reject(e);
+                console.log("ERR: addFixture() failed:", e.message);
+                reject(e.message);
             }
         }        
     );  
@@ -139,14 +139,14 @@ export function removeFixture(fixtureId, token) {
                 })
                 .catch(function (error) {
                     // Some issue trying to delete the object
-                    console.log(error.response.data);
-                    reject(error.response.data);
+                    console.log("ERR: removeFixture(): " + error.message);
+                    reject(error.message);
                 });
 
             } catch (e) {
                 // try failed
-                console.log("ERR: removeFixture() failed:", e);
-                reject(e);
+                console.log("ERR: removeFixture() failed:", e.message);
+                reject(e.message);
             }
         }
     );

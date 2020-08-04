@@ -78,8 +78,8 @@ export function addSponsor(sponsor, token) {
                         })
                         .catch(function (error) {
                             // TODO: Show error message on UI
-                            console.log(error.response.data);
-                            reject(error.response.data);
+                            console.log("ERR: addSponsor(): " + error.message);
+                            reject(error.message);
                         });
                 } else {
                     // This is a PUT
@@ -90,14 +90,14 @@ export function addSponsor(sponsor, token) {
                         })
                         .catch(function (error) {
                             // TODO: Show error message on UI
-                            console.log(error.response.data);
-                            reject(error.response.data);
+                            console.log("ERR: addSponsor(): " + error.message);
+                            reject(error.message);
                         });
                 }
             } catch (e) {
                 // try failed
-                console.log("ERR: addSponsor() failed:", e);
-                reject(e);
+                console.log("ERR: addSponsor() failed:", e.message);
+                reject(e.message);
             }
         }
     );
@@ -122,14 +122,14 @@ export function removeSponsor(sponsorId, token) {
                 })
                 .catch(function (error) {
                     // Some issue trying to delete the object
-                    console.log(error.response.data);
-                    reject(error.response.data);
+                    console.log("ERR: removeSponsor(): " + error.message);
+                    reject(error.message);
                 });
 
             } catch (e) {
                 // try failed
-                console.log("ERR: removeSponsor() failed:", e);
-                reject(e);
+                console.log("ERR: removeSponsor() failed:", e.message);
+                reject(e.message);
             }
         }
     );

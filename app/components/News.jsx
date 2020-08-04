@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 var {connect} = require('react-redux');
 import {actions} from 'actions';
 import NewsSummary from 'NewsSummary';
@@ -18,15 +19,19 @@ export class News extends React.Component {
         this.handleFetchNews = this.handleFetchNews.bind(this);
     }
     componentWillMount() {
-        // Get the most recent year's news
-        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST));
+        // Are we at 'news:id'?
+        var { newsId } = this.props.params;
+        if (!newsId) {
+            // We are on the overall News page, not a specific story. Get the most recent year's news
+            this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST, actions.news.FETCH_LATEST));
+        }
+    }
+    componentDidMount() {
+        ReactDOM.findDOMNode(this._contentTop).scrollIntoView();
     }
     handleFetchNews() {
         var year = Number(this.refs.year.value);
         var month = Number(this.refs.month.value);
-        // 0 is ALL in our picker, so null it out
-        if (month == 0)
-            month = null;
         this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month));
     }
     setPage(pageNum) {
@@ -39,7 +44,7 @@ export class News extends React.Component {
         // TODO: Break out this pagination code into something reusable, (e.g. for NewsEdit)
         function datePicker(_that, _year, _month) {
             // TODO: years and months options just list all values, even if we don't have data, (e.g. could select a future month)
-            var years = NewsAPI.getYearList();
+            var years = NewsAPI.getYearList(false);
             var yearOptions = years.map((year) => {
                 return (
                     <option key={year} value={year}>{year}</option>
@@ -47,10 +52,9 @@ export class News extends React.Component {
             });
 
             var months = NewsAPI.getMonthList();
-            months = ['All', ...months];
             var monthOptions = months.map((month, index) => {
                 return (
-                    <option key={index} value={index}>{month}</option>
+                    <option key={index} value={index+1}>{month}</option>
                 );
             });
 
@@ -82,12 +86,14 @@ export class News extends React.Component {
             // This will render `NewsStory.jsx` when at /news/:newsId
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     {this.props.children}
                 </div>
             );
         } else if (status.isFetching) {
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="callout">
                       <h5>Loading</h5>
                       <p>Please wait while we get the news...</p>
@@ -95,9 +101,13 @@ export class News extends React.Component {
                 </div>
             );
         } else if (!news || news.length < 1) {
+            var dateNow = new Date();
+            var pickMonth = status.month && (typeof status.month === 'number') ? status.month : dateNow.getMonth() + 1;
+            var pickYear = status.year && (typeof status.year === 'number') ? status.year : dateNow.getFullYear();
             return (
                 <div>
-                    {datePicker(this, status.year, status.month)}
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
+                    {datePicker(this, pickYear, pickMonth)}
 
                     <div className="callout alert">
                       <h5>Error</h5>
@@ -146,10 +156,15 @@ export class News extends React.Component {
             }
 
             var paginationLinks = pagination(this, numPages, pageNum);
+
+            var dateNow = new Date();
+            var pickMonth = status.month && (typeof status.month === 'number') ? status.month : dateNow.getMonth() + 1;
+            var pickYear = status.year && (typeof status.year === 'number') ? status.year : dateNow.getFullYear();
             
             return (
                 <div>
-                    {datePicker(this, status.year, status.month)}
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
+                    {datePicker(this, pickYear, pickMonth)}
                     {paginationLinks}
 
                     {/* will render a list of news items when at /news/ */}

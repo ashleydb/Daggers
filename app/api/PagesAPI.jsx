@@ -74,8 +74,8 @@ export function addPage(page, token) {
                             resolve(page);
                         })
                         .catch(function (error) {
-                            console.log(error.response.data);
-                            reject(error.response.data);
+                            console.log("ERR: addPage(): " + error.message);
+                            reject(error.message);
                         });
                 } else {
                     // This is a PUT
@@ -85,14 +85,14 @@ export function addPage(page, token) {
                             resolve(page);
                         })
                         .catch(function (error) {
-                            console.log(error.response.data);
-                            reject(error.response.data);
+                            console.log("ERR: addPage(): " + error.message);
+                            reject(error.message);
                         });
                 }
             } catch (e) {
                 // try failed
-                console.log("ERR: addPage() failed:", e);
-                reject(e);
+                console.log("ERR: addPage() failed:", e.message);
+                reject(e.message);
             }
         }
     );
@@ -117,14 +117,14 @@ export function removePage(pageId, token) {
                 })
                 .catch(function (error) {
                     // Some issue trying to delete the object
-                    console.log(error.response.data);
-                    reject(error.response.data);
+                    console.log("ERR: removePage(): " + error.message);
+                    reject(error.message);
                 });
 
             } catch (e) {
                 // try failed
-                console.log("ERR: removePage() failed:", e);
-                reject(e);
+                console.log("ERR: removePage() failed:", e.message);
+                reject(e.message);
             }
         }
     );

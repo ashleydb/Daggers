@@ -6,6 +6,7 @@ export const INVALIDATE_NEWS = 'INVALIDATE_NEWS'
 
 export const REQUEST_NEWS_STORIES = 'REQUEST_NEWS_STORIES'
 export const RECEIVE_NEWS_STORIES = 'RECEIVE_NEWS_STORIES'
+export const REQUEST_NEWS_STORY = 'REQUEST_NEWS_STORY'
 export const RECEIVE_NEWS_STORY = 'RECEIVE_NEWS_STORY'
 
 
@@ -39,10 +40,10 @@ function receiveNewsStories(stories, year, month) {
 }
 
 // (3) Triggers the download of news stories
-function fetchNewsStories(year, month) {
+function fetchNewsStories(year, month, token) {
     return dispatch => {
         dispatch(requestNewsStories(year, month))
-        return NewsAPI.getStories(year, month)
+        return NewsAPI.getStories(year, month, token)
             .then(response => dispatch(receiveNewsStories(response, year, month)),
                        err => dispatch(receiveNewsStories([], year, month)))
     };
@@ -73,7 +74,7 @@ export const FETCH_ALL = NewsAPI.FETCH_ALL;
 //  Pass FETCH_LATEST for all news from most recent year that has news, (usually this year, possibly last year.)
 // (Optional) month: e.g. 1 to 12, for a specific month. Must also specify a year.
 //  Pass FETCH_LATEST for all news from most recent month in the specified year that has news.
-export function fetchNewsStoriesIfNeeded(year = FETCH_ALL, month = FETCH_ALL) {
+export function fetchNewsStoriesIfNeeded(year = FETCH_ALL, month = FETCH_ALL, token = null) {
     // Note that the function also receives getState()
     // which lets you choose what to dispatch next.
 
@@ -83,7 +84,7 @@ export function fetchNewsStoriesIfNeeded(year = FETCH_ALL, month = FETCH_ALL) {
     return (dispatch, getState) => {
         if (shouldFetchNewsStories(year, month, getState())) {
             // Dispatch a thunk from thunk!
-            return dispatch(fetchNewsStories(year, month))
+            return dispatch(fetchNewsStories(year, month, token))
         } else {
             // Let the calling code know there's nothing to wait for.
             return Promise.resolve()
@@ -94,7 +95,15 @@ export function fetchNewsStoriesIfNeeded(year = FETCH_ALL, month = FETCH_ALL) {
 
 // --- INDIVIDUAL NEWS STORY ---
 
-// (4) We got the news posts back. If it was empty, preload some default data.
+// (4) We are getting the news post
+function requestNewsStory(newsId) {
+    return {
+        type: REQUEST_NEWS_STORY,
+        newsId
+    }
+}
+
+// (5) We got the news post back (potentially default data).
 function receiveNewsStory(story) {
     return {
         type: RECEIVE_NEWS_STORY,
@@ -103,11 +112,13 @@ function receiveNewsStory(story) {
     };
 }
 
-// (3) Triggers the download of news stories
+// (3) Triggers the download of news story
 function fetchNewsStory(news, newsId) {
     return dispatch => {
-        var story = NewsAPI.getStory(newsId, news)  // TODO: This doesn't fetch from the server, only the passed in news, so could fail
-        dispatch(receiveNewsStory(story));
+        dispatch(requestNewsStory(newsId))
+        return NewsAPI.getStoryRemote(newsId, news)
+            .then(response => dispatch(receiveNewsStory(response)),
+                       err => dispatch(receiveNewsStory(err)))
     };
 }
 
@@ -145,11 +156,11 @@ export function fetchNewsStoryIfNeeded(newsId) {
 
 export const SUBMIT_STORY_SUCCESS   = 'SUBMIT_STORY_SUCCESS';
 
-export var submitStorySuccess = (story, recievedAt) => {
+export var submitStorySuccess = (story, receivedAt) => {
     return {
         type: SUBMIT_STORY_SUCCESS,
         story,
-        recievedAt
+        receivedAt
     };
 }
 
@@ -169,10 +180,13 @@ export var submitStory = (story, token) => {
     return (dispatch, getState) => {
         NewsAPI.addStory(story, token).then((newStory) => {
             if (newStory === {})
-                dispatch(submitStoryError(story, "Story not saved."));
+                dispatch(submitStoryError(story, "Story not saved. Unknown Error."));
             else
                 dispatch(submitStorySuccess(newStory,
                                            story.updatedAt ? story.updatedAt : story.createdAt));
+        }).catch((error) => {
+            console.log(error);
+            dispatch(submitStoryError({}, "Story not saved: " + error));
         });
     };
 }

@@ -49,13 +49,13 @@ export function addBanner(banner, token) {
                     resolve(banner);
                 })
                 .catch(function (error) {
-                    console.log(error.response.data);
-                    reject(error.response.data);
+                    console.log("ERR: addBanner(): " + error.message);
+                    reject(error.message);
                 });
             } catch (e) {
                 // try failed
-                console.log("ERR: addBanner() failed:", e);
-                reject(e);
+                console.log("ERR: addBanner() failed:", e.message);
+                reject(e.message);
             }
         }
     );
@@ -80,14 +80,14 @@ export function removeBanner(token) {
                 })
                 .catch(function (error) {
                     // Some issue trying to delete the object
-                    console.log(error.response.data);
-                    reject(error.response.data);
+                    console.log("ERR: removeBanner(): " + error.message);
+                    reject(error.message);
                 });
 
             } catch (e) {
                 // try failed
-                console.log("ERR: removeBanner() failed:", e);
-                reject(e);
+                console.log("ERR: removeBanner() failed:", e.message);
+                reject(e.message);
             }
         }
     );

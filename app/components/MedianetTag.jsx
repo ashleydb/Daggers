@@ -37,6 +37,8 @@ class MedianetTag extends React.Component {
 
     render() {
         return <div id={this.props.divId} />;
+
+        //return <div style={{"height": "250px", "width": "370px", "backgroundColor": "green"}}>MediaNet Ad Placeholder</div>
     }
 }
 

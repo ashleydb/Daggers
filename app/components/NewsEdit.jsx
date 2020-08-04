@@ -19,26 +19,66 @@ export class NewsEdit extends React.Component {
         this.promptRemoveStory = this.promptRemoveStory.bind(this);
         this.handleRemoveStory = this.handleRemoveStory.bind(this);
         this.props.showAlert.bind(this);
+        //this.props.hideAlert.bind(this);
     }
     componentWillMount() {
         // TODO: Copy the News year picking and pagination from News.jsx to here
-        // Get the most recent year's news
-        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST));
+        // Get the most recent month's news
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST, actions.news.FETCH_LATEST, this.props.login.token));
+    }
+    componentDidUpdate(prevProps, prevState){
+        var { newsId } = this.props.params;
+        var {news, status} = this.props.news;
+        var story = NewsAPI.getStory(newsId, news);
+
+        if (newsId == "new" || (story.id && story.id == newsId)) {
+            if (status.isSubmitting === false && status.lastUpdated && this.props.news.story === null) {
+                this.handleSaveStoryComplete();
+            } else if (status.error) {
+                this.handleSaveStoryError(status.error);
+            }
+        }
     }
     handleSaveStory(story) {
-        this.props.dispatch(actions.news.submitStory(story, this.props.login.token));
+        this.props.dispatch(actions.news.submitStory(story, this.props.login.token))
 
-        // TODO: Not great, since write could fail and then we've gone away from the form's contents
-        //  TODO: Show a loading screen, then an error message or do this push
+        var d = new Date(Number(story.createdAt));
+        var that = this;
+        this.props.showAlert({
+            title: 'Saving',
+            text: `Please wait. Adding story, going live at "${d.toString()}."`,
+            type: 'info',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            confirmButtonText: 'Don\'t wait for server',
+        })
+    }
+    handleSaveStoryComplete() {
+		this.props.showAlert({
+            title: 'Saved!',
+            text: 'Your story is ready.',
+            type: 'success',
+            allowOutsideClick: true,
+            confirmButtonText: 'Excellent!',
+            showConfirmButton: true
+        });
+        this.props.news.status.isSubmitting = null;
         browserHistory.push('/admin/news');
+    }
+    handleSaveStoryError(error) {
+		this.props.showAlert({
+            title: 'Problem Saving Story',
+            text: error,
+            type: 'error',
+            allowOutsideClick: false,
+            confirmButtonText: 'OK',
+            showConfirmButton: true
+        });
     }
     handleFetchNews() {
         var year = Number(this.refs.year.value);
         var month = Number(this.refs.month.value);
-        // 0 is ALL in our picker, so null it out
-        if (month == 0)
-            month = null;
-        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month));
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month, this.props.login.token));
     }
     setPage(pageNum) {
         // Change which page of news stories we are showing
@@ -77,7 +117,7 @@ export class NewsEdit extends React.Component {
 
         function datePicker(_that, _year, _month) {
             // TODO: years and months options just list all values, even if we don't have data, (e.g. could select a future month)
-            var years = NewsAPI.getYearList();
+            var years = NewsAPI.getYearList(true);
             var yearOptions = years.map((year) => {
                 return (
                     <option key={year} value={year}>{year}</option>
@@ -85,10 +125,9 @@ export class NewsEdit extends React.Component {
             });
 
             var months = NewsAPI.getMonthList();
-            months = ['All', ...months];
             var monthOptions = months.map((month, index) => {
                 return (
-                    <option key={index} value={index}>{month}</option>
+                    <option key={index} value={index+1}>{month}</option>
                 );
             });
 
@@ -126,8 +165,16 @@ export class NewsEdit extends React.Component {
                 </div>
             );
         } else if (newsId == "new" || (story.id && story.id == newsId)) {
+            var errorMessage = status.error === undefined ? null : (
+                <div className="callout alert">
+                    <h5>Error</h5>
+                    <p>{status.error}</p>
+                </div>
+            );
+
             return (
                 <div>
+                    {errorMessage}
                     <NewsEditForm story={story} onSaveStory={this.handleSaveStory} token={this.props.login.token} />
                 </div>
             );
@@ -196,9 +243,12 @@ export class NewsEdit extends React.Component {
                 );
             });
             
+            var dateNow = new Date();
+            var pickMonth = status.month && (typeof status.month === 'number') ? status.month : dateNow.getMonth() + 1;
+            var pickYear = status.year && (typeof status.year === 'number') ? status.year : dateNow.getFullYear();
             return (
                 <div>
-                    {datePicker(this, status.year, status.month)}
+                    {datePicker(this, pickYear, pickMonth)}
                     {paginationLinks}
                     {errorMessage}
                     <Link to={`/admin/news/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
@@ -211,9 +261,12 @@ export class NewsEdit extends React.Component {
                 </div>
             );
         } else {
+            var dateNow = new Date();
+            var pickMonth = status.month ? status.month : dateNow.getMonth() + 1;
+            var pickYear = status.year ? status.year : dateNow.getFullYear();
             return (
                 <div>
-                    {datePicker(this, status.year, status.month)}
+                    {datePicker(this, pickYear, pickMonth)}
                     <div className="callout alert">
                         <h5>Error</h5>
                         <p>No news found.</p>

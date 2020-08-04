@@ -26,6 +26,7 @@ import NewsStory from 'NewsStory';
 import NewsEdit from 'NewsEdit';
 import Fixtures from 'Fixtures';
 import FixturesEdit from 'FixturesEdit';
+import CalendarSubscribe from 'CalendarSubscribe';
 import Admin from 'Admin';
 import Page from 'Page';
 import PagesEdit from 'PagesEdit';
@@ -39,6 +40,7 @@ import Commercial from 'Commercial';
 import BannerEdit from 'BannerEdit';
 import SponsorsEdit from 'SponsorsEdit';
 import Table from 'Table';
+import Vanarama from 'Vanarama';
 
 var store = require('configureStore').configure();
 
@@ -55,6 +57,7 @@ ReactDOM.render(
           <Route path=":newsId" component={NewsStory}/>
         </Route>
         <Route path="fixtures" component={Fixtures}/>
+        <Route path="fixturescalendar" component={CalendarSubscribe}/>
         <Route path="table" component={Table}/>
         <Route path="tickets" component={Tickets}/>
         <Route path="team" component={Team}/>
@@ -62,6 +65,7 @@ ReactDOM.render(
         <Route path="community" component={Community}/>
         <Route path="club" component={Club}/>
         <Route path="commercial" component={Commercial}/>
+        <Route path="vanarama" component={Vanarama}/>
         
         <Route path="page" component={Page}>
           <Route path=":pageId" component={Page}/>
@@ -89,6 +93,7 @@ ReactDOM.render(
             </Route>
         </Route>
         <IndexRoute component={Home}/>
+        <Route path="*" component={Home}/>
       </Route>
     </Router>
   </Provider>,

@@ -1,5 +1,10 @@
 // Model for News Articles
 
+// Use CGP Error Reporting
+const {ErrorReporting} = require('@google-cloud/error-reporting');
+//const errors = new ErrorReporting({ignoreEnvironmentCheck:true}); // To run locally during development
+const errors = new ErrorReporting(); // To run on GCP server
+
 // Using Firebase with a cache to represent News data from our DB
 var myFirebase = require('../cloud/firebase');
 var FirebaseCacheNews = require('../cloud/FirebaseCacheNews');
@@ -23,11 +28,11 @@ class News {
         this.image = '/images/news-thumbnail.jpg';
         this.summary = 'Placeholder';
         this.story = 'Placeholder';
-        
+
         // These are added when calling POST or PUT respectively
         //this.createdAt = 0;
         //this.updatedAt = 0;
-        
+
         // These are optional components of a story
         //this.youtube = null;
 
@@ -44,14 +49,14 @@ class News {
             "story": this.story,
             "createdAt": this.createdAt
         };
-        
+
         if (this.updatedAt) {
             obj.updatedAt = this.updatedAt;
         }
         if (this.youtube) {
             obj.youtube = this.youtube;
         }
-        
+
         return obj;
     }
 
@@ -65,7 +70,7 @@ class News {
         let createdAt = this.createdAt;
 
         var childName = `news/${year}/${month}`;
-        
+
         myFirebase.writeToFirebase(myFirebase.firebaseRef,
                                    childName,
                                    this.id === 'new' ? null : this.id,
@@ -76,6 +81,12 @@ class News {
             callback(null, id, year, month, createdAt);
         }, (e) => {
             // Error
+
+            // Report an Error object to GCP
+            errors.report(new Error('Models:News:Save() - ' + e.message), () => {
+                console.log('Models:News:Save() error reported.');
+            });
+
             callback(e);
         });
     }
@@ -87,6 +98,12 @@ class News {
         var err = validateOptions(options, false, false, false);
         if (err) {
             // Error
+
+            // Report an Error object to GCP
+            errors.report(new Error('Models:News:Find() - ' + e.message), () => {
+                console.log('Models:News:Save() error reported.');
+            });
+
             callback(err);
             return;
         }
@@ -101,6 +118,7 @@ class News {
                 id: options.id,
                 listIDs: options.listIDs
             });
+            console.log('Models:News:find() - No news found.');
         } else {
             callback(null, news);
         }
@@ -113,6 +131,12 @@ class News {
         var err = validateOptions(options, true, true, true);
         if (err) {
             // Error
+
+            // Report an Error object to GCP
+            errors.report(new Error('Models:News:FindById() - ' + e.message), () => {
+                console.log('Models:News:Save() error reported.');
+            });
+
             callback(err);
             return;
         }
@@ -133,6 +157,37 @@ class News {
         }
     }
 
+    // Get a single news story from our DB
+    // options: contains id of the news story to find and isAdmin
+    // callback: Should be callback(error, news)
+    static findByIdBrute(options, callback) {
+        var err = validateOptions(options, false, false, true);
+        if (err) {
+            // Error
+
+            // Report an Error object to GCP
+            errors.report(new Error('Models:News:FindById() - ' + e.message), () => {
+                console.log('Models:News:Save() error reported.');
+            });
+
+            callback(err);
+            return;
+        }
+
+        var news = newsCache.getDataBrute(options);
+
+        // May get back null
+        if (!news) {
+            callback({
+                status: 404,
+                message: "Error: Object not found in DB.",
+                id: options.id
+            });
+        } else {
+            callback(null, news);
+        }
+    }
+
     // Delete a single news story from our DB
     // options: contains year, month and id of the news story to find
     // callback: Should be callback(error, newsId, year, month)
@@ -140,6 +195,12 @@ class News {
         var err = validateOptions(options, true, true, true);
         if (err) {
             // Error
+
+            // Report an Error object to GCP
+            errors.report(new Error('Models:News:Remove() - Invalid Options - ' + e.message), () => {
+                console.log('Models:News:Save() error reported.');
+            });
+
             callback(err);
             return;
         }
@@ -155,6 +216,12 @@ class News {
             }
         }, (e) => {
             // Error
+
+            // Report an Error object to GCP
+            errors.report(new Error('Models:News:Remove() - ' + e.message), () => {
+                console.log('Models:News:Save() error reported.');
+            });
+
             callback(e);
         });
     }
@@ -169,9 +236,9 @@ function validateOptions(options, requiresYear, requiresMonth, requiresId) {
     if (options) {
         // Was a year passed in?
         if (options.year) {
-            // Check the range of the year is valid
+            // Check the range of the year is valid. Assume this year for non-admins, or year+1 for admins is the high end
             var d = new Date();
-            var year = d.getFullYear();
+            var year = (options.isAdmin) ? d.getFullYear() + 1 : d.getFullYear();
             // TODO: Could be more rigorous around whether LATEST/RECENT are allowed, since they are not valid for all APIs
             if (options.year != FETCH_LATEST && options.year != FETCH_RECENT) {
                 options.year = Number(options.year);

@@ -8,7 +8,8 @@ var authenticate = require('../middleware/validateRequest');
 // --- GOOGLE CLOUD STORAGE ---
 
 // Imports the Google Cloud client library, using default credentials
-var gcs = require('@google-cloud/storage')();
+const {Storage} = require('@google-cloud/storage');
+const gcs = new Storage();
 
 // Get our storage bucket where our files live
 var bucket = gcs.bucket(process.env.GOOGLE_CLOUD_STORAGE_BUCKET);

@@ -1,5 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 var {connect} = require('react-redux');
+import { Link } from 'react-router';
 import LazyLoad from 'react-lazyload';
 import PlaceholderComponent from 'Placeholder';
 import {actions} from 'actions';
@@ -22,6 +24,9 @@ export class Fixtures extends React.Component {
     }
     componentWillMount() {
         this.props.dispatch(actions.fixtures.fetchFixturesIfNeeded());
+    }
+    componentDidMount() {
+        ReactDOM.findDOMNode(this._contentTop).scrollIntoView();
     }
     setSeasonAndSquad(season, squad) {
         // Change which season of fixtures we are showing
@@ -81,6 +86,7 @@ export class Fixtures extends React.Component {
         if (status.isFetching) {
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="callout">
                       <h5>Loading</h5>
                       <p>Please wait while we get the fixtures...</p>
@@ -90,6 +96,7 @@ export class Fixtures extends React.Component {
         } else if (!fixtures || fixtures.length < 1) {
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="callout alert">
                       <h5>Error</h5>
                       <p>No fixtures found.</p>
@@ -110,6 +117,8 @@ export class Fixtures extends React.Component {
                         link = <a href={fixture.report}>Report</a>;
                     else if (fixture.report)
                         link = <a href={fixture.report}>Preview</a>;
+                    else if (w_l_d)
+                        link = '-'; // No report for a completed game
                     else
                         link = <a href="http://www.daggerstickets.co.uk">Tickets</a>;
                     
@@ -136,17 +145,21 @@ export class Fixtures extends React.Component {
             
             return (
                 <div>
+                    <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="row">
                         <div className="columns small-12 large-8">
 
                             <h3>Fixtures &amp; Results</h3>
-                            <a href="webcal://calendar.google.com/calendar/ical/daggersfc110%40gmail.com/public/basic.ics" className="button expanded"><i className="fi-calendar"></i> Add Daggers Fixtures to your Calendar</a>
+                            <Link to={'/fixturescalendar'} className="expanded button"><i className="fi-calendar"></i> Add Daggers Fixtures to your Calendar</Link>
+                            <a href="https://storage.googleapis.com/daggers/downloads/CurrentFixtures.pdf" className="expanded button"><i className="fi-page"></i> Download Daggers Calendar Poster</a>
                             {seasonAndSquadPicker(this, season)}
-                            <table className="hover stack text-center">
-                                <tbody>
-                                    {fixtureRows}
-                                </tbody>
-                            </table>
+                                <div className="table-scroll">
+                                <table className="hover text-center">
+                                    <tbody>
+                                        {fixtureRows}
+                                    </tbody>
+                                </table>
+                            </div>
 
                         </div>
                         <div className="columns small-12 large-4">

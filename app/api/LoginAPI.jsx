@@ -30,13 +30,13 @@ export function login(username, password) {
                 })
                 .catch(function (error) {
                     // TODO: Show error message on UI
-                    console.log("ERROR: LoginAPI.login() error=", error.response.data);
-                    reject(error.response.data);
+                    console.log("ERROR: LoginAPI.login() error=", error.message);
+                    reject(error.message);
                 });
             } catch(e) {
                 // try failed
-                console.log("ERR: LoginAPI.login() failed:", e);
-                reject(e);
+                console.log("ERR: LoginAPI.login() failed:", e.message);
+                reject(e.message);
             }
         }        
     );  

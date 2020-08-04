@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 var {connect} = require('react-redux');
 import {actions} from 'actions';
 import Page from 'Page';
@@ -12,9 +13,13 @@ export default class Tickets extends React.Component {
         // Call the parent constructor with the props object we automatically get
         super(props);
     }
+    componentDidMount() {
+        ReactDOM.findDOMNode(this._contentTop).scrollIntoView();
+    }
     render() {
         return (
             <div>
+                <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                 <div className="row">
                     <div className="columns small-12 large-8">
 

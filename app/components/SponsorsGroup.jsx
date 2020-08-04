@@ -33,7 +33,7 @@ export class SponsorsGroup extends React.Component {
         } else {
             let output = [];
             sponsors.forEach(function(sponsor) {
-                output.push(<Sponsor sponsor={sponsor} />);
+                output.push(<Sponsor sponsor={sponsor} key={sponsor.id} />);
             }, this);
 
             let classString = '';
@@ -48,7 +48,7 @@ export class SponsorsGroup extends React.Component {
                 classString = 'row small-up-4 large-up-7';
             } else if (numSponsors >= 8) {
                 classString = 'row small-up-4 large-up-8';
-            } 
+            }
 
             return (
                 <div className={classString}>

@@ -1,5 +1,5 @@
 // Using Firebase
-var myFirebase = require('./firebase');
+//var myFirebase = require('./firebase');
 var FirebaseCache = require('./firebaseCache');
 
 class FirebaseCacheSponsors extends FirebaseCache {
@@ -11,11 +11,11 @@ class FirebaseCacheSponsors extends FirebaseCache {
         this.firebaseData = [];
     }
 
-    parseSnapshot(snapshot) {        
+    parseSnapshot(snapshot) {
         var id = snapshot.key; // should be 'snapshot'
         // Always clear out so we don't have duplicate/old data
         this.firebaseData = [];
-        
+
         snapshot.forEach(function(sponsorSnapshot) {
             var newSponsor = sponsorSnapshot.val();
 
