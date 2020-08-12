@@ -3,3 +3,4 @@ config/
 historical/
 .DS_Store
 yarn-error.log
+*.code-workspace
