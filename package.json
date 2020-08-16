@@ -1,6 +1,6 @@
 {
   "name": "daggers",
-  "version": "5.20200725.0",
+  "version": "6.20200816.1",
   "description": "Website for Dagenham & Redbridge FC",
   "homepage": "https://github.com/ashleydb/Daggers/",
   "main": "bundle.js",
@@ -63,7 +63,7 @@
     "style-loader": "^1",
     "url-loader": "^4",
     "webpack-cli": "^3.3.12",
-    "workbox-webpack-plugin": "^2"
+    "workbox-webpack-plugin": "^5"
   },
   "devDependencies": {
     "expect": "26",

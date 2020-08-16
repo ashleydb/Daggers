@@ -17,9 +17,9 @@ var serviceAccount = {
   "private_key": process.env.FIREBASE_SERVICE_PRIVATE_KEY.replace(/\\n/g, '\n'),
   "client_email": process.env.FIREBASE_SERVICE_CLIENT_EMAIL,
   "client_id": process.env.FIREBASE_SERVICE_CLIENT_ID,
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://accounts.google.com/o/oauth2/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "auth_uri": process.env.FIREBASE_SERVICE_AUTH_URI,
+  "token_uri": process.env.FIREBASE_SERVICE_TOKEN_URI,
+  "auth_provider_x509_cert_url": process.env.FIREBASE_SERVICE_AUTH_PROVIDER_X509_CERT_URL,
   "client_x509_cert_url": process.env.FIREBASE_SERVICE_CLIENT_X509_CERT_URL
 }
 
@@ -47,15 +47,15 @@ module.exports.writeToFirebase = function(ref = null, childName, id, data) {
         console.log("WARN: Trying to write to Firebase with no data.")
         return null;
     }
-    
+
     // Send the data to our server (firebase)
     var dbRef = (ref) ? ref : firebaseRef;
     var dataRef = null;
-    
+
     if (!id) {
         // New data, just push it up
         dataRef = dbRef.child(childName).push(data);
-            
+
         // This uses an API based on promises to write, gets back an ID for that
         // new object on the server, then returns it to send to the client.
         return dataRef.then(() => { return dataRef.key; })
@@ -66,7 +66,7 @@ module.exports.writeToFirebase = function(ref = null, childName, id, data) {
     } else {
         // Updating data, so find the right element first
         dataRef = dbRef.child(`${childName}/${id}`).update(data);
-        
+
         // We don't get an id back when updating, so return the existing ID
         return dataRef.then(() => { return id; })
         .catch(function(error) {
@@ -89,7 +89,7 @@ module.exports.getFirebaseRef = function(ref = null, childName = '/') {
 // childName: name of the child element you want to read, e.g. 'news' or 'news/-Kf-uyuCGliTBTNfB_Lr', (default uses the root of the ref)
 module.exports.readFromFirebase = function(ref = null, childName = '/') {
     var dataRef = ref ? ref.child(childName) : firebaseRef.child(childName);
-    
+
     // First, get the data from our server (firebase), which is async
     return dataRef.once('value').then(function(dataSnapshot) {
       // Now we have the data, so can parse it, update our state and re-render
@@ -113,10 +113,10 @@ module.exports.removefromFirebase = function(ref = null, childName) {
         console.log("WARN: Trying to remove from Firebase with no ref/data.")
         return null;
     }
-    
+
     // Dealing with database on our server (firebase)
     var dbRef = (ref) ? ref : firebaseRef;
-    
+
     // Removing data, so find the right element to do so
     var dataRef = dbRef.child(childName).remove();
 

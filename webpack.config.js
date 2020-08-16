@@ -5,7 +5,7 @@
 var webpack = require('webpack');
 var path = require('path');
 var envFile = require('node-env-file');
-const workboxPlugin = require('workbox-webpack-plugin');
+const {GenerateSW} = require('workbox-webpack-plugin');
 
 // For Workbox plugin, for ServiceWorkers
 const DIST_DIR = 'public';
@@ -59,6 +59,9 @@ module.exports = {
         FIREBASE_SERVICE_PRIVATE_KEY: JSON.stringify(process.env.FIREBASE_SERVICE_PRIVATE_KEY),
         FIREBASE_SERVICE_CLIENT_EMAIL: JSON.stringify(process.env.FIREBASE_SERVICE_CLIENT_EMAIL),
         FIREBASE_SERVICE_CLIENT_ID: JSON.stringify(process.env.FIREBASE_SERVICE_CLIENT_ID),
+        FIREBASE_SERVICE_AUTH_URI: JSON.stringify(process.env.FIREBASE_SERVICE_AUTH_URI),
+        FIREBASE_SERVICE_TOKEN_URI: JSON.stringify(process.env.FIREBASE_SERVICE_TOKEN_URI),
+        FIREBASE_SERVICE_AUTH_PROVIDER_X509_CERT_URL: JSON.stringify(process.env.FIREBASE_SERVICE_AUTH_PROVIDER_X509_CERT_URL),
         FIREBASE_SERVICE_CLIENT_X509_CERT_URL: JSON.stringify(process.env.FIREBASE_SERVICE_CLIENT_X509_CERT_URL),
         GOOGLE_CLOUD_STORAGE_BUCKET: JSON.stringify(process.env.GOOGLE_CLOUD_STORAGE_BUCKET),
         AUTH_SECRET: JSON.stringify(process.env.AUTH_SECRET),
@@ -68,11 +71,8 @@ module.exports = {
       }
     }),
     new StringReplacePlugin(),
-    new workboxPlugin({
-      globPatterns: ['**\/*.{html,js,css,png,ico,json}'],
-      //globIgnores: ['admin.html'],
-      //swSrc: './src/sw.js',
-      swDest: path.join(DIST_DIR, 'sw.js'),
+    new GenerateSW({
+      swDest: 'sw.js'
     })
   ],
   output: {
