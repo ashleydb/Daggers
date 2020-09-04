@@ -1,5 +1,6 @@
 import React from 'react';
 var {connect} = require('react-redux');
+import {Helmet} from 'react-helmet';
 import {actions} from 'actions';
 import * as PagesAPI from 'PagesAPI';
 
@@ -43,7 +44,17 @@ export class Page extends React.Component {
             var pageId = this.props.pageId || this.props.params.pageId;
             var page = PagesAPI.getPage(pageId, pages);
             return page ? (
-                    <div dangerouslySetInnerHTML={{ __html: page.content }}></div>
+                    <div>
+                        <Helmet>
+                            <title>{page.name}</title>
+                            <meta name="description" content={page.name} />
+                            <meta property="og:title" content={page.name + " | Dagenham &amp; Redbridge FC"} />
+                            <meta property="og:description" content={page.name} />
+                            {/*<meta property="og:image" content={image} />*/}
+                            <meta property="og:url" content={"https://www.daggers.co.uk/page/" + page.id} />
+                        </Helmet>
+                        <div dangerouslySetInnerHTML={{ __html: page.content }}></div>
+                    </div>
                 ) : (
                     <div>
                         <div className="callout alert">

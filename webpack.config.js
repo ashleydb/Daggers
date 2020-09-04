@@ -72,7 +72,13 @@ module.exports = {
     }),
     new StringReplacePlugin(),
     new GenerateSW({
-      swDest: 'sw.js'
+      swDest: 'sw.js',
+      runtimeCaching: [
+        {
+          urlPattern: /\.js$/,
+          handler: 'CacheFirst',
+        }
+      ]
     })
   ],
   output: {

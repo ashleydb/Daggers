@@ -1,5 +1,6 @@
 import React from 'react';
 var { connect } = require('react-redux');
+import {Helmet} from 'react-helmet';
 import {actions} from 'actions';
 import * as NewsAPI from 'NewsAPI';
 
@@ -71,6 +72,14 @@ export class NewsStory extends React.Component {
 
             return (
                 <div>
+                    <Helmet>
+                        <title>{story.headline}</title>
+                        <meta name="description" content={story.summary} />
+                        <meta property="og:title" content={story.headline + " | Dagenham &amp; Redbridge FC"} />
+                        <meta property="og:description" content={story.summary} />
+                        <meta property="og:image" content={image} />
+                        <meta property="og:url" content={"https://www.daggers.co.uk/news/" + story.id} />
+                    </Helmet>
                     <div className="column">
                         <div className="card card-block">
                             <div className="card-divider">
