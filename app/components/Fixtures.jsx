@@ -119,8 +119,10 @@ export class Fixtures extends React.Component {
                         link = <a href={fixture.report}>Preview</a>;
                     else if (w_l_d)
                         link = '-'; // No report for a completed game
+                    else if (fixture.result === 'Postponed')
+                        link = '-'; // No report, tickets or stream for a postponed game
                     else
-                        link = <a href="http://www.daggerstickets.co.uk">Tickets</a>;
+                        link = <div><a href="http://www.daggerstickets.co.uk">Tickets</a><br /><a href="https://live.daggers.co.uk/en-int/page/video-daggers">Stream</a></div>;
                     
                     var home_away = fixture.home_away === 'X' ? '' : fixture.home_away;
 
