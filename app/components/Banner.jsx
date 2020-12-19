@@ -1,6 +1,6 @@
 import React from 'react';
 var {connect} = require('react-redux');
-import {Link} from 'react-router';
+import {Link} from 'next/link';
 import {actions} from 'actions';
 
 // Banner is a Component to render essentially static content.

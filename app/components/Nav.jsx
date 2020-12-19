@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, IndexLink} from 'react-router';
+import {Link, IndexLink} from 'next/link';
 import Banner from 'Banner';
 
 export default class Nav extends React.Component {
@@ -31,15 +31,15 @@ export default class Nav extends React.Component {
                     <div className="menu-centered">
                         <ul className="vertical large-horizontal menu club-nav">
                             <li><IndexLink to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>HOME</IndexLink></li>
-                            <li><Link to="/news" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>NEWS</Link></li>
-                            <li><Link to="/fixtures" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>FIXTURES &amp; RESULTS</Link></li>
-                            <li><Link to="/table" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>TABLE</Link></li>
-                            <li><Link to="/tickets" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>TICKETS</Link></li>
-                            <li><Link to="/team" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>TEAM</Link></li>
-                            <li><Link to="/fans" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>FANS</Link></li>
-                            <li><Link to="/community" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>COMMUNITY</Link></li>
-                            <li><Link to="/club" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>CLUB</Link></li>
-                            <li><Link to="/commercial" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>COMMERCIAL</Link></li>
+                            <li><Link href="/news" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>NEWS</Link></li>
+                            <li><Link href="/fixtures" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>FIXTURES &amp; RESULTS</Link></li>
+                            <li><Link href="/table" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>TABLE</Link></li>
+                            <li><Link href="/tickets" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>TICKETS</Link></li>
+                            <li><Link href="/team" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>TEAM</Link></li>
+                            <li><Link href="/fans" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>FANS</Link></li>
+                            <li><Link href="/community" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>COMMUNITY</Link></li>
+                            <li><Link href="/club" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>CLUB</Link></li>
+                            <li><Link href="/commercial" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>COMMERCIAL</Link></li>
                             <li><a href="https://www.daggers-shop.co.uk/">CLUB SHOP</a></li>
                             <li><a href="https://www.youtube.com/user/OfficialDaggers"><i className="fi-social-youtube social-icon-medium social-color-white"></i></a></li>
                             <li><a href="https://www.facebook.com/OfficialDaggers"><i className="fi-social-facebook social-icon-medium social-color-white"></i></a></li>

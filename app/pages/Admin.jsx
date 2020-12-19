@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import {Link} from 'next/link';
 
 var { connect } = require('react-redux');
 import LoginForm from 'LoginForm';
@@ -45,12 +45,12 @@ export class Admin extends React.Component {
                         <p className="alert label float-right">Admin Area</p>
                     </div>
                     <ul>
-                        <Link to={'/admin/news'} className="expanded button"><i className="fi-page-multiple"></i> News</Link>
-                        <Link to={'/admin/fixtures'} className="expanded button"><i className="fi-flag"></i> Fixtures</Link>
-                        <Link to={'/admin/pages'} className="expanded button"><i className="fi-page-multiple"></i> Pages</Link>
-                        <Link to={'/admin/players'} className="expanded button"><i className="fi-torsos-all"></i> Players</Link>
-                        <Link to={'/admin/banner'} className="expanded button"><i className="fi-layout"></i> Banner</Link>
-                        <Link to={'/admin/sponsors'} className="expanded button"><i className="fi-pricetag-multiple"></i> Sponsors</Link>
+                        <Link href={'/admin/news'} className="expanded button"><i className="fi-page-multiple"></i> News</Link>
+                        <Link href={'/admin/fixtures'} className="expanded button"><i className="fi-flag"></i> Fixtures</Link>
+                        <Link href={'/admin/pages'} className="expanded button"><i className="fi-page-multiple"></i> Pages</Link>
+                        <Link href={'/admin/players'} className="expanded button"><i className="fi-torsos-all"></i> Players</Link>
+                        <Link href={'/admin/banner'} className="expanded button"><i className="fi-layout"></i> Banner</Link>
+                        <Link href={'/admin/sponsors'} className="expanded button"><i className="fi-pricetag-multiple"></i> Sponsors</Link>
                     </ul>
                 </div>
             );

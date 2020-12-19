@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link} from 'next/link';
 
 // For Rich Text Editor
 import Trumbowyg from 'react-trumbowyg';
@@ -113,7 +113,7 @@ export default class PagesEditForm extends React.Component {
                     />
                     
                     <button className="expanded button success"><i className="fi-save"></i> Save</button>
-                    <Link to="/admin/pages" className="expanded button alert"><i className="fi-x"></i> Cancel</Link>
+                    <Link href="/admin/pages" className="expanded button alert"><i className="fi-x"></i> Cancel</Link>
                     
                     <div id="editPagesDebug" className="hide">
                         <label>Image</label><input type="text" defaultValue={image} ref="image" readOnly/>

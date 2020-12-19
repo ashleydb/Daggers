@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link} from 'next/link';
 
 export default class LoginForm extends React.Component {
     // Need to override the constructor to set the initial state and do data binding

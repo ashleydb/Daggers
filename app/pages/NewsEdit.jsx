@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, browserHistory} from 'react-router';
+import {Link, browserHistory} from 'next/link';
 var { connect } = require('react-redux');
 import { swal } from 'react-redux-sweetalert2';
 import adminComponent from 'AdminMessage';
@@ -235,9 +235,9 @@ export class NewsEdit extends React.Component {
                 return (
                     <tr key={story.id}>
                         <td>{dateStr}</td>
-                        <td><Link to={`/admin/news/${story.id}`}>{story.headline}</Link></td>
-                        <td><Link to={`/news/${story.id}`} className="button"><i className="fi-eye"></i> View</Link></td>
-                        <td><Link to={`/admin/news/${story.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
+                        <td><Link href={`/admin/news/${story.id}`}>{story.headline}</Link></td>
+                        <td><Link href={`/news/${story.id}`} className="button"><i className="fi-eye"></i> View</Link></td>
+                        <td><Link href={`/admin/news/${story.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
                         <td><button className="button" onClick={() => this.promptRemoveStory(story)}><i className="fi-x"></i> Delete</button></td>
                     </tr>
                 );
@@ -251,7 +251,7 @@ export class NewsEdit extends React.Component {
                     {datePicker(this, pickYear, pickMonth)}
                     {paginationLinks}
                     {errorMessage}
-                    <Link to={`/admin/news/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
+                    <Link href={`/admin/news/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
                     <table className="hover">
                         <tbody>
                             {contentRows}

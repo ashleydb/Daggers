@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link} from 'next/link';
 
 // Higher order component. The function takes a component and returns a (modified) component.
 // In this case we are hiding components from users if they are not an admin, meaning that logic can be encapsulated here
@@ -50,7 +50,7 @@ var adminComponent = (Component) => {
                 <h5 className="float-left">{user.name} <small>{`(Login Expires: ${expiresDate.toUTCString()})`}</small></h5>
                 <p className="alert label float-right">Admin Area</p>
               </div>
-              <Link to="/admin" className="expanded button alert"><i className="fi-home"></i> Admin Tools Menu</Link>
+              <Link href="/admin" className="expanded button alert"><i className="fi-home"></i> Admin Tools Menu</Link>
             </div>
             {super.render()}
           </div>
@@ -68,7 +68,7 @@ var adminComponent = (Component) => {
         return (
           <div>
             {errorMessage}
-            <Link to="/admin" className="expanded button alert"><i className="fi-home"></i> Login to Admin Tools</Link>
+            <Link href="/admin" className="expanded button alert"><i className="fi-home"></i> Login to Admin Tools</Link>
           </div>
         );
       }

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 var {connect} = require('react-redux');
-import {Link} from 'react-router';
+import {Link} from 'next/link';
 import {actions} from 'actions';
 import MedianetTag from 'MedianetTag';
 

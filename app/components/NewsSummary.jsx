@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import {Link} from 'next/link';
 import LazyLoad from 'react-lazyload';
 import PlaceholderComponent from 'Placeholder';
 import * as NewsAPI from 'NewsAPI';
@@ -33,9 +33,9 @@ export default class NewsSummary extends React.Component {
                     <div className="column">
                         <div className="card card-block">
                             <div className="card-divider">
-                                <Link to={`/news/${story.id}`}><h4>{story.headline}</h4></Link>
+                                <Link href={`/news/${story.id}`}><h4>{story.headline}</h4></Link>
                             </div>
-                            <Link to={`/news/${story.id}`}>
+                            <Link href={`/news/${story.id}`}>
                                 <LazyLoad placeholder={<PlaceholderComponent />}>
                                     <img src={image} alt={story.summary} className="news-main-image" />
                                 </LazyLoad>
@@ -53,13 +53,13 @@ export default class NewsSummary extends React.Component {
                 return (
                     <div className="column column-block">
                         <div className="card">
-                            <Link to={`/news/${story.id}`}>
+                            <Link href={`/news/${story.id}`}>
                                 <LazyLoad placeholder={<PlaceholderComponent />}>
                                     <img src={image} alt={story.summary} className="news-thumbnail" key={story.id} />
                                 </LazyLoad>
                             </Link>
                             <div className="card-section">
-                                <Link to={`/news/${story.id}`}><h4>{story.headline}</h4></Link>
+                                <Link href={`/news/${story.id}`}><h4>{story.headline}</h4></Link>
                                 <p className="news-summary-date">{dateStr}</p>
                                 <p>{story.summary}</p>
                             </div>

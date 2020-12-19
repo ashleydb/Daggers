@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Link } from 'react-router';
+import {Link} from 'next/link';
 var {connect} = require('react-redux');
 import {actions} from 'actions';
 import NewsSummary from 'NewsSummary';
@@ -126,9 +126,9 @@ export class Home extends React.Component {
 
                     <div className="row">
                         <div className="row small-12 footer">
-                            <Link to={'/page/PrivacyPolicy'} className="footer-link">Privacy Policy</Link>
+                            <Link href={'/page/PrivacyPolicy'} className="footer-link">Privacy Policy</Link>
                             &nbsp;|&nbsp;
-                            <Link to={'/page/TermsAndConditions'} className="footer-link">Terms of Use</Link>
+                            <Link href={'/page/TermsAndConditions'} className="footer-link">Terms of Use</Link>
                         </div>
                     </div>
 

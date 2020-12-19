@@ -1,5 +1,6 @@
 import React from 'react';
-import {Link, browserHistory} from 'react-router';
+//import {Link, browserHistory} from 'next/link';
+import {Link, browserHistory} from 'next/link';
 var { connect } = require('react-redux');
 import { swal } from 'react-redux-sweetalert2';
 import adminComponent from 'AdminMessage';
@@ -89,7 +90,7 @@ export class BannerEdit extends React.Component {
                         <tbody>
                             <tr>
                                 <td><img src={`https://{-{gcp.storageBucket}-}.storage.googleapis.com${banner.image}`} alt={banner.description} className="nav-banner"/></td>
-                                <td><Link to="/admin/banner/edit" className="button"><i className="fi-pencil"></i> Edit</Link></td>
+                                <td><Link href="/admin/banner/edit" className="button"><i className="fi-pencil"></i> Edit</Link></td>
                                 <td><button className="button" onClick={() => this.promptRemoveBanner(banner)}><i className="fi-x"></i> Delete</button></td>
                             </tr>
                         </tbody>
@@ -102,7 +103,7 @@ export class BannerEdit extends React.Component {
                     <div className="callout alert">
                         <h5>Error</h5>
                         <p>No banner found.</p>
-                        <Link to="/admin/banner/edit" className="button expanded"><i className="fi-plus"></i> Create New</Link>
+                        <Link href="/admin/banner/edit" className="button expanded"><i className="fi-plus"></i> Create New</Link>
                     </div>
                 </div>
             );

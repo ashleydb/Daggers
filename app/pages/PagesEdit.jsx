@@ -1,38 +1,38 @@
 import React from 'react';
-import {Link, browserHistory} from 'react-router';
+import {Link, browserHistory} from 'next/link';
 var { connect } = require('react-redux');
 import { swal } from 'react-redux-sweetalert2';
 import adminComponent from 'AdminMessage';
-import SponsorsEditForm from 'SponsorsEditForm';
+import PagesEditForm from 'PagesEditForm';
 import { actions } from 'actions';
-import * as SponsorsAPI from 'SponsorsAPI';
+import * as PagesAPI from 'PagesAPI';
 
-export class SponsorsEdit extends React.Component {
+export class PagesEdit extends React.Component {
     // Need to override the constructor to set the initial state and do data binding
     constructor(props) {
         // Call the parent constructor with the props object we automatically get
         super(props);
         // BINDING: Keep 'this' scoped to this object in any handlers
-        this.handleSaveSponsor = this.handleSaveSponsor.bind(this);
-        this.promptRemoveSponsor = this.promptRemoveSponsor.bind(this);
-        this.handleRemoveSponsor = this.handleRemoveSponsor.bind(this);
+        this.handleSavePage = this.handleSavePage.bind(this);
+        this.promptRemovePage = this.promptRemovePage.bind(this);
+        this.handleRemovePage = this.handleRemovePage.bind(this);
         this.props.showAlert.bind(this);
     }
     componentWillMount() {
-        this.props.dispatch(actions.sponsors.fetchSponsorsIfNeeded());
+        this.props.dispatch(actions.pages.fetchPagesIfNeeded());
     }
-    handleSaveSponsor(sponsor) {
-        this.props.dispatch(actions.sponsors.submitSponsor(sponsor, this.props.login.token));
+    handleSavePage(page) {
+        this.props.dispatch(actions.pages.submitPage(page, this.props.login.token));
 
         // TODO: Not great, since write could fail and then we've gone away from the form's contents
-        browserHistory.push('/admin/sponsors');
+        browserHistory.push('/admin/pages');
     }
-    promptRemoveSponsor(sponsor) {
+    promptRemovePage(page) {
         // TODO: Not sure how to do binding here, so I'll hack it with 'that'
         var that = this;
 		this.props.showAlert({
             title: 'Are you sure?',
-            text: `Delete "${sponsor.name}"? You won't be able to revert this!`,
+            text: `Delete "${page.name}"? You won't be able to revert this!`,
             type: 'warning',
             allowOutsideClick: false,
             showCancelButton: true,
@@ -43,38 +43,38 @@ export class SponsorsEdit extends React.Component {
             cancelCallback: () => {},
             preConfirm: () => {
                 return new Promise(function (resolve) {
-                    that.handleRemoveSponsor(sponsor.id);
+                    that.handleRemovePage(page.id);
                     resolve();
                 });
             }
         });
     }
-    handleRemoveSponsor(id) {
-        this.props.dispatch(actions.sponsors.removeSponsor(id, this.props.login.token));
+    handleRemovePage(id) {
+        this.props.dispatch(actions.pages.removePage(id, this.props.login.token));
     }
     render() {
-        // Are we editing at a sponsor right now, or about to?
-        var { sponsorId } = this.props.params;
-        var { sponsors, status } = this.props.sponsors;
-        var sponsor = SponsorsAPI.getSponsor(sponsorId, sponsors) || SponsorsAPI.DEFAULT_SPONSOR;
+        // Are we editing at a page right now, or about to?
+        var { pageId } = this.props.params;
+        var { pages, status } = this.props.pages;
+        var page = PagesAPI.getPage(pageId, pages) || PagesAPI.DEFAULT_PAGE;
 
         if (status.isFetching) {
             return (
                 <div>
                     <div className="callout">
                         <h5>Loading</h5>
-                        <p>Please wait while we get the sponsors...</p>
+                        <p>Please wait while we get the pages...</p>
                     </div>
                 </div>
             );
-        } else if (sponsorId == 'new' || sponsor.id == sponsorId) {
+        } else if (page.id == pageId) {
             return (
                 <div>
-                    <SponsorsEditForm sponsor={sponsor} onSaveSponsor={this.handleSaveSponsor} token={this.props.login.token} />
+                    <PagesEditForm page={page} onSavePage={this.handleSavePage} token={this.props.login.token} />
                 </div>
             );
-        } else if (sponsors && sponsors.length > 0) {
-            // Show a list of sponsors to edit
+        } else if (pages && pages.length > 0) {
+            // Show a list of pages to edit
 
             var errorMessage = status.error === undefined ? null : (
                 <div className="callout alert">
@@ -83,13 +83,16 @@ export class SponsorsEdit extends React.Component {
                 </div>
             );
 
-            // Show as a table with names and buttons to edit/delete
-            var contentRows = sponsors.map((sponsor) => {
+            // Show as a table with titles/dates and buttons to view/edit/delete
+            // TODO: View button doesn't work for Tickets since the route (currently) isn't /pages/Tickets, just /Tickets.
+            // TODO: Make the delete button work, or add one to the edit form.
+            var contentRows = pages.map((page) => {
                 return (
-                    <tr key={sponsor.id}>
-                        <td><Link to={`/admin/sponsors/${sponsor.id}`}>{sponsor.name}</Link></td>
-                        <td><Link to={`/admin/sponsors/${sponsor.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
-                        <td><button className="button" onClick={() => this.promptRemoveSponsor(sponsor)}><i className="fi-x"></i> Delete</button></td>
+                    <tr key={page.id}>
+                        <td><Link href={`/admin/pages/${page.id}`}>{page.name}</Link></td>
+                        <td><Link href={`/page/${page.id}`} className="button"><i className="fi-eye"></i> View</Link></td>
+                        <td><Link href={`/admin/pages/${page.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
+                        <td><button className="button" onClick={() => this.promptRemovePage(page)}><i className="fi-x"></i> Delete</button></td>
                     </tr>
                 );
             });
@@ -97,7 +100,7 @@ export class SponsorsEdit extends React.Component {
             return (
                 <div>
                     {errorMessage}
-                    <Link to={`/admin/sponsors/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
+                    <Link href={`/admin/pages/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
                     <table className="hover">
                         <tbody>
                             {contentRows}
@@ -110,8 +113,8 @@ export class SponsorsEdit extends React.Component {
                 <div>
                     <div className="callout alert">
                         <h5>Error</h5>
-                        <p>No sponsors found.</p>
-                        <Link to={`/admin/sponsors/new`}><i className="fi-plus"></i> Create New</Link>
+                        <p>No pages found.</p>
+                        <Link href={`/admin/pages/new`}><i className="fi-plus"></i> Create New</Link>
                     </div>
                 </div>
             );
@@ -123,7 +126,7 @@ import { bindActionCreators } from 'redux'
 
 function mapStateToProps(state) {
     return {
-        sponsors: state.sponsors,
+        pages: state.pages,
         login: state.login
     };
 }
@@ -133,4 +136,4 @@ function mapDispatchToProps(dispatch) {
     return { ...actions, dispatch };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(adminComponent(SponsorsEdit))
+export default connect(mapStateToProps, mapDispatchToProps)(adminComponent(PagesEdit))

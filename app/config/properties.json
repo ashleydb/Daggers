@@ -1,6 +1,7 @@
 {
   "gcp": {
-    "storageBucket": "daggers",
-    "storageBucket_REMOVEME": "daggers-demo-eu"
+    "storageBucket_REMOVEME1": "daggers",
+    "storageBucket": "daggers-demo-eu",
+    "storageBucket_REMOVEME2": "daggers-uk"
   }
 }

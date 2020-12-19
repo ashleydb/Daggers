@@ -4,6 +4,9 @@ const path = require('path');
 //const logger = require('morgan');
 const compression = require('compression');
 const bodyParser = require('body-parser');
+// For Next.JS SSR
+const next = require('next')
+const dev = process.env.NODE_ENV !== 'production'
 
 // In order to add liveliness/readiness/health checks for Kubernetes
 const http = require('http');
@@ -14,7 +17,15 @@ const {ErrorReporting} = require('@google-cloud/error-reporting');
 //const errors = new ErrorReporting({ignoreEnvironmentCheck:true}); // To run locally during development
 const errors = new ErrorReporting(); // To run on GCP server
 
-const app = express();
+//const app = express();
+const app = next({ dev });
+const handle = app.getRequestHandler();
+
+//Start the app
+app.prepare()
+//Start Express server
+.then(() => {
+
 
 //app.use(logger('dev'));
 
@@ -154,7 +165,16 @@ createTerminus(server, {
 // Last line is to log any errors
 app.use(errors.express);
 
-// Start the server
-server.listen(PORT, function() {
-    console.log('Express server is up on port ' + PORT);
-});
+
+server.get('*', (req, res) => {
+  return handle(req, res)
+})
+server.listen(PORT, (err) => {
+  if (err) throw err
+  console.log('Express server is up on port ' + PORT);
+})
+})
+.catch((ex) => {
+console.error(ex.stack)
+process.exit(1)
+})

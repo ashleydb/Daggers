@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, browserHistory} from 'react-router';
+import {Link, browserHistory} from 'next/link';
 var {connect} = require('react-redux');
 import { swal } from 'react-redux-sweetalert2';
 import adminComponent from 'AdminMessage';
@@ -147,7 +147,7 @@ export class FixturesEdit extends React.Component {
                         <tr key={game.id}>
                             <td>{game.date}</td>
                             <td><p className="team-name">{game.team}</p><p className="competition-name">{game.competition}</p></td>
-                            <td><Link to={`/admin/fixtures/${game.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
+                            <td><Link href={`/admin/fixtures/${game.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
                             <td><button className="button" onClick={() => this.promptRemoveFixture(game)}><i className="fi-x"></i> Delete</button></td>
                         </tr>
                     ));
@@ -159,7 +159,7 @@ export class FixturesEdit extends React.Component {
                     {seasonAndSquadPicker(this, season, squad)}
                     {errorMessage}
                     
-                    <Link to={`/admin/fixtures/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
+                    <Link href={`/admin/fixtures/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
                     <table className="hover text-center">
                         <tbody>
                             {fixtureRows}

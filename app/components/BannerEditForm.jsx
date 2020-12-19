@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link} from 'next/link';
 
 // For uploading images
 import ImageUploader from 'ImageUploader';
@@ -70,7 +70,7 @@ export default class BannerEditForm extends React.Component {
                     <label>Link</label><input type="text" defaultValue={banner.link} ref="link"/>
                     
                     <button className="expanded button success"><i className="fi-save"></i> Save</button>
-                    <Link to="/admin/banner" className="expanded button alert"><i className="fi-x"></i> Cancel</Link>
+                    <Link href="/admin/banner" className="expanded button alert"><i className="fi-x"></i> Cancel</Link>
                     
                     <div id="editBannerDebug" className="hide">
                         <label>Image</label><input type="text" defaultValue={image} ref="image" readOnly/>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link} from 'next/link';
 
 // For Rich Text Editor
 import Trumbowyg from 'react-trumbowyg';
@@ -249,7 +249,7 @@ export class NewsEditForm extends React.Component {
                     <label>YouTube</label><input type="text" defaultValue={story.youtube} placeholder="e.g. https://youtu.be/Y9OCIIKwI94" ref="youtube"/>
                     
                     <button className="expanded button success"><i className="fi-save"></i> Save</button>
-                    <Link to="/admin/news" className="expanded button alert"><i className="fi-x"></i> Cancel</Link>
+                    <Link href="/admin/news" className="expanded button alert"><i className="fi-x"></i> Cancel</Link>
                     
                     <div id="editNewsDebug" className="hide">
                         <label>Image</label><input type="text" defaultValue={story.image} ref="image" readOnly/>

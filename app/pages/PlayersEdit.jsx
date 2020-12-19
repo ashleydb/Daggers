@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, browserHistory} from 'react-router';
+import {Link, browserHistory} from 'next/link';
 var { connect } = require('react-redux');
 import { swal } from 'react-redux-sweetalert2';
 import adminComponent from 'AdminMessage';
@@ -88,9 +88,9 @@ export class PlayersEdit extends React.Component {
             var contentRows = players.map((player) => {
                 return (
                     <tr key={player.id}>
-                        <td><Link to={`/admin/players/${player.id}`}>{`${player.first_name} ${player.last_name}`}</Link></td>
+                        <td><Link href={`/admin/players/${player.id}`}>{`${player.first_name} ${player.last_name}`}</Link></td>
                         <td>{player.position}</td>
-                        <td><Link to={`/admin/players/${player.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
+                        <td><Link href={`/admin/players/${player.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
                         <td><button className="button" onClick={() => this.promptRemovePlayer(player)}><i className="fi-x"></i> Delete</button></td>
                     </tr>
                 );
@@ -99,7 +99,7 @@ export class PlayersEdit extends React.Component {
             return (
                 <div>
                     {errorMessage}
-                    <Link to={`/admin/players/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
+                    <Link href={`/admin/players/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
                     <table className="hover">
                         <tbody>
                             {contentRows}
@@ -113,7 +113,7 @@ export class PlayersEdit extends React.Component {
                     <div className="callout alert">
                         <h5>Error</h5>
                         <p>No players found.</p>
-                        <Link to={`/admin/players/new`}><i className="fi-plus"></i> Create New</Link>
+                        <Link href={`/admin/players/new`}><i className="fi-plus"></i> Create New</Link>
                     </div>
                 </div>
             );

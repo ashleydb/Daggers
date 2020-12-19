@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link} from 'next/link';
 var moment = require('moment');
 
 // For uploading images
@@ -75,7 +75,7 @@ export default class SponsorsEditForm extends React.Component {
                     <label>Type</label><input type="text" defaultValue={sponsor.type} placeholder="e.g. Official Club Partner" ref="type"/>
                     
                     <button className="expanded button success"><i className="fi-save"></i> Save</button>
-                    <Link to="/admin/sponsors" className="expanded button alert"><i className="fi-x"></i> Cancel</Link>
+                    <Link href="/admin/sponsors" className="expanded button alert"><i className="fi-x"></i> Cancel</Link>
                     
                     <div id="editSponsorDebug" className="hide">
                         <label>Image</label><input type="text" defaultValue={sponsor.image} ref="image" readOnly/>

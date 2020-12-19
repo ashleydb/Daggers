@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link} from 'next/link';
 
 // For uploading images
 import ImageUploader from 'ImageUploader';
@@ -122,7 +122,7 @@ export default class FixtureEditForm extends React.Component {
                     <label>Logo</label><input type="text" defaultValue={fixture.logo} placeholder="Pick a team badge image above." ref="logo" readOnly/>
                     
                     <button className="expanded button success"><i className="fi-save"></i> Save</button>
-                    <Link to="/admin/fixtures" className="expanded button alert"><i className="fi-x"></i> Cancel</Link>
+                    <Link href="/admin/fixtures" className="expanded button alert"><i className="fi-x"></i> Cancel</Link>
                 </form>
             </div>
         );

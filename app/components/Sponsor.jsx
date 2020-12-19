@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import {Link} from 'next/link';
 import LazyLoad from 'react-lazyload';
 import PlaceholderComponent from 'Placeholder';
 

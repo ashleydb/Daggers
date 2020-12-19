@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link} from 'next/link';
 var moment = require('moment');
 
 // For Rich Text Editor
@@ -184,7 +184,7 @@ export default class PlayerEditForm extends React.Component {
                     />
                     
                     <button className="expanded button success"><i className="fi-save"></i> Save</button>
-                    <Link to="/admin/players" className="expanded button alert"><i className="fi-x"></i> Cancel</Link>
+                    <Link href="/admin/players" className="expanded button alert"><i className="fi-x"></i> Cancel</Link>
                     
                     <div id="editPlayerDebug" className="hide">
                         <label>Image</label><input type="text" defaultValue={player.image} ref="image" readOnly/>
