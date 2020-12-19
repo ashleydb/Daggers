@@ -10,3 +10,4 @@ sovrn.com, 239163, RESELLER, fafdf38b16bf6b2b
 lijit.com, 239163, RESELLER, fafdf38b16bf6b2b
 appnexus.com, 3391, RESELLER, f5ab79cb980f11d1
 google.com, pub-2024690810381654, RESELLER, f08c47fec0942fa0
+aps.amazon.com,3117,DIRECT
