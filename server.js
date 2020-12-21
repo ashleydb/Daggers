@@ -1,7 +1,6 @@
 // Create express web server
 const express = require('express');
 const path = require('path');
-//const logger = require('morgan');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 
@@ -15,8 +14,6 @@ const {ErrorReporting} = require('@google-cloud/error-reporting');
 const errors = new ErrorReporting(); // To run on GCP server
 
 const app = express();
-
-//app.use(logger('dev'));
 
 // Redirect all requests from http to https
 app.use(function(req, res, next){
@@ -62,17 +59,6 @@ app.all('/*', function(req, res, next) {
 // DEFINE ROUTES -------------------------------
 var router = express.Router();
 
-// middleware to use for all requests
-//router.use(function(req, res, next) {
-//    // do logging
-//    console.log('Something is happening.');
-//    // make sure we go to the next routes and don't stop here
-//    next();
-//});
-
-// middleware to use for all requests, to validate users are authorized
-//router.use([require('./app/server/middleware/validateRequest')]);
-
 // test route to make sure everything is working (accessed at GET http://localhost:3000/api)
 router.get('/', function(req, res) {
     res.json({ message: 'Specify a version to use the API' });
@@ -91,6 +77,7 @@ var tableRoute = require('./app/server/routes/Table');
 var sponsorsRoute = require('./app/server/routes/Sponsors');
 var imagesRoute = require('./app/server/routes/Images');
 var authRoute = require('./app/server/routes/Auth');
+var IndexRoute = require('./app/server/routes/Index');
 
 
 // REGISTER OUR ROUTES -------------------------------
@@ -99,24 +86,15 @@ var authRoute = require('./app/server/routes/Auth');
 app.use('/api', [router, newsRoute, fixturesRoute, pagesRoute,
                  playersRoute, bannerRoute, tableRoute, sponsorsRoute, imagesRoute]);
 // Other routes from the root go here
-//app.use('/', [authRoute, healthRoute]);
-app.use('/', [authRoute]);
-
-
-// Auth Middleware - This will check if the token is valid
-// Only the requests that start with /api/* will be checked for the token.
-// Any URL's that do not follow the below pattern should be avoided unless you
-// are sure that authentication is not needed
-//app.all('/api/*', [require('./app/server/middleware/validateRequest')]);
-
+app.use('/', [authRoute, IndexRoute]);
 
 // serve static assets normally
 app.use(express.static(publicPath));
 
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
-app.get('*', function (request, response){
-    response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+app.get('*', function (req, res){
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
 
 
