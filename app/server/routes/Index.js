@@ -10,7 +10,7 @@ var authenticate = require('../middleware/validateRequest');
 function createIndex(_title = null, _description = null, _image = null, _url = null) {
     var title = (_title) ? `Dagenham &amp; Redbridge FC | ${_title}` : 'Dagenham &amp; Redbridge FC';
     var description = (_description) ? _description : 'Home of D&amp;R Football Club in London. Digger Dagger, Digger Dagger, Oi Oi Oi!';
-    var image = (_image) ? _image : 'https://storage.cloud.google.com/daggers/basics/stadium-tbs.jpg';
+    var image = (_image) ? _image : 'https://storage.googleapis.com/daggers/basics/stadium-tbs.jpg';
     var url = (_url) ? _url : 'https://www.daggers.co.uk/';
 
     return `<!DOCTYPE html>
@@ -77,55 +77,55 @@ function createIndex(_title = null, _description = null, _image = null, _url = n
 router.route('/news')
     // News homepage
     .get(function(req, res) {
-        res.send(createIndex("News", "The latest news from D&amp;R Football Club.", 'https://daggers.storage.googleapis.com/basics/News-Generic2_169.jpg', "https://www.daggers.co.uk/news"));
+        res.send(createIndex("News", "The latest news from D&amp;R Football Club.", 'https://storage.googleapis.com/daggers/basics/News-Generic2_169.jpg', "https://www.daggers.co.uk/news"));
     });
 
 router.route('/fixtures')
     // Fixtures homepage
     .get(function(req, res) {
-        res.send(createIndex("Fixtures", "Fixtures and results for D&amp;R Football Club.", 'https://storage.cloud.google.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/fixtures"));
+        res.send(createIndex("Fixtures", "Fixtures and results for D&amp;R Football Club.", 'https://storage.googleapis.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/fixtures"));
     });
 
 router.route('/table')
     // Fixtures homepage
     .get(function(req, res) {
-        res.send(createIndex("Table", "League Table featuring D&amp;R Football Club.", 'https://storage.cloud.google.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/table"));
+        res.send(createIndex("Table", "League Table featuring D&amp;R Football Club.", 'https://storage.googleapis.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/table"));
     });
 
 router.route('/tickets')
     // Fixtures homepage
     .get(function(req, res) {
-        res.send(createIndex("Tickets", "Details on ticket sales for D&amp;R Football Club fixtures.", 'https://storage.cloud.google.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/tickets"));
+        res.send(createIndex("Tickets", "Details on ticket sales for D&amp;R Football Club fixtures.", 'https://storage.googleapis.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/tickets"));
     });
 
 router.route('/team')
     // Fixtures homepage
     .get(function(req, res) {
-        res.send(createIndex("Team", "Player profiles from D&amp;R Football Club.", 'https://storage.cloud.google.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/team"));
+        res.send(createIndex("Team", "Player profiles from D&amp;R Football Club.", 'https://storage.googleapis.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/team"));
     });
 
 router.route('/fans')
     // Fixtures homepage
     .get(function(req, res) {
-        res.send(createIndex("Fans", "Information for D&amp;R Football Club Fans, including away travel details and match highlights.", 'https://storage.cloud.google.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/fans"));
+        res.send(createIndex("Fans", "Information for D&amp;R Football Club Fans, including away travel details and match highlights.", 'https://storage.googleapis.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/fans"));
     });
 
 router.route('/community')
     // Fixtures homepage
     .get(function(req, res) {
-        res.send(createIndex("Community", "The D&amp;R Football Club Community Trust.", 'https://storage.cloud.google.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/community"));
+        res.send(createIndex("Community", "The D&amp;R Football Club Community Trust.", 'https://storage.googleapis.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/community"));
     });
 
 router.route('/club')
     // Fixtures homepage
     .get(function(req, res) {
-        res.send(createIndex("Club", "Club information, including the history of D&amp;R Football Club.", 'https://storage.cloud.google.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/club"));
+        res.send(createIndex("Club", "Club information, including the history of D&amp;R Football Club.", 'https://storage.googleapis.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/club"));
     });
 
 router.route('/commercial')
     // Fixtures homepage
     .get(function(req, res) {
-        res.send(createIndex("Commercial", "Commercial opportunities, including hospitality and sponsorship with D&amp;R Football Club.", 'https://storage.cloud.google.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/commercial"));
+        res.send(createIndex("Commercial", "Commercial opportunities, including hospitality and sponsorship with D&amp;R Football Club.", 'https://storage.googleapis.com/daggers/basics/stadium-tbs.jpg', "https://www.daggers.co.uk/commercial"));
     });
 
 // Routes for news stories, /news/:news_id
@@ -145,7 +145,7 @@ router.route('/news/:news_id')
                 res.status(err.status || 400).send(err);
                 return;
             }
-            res.send(createIndex(news.headline, news.summary, `https://daggers.storage.googleapis.com${news.image}`, `https://www.daggers.co.uk/news/${news.id}`));
+            res.send(createIndex(news.headline, news.summary, `https://storage.googleapis.com/daggers${news.image}`, `https://www.daggers.co.uk/news/${news.id}`));
         });
     });
 
@@ -166,7 +166,7 @@ router.route('/page/:page_id')
             if (err) {
                 res.status(err.status).send(err);
             } else {
-                res.send(createIndex(page.name, page.name, 'https://storage.cloud.google.com/daggers/basics/stadium-tbs.jpg', `https://www.daggers.co.uk/page/${page.id}`));
+                res.send(createIndex(page.name, page.name, 'https://storage.googleapis.com/daggers/basics/stadium-tbs.jpg', `https://www.daggers.co.uk/page/${page.id}`));
             }
         });
     });
