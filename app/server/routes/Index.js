@@ -145,7 +145,7 @@ router.route('/news/:news_id')
                 res.status(err.status || 400).send(err);
                 return;
             }
-            res.send(createIndex(news.headline, news.summary, `https://daggers.storage.googleapis.com/daggers${news.image}`, `https://www.daggers.co.uk/news/${news.id}`));
+            res.send(createIndex(news.headline, news.summary, `https://daggers.storage.googleapis.com${news.image}`, `https://www.daggers.co.uk/news/${news.id}`));
         });
     });
 
