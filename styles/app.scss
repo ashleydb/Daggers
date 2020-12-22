@@ -1,0 +1,21 @@
+@import "base/variables";
+
+// Foundation
+@import "base/foundation-settings";
+@import "../node_modules/foundation-sites/scss/foundation";
+@include foundation-everything;
+
+// Trumbowyg - Rich Text Editor
+@import '~react-trumbowyg/dist/trumbowyg.min.css';
+
+// Components
+@import "components/Home";
+@import "components/Nav";
+@import "components/Fans";
+@import "components/Fixtures";
+@import "components/Team";
+@import "components/NewsEdit";
+@import "components/NewsStory";
+@import "components/Players";
+@import "components/Placeholder";
+@import "components/CalendarSubscribe";
