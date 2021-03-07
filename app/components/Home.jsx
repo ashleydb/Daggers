@@ -65,7 +65,10 @@ export class Home extends React.Component {
                     <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
                     <div className="row hide-for-large">
                         <a href="http://www.vanarama.co.uk/">
-                            <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor.png" className="league-sponsor float-center" alt="Vanarama"/>
+                            <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor.png" className="league-sponsor1 float-left league-sponsor-margin league-sponsor-margin1" alt="Vanarama"/>
+                        </a>
+                        <a href="https://www.national-lottery.co.uk">
+                            <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor-national-lottery.gif" className="league-sponsor2 float-right league-sponsor-margin2" alt="The National Lottery"/>
                         </a>
                     </div>
 
@@ -79,9 +82,11 @@ export class Home extends React.Component {
                         <div className="columns small-12 large-5 center-content center-text">
                             <div className="row show-for-large">
                                 <a href="http://www.vanarama.co.uk/">
-                                    <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor.png" className="league-sponsor float-center" alt="Vanarama"/>
+                                    <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor.png" className="league-sponsor1 float-left" alt="Vanarama"/>
                                 </a>
-                                <br />
+                                <a href="https://www.national-lottery.co.uk">
+                                    <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor-national-lottery.gif" className="league-sponsor2 float-right" alt="The National Lottery"/>
+                                </a>
                             </div>
                             
                             <div className="placeholder-ad">
