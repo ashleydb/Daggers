@@ -113,16 +113,18 @@ export class Fixtures extends React.Component {
                     // TODO: Need to fill in report links for all fixtures
                     var w_l_d = fixture.w_l_d === 'X' ? '' : fixture.w_l_d;
                     var link = '';
-                    if (w_l_d && fixture.report)
+                    if (w_l_d && fixture.report) // Completed game with a report
                         link = <a href={fixture.report}>Report</a>;
-                    else if (fixture.report)
-                        link = <a href={fixture.report}>Preview</a>;
-                    else if (w_l_d)
-                        link = '-'; // No report for a completed game
-                    else if (fixture.result === 'Postponed')
-                        link = '-'; // No report, tickets or stream for a postponed game
-                    else
-                        link = <div><a href="http://www.daggerstickets.co.uk">Tickets</a><br /><a href="https://live.daggers.co.uk/en-int/page/video-daggers">Stream</a></div>;
+                    else if (fixture.report) // Game not done, but preview written
+                        link = <a href={fixture.report}>Preview &amp; Tickets</a>;
+                    else if (w_l_d) // Game done, but no report yet
+                        link = '-';
+                    else if (fixture.result === 'Postponed') // Postponed game, so no report or tickets
+                        link = '-';
+                    else { // Upcoming game, buy tickets (https://daggers.ktckts.com/ or http://www.daggerstickets.co.uk) or a stream
+                        //link = <div><a href="https://daggers.ktckts.com/">Tickets</a><br /><a href="https://live.daggers.co.uk/en-int/page/video-daggers">Stream</a></div>;
+                        link = <div><a href="https://daggers.ktckts.com/">Tickets</a></div>;
+                    }
                     
                     var home_away = fixture.home_away === 'X' ? '' : fixture.home_away;
 
