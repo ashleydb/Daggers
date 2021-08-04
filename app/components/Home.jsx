@@ -7,7 +7,7 @@ import NewsSummary from 'NewsSummary';
 import * as NewsAPI from 'NewsAPI';
 import SponsorsGroup from 'SponsorsGroup';
 import MedianetTag from 'MedianetTag';
-import PitcheroVideoPlayer from 'PitcheroVideoPlayer';
+//import PitcheroVideoPlayer from 'PitcheroVideoPlayer';
 
 // TODO: Add Ad component, which can be adsense or overridden as a nice-to-have.
 // TODO: Add Google Analytics component.
@@ -93,11 +93,11 @@ export class Home extends React.Component {
                                 <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
                             </div>
 
-                            <div className="row">
+                            {/*<div className="row">
                                 <div className="video-player">
                                     <PitcheroVideoPlayer/>
                                 </div>
-                            </div>
+                            </div>*/}
                         </div>
                         <div className="columns small-12">
                             <div className="row small-up-1 medium-up-4">
