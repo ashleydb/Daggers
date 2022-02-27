@@ -22,7 +22,7 @@
     "@godaddy/terminus": "^3",
     "@google-cloud/error-reporting": "^2",
     "@google-cloud/storage": "^5",
-    "axios": "^0.20",
+    "axios": "^0.21",
     "babel-core": "^6",
     "babel-loader": "^7",
     "babel-polyfill": "^6",
