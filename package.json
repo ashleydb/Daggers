@@ -1,6 +1,6 @@
 {
   "name": "daggers",
-  "version": "6.20200816.1",
+  "version": "6.20220226.1",
   "description": "Website for Dagenham & Redbridge FC",
   "homepage": "https://github.com/ashleydb/Daggers/",
   "main": "bundle.js",
