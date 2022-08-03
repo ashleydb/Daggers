@@ -42,7 +42,7 @@
     "moment": "^2",
     "multer": "^1",
     "node-env-file": "^0",
-    "node-sass": "^4",
+    "node-sass": "^7",
     "react": "^15",
     "react-cookie-banner": "^4",
     "react-dom": "^15",
