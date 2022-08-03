@@ -40,7 +40,7 @@ export default class Nav extends React.Component {
                             <li><Link to="/community" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>COMMUNITY</Link></li>
                             <li><Link to="/club" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>CLUB</Link></li>
                             <li><Link to="/commercial" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>COMMERCIAL</Link></li>
-                            <li><a href="https://www.daggers-shop.co.uk/">CLUB SHOP</a></li>
+                            <li><a href="https://daggers.ktckts.com/">CLUB SHOP</a></li>
                             <li><a href="https://www.youtube.com/user/OfficialDaggers"><i className="fi-social-youtube social-icon-medium social-color-white"></i></a></li>
                             <li><a href="https://www.facebook.com/OfficialDaggers"><i className="fi-social-facebook social-icon-medium social-color-white"></i></a></li>
                             <li><a href="http://twitter.com/dag_redfc"><i className="fi-social-twitter social-icon-medium social-color-white"></i></a></li>

@@ -16,7 +16,7 @@
   "author": "Ashley Bennett",
   "license": "NPOSL-3.0",
   "engines": {
-    "node": "12.x"
+    "node": "14.x"
   },
   "dependencies": {
     "@godaddy/terminus": "^3",
