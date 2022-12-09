@@ -63,12 +63,15 @@ export class Home extends React.Component {
 
                 <div>
                     <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
-                    <div className="row hide-for-large">
+                    <div className="row hide-for-large center-content center-text">
                         <a href="http://www.vanarama.co.uk/">
-                            <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor.png" className="league-sponsor1 float-left league-sponsor-margin league-sponsor-margin1" alt="Vanarama"/>
+                            <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor.png" className="league-sponsor1 league-sponsor-margin league-sponsor-margin1" alt="Vanarama"/>
                         </a>
                         <a href="https://www.national-lottery.co.uk">
-                            <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor-national-lottery.gif" className="league-sponsor2 float-right league-sponsor-margin2" alt="The National Lottery"/>
+                            <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor-national-lottery.gif" className="league-sponsor2 league-sponsor-margin2" alt="The National Lottery"/>
+                        </a>
+                        <a href="https://www.nationalleaguetv.com/">
+                            <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/NLTV-Ad-Mobile%20Banner.png" className="league-sponsor-margin2" alt="National League TV"/>
                         </a>
                     </div>
 
@@ -86,6 +89,11 @@ export class Home extends React.Component {
                                 </a>
                                 <a href="https://www.national-lottery.co.uk">
                                     <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/basics/league-sponsor-national-lottery.gif" className="league-sponsor2 float-right" alt="The National Lottery"/>
+                                </a>
+                            </div>
+                            <div className="row show-for-large center-content center-text">
+                                <a href="https://www.nationalleaguetv.com/">
+                                    <img src="https://{-{gcp.storageBucket}-}.storage.googleapis.com/NLTV-Ad-Inline.png" className="league-sponsor-margin2" alt="National League TV"/>
                                 </a>
                             </div>
                             
