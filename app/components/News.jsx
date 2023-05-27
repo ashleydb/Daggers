@@ -5,6 +5,8 @@ import {actions} from 'actions';
 import NewsSummary from 'NewsSummary';
 import * as NewsAPI from 'NewsAPI';
 import MedianetTag from 'MedianetTag';
+import NewsletterSignup from 'NewsletterSignup';
+import Page from 'Page';
 
 // TODO: Replace placeholder ads with an AdSense React component. One probably exists out there already.
 // TODO: 3 wide on a phone doesn't look good. Breaks down to 2, 1.
@@ -180,8 +182,10 @@ export class News extends React.Component {
                         </div>
                         <div className="column medium-centered large-uncentered">
                             <div className="placeholder-ad">
-                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
+                                <NewsletterSignup vertical/>
                             </div>
+
+                            <Page pageId="Newsletter"/>
                         </div>
                     </div>
 
