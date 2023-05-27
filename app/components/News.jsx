@@ -5,6 +5,7 @@ import {actions} from 'actions';
 import NewsSummary from 'NewsSummary';
 import * as NewsAPI from 'NewsAPI';
 import MedianetTag from 'MedianetTag';
+import Page from 'Page'; // To show the newsletter sign-up form
 
 // TODO: Replace placeholder ads with an AdSense React component. One probably exists out there already.
 // TODO: 3 wide on a phone doesn't look good. Breaks down to 2, 1.
@@ -179,9 +180,8 @@ export class News extends React.Component {
                             <NewsSummary story={tempNews.shift()} style="SMALL"/>
                         </div>
                         <div className="column medium-centered large-uncentered">
-                            <div className="placeholder-ad">
-                                <MedianetTag cid="8CUM55E8A" crid="513062281" size="300x250" divId = "513062281"/>
-                            </div>
+                            {/* will render a newsletter sign-up form which is setup as a Page */}
+                            <Page pageId="Newsletter"/>
                         </div>
                     </div>
 

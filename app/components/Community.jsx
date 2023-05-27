@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-var Timeline = require('react-twitter-widgets').Timeline;
 import Page from 'Page';
 import MedianetTag from 'MedianetTag';
 
