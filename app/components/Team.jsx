@@ -31,7 +31,11 @@ export class Team extends React.Component {
         ReactDOM.findDOMNode(this._contentTop).scrollIntoView();
     }
     onSelectTeam() {
-        this.setState({selectedTeam: this.refs.teamSelect.value});
+        this.setState({
+            selectedTeam: this.refs.teamSelect.value,
+            selectedPlayer: 0
+        });
+        this.refs.playerSelect.value = 0;
     }
     onSelectPlayer() {
         this.setState({selectedPlayer: this.refs.playerSelect.value});

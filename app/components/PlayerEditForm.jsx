@@ -56,10 +56,11 @@ export default class PlayerEditForm extends React.Component {
         }
         
         player.date_of_birth = moment(this.refs.date_of_birth.value, "D-MMM-YYYY").valueOf();
+        player.date_joined = moment(this.refs.date_joined.value, "D-MMM-YYYY").valueOf();
 
         player.onloan_status = onloan_status;
         player.status = status;
-        player.position = position;
+        player.position = position == 'X' ? this.refs.position_text.value : position;
         
         // TODO: Not doing much validation. Assuming all elements are optional, (which is not true!)
         this.props.onSavePlayer(player);
@@ -90,6 +91,7 @@ export default class PlayerEditForm extends React.Component {
         this.setState({
             position: changeEvent.target.value
         });
+        this.refs.position_text.value = changeEvent.target.value;
     }
     render() {
         var {player} = this.props;
@@ -130,7 +132,8 @@ export default class PlayerEditForm extends React.Component {
                     <label>First Name</label><input type="text" defaultValue={player.first_name} placeholder="e.g. John" ref="first_name"/>
                     <label>Last Name</label><input type="text" defaultValue={player.last_name} placeholder="e.g. Smith" ref="last_name"/>
                     <label>Date of Birth</label><input type="text" defaultValue={dateToString(player.date_of_birth)} placeholder="e.g. 01-JAN-2000" ref="date_of_birth"/>
-                    <label>Shirt Number</label><input type="number" defaultValue={player.shirt_number} placeholder="e.g. 1" ref="shirt_number"/>
+                    <label>Shirt Number (ignored for management)</label><input type="number" defaultValue={player.shirt_number} placeholder="e.g. 1" ref="shirt_number"/>
+                    <label>Date Joined</label><input type="text" defaultValue={dateToString(player.date_joined)} placeholder="e.g. 01-JAN-2000" ref="date_joined"/>
                     
                     <fieldset className="fieldset">
                         <legend>Position</legend>
@@ -138,16 +141,17 @@ export default class PlayerEditForm extends React.Component {
                         <input type="radio" name="position" value="Defender" id="position_D" checked={this.state.position === 'Defender'} onChange={this.handlePositionOptionChange} /><label htmlFor="position_D">Defender</label>
                         <input type="radio" name="position" value="Midfielder" id="position_M" checked={this.state.position === 'Midfielder'} onChange={this.handlePositionOptionChange} /><label htmlFor="position_M">Midfielder</label>
                         <input type="radio" name="position" value="Striker" id="position_S" checked={this.state.position === 'Striker'} onChange={this.handlePositionOptionChange} /><label htmlFor="position_S">Striker</label>
-                        <input type="radio" name="position" value="X" id="position_X" checked={this.state.position === 'X'} onChange={this.handlePositionOptionChange} /><label htmlFor="position_X">Unknown</label>
+                        <input type="radio" name="position" value="X" id="position_X" checked={this.state.position === 'X'} onChange={this.handlePositionOptionChange} /><label htmlFor="position_X">Other</label>
+                        <label>If Other:</label><input type="text" defaultValue={player.position} placeholder="e.g. Head Coach" ref="position_text"/>
                     </fieldset>
                     
-                    <label>Team</label><input type="text" defaultValue={player.team} placeholder="e.g. First, U16, etc." ref="team"/>
-                    <label>Height</label><input type="text" defaultValue={player.height} placeholder="e.g. 1.5 Metres" ref="height"/>
-                    <label>Weight</label><input type="text" defaultValue={player.weight} placeholder="e.g. 70 Kilograms" ref="weight"/>
+                    <label>Team</label><input type="text" defaultValue={player.team} placeholder="e.g. First, U16, Management, etc." ref="team"/>
+                    <label>Height (ignored for management)</label><input type="text" defaultValue={player.height} placeholder="e.g. 1.5 Metres" ref="height"/>
+                    <label>Weight (ignored for management)</label><input type="text" defaultValue={player.weight} placeholder="e.g. 70 Kilograms" ref="weight"/>
                     <label>Nationality</label><input type="text" defaultValue={player.nationality} placeholder="e.g. English" ref="nationality"/>
                     
                     <fieldset className="fieldset">
-                        <legend>On Loan</legend>
+                        <legend>On Loan (ignored for management)</legend>
                         <input type="radio" name="onloan_status" value="Yes" id="onloan_status_Y" checked={this.state.onloan_status == 'Yes'} onChange={this.handleLoanOptionChange} required /><label htmlFor="onloan_status_Y">Yes</label>
                         <input type="radio" name="onloan_status" value="No" id="onloan_status_N" checked={this.state.onloan_status == 'No'} onChange={this.handleLoanOptionChange} /><label htmlFor="onloan_status_N">No</label>
                         <input type="radio" name="onloan_status" value="X" id="onloan_status_X" checked={this.state.onloan_status == 'X'} onChange={this.handleLoanOptionChange} /><label htmlFor="onloan_status_X">Unknown</label>

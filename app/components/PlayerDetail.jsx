@@ -34,61 +34,127 @@ export default class PlayerDetail extends React.Component {
 
             var playerName = `${player.first_name} ${player.last_name}`;
 
-            return (
-                <div>
-                    <table className="hover stack player-detail">
-                        <tbody>
-                            <tr>
-                                <td className="player-label">Name</td>
-                                <td className="player-data">{playerName}</td>
-                                <td rowSpan={9} className="player-image">
-                                    <img src={image} alt={playerName} className="player-portrait"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="player-label">Team</td>
-                                <td className="player-data">{player.team}</td>
-                            </tr>
-                            <tr>
-                                <td className="player-label">Date of Birth</td>
-                                <td className="player-data">{dateStr}</td>
-                            </tr>
-                            <tr>
-                                <td className="player-label">Shirt Number</td>
-                                <td className="player-data">{player.shirt_number}</td>
-                            </tr>
-                            <tr>
-                                <td className="player-label">Position</td>
-                                <td className="player-data">{player.position}</td>
-                            </tr>
-                            <tr>
-                                <td className="player-label">Height</td>
-                                <td className="player-data">{player.height}</td>
-                            </tr>
-                            <tr>
-                                <td className="player-label">Weight</td>
-                                <td className="player-data">{player.weight}</td>
-                            </tr>
-                            <tr>
-                                <td className="player-label">Nationality</td>
-                                <td className="player-data">{player.nationality}</td>
-                            </tr>
-                            <tr>
-                                <td className="player-label">On Loan?</td>
-                                <td className="player-data">{player.onloan_status}</td>
-                            </tr>
-                            <tr>
-                                <td colSpan={3} className="player-data">
-                                    {player.short_description}
-                                    <br />
-                                    <div dangerouslySetInnerHTML={{ __html: player.biography }} />
-                                    &nbsp;
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            );
+            var dateJoinedStr = '';
+            if (player.date_joined) {
+                var d = new Date(Number(player.date_joined));
+                dateJoinedStr = d.toDateString();
+            }
+
+            var is_management = true;
+            if (player.position == 'Goalkeeper' ||
+                player.position == 'Defender' ||
+                player.position == 'Midfielder' ||
+                player.position == 'Striker') {
+                    is_management = false;
+            }
+
+            if (is_management) {
+                // Management have fewer fields shown
+                return (
+                    <div>
+                        <table className="hover stack player-detail">
+                            <tbody>
+                                <tr>
+                                    <td className="player-label">Name</td>
+                                    <td className="player-data">{playerName}</td>
+                                    <td rowSpan={9} className="player-image">
+                                        <img src={image} alt={playerName} className="player-portrait"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">Team</td>
+                                    <td className="player-data">{player.team}</td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">Position</td>
+                                    <td className="player-data">{player.position}</td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">Date Joined</td>
+                                    <td className="player-data">{dateJoinedStr}</td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">Date of Birth</td>
+                                    <td className="player-data">{dateStr}</td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">Nationality</td>
+                                    <td className="player-data">{player.nationality}</td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={3} className="player-data">
+                                        {player.short_description}
+                                        <br />
+                                        <div dangerouslySetInnerHTML={{ __html: player.biography }} />
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                );
+            } else {
+                // Players have more fields shown
+                return (
+                    <div>
+                        <table className="hover stack player-detail">
+                            <tbody>
+                                <tr>
+                                    <td className="player-label">Name</td>
+                                    <td className="player-data">{playerName}</td>
+                                    <td rowSpan={9} className="player-image">
+                                        <img src={image} alt={playerName} className="player-portrait"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">Team</td>
+                                    <td className="player-data">{player.team}</td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">Date Joined</td>
+                                    <td className="player-data">{dateJoinedStr}</td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">Date of Birth</td>
+                                    <td className="player-data">{dateStr}</td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">Shirt Number</td>
+                                    <td className="player-data">{player.shirt_number}</td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">Position</td>
+                                    <td className="player-data">{player.position}</td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">Height</td>
+                                    <td className="player-data">{player.height}</td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">Weight</td>
+                                    <td className="player-data">{player.weight}</td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">Nationality</td>
+                                    <td className="player-data">{player.nationality}</td>
+                                </tr>
+                                <tr>
+                                    <td className="player-label">On Loan?</td>
+                                    <td className="player-data">{player.onloan_status}</td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={3} className="player-data">
+                                        {player.short_description}
+                                        <br />
+                                        <div dangerouslySetInnerHTML={{ __html: player.biography }} />
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                );
+            }
         }
     }
 };

@@ -80,6 +80,8 @@ router.route('/v1/players')
             player.weight = req.body.weight;
         if (req.body.nationality)
             player.nationality = req.body.nationality;
+        if (req.body.date_joined)
+            player.date_joined = req.body.date_joined;
 
         // save the player and check for errors
         player.save(function(err, id) {
@@ -156,6 +158,7 @@ router.route('/v1/players/:player_id')
             updatedPlayer.onloan_status = req.body.onloan_status || player.onloan_status;
             updatedPlayer.status = req.body.status || player.status;
             updatedPlayer.team = req.body.team || player.team;
+            updatedPlayer.date_joined = req.body.date_joined || player.date_joined;
             
             // save the player and check for errors
             updatedPlayer.save(function(err, id) {

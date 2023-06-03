@@ -12,16 +12,17 @@ class Players {
         this.last_name = ''; //Doe
         this.date_of_birth = 0; // 846835200000 = 1-NOV-1996
         this.image = '/player/bg_player_231by264.png';
-        this.shirt_number = 99; //4
-        this.position = 'Defender';
+        this.shirt_number = 99; //4 [ignored for management]
+        this.position = 'Defender'; //Freeform to make it possible to add management roles too
         this.short_description = ''; //Kit sponsored by Haines Watts
-        this.biography = ''; //Some HTML
-        this.height = '0 Metres'; //1.85 Metres
-        this.weight = '0 Kilograms'; //77 Kilograms
+        this.biography = ''; //Some HTML for things like experience, mangement qualifications, etc.
+        this.height = '0 Metres'; //1.85 Metres [ignored for management]
+        this.weight = '0 Kilograms'; //77 Kilograms [ignored for management]
         this.nationality = 'English';
-        this.onloan_status = 'No';
+        this.onloan_status = 'No'; //[ignored for management]
         this.status = 'Active';
-        this.team = 'First'; // First team, Academy, etc.
+        this.team = 'First'; // First team, Academy, Management, etc.
+        this.date_joined = 0; // 846835200000 = 1-NOV-1996
 
         // Make sure we bind 'this' in save for the promise
         //this.save = this.save.bind( this );
@@ -43,7 +44,8 @@ class Players {
             "nationality": this.nationality,
             "onloan_status": this.onloan_status,
             "status": this.status,
-            "team": this.team
+            "team": this.team,
+            "date_joined": this.date_joined
         };
         
         return obj;
@@ -96,10 +98,11 @@ class Players {
                 var onloan_status = players[id].onloan_status;
                 var status = players[id].status;
                 var team = players[id].team;
+                var date_joined = players[id].date_joined;
                 
                 parsedPlayers.push({
                     id, first_name, last_name, date_of_birth, image, shirt_number, position, short_description,
-                    biography, height, weight, nationality, onloan_status, status, team
+                    biography, height, weight, nationality, onloan_status, status, team, date_joined
                 });
             });
 

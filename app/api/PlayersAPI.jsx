@@ -14,16 +14,17 @@ export const DEFAULT_PLAYER = {
     last_name: '', //Doe
     date_of_birth: 0, // 846835200000 = 1-NOV-1996
     image: '/player/bg_player_231by264.png',
-    shirt_number: 99, //4
-    position: 'Defender',
+    shirt_number: 99, //4 [ignored for management]
+    position: 'Defender', //Freeform to make it possible to add management roles too
     short_description: '', //Kit sponsored by Haines Watts
-    biography: '', //Some HTML
-    height: '0 Metres', //1.85 Metres
-    weight: '0 Kilograms', //77 Kilograms
+    biography: '', //Some HTML for things like experience, mangement qualifications, etc.
+    height: '0 Metres', //1.85 Metres [ignored for management]
+    weight: '0 Kilograms', //77 Kilograms [ignored for management]
     nationality: 'English',
-    onloan_status: 'No',
+    onloan_status: 'No', // [ignored for management]
     status: 'Active',
-    team: 'First' // First team, Academy, etc.
+    team: 'First', // First team, Academy, Management, etc.
+    date_joined: 0 // 846835200000 = 1-NOV-1996
 };
 
 // This is dumb and just loads in all player data we have for all squads. Page it by team?
