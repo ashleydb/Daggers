@@ -49,6 +49,11 @@ export class NewsEditForm extends React.Component {
         if (this.refs.youtube.value != '')
             story.youtube = this.refs.youtube.value;
         
+        if (this.refs.category.value !== '(Blank)') {
+            story.category = this.refs.category.value;
+        } else {
+            story.category = null;
+        }
 
         // Turn the date string into a ms number
         var newCreatedAt = new Date();
@@ -196,6 +201,13 @@ export class NewsEditForm extends React.Component {
             );
         }
 
+        var categories = ['(Blank)', 'Club News', 'Commercial', 'Match Reports', 'Interviews', 'Match Previews', 'Ticket News', 'Trust'];
+        var categoryOptions = categories.map((category) => {
+            return (
+                <option key={category} value={category}>{category}</option>
+            );
+        });
+
         var {story} = this.props;
         var image = this.state.image || story.image;
         var imagePath = '';
@@ -222,6 +234,13 @@ export class NewsEditForm extends React.Component {
                     <input type="hidden" defaultValue={story.id} ref="id"/>
                     <input type="hidden" defaultValue={story.createdAt} ref="oldCreatedAt"/>
                     <label>Date</label>{datePicker(story.createdAt)}
+
+                    <label>Category
+                        <select ref="category" defaultValue={story.category ? story.category : '(Blank)'}>
+                            {categoryOptions}
+                        </select>
+                    </label>
+
                     <label>Headline</label><input type="text" defaultValue={story.headline} ref="headline"/>
                     <label>Summary</label><input type="text" defaultValue={story.summary} ref="summary"/>
                     

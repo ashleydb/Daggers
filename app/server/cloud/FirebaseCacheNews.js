@@ -59,6 +59,7 @@ class FirebaseCacheNews extends FirebaseCache {
                 temp.createdAt = newPost.createdAt;
                 temp.updatedAt = newPost.updatedAt;
                 temp.youtube = newPost.youtube;
+                temp.category = newPost.category;
 
                 this.firebaseData[year][month].push(temp);
             }.bind(this));

@@ -85,7 +85,8 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
                     isFetching: true,
                     didInvalidate: false,
                     year: action.year,
-                    month: action.month
+                    month: action.month,
+                    category: action.category
                 }
             });
             break;
@@ -106,7 +107,8 @@ export var NewsReducer = (state = INITIAL_STATE_NEWS, action) => {
                     didInvalidate: false,
                     lastUpdated: action.receivedAt,
                     year: action.year,
-                    month: action.month
+                    month: action.month,
+                    category: action.category
                 },
                 news: allNews,
                 pageOfNews: 0

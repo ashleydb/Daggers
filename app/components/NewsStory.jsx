@@ -61,6 +61,9 @@ export class NewsStory extends React.Component {
                 dateStr = `${dateStr} , (Last Updated: ${d.toDateString()})`;
             }
 
+            if (story.category)
+                dateStr = dateStr + ' [' + story.category + ']';
+
             var youtube = null;
             if (story.youtube) {
                 // Example link: https://youtu.be/Y9OCIIKwI94

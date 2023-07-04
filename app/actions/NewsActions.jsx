@@ -20,32 +20,34 @@ export function invalidateNews() {
 }
 
 // (4) We are getting the list of news posts
-function requestNewsStories(year, month) {
+function requestNewsStories(year, month, category) {
     return {
         type: REQUEST_NEWS_STORIES,
         year,
-        month
+        month,
+        category
     }
 }
 
 // (5) We got the news posts back.
-function receiveNewsStories(stories, year, month) {
+function receiveNewsStories(stories, year, month, category) {
     return {
         type: RECEIVE_NEWS_STORIES,
         stories,
         receivedAt: Date.now(),
         year,
-        month
+        month,
+        category
     };
 }
 
 // (3) Triggers the download of news stories
-function fetchNewsStories(year, month, token) {
+function fetchNewsStories(year, month, category, token) {
     return dispatch => {
-        dispatch(requestNewsStories(year, month))
+        dispatch(requestNewsStories(year, month, category))
         return NewsAPI.getStories(year, month, token)
-            .then(response => dispatch(receiveNewsStories(response, year, month)),
-                       err => dispatch(receiveNewsStories([], year, month)))
+            .then(response => dispatch(receiveNewsStories(response, year, month, category)),
+                       err => dispatch(receiveNewsStories([], year, month, category)))
     };
 }
 
@@ -74,7 +76,7 @@ export const FETCH_ALL = NewsAPI.FETCH_ALL;
 //  Pass FETCH_LATEST for all news from most recent year that has news, (usually this year, possibly last year.)
 // (Optional) month: e.g. 1 to 12, for a specific month. Must also specify a year.
 //  Pass FETCH_LATEST for all news from most recent month in the specified year that has news.
-export function fetchNewsStoriesIfNeeded(year = FETCH_ALL, month = FETCH_ALL, token = null) {
+export function fetchNewsStoriesIfNeeded(year = FETCH_ALL, month = FETCH_ALL, category = null, token = null) {
     // Note that the function also receives getState()
     // which lets you choose what to dispatch next.
 
@@ -82,9 +84,12 @@ export function fetchNewsStoriesIfNeeded(year = FETCH_ALL, month = FETCH_ALL, to
     // a cached value is already available.
 
     return (dispatch, getState) => {
-        if (shouldFetchNewsStories(year, month, getState())) {
+        if (shouldFetchNewsStories(year, month, getState()) || category != null) {
+            if (category === '(All)' || category === '(Blank)') {
+                category = null;
+            }
             // Dispatch a thunk from thunk!
-            return dispatch(fetchNewsStories(year, month, token))
+            return dispatch(fetchNewsStories(year, month, category, token))
         } else {
             // Let the calling code know there's nothing to wait for.
             return Promise.resolve()

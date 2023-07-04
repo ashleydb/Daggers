@@ -16,6 +16,7 @@ export const DEFAULT_STORY = {
     createdAt: 0 // milliseconds since epoch, (Date.now()) Calculate year and month from this for Firebase path.
     //updatedAt: 123
     //youtube: "https://youtu.be/Y9OCIIKwI94"
+    //category: "Club News"
 };
 
 // For specifying which news stories to download, if not a specific year or year/month

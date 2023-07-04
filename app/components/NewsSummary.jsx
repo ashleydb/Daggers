@@ -26,6 +26,9 @@ export default class NewsSummary extends React.Component {
         var d = new Date(Number(dateMS));
         var dateStr = d.toDateString();
 
+        if (story.category)
+            dateStr = dateStr + ' [' + story.category + ']';
+
         switch (style) {
             case 'MAIN':
                 // Main headline news, show in large format

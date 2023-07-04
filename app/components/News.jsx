@@ -33,7 +33,8 @@ export class News extends React.Component {
     handleFetchNews() {
         var year = Number(this.refs.year.value);
         var month = Number(this.refs.month.value);
-        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month));
+        var category = this.refs.category.value;
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month, category));
     }
     setPage(pageNum) {
         // Change which page of news stories we are showing
@@ -42,8 +43,16 @@ export class News extends React.Component {
     render() {
         var {news, status, pageOfNews} = this.props.news;
 
+        // Filter the news to the selected category if needed
+        if (status.category && news && news.length >= 1) {
+            var tempNews = news.filter((story) => {
+                return story.category === status.category;
+            });
+            news = tempNews;
+        }
+
         // TODO: Break out this pagination code into something reusable, (e.g. for NewsEdit)
-        function datePicker(_that, _year, _month) {
+        function datePicker(_that, _year, _month, _category = null) {
             // TODO: years and months options just list all values, even if we don't have data, (e.g. could select a future month)
             var years = NewsAPI.getYearList(false);
             var yearOptions = years.map((year) => {
@@ -59,19 +68,33 @@ export class News extends React.Component {
                 );
             });
 
+            var categories = ['(All)', 'Club News', 'Commercial', 'Match Reports', 'Interviews', 'Match Previews', 'Ticket News', 'Trust'];
+            var categoryOptions = categories.map((category) => {
+                return (
+                    <option key={category} value={category}>{category}</option>
+                );
+            });
+
             return (
                 <div className="row">
-                    <div className="column small-5">
+                    <div className="column small-3">
                         <label>Year
                             <select ref="year" defaultValue={_year}>
                                 {yearOptions}
                             </select>
                         </label>
                     </div>
-                    <div className="column small-5">
+                    <div className="column small-3">
                         <label>Month
                             <select ref="month" defaultValue={_month}>
                                 {monthOptions}
+                            </select>
+                        </label>
+                    </div>
+                    <div className="column small-4">
+                        <label>Category
+                            <select ref="category" defaultValue={_category}>
+                                {categoryOptions}
                             </select>
                         </label>
                     </div>
@@ -105,10 +128,11 @@ export class News extends React.Component {
             var dateNow = new Date();
             var pickMonth = status.month && (typeof status.month === 'number') ? status.month : dateNow.getMonth() + 1;
             var pickYear = status.year && (typeof status.year === 'number') ? status.year : dateNow.getFullYear();
+            var pickCategory = status.category;
             return (
                 <div>
                     <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
-                    {datePicker(this, pickYear, pickMonth)}
+                    {datePicker(this, pickYear, pickMonth, pickCategory)}
 
                     <div className="callout alert">
                       <h5>Error</h5>
@@ -161,11 +185,12 @@ export class News extends React.Component {
             var dateNow = new Date();
             var pickMonth = status.month && (typeof status.month === 'number') ? status.month : dateNow.getMonth() + 1;
             var pickYear = status.year && (typeof status.year === 'number') ? status.year : dateNow.getFullYear();
+            var pickCategory = status.category;
             
             return (
                 <div>
                     <div id="contentTop" name="contentTop" ref={(ref) => this._contentTop = ref} />
-                    {datePicker(this, pickYear, pickMonth)}
+                    {datePicker(this, pickYear, pickMonth, pickCategory)}
                     {paginationLinks}
 
                     {/* will render a list of news items when at /news/ */}

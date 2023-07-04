@@ -35,6 +35,7 @@ class News {
 
         // These are optional components of a story
         //this.youtube = null;
+        //this.category = null;
 
         // Make sure we bind 'this' in save for the promise
         //this.save = this.save.bind( this );
@@ -55,6 +56,9 @@ class News {
         }
         if (this.youtube) {
             obj.youtube = this.youtube;
+        }
+        if (this.category) {
+            obj.category = this.category;
         }
 
         return obj;
@@ -101,7 +105,7 @@ class News {
 
             // Report an Error object to GCP
             errors.report(new Error('Models:News:Find() - ' + e.message), () => {
-                console.log('Models:News:Save() error reported.');
+                console.log('Models:News:Find() error reported.');
             });
 
             callback(err);
@@ -134,7 +138,7 @@ class News {
 
             // Report an Error object to GCP
             errors.report(new Error('Models:News:FindById() - ' + e.message), () => {
-                console.log('Models:News:Save() error reported.');
+                console.log('Models:News:FindById() error reported.');
             });
 
             callback(err);
@@ -166,8 +170,8 @@ class News {
             // Error
 
             // Report an Error object to GCP
-            errors.report(new Error('Models:News:FindById() - ' + e.message), () => {
-                console.log('Models:News:Save() error reported.');
+            errors.report(new Error('Models:News:FindByIdBrute() - ' + e.message), () => {
+                console.log('Models:News:FindByIdBrute() error reported.');
             });
 
             callback(err);
@@ -198,7 +202,7 @@ class News {
 
             // Report an Error object to GCP
             errors.report(new Error('Models:News:Remove() - Invalid Options - ' + e.message), () => {
-                console.log('Models:News:Save() error reported.');
+                console.log('Models:News:Remove() error reported.');
             });
 
             callback(err);
@@ -219,7 +223,7 @@ class News {
 
             // Report an Error object to GCP
             errors.report(new Error('Models:News:Remove() - ' + e.message), () => {
-                console.log('Models:News:Save() error reported.');
+                console.log('Models:News:Remove() error reported.');
             });
 
             callback(e);

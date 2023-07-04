@@ -65,7 +65,7 @@ module.exports.writeToFirebase = function(ref = null, childName, id, data) {
         });
     } else {
         // Updating data, so find the right element first
-        dataRef = dbRef.child(`${childName}/${id}`).update(data);
+        dataRef = dbRef.child(`${childName}/${id}`).set(data);
 
         // We don't get an id back when updating, so return the existing ID
         return dataRef.then(() => { return id; })

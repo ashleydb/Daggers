@@ -24,7 +24,7 @@ export class NewsEdit extends React.Component {
     componentWillMount() {
         // TODO: Copy the News year picking and pagination from News.jsx to here
         // Get the most recent month's news
-        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST, actions.news.FETCH_LATEST, this.props.login.token));
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(actions.news.FETCH_LATEST, actions.news.FETCH_LATEST, null, this.props.login.token));
     }
     componentDidUpdate(prevProps, prevState){
         var { newsId } = this.props.params;
@@ -78,7 +78,8 @@ export class NewsEdit extends React.Component {
     handleFetchNews() {
         var year = Number(this.refs.year.value);
         var month = Number(this.refs.month.value);
-        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month, this.props.login.token));
+        var category = this.refs.category.value;
+        this.props.dispatch(actions.news.fetchNewsStoriesIfNeeded(year, month, category, this.props.login.token));
     }
     setPage(pageNum) {
         // Change which page of news stories we are showing
@@ -115,7 +116,15 @@ export class NewsEdit extends React.Component {
         var {news, status, pageOfNews} = this.props.news;
         var story = NewsAPI.getStory(newsId, news);
 
-        function datePicker(_that, _year, _month) {
+        // Filter the news to the selected category if needed
+        if (status.category && news && news.length >= 1) {
+            var tempNews = news.filter((story) => {
+                return story.category === status.category;
+            });
+            news = tempNews;
+        }
+
+        function datePicker(_that, _year, _month, _category) {
             // TODO: years and months options just list all values, even if we don't have data, (e.g. could select a future month)
             var years = NewsAPI.getYearList(true);
             var yearOptions = years.map((year) => {
@@ -131,19 +140,33 @@ export class NewsEdit extends React.Component {
                 );
             });
 
+            var categories = ['(Blank)', 'Club News', 'Commercial', 'Match Reports', 'Interviews', 'Match Previews', 'Ticket News', 'Trust'];
+            var categoryOptions = categories.map((category) => {
+                return (
+                    <option key={category} value={category}>{category}</option>
+                );
+            });
+
             return (
                 <div className="row">
-                    <div className="column small-5">
+                    <div className="column small-3">
                         <label>Year
                             <select ref="year" defaultValue={_year}>
                                 {yearOptions}
                             </select>
                         </label>
                     </div>
-                    <div className="column small-5">
+                    <div className="column small-3">
                         <label>Month
                             <select ref="month" defaultValue={_month}>
                                 {monthOptions}
+                            </select>
+                        </label>
+                    </div>
+                    <div className="column small-4">
+                        <label>Category
+                            <select ref="category" defaultValue={_category}>
+                                {categoryOptions}
                             </select>
                         </label>
                     </div>
@@ -236,6 +259,7 @@ export class NewsEdit extends React.Component {
                     <tr key={story.id}>
                         <td>{dateStr}</td>
                         <td><Link to={`/admin/news/${story.id}`}>{story.headline}</Link></td>
+                        <td>{story.category}</td>
                         <td><Link to={`/news/${story.id}`} className="button"><i className="fi-eye"></i> View</Link></td>
                         <td><Link to={`/admin/news/${story.id}`} className="button"><i className="fi-pencil"></i> Edit</Link></td>
                         <td><button className="button" onClick={() => this.promptRemoveStory(story)}><i className="fi-x"></i> Delete</button></td>
@@ -246,9 +270,10 @@ export class NewsEdit extends React.Component {
             var dateNow = new Date();
             var pickMonth = status.month && (typeof status.month === 'number') ? status.month : dateNow.getMonth() + 1;
             var pickYear = status.year && (typeof status.year === 'number') ? status.year : dateNow.getFullYear();
+            var category = status.category;
             return (
                 <div>
-                    {datePicker(this, pickYear, pickMonth)}
+                    {datePicker(this, pickYear, pickMonth, category)}
                     {paginationLinks}
                     {errorMessage}
                     <Link to={`/admin/news/new`} className="button expanded"><i className="fi-plus"></i> Create New</Link>
@@ -264,9 +289,10 @@ export class NewsEdit extends React.Component {
             var dateNow = new Date();
             var pickMonth = status.month ? status.month : dateNow.getMonth() + 1;
             var pickYear = status.year ? status.year : dateNow.getFullYear();
+            var category = status.category;
             return (
                 <div>
-                    {datePicker(this, pickYear, pickMonth)}
+                    {datePicker(this, pickYear, pickMonth, category)}
                     <div className="callout alert">
                         <h5>Error</h5>
                         <p>No news found.</p>

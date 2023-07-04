@@ -30,6 +30,8 @@ router.route('/v1/news')
             news.story = req.body.story;
         if (req.body.youtube)
             news.youtube = req.body.youtube;
+        if (req.body.category)
+            news.category = req.body.category;
     
         // Add a time stamp for this post, (most calls to POST won't include this)
         if (req.body.createdAt)
@@ -224,8 +226,13 @@ router.route('/v1/news/:year/:month/:news_id')
             updatedNews.image = req.body.image ? req.body.image : news.image;
             updatedNews.summary = req.body.summary ? req.body.summary : news.summary;
             updatedNews.story = req.body.story ? req.body.story : news.story;
-            updatedNews.youtube = req.body.youtube ? req.body.youtube : news.youtube;
             updatedNews.createdAt = req.body.createdAt ? req.body.createdAt : news.createdAt;
+
+            // You  can remove a youtube link or category from a story (but the components above you can only change, not fully remove)
+            if (req.body.youtube)
+                updatedNews.youtube = req.body.youtube;
+            if (req.body.category)
+                updatedNews.category = req.body.category;
             
             // Add a time stamp for this update, (most calls to PUT won't include this)
             updatedNews.updatedAt = req.body.updatedAt ? req.body.updatedAt : Date.now();
