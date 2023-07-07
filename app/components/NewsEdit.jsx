@@ -140,7 +140,7 @@ export class NewsEdit extends React.Component {
                 );
             });
 
-            var categories = ['(Blank)', 'Club News', 'Commercial', 'Match Reports', 'Interviews', 'Match Previews', 'Ticket News', 'Trust'];
+            var categories = ['(Blank)', 'Club News', 'Commercial', 'Content', 'Fixture News', 'Interviews', 'Match Previews', 'Match Reports', 'Ticket News', 'Trust'];
             var categoryOptions = categories.map((category) => {
                 return (
                     <option key={category} value={category}>{category}</option>
