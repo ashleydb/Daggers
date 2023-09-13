@@ -23,19 +23,24 @@ export default class Fans extends React.Component {
                     <div className="columns small-12 large-8">
 
                         <div className="row">
-                            <div className="columns small-4 center-text">
+                            <div className="columns small-3 center-text">
                                 <a href="https://www.youtube.com/user/OfficialDaggers">
                                     <i className="fi-social-youtube social-icon-large social-color-youtube"></i>
                                 </a>
                             </div>
-                            <div className="columns small-4 center-text">
+                            <div className="columns small-3 center-text">
                                 <a href="https://www.facebook.com/OfficialDaggers">
                                     <i className="fi-social-facebook social-icon-large social-color-facebook"></i>
                                 </a>
                             </div>
-                            <div className="columns small-4 center-text">
+                            <div className="columns small-3 center-text">
                                 <a href="http://twitter.com/dag_redfc">
                                     <i className="fi-social-twitter social-icon-large social-color-twitter"></i>
+                                </a>
+                            </div>
+                            <div className="columns small-3 center-text">
+                                <a href="https://www.instagram.com/daggersfcofficial/">
+                                    <i className="fi-social-instagram social-icon-large social-color-instagram"></i>
                                 </a>
                             </div>
                         </div>

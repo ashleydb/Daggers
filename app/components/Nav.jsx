@@ -44,6 +44,7 @@ export default class Nav extends React.Component {
                             <li><a href="https://www.youtube.com/user/OfficialDaggers"><i className="fi-social-youtube social-icon-medium social-color-white"></i></a></li>
                             <li><a href="https://www.facebook.com/OfficialDaggers"><i className="fi-social-facebook social-icon-medium social-color-white"></i></a></li>
                             <li><a href="http://twitter.com/dag_redfc"><i className="fi-social-twitter social-icon-medium social-color-white"></i></a></li>
+                            <li><a href="https://www.instagram.com/daggersfcofficial/"><i className="fi-social-instagram social-icon-medium social-color-white"></i></a></li>
                         </ul>
                     </div>
                 </div>

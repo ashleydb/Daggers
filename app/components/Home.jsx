@@ -142,6 +142,10 @@ export class Home extends React.Component {
                             <a href="http://twitter.com/dag_redfc">
                                 <i className="fi-social-twitter social-icon-large social-color-twitter"></i>
                             </a>
+                            &nbsp;&nbsp;
+                            <a href="https://www.instagram.com/daggersfcofficial/">
+                                <i className="fi-social-instagram social-icon-large social-color-instagram"></i>
+                            </a>
                         </div>
                     </div>
 
